@@ -1,0 +1,5 @@
+langchain
+re
+pandas
+seaborn
+matplotlib

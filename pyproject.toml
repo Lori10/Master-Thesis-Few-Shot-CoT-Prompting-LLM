@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "chain-of-thought-retrieval-augmented-llm"
+version = "0.1.0"
+description = "Chain of Thought Prompting and Retrieval Augmented LLMs"
+authors = ["Lorenc Zhuka <lorenc.zhuka@merckgroup.com>"]
+readme = "README.md"
+packages = [{include = "chain_of_thought_retrieval_augmented_llm"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+langchain = "^0.0.208"
+fire = "0.5.0"
+paper-qa = "1.6.0"
+wikipedia = "^1.4.0"
+requests = "2.30.0"
+openai = "0.27.2"
+streamlit = "^1.23.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

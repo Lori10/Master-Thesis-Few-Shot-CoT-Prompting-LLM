@@ -4,8 +4,13 @@ import re
 from paperqa import Docs
 from constant_variables import PATH_STRATEGYQA_DOCS
 import pickle 
+import os
 
 def index_strategyqa_docs():
+    dir_documents = '../documents/BingSearch_DBStrategyQA/'
+    if not os.path.exists(dir_documents):
+        os.makedirs(dir_documents)
+
     docs = Docs()
     train_paragraphs = load_strategyqa(PATH_STRATEGYQA_DOCS)
 
@@ -15,11 +20,11 @@ def index_strategyqa_docs():
                 for identifier, data in train_paragraphs.items()]
     
     return_msg = ''
-    for chunk in tqdm(all_chunks):
+    for chunk in tqdm(all_chunks[:50]):
         page_id = re.sub(
                 r"[^\w\d]", "_", f"{chunk['source']}"
             )
-        file_full_path = '../documents/BingSearch_DBStrategyQA/' + page_id + '.txt'
+        file_full_path = dir_documents + page_id + '.txt'
         with open(file_full_path, "w", encoding='utf-8') as f:
             f.write(chunk['content'])
 
@@ -29,7 +34,7 @@ def index_strategyqa_docs():
             print(f"Indexing Page : {page_id}")
 
             try:
-                docs.add(file_full_path, citation=page_id, key=page_id)
+                docs.add(file_full_path, citation=page_id)
                 return_msg += f'Found and Indexed Page {page_id}\n'
 
             except Exception as e:

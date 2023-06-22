@@ -6,14 +6,15 @@ import os
 from copy import deepcopy
 from langchain.agents import AgentType
 import re
-import pickle 
+from paperqa import Docs
 
 def answer(question: str, doc_store: str = "VectorStore/embeddings.pkl"):
     os.environ["BING_SUBSCRIPTION_KEY"] = "2075a41e8bd2447eae6595b3d4230ff8"
     os.environ["BING_SEARCH_URL"] = "https://api.bing.microsoft.com/v7.0/search"
 
-    with open(doc_store, "rb") as f:
-        docs = pickle.load(f)
+    #with open(doc_store, "rb") as f:
+    #    docs = pickle.load(f)
+    docs = Docs()
     llm = OpenAI(temperature=0.1)
     tools = [PaperQATool(docs)]
     self_ask_with_search_agent = initialize_agent(tools, llm, agent=AgentType.SELF_ASK_WITH_SEARCH, verbose=True)
@@ -28,25 +29,26 @@ def answer(question: str, doc_store: str = "VectorStore/embeddings.pkl"):
     output_parser = 'Question: {input}\nOutput:{agent_scratchpad}'
     my_agent.agent.llm_chain.prompt.template = add_template + preprocessed_fewshot + output_parser
     final_answer = my_agent.run(question)
-    print(f'Final Answer: {final_answer}')
-    final_answer_rating = int(input(f'Is the final answer reasonable? (1 to 5)'))
-    #cot_explanation = my_agent.tools[0].api_wrapper.explanation
+    entire_output = my_agent.tools[0].api_wrapper.entire_output + '\n' + final_answer
+    #print(f'Final Answer: {final_answer}')
+    #print(f'Entire Output: {entire_output}')
+    return entire_output
 
-    ai_cot_explanation = []
-    human_cot_explanation = []
-    # for step in cot_explanation: 
-    #     if isinstance(step, tuple):
-    #         human_step = step[0]
-    #         ai_step = step[1]
-    #         human_cot_explanation.append(human_step)
-    #         ai_cot_explanation.append(ai_step)
-    #     else:
-    #         human_cot_explanation.append(ai_step)
-    #         ai_cot_explanation.append(ai_step)
+# def answer(question: str, doc_store: str = "VectorStore/embeddings.pkl"):
+#     entire_output = run_agent(question, doc_store)
+#     return entire_output
+    #final_answer_rating = int(input(f'Is the final answer reasonable? (1 to 5)'))
+    #cot_explanations = my_agent.tools[0].api_wrapper.explanation
+    # subanswers_ai = [expl_step_dict[key] for expl_step_dict in cot_explanations['ai'] for key in expl_step_dict.keys() if key in 'Subanswer']
+    # subanswer_human = [expl_step_dict[key] for expl_step_dict in cot_explanations['human'] for key in expl_step_dict.keys() if key in 'Subanswer']
+    # if subanswers_ai == subanswer_human:
+    #     ai_explanation = cot_explanations['ai'] + [{'Final answer': final_answer}]
+    # else:
+    #     ai_explanation = cot_explanations['ai'] + [{'Final answer': final_answer_ai}]
+    #     human_explanation = cot_explanations['human'] + [{'Final answer': final_answer_human}]
 
-
-    with open(doc_store, "wb") as f:
-        pickle.dump(my_agent.tools[0].api_wrapper.docs, f)
+    # with open(doc_store, "wb") as f:
+    #     pickle.dump(my_agent.tools[0].api_wrapper.docs, f)
 
     
 

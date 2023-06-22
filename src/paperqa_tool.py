@@ -10,9 +10,9 @@ import re
 
 class PaperQAWrapper(BaseModel):
     docs: Docs
-    explanation: str = ''
+    explanation: dict = {'ai' : [], 'human' : []}
     nr_iter : int = 1
-    explanation : list = []
+    entire_output : str = ''
 
     class Config:
         arbitrary_types_allowed = True
@@ -53,24 +53,21 @@ class PaperQAWrapper(BaseModel):
 
             try:
                 response = requests.get(result['link'])
+            except Exception as e:
+                return_msg += f'Failed extracting/writing the content of Page {page_id}. Error Message: {e}'
+
+            if response:
                 html_content = response.content
                 file_full_path = '../documents/BingSearch_DBStrategyQA/' + page_id + '.html'
                 with open(file_full_path, "wb") as f:
                     f.write(html_content)
 
-                if file_full_path in self.docs.docs:
-                    print(f"Page {page_id} already in the Docs")
-                else:
-                    print(f"Indexing Page : {page_id}")
+                try:
+                    self.docs.add(file_full_path, citation=result['link'], key=page_id)
+                    return_msg += f'Found and Indexed Page {page_id}\n'
 
-                    try:
-                        self.docs.add(file_full_path, citation=page_metadata)
-                        return_msg += f'Found and Indexed Page {page_id}\n'
-
-                    except Exception as e:
-                        return_msg += f"Found but failed to Index Page: {page_id}. Error Message: {e}"
-            except Exception as e:
-                print(f'Failed extracting content of Page {page_id}. Error Message: {e}')
+                except Exception as e:
+                    return_msg += f"Found but failed to Index Page: {page_id}. Error Message: {e}"
 
         return return_msg
         
@@ -102,42 +99,39 @@ class PaperQAWrapper(BaseModel):
                 break
       
         print(f'Supporting evidence documents: \n')
+        print(f'Nr of supporting evidence documents: {len(ai_answer.contexts)}\n')
         # get the top 2 most relevant supporting evidence documents
         top2_rel_docs = ai_answer.contexts[:2]
         for nr, rel_doc_summary in enumerate(top2_rel_docs):
-            print(f'Doc {nr+1}:\n{rel_doc_summary[2]}\n')
-            if 'Link:' in rel_doc_summary[1]:
-                reference = rel_doc_summary[1].split("Link:")[-1].strip()
-            else:
-                reference = rel_doc_summary[1].strip()
+            summarized_doc = rel_doc_summary.context
+            print(f'Doc {nr+1}:\n{summarized_doc}\n')
 
-            print(f'Reference : {reference}\n\n')
+        #doc_urls = [el.strip() for el in ai_answer.references.split("Link:") if 'https' in el.strip()]
+        print(ai_answer.references)
+        print(f'Document URLs : {ai_answer.references.split(":")[1].strip()}\n\n')
 
         print('Rate this explanation step on a scale of 1 to 5 (1 - not reasonable, 5 - very reasonable)')
         rating = int(input('Is this step reasonable? (1 to 5)'))
 
-        subanswer_feedback = input('Do you want to suggest a better sub-answer/alternative for this step? If yes, please provide the sub-answer. If no, please type "n":')
+        subanswer_feedback = input('Do you want to suggest a better sub-answer/alternative for this step? If yes, please provide the sub-answer. If no, please type "n":')    
         if subanswer_feedback != 'n':
-            explanation_step = ({f'Subquestion #{self.nr_iter}' : subquestion,
+            explanation_step = {f'Subquestion #{self.nr_iter}' : subquestion,
                                 f'Subanswer #{self.nr_iter}' :  subanswer_feedback, 
                                 f'Rating #{self.nr_iter}' : 5
-            },
-            {
-                f'Subquestion #{self.nr_iter}' : subquestion,
-                f'Subanswer #{self.nr_iter}' :  ai_answer.answer, 
-                f'Rating #{self.nr_iter}' : rating   
-            })
-
+                                }
             subanswer = subanswer_feedback
+            self.explanation['human'].append(explanation_step)
         else:
             explanation_step = {f'Subquestion #{self.nr_iter}' : subquestion,
-                                f'Subanswer #{self.nr_iter}' :  ai_answer.answer, 
-                                f'Rating #{self.nr_iter}' : rating}
+                            f'Subanswer #{self.nr_iter}' :  ai_answer.answer, 
+                            f'Rating #{self.nr_iter}' : rating}
             
+            self.explanation['ai'].append(explanation_step)    
+            self.explanation['human'].append(explanation_step)       
             subanswer = ai_answer.answer
-            
-
-        self.explanation.append(explanation_step)        
+        
+        step_info = f'Step {self.nr_iter}\nQ: {subquestion}\nA: {ai_answer.answer}\n\n'
+        self.entire_output += step_info
         self.nr_iter += 1
         return subanswer
 

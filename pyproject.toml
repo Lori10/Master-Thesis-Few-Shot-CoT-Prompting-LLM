@@ -15,6 +15,12 @@ wikipedia = "^1.4.0"
 requests = "2.30.0"
 openai = "0.27.2"
 streamlit = "^1.23.1"
+jupyter = "^1.0.0"
+matplotlib = "^3.7.1"
+scikit-learn = "^1.2.2"
+torch = "^2.0.1"
+transformers = "^4.30.2"
+huggingface-hub = "^0.15.1"
 
 
 [build-system]

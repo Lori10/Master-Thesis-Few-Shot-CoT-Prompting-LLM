@@ -1,0 +1,1 @@
+The estimated costs using the following parameters: dataset_name=strategyqa, strategy=cot, nr_examples=6, len_of_dataset=2290, nr_runs=1, are 5.1720760000000245

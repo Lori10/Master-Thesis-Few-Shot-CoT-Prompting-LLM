@@ -1,10 +1,8 @@
 import numpy as np
-import json 
+import random  
 
-li = [2, 4, 5, 4]
-print(np.mean(np.array([[10]])))
-li_dic = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4},
-          {'mean_acc' : 0.5}]
+random.seed(42)
+li = [1,2,3,4,5]
 
-with open('test.txt', 'w') as f:
-    f.write(json.dumps(li_dic, indent=4))
+#li = random.sample(li, 3)
+print(li[:10])

@@ -11,7 +11,7 @@ from langchain.embeddings import OpenAIEmbeddings
 import os
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Zero-shot-CoT")
+    parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
         "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
@@ -19,7 +19,7 @@ def parse_arguments():
     parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
-    parser.add_argument("--random_seed", type=int, default=192, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     # parser.add_argument(
     #     "--encoder", type=str, default="all-MiniLM-L6-v2", help="which sentence-transformer encoder for clustering"
     # )
@@ -27,7 +27,11 @@ def parse_arguments():
         "--sampling", type=str, default="center", help="whether to sample the cluster center first"
     )
     parser.add_argument(
-        "--demos_save_dir", type=str, default="demos/", help="maximum number of reasoning chains"
+        "--demos_save_dir", type=str, default="demos/", help="directory to save the generated demos"
+    )
+
+    parser.add_argument(
+        "--dataset_size_limit", type=int, default=50, help="maximum number of samples to use for clustering"
     )
     
     args = parser.parse_args()
@@ -43,17 +47,25 @@ def main():
     args = parse_arguments()
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'auto')
-        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto'):
-        os.makedirs(args.demos_save_dir + 'auto')
-        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
+        os.makedirs(args.demos_save_dir + 'auto_cot')
+        os.makedirs(args.demos_save_dir + 'auto_cot/' + args.dataset)
+    elif not os.path.exists(args.demos_save_dir + 'auto_cot'):
+        os.makedirs(args.demos_save_dir + 'auto_cot')
+        os.makedirs(args.demos_save_dir + 'auto_cot/' + args.dataset)
+    elif not os.path.exists(args.demos_save_dir + 'auto_cot/' + args.dataset):
+        os.makedirs(args.demos_save_dir + 'auto_cout/' + args.dataset)
 
-    args.demos_save_dir = f"{args.demos_save_dir}/auto/{args.dataset}/"
+    args.demos_save_dir = f"{args.demos_save_dir}/auto_cot/{args.dataset}/"
 
     fix_seed(args.random_seed)
+
+    with open(args.training_data_path) as fh:
+        train_data = [json.loads(line) for line in fh.readlines() if line]
+    
+    if args.dataset_size_limit <= 0:
+        args.dataset_size_limit = len(train_data)
+    train_data = random.sample(train_data, args.dataset_size_limit)
+
     #encoder = SentenceTransformer(args.encoder)
     encoder = OpenAIEmbeddings()
 
@@ -76,10 +88,6 @@ def main():
     question_list = []
     rationale_list = []
     final_answer_list = []
-
-    with open(args.training_data_path) as fh:
-        train_data = [json.loads(line) for line in fh.readlines() if line]
-        train_data = train_data[:50]
     
     if args.dataset == 'gsm8k':
         for example in train_data:

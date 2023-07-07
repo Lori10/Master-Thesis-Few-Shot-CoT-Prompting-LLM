@@ -10,7 +10,7 @@ def parse_arguments():
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
     parser.add_argument(
-        "--seed", type=int, default=42, help="maximum number of reasoning chains"
+        "--seed", type=int, default=42, help="seed for selecting random samples"
     )
 
     parser.add_argument(
@@ -19,6 +19,10 @@ def parse_arguments():
 
     parser.add_argument(
         "--demos_save_dir", type=str, default="demos/", help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--dataset_size_limit", type=str, default="demos/", help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -35,10 +39,6 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    # check if args.demos_save_dir exists otherwise create it, and create random directory and dataset directory
-    # if args.demos_save_dir exists, check if random directory exists, if not create it
-    # if random directory exists, check if dataset directory exists, if not create it
-
 
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
@@ -51,11 +51,15 @@ def main():
         os.makedirs(args.demos_save_dir + 'random/' + args.dataset)
 
     args.demos_save_dir = f"{args.demos_save_dir}/random/{args.dataset}/"
-    with open(args.training_data_path) as fh:
-        train_data = [json.loads(line) for line in fh.readlines() if line]
-        train_data = train_data[:100]
 
     random.seed(args.seed)
+    with open(args.training_data_path) as fh:
+        train_data = [json.loads(line) for line in fh.readlines() if line]
+
+    if args.dataset_size_limit <= 0:
+        args.dataset_size_limit = len(train_data)
+    train_data = random.sample(train_data, args.dataset_size_limit)
+
     for i in range(args.nr_seeds):
         selected_examples = random.sample(train_data, args.nr_demonstrations)
         demos = []

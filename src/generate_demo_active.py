@@ -47,22 +47,22 @@ def main():
 
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'active')
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'active'):
-        os.makedirs(args.demos_save_dir + 'active')
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'active/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
+        os.makedirs(args.demos_save_dir + 'active_cot')
+        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
+    elif not os.path.exists(args.demos_save_dir + 'active_cot'):
+        os.makedirs(args.demos_save_dir + 'active_cot')
+        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
+    elif not os.path.exists(args.demos_save_dir + 'active_cot/' + args.dataset):
+        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
 
-    args.demos_save_dir = f"{args.demos_save_dir}/active/{args.dataset}/"
+    args.demos_save_dir = f"{args.demos_save_dir}/active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
 
     dataloader = create_dataloader(args)
 
-    if args.dataset_size > 1000:
-        dataloader = dataloader[:7] # only take 1000 questions randomly to annotate, randomness decided by seed
+    if args.dataset_size > args.qet_limit:
+        dataloader = dataloader[:args.qes_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Dataloader size: {len(dataloader)}")
 
 
@@ -206,8 +206,8 @@ def create_uncertainty(args, dataloader):
     return result
 
 def arg_parser():
-    parser = argparse.ArgumentParser(description="Uncertainty_Generation")
-    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
+    parser = argparse.ArgumentParser(description="Active_CoT")
+    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k", choices=["gsm8k","svamp", "aqua", "csqa", "last_letters", "strategyqa", "asdiv", "singleeq", "addsub", "multiarith"], help="dataset to inference"
     )
@@ -229,7 +229,7 @@ def arg_parser():
         "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=0, help="whether to limit test dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for testing."
+        "--qes_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
         "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
@@ -250,6 +250,7 @@ def arg_parser():
     parser.add_argument(
         "--nr_demos", type=int, default=7, help='number of demonstrations'
     )
+
     
     args = parser.parse_args()
     

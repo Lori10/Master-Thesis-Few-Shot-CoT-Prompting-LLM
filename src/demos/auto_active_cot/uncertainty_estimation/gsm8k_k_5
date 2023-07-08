@@ -1,0 +1,105 @@
+{
+    "0": [
+        {
+            "dataset_idx": 0,
+            "question": "Q: Stefan goes to a restaurant to eat dinner with his family. They order an appetizer that costs $10 and 4 entrees that are $20 each. If they tip 20% of the total for the waiter, what is the total amount of money that they spend at the restaurant?\nA:",
+            "rationale": "Let's think step by step. The total cost of the entrees is 4 * $20 = $<<4*20=80>>80. The total cost of the dinner is $80 + $10 = $<<80+10=90>>90. The tip is $90 * 0.20 = $<<90*0.20=18>>18 The total cost with tip is $90 + $18 = $<<90+18=108>>108",
+            "final_answer": "108",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "108": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "dataset_idx": 5,
+            "question": "Q: Darla needs to pay $4/watt of electricity for 300 watts of electricity, plus a $150 late fee. How much does she pay in total?\nA:",
+            "rationale": "Let's think step by step. First find the total cost of the electricity: $4/watt * 300 watts = $<<4*300=1200>>1200 Then add the late fee: $1200 + $150 = $<<1200+150=1350>>1350",
+            "final_answer": "1350",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "1350": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "1": [
+        {
+            "dataset_idx": 6,
+            "question": "Q: There have been 15 \"Where's Waldo?\" books published. Each book has 30 puzzles to find Waldo. The average person takes 3 minutes to find Waldo in a puzzle. How long would it take to find every Waldo?\nA:",
+            "rationale": "Let's think step by step. There have been 450 puzzles because 15 x 30 = <<450=450>>450 It would take 1,350 minutes to find all the Waldo's because 450 x 3 = <<450*3=1350>>1,350",
+            "final_answer": "1350",
+            "variance": 423260.16,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "22": 2,
+                "1350": 3
+            },
+            "disagreement": 2
+        },
+        {
+            "dataset_idx": 2,
+            "question": "Q: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?\nA:",
+            "rationale": "Let's think step by step. Ben has 40+8 = <<40+8=48>>48 apples. There are 48/8 = <<48/8=6>>6 apples in every eighth. Tom has 6*3 = <<6*3=18>>18 apples.",
+            "final_answer": "18",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "18": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "dataset_idx": 7,
+            "question": "Q: Bart makes a mixtape.  The first side has 6 songs.  The second side has 4 songs.  Each song is 4 minutes.  How long is the total tape?\nA:",
+            "rationale": "Let's think step by step. There are 6+4=<<6+4=10>>10 songs on the tape. In total, the time is 10*4=<<10*4=40>>40 minutes.",
+            "final_answer": "40",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "40": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "dataset_idx": 9,
+            "question": "Q: New York recorded 5000 new coronavirus cases on a particular week. In the second week, half as many new coronaviruses cases as the first week was recorded by the state. In the third week, 2000 more cases were recorded in the state. What is the total number of recorded new coronaviruses in the state after the three weeks?\nA:",
+            "rationale": "Let's think step by step. If there were 5000 new cases on the first week, the total for the second week is 1/2 * 5000 cases = <<5000*1/2=2500>>2500 cases. The total number of new coronavirus cases in the three weeks is 2500 cases + 5000 cases + 2000 cases = <<2500+5000+2000=9500>>9500 cases.",
+            "final_answer": "9500",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "12000": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "2": [
+        {
+            "dataset_idx": 4,
+            "question": "Q: A portable battery charger can fully charge a smartphone in 26 minutes or a tablet in 53 minutes. Ana charged her tablet fully and her phone halfway. How many minutes did it take?\nA:",
+            "rationale": "Let's think step by step. Ana charged her phone halfway, so she took 26 / 2 = <<26/2=13>>13 minutes to charge her phone. Thus, it took Ana 13 + 53 = <<13+53=66>>66 minutes to charge her phone and tablet.",
+            "final_answer": "66",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "66": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "dataset_idx": 1,
+            "question": "Q: The gauge on a water tank shows that the tank is 1/3 full of water. To fill the tank, 16 gallons of water are added. How many gallons of water does the tank hold when full?\nA:",
+            "rationale": "Let's think step by step. Given that the tank is 1/3 full of water, and that it requires 16 gallons to fill. 1 full tank -1/3 tank = 2/3 of the tank is empty, which is equal to 16 gallons. If 2/3 of the tank equals 16 gallons, this means 1/3 of the tank is equal to 16 / 2 gallons = 8 gallons The total capacity of the tank or how much the tanks holds = 16 + 8 = <<16+8=24>>24 gallons",
+            "final_answer": "24",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "24": 5
+            },
+            "disagreement": 1
+        }
+    ]
+}

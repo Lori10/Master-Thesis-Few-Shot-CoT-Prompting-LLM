@@ -92,7 +92,11 @@ def main():
     elif not os.path.exists(args.demos_save_dir + 'auto_active_cot/' + args.dataset):
         os.makedirs(args.demos_save_dir + 'auto_active_cout/' + args.dataset)
 
-    args.demos_save_dir = f"{args.demos_save_dir}/auto_active_cot/{args.dataset}/"
+    uncertainty_estimation_dir = f"{args.demos_save_dir}auto_active_cot/uncertainty_estimation/"
+    if not os.path.exists(uncertainty_estimation_dir):
+        os.makedirs(uncertainty_estimation_dir)
+
+    args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -142,6 +146,9 @@ def main():
         clustered_idx[cluster_id].append(sentence_id)
 
     
+    demos = []
+    cluster_uncertainty_records = {}
+
     for i in range(len(clustered_dists)):
         print("Cluster ", i+1)
         tmp = list(map(list, zip(range(len(clustered_dists[i])), clustered_dists[i])))
@@ -169,13 +176,11 @@ def main():
                     "final_answer": final_answer,
                     }
                 cluster_selected_demos.append(demo_element)
-                # print(f'Q:\n{question}\n')
-                # print(f'R:\n{rationale}\n')
-                # print(f'FA:\n{final_answer}\n\n')
-                # print("")
 
         print(f'Cluster {i+1} has {len(cluster_selected_demos)} demos based on nr of reasoning steps and question length\n\n')
         result = create_uncertainty(args, cluster_selected_demos)
+        cluster_uncertainty_records[f"cluster_{i}"] = result
+
         if args.sort_by == "disagreement":
             if args.dataset == "strategyqa":
                 try:
@@ -192,13 +197,20 @@ def main():
         elif args.sort_by == "entropy" :
             result.sort(key=lambda x:-x['entropy'])
 
-        print(f'Top 2 selected demos from cluster {i+1} based on {args.sort_by}:\n')
-        print(result[:2])
+        print(f'Demo with highest uncertainty from cluster {i+1}:\n')
+        print(result[0])
         print('\n')
         print('*' * 70)
         print('\n')
+        demos.append(result[0])
 
 
+    demos = {"demo": demos}
+    with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+        json.dump(demos, write_f, indent=4, ensure_ascii=False)
+
+    with open(f"{uncertainty_estimation_dir}{args.dataset}_k_{args.num_trails}", 'w', encoding="utf-8") as write_f:
+        json.dump(cluster_uncertainty_records, write_f, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":
     main()

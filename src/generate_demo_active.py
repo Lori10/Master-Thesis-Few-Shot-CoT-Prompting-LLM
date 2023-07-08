@@ -55,7 +55,11 @@ def main():
     elif not os.path.exists(args.demos_save_dir + 'active_cot/' + args.dataset):
         os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
 
-    args.demos_save_dir = f"{args.demos_save_dir}/active_cot/{args.dataset}/"
+    uncertainty_estimation_dir = f"{args.demos_save_dir}active_cot/uncertainty_estimation/"
+    if not os.path.exists(uncertainty_estimation_dir):
+        os.makedirs(uncertainty_estimation_dir)
+
+    args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
 
@@ -78,9 +82,6 @@ def main():
     with open(f"{args.demos_save_dir}demos_k_{args.num_trails}", 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
-    uncertainty_estimation_dir = f"{args.demos_save_dir}active/uncertainty_estimation/"
-    if not os.path.exists(uncertainty_estimation_dir):
-        os.makedirs(uncertainty_estimation_dir)
         
     with open(f"{uncertainty_estimation_dir}{args.dataset}_k_{args.num_trails}.txt", 'w') as f:
         try:

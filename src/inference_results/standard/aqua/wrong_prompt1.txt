@@ -1,0 +1,9 @@
+{'prompt': 'Q: A,B and C started a business by investing Rs.2000/- , Rs.3000/- and Rs.4000/- respectively. Total profit is Rs.4500/-. Find the A’s share? Answer Choices: A)Rs.1000/- B)Rs.1500/- C)Rs.2000/- D)Rs.3000/- E)Rs.3400/-\nA: The answer is A.\n\nQ: Two goods trains each 500 m long are running in opposite directions on parallel tracks. Their speeds are 45 km/hr and 30 km/hr respectively. Find the time taken by the slower train to pass the driver of the faster one? Answer Choices: A)48 B)93 C)26 D)23 E)12\nA: The answer is A.\n\nQ: A rectangular football field is fenced on all four sides. The length of the football field is 3 times the length of its breadth. The cost of fencing the field was $360. The football management has decided to change the dimensions of field by increasing the breadth by 50% of its original value and reducing the length by 25% of its original value and fence the field again.. What will be the cost of the new fencing? Answer Choices: A)$360 B)$180 C)$425 D)$337.5 E)$415\nA: The answer is D.\n\n'}
+{'idx': 252, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'idx': 182, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'idx': 209, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'idx': 232, 'pred_final_answer': '', 'true_final_answer': 'E'}
+{'idx': 207, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'idx': 176, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'idx': 159, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'idx': 19, 'pred_final_answer': '', 'true_final_answer': 'C'}

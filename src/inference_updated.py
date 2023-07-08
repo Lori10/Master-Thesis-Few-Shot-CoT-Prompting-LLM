@@ -178,10 +178,10 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k","svamp", "aqua", "csqa", "asdiv", "last_letters", "addsub", "singleeq", "strategyqa", "multiarith"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k","svamp", "aqua", "csqa", "asdiv", "last_letters", "addsub", "singleeq", "strategyqa", "multiarith"], help="dataset to inference"
     )
     parser.add_argument(
-        "--dir_prompts", type=str, default="demos/random/gsm8k", help="prompts to use"
+        "--dir_prompts", type=str, default="demos/random/aqua", help="prompts to use"
     )
     parser.add_argument(
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."

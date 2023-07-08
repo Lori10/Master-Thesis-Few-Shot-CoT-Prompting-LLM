@@ -1,0 +1,9 @@
+{'prompt': "Q: A cube with its sides numbered 1 through 6 is rolled twice, first landing on a and then landing on b. If any roll of the cube yields an equal chance of landing on any of the numbers 1 through 6, what is the probability Q that a + b is prime? Answer Choices: A) 0 B) 1/12 C) 5/12 D) 7/18 E) 4/9\nA: The answer is C.\n\nQ: The age of Somu is one-third his father's. 6 years back he was one-fifth of his father's age. What is his persent age ? Answer Choices: A)11 B)13 C)14 D)12 E)10\nA: The answer is D.\n\nQ: In a village of 2,700 people, 900 people are over 70 years old and 1200 people are female. It is known that 60 percent of the females are younger than 70 years old. If no one in the village is 70 years old, what is the probability that a person chosen at random is either a male or younger than 70 years old? Answer Choices: A)4/5 B)5/7 C)13/15 D)37/45 E)79/90\nA: The answer is D.\n\n"}
+{'idx': 252, 'pred_final_answer': '', 'true_final_answer': 'B'}
+{'idx': 182, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'idx': 119, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'idx': 207, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'idx': 176, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'idx': 159, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'idx': 19, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'idx': 134, 'pred_final_answer': 'D', 'true_final_answer': 'C'}

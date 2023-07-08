@@ -233,7 +233,7 @@ def answer_extraction(args, responses):
         temp = temp.replace(",", "")
         temp = [s for s in re.findall(r'-?\d+\.?\d*', temp)]
     elif args.dataset in ("aqua", "csqa"):
-        if 'none of the answer choices are correct' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower():
+        if 'none of the answer choices are correct' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or "The answer is not listed in the answer choices" in responses.lower() or responses == '':
             return 'No answer'
         temp = re.findall(r'A|B|C|D|E', temp)
     elif args.dataset in ("strategyqa", "coin_flip"):

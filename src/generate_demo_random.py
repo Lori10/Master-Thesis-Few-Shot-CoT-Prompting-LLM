@@ -6,7 +6,7 @@ import os
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
     parser.add_argument(
@@ -22,7 +22,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=str, default="demos/", help="maximum number of reasoning chains"
+        "--dataset_size_limit", type=int, default=100, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(

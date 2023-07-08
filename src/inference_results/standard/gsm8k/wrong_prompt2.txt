@@ -1,0 +1,8 @@
+{'prompt': 'Q: John writes 20 pages a day.  How long will it take him to write 3 books that are 400 pages each?\nA: The answer is 60.\n\nQ: Mr. Sanchez found out that 40% of his Grade 5  students got a final grade below B. How many of his students got a final grade of B and above if he has 60 students in Grade 5?\nA: The answer is 36.\n\nQ: Noah is a painter. He paints pictures and sells them at the park. He charges $60 for a large painting and $30 for a small painting. Last month he sold eight large paintings and four small paintings. If he sold twice as much this month, how much is his sales for this month?\nA: The answer is 1200.\n\n'}
+{'idx': 773, 'pred_final_answer': '25', 'true_final_answer': '10'}
+{'idx': 532, 'pred_final_answer': '17', 'true_final_answer': '25'}
+{'idx': 38, 'pred_final_answer': '3', 'true_final_answer': '10'}
+{'idx': 295, 'pred_final_answer': '200', 'true_final_answer': '370'}
+{'idx': 587, 'pred_final_answer': '46', 'true_final_answer': '30'}
+{'idx': 1314, 'pred_final_answer': '3', 'true_final_answer': '8'}
+{'idx': 1070, 'pred_final_answer': '6', 'true_final_answer': '18'}

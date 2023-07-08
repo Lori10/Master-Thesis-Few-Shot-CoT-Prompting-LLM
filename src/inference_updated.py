@@ -20,7 +20,7 @@ def main():
     # load dataset
     dataloader = create_dataloader(args)
 
-    if args.method == "few_shot":
+    if args.method == "standard":
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
     elif args.method == "random_cot" or args.method == "auto_cot" or args.method == "active_cot":
         input_prompt_list = create_several_input_prompts(args, cot_flag=True)
@@ -131,16 +131,16 @@ def single_run_inference(single_prompt, question_pool, qes_limit, args):
                 print('-' * 20)
                 print(f"Question number: {qes_num}")
                 print(f"Dataset index: {qes['question_idx']}")
-                print(f"Q: " + qes['question'])
+                print(f"Question: \n" + qes['question'])
                 if args.dataset == "last_letters" and args.use_code_style_prompt is True:
                     #print(f"A: Let's think step by step in Python." + responses['choices'][0]['text'])
                     #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step in Python." + responses)
+                    print(f"Let's think step by step in Python.\n" + responses)
 
                 else:
                     #print(f"A: Let's think step by step." + responses['choices'][0]['text'])
                     #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step." + responses)
+                    print(f"Let's think step by step.\n" + responses)
 
 
                 print(f"Prediction: {pred_ans}")
@@ -187,7 +187,7 @@ def arg_parser():
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
     )
     parser.add_argument(
-        "--method", type=str, default="random_cot", choices=["zero_shot", "zero_shot_cot", "few_shot", "random_cot", "auto_cot", "active_cot"], help="method"
+        "--method", type=str, default="standard", choices=["zero_shot", "zero_shot_cot", "standard", "random_cot", "auto_cot", "active_cot"], help="method"
     )
     parser.add_argument(
         "--output_dir", type=str, default="inference_results/", help="output directory"

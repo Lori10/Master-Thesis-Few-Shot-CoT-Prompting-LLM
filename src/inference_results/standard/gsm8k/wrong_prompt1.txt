@@ -1,0 +1,6 @@
+{'prompt': 'Q: Sam and Jeff had a skipping competition at recess. The competition was split into four rounds. Sam completed 1 more skip than Jeff in the first round. Jeff skipped 3 fewer times than Sam in the second round. Jeff skipped 4 more times than Sam in the third round. Jeff got tired and only completed half the number of skips as Sam in the last round. If Sam skipped 16 times in each round, what is the average number of skips per round completed by Jeff?\nA: The answer is 14.\n\nQ: Joy can read 8 pages of a book in 20 minutes. How many hours will it take her to read 120 pages?\nA: The answer is 5.\n\nQ: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA: The answer is 42.\n\n'}
+{'idx': 532, 'pred_final_answer': '17', 'true_final_answer': '25'}
+{'idx': 38, 'pred_final_answer': '7', 'true_final_answer': '10'}
+{'idx': 1314, 'pred_final_answer': '3', 'true_final_answer': '8'}
+{'idx': 1070, 'pred_final_answer': '6', 'true_final_answer': '18'}
+{'idx': 994, 'pred_final_answer': '3', 'true_final_answer': '2'}

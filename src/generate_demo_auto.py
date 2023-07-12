@@ -14,9 +14,15 @@ from utils import *
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
+
+    parser.add_argument(
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+    )
+
     parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
@@ -40,12 +46,6 @@ def parse_arguments():
     )
     
     args = parser.parse_args()
-
-    if args.dataset == "gsm8k":
-        args.training_data_path = "../datasets/gsm8k/train.jsonl"
-    elif args.dataset == "aqua":
-        args.training_data_path = "../datasets/AQuA/train.json" 
-
     return args
 
 def main():
@@ -64,7 +64,7 @@ def main():
 
 
     random.seed(args.random_seed)
-    dataloader = create_dataloader(args)
+    dataloader = create_dataloader(args, answers_available=True)
 
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)

@@ -18,7 +18,7 @@ def main():
     set_random_seed(args.random_seed)
 
     # load dataset
-    dataloader = create_dataloader(args)
+    dataloader = create_dataloader(args, answers_available=True)
 
     if args.method == "standard":
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
@@ -172,10 +172,15 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k","svamp", "aqua", "csqa", "asdiv", "last_letters", "addsub", "singleeq", "strategyqa", "multiarith"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
+
     parser.add_argument(
-        "--dir_prompts", type=str, default="demos/random/aqua", help="prompts to use"
+        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+    )
+
+    parser.add_argument(
+        "--dir_prompts", type=str, default="demos/random/gsm8k", help="prompts to use"
     )
     parser.add_argument(
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
@@ -207,6 +212,10 @@ def arg_parser():
     parser.add_argument(
         "--use_code_style_prompt", type=bool, default=False, help='Use code-style prompt as mentioned in paper for last_letters dataset'
     )
+
+    parser.add_argument(
+        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+    )
     
     args = parser.parse_args()
 
@@ -217,10 +226,8 @@ def arg_parser():
     print(f"Temperature: {args.temperature}")
     
     if args.dataset == "gsm8k":
-        args.data_path = "../datasets/gsm8k/test.jsonl"
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     elif args.dataset == "aqua":
-        args.data_path = "../datasets/AQuA/test.json"
         args.direct_answer_trigger = "The answer is"
 
     elif args.dataset == "svamp":

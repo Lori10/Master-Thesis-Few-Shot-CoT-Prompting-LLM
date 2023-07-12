@@ -23,6 +23,12 @@ def parse_arguments():
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
+
+    parser.add_argument(
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+    )
+
     parser.add_argument(
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
     )
@@ -65,17 +71,15 @@ def parse_arguments():
         "--concat_length", type=int, default=2, help='Used for task last_letters, indicates length of last letter concat'
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=7, help='number of demonstrations'
+        "--nr_demos", type=int, default=5, help='number of demonstrations'
     )
 
     args = parser.parse_args()
 
     if args.dataset == "gsm8k":
-        args.data_path = "../datasets/gsm8k/train.jsonl"
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
 
     elif args.dataset == "aqua":
-        args.data_path = "../datasets/AQuA/train.json" 
         args.direct_answer_trigger = "\nThe answer is"
 
     # "Therefore, the answer ..." -> "The answer ..."
@@ -86,11 +90,17 @@ def parse_arguments():
     args.cot_trigger = "Let's think step by step."
     return args
 
-def f1_score(question_idxs, distances, uncertainties, beta=1.5):
+def f1_score(distances, uncertainties, beta=1.5):
     normalized_distances = distances / sum(distances)
     normalized_uncertainties = uncertainties / sum(uncertainties)
-    f1_metric = ((beta**2 + 1) * normalized_distances * normalized_uncertainties) / (beta**2 * normalized_distances + normalized_uncertainties)
-    return question_idxs, f1_metric
+    f1_scores = ((beta**2 + 1) * normalized_distances * normalized_uncertainties) / (beta**2 * normalized_distances + normalized_uncertainties)
+    return f1_scores
+
+def square_prob(f1_scores):
+        return (f1_scores ** 2)/ sum(f1_scores ** 2)
+    
+def softmax(f1_scores):
+    return np.exp(f1_scores) / np.sum(np.exp(f1_scores), axis=0)
 
 def main():
     args = parse_arguments()
@@ -109,11 +119,9 @@ def main():
         os.makedirs(uncertainty_estimation_dir)
 
     args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus/{args.dataset}/"
-    max_ra_len = args.max_ra_len
-    num_clusters = args.nr_demos
 
     set_random_seed(args.random_seed)
-    dataloader = create_dataloader(args)
+    dataloader = create_dataloader(args, answers_available=True)
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)
     else:
@@ -147,35 +155,42 @@ def main():
     first_question_idx = list(uncertainties_series.sort_values(ascending=False).head(1).index)[0]
     selected_idxs = [first_question_idx]
     selected_data = [embeddings[first_question_idx]]
-    print(first_question_idx)
     j = 0
-    while True:
-        if j == 7:
-            break 
-
+    demos = []
+    while j < args.nr_demos:
         if len(selected_data) == 1:
-            D2 = pairwise_distances(embeddings, selected_data, metric='cosine').ravel().astype(float)
-        
+            D2 = pairwise_distances(embeddings, selected_data, metric='euclidean').ravel().astype(float)
         else:
-            newD = pairwise_distances(embeddings, [selected_data[-1]], metric='cosine').ravel().astype(float)
+            newD = pairwise_distances(embeddings, [selected_data[-1]], metric='euclidean').ravel().astype(float)
             for i in range(len(embeddings)):
                 if D2[i] > newD[i]:
                     D2[i] = newD[i]
 
-        D2 = D2.ravel().astype(float)  
-        dist_prob = (D2 ** 2)/ sum(D2 ** 2)
-        customDist = stats.rv_discrete(name='custm', values=(questions_idxs, dist_prob))
+        D2[D2 < 0.000001] = 0
+        not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 0]
+        not_selected_questions_idxs = [question_idx for question_idx, _, _ in not_selected_questions_distances_uncertainties]
+        not_selected_distances = [distance for _, distance, _ in not_selected_questions_distances_uncertainties]
+        not_selected_uncertainties = [uncertainty for _, _, uncertainty in not_selected_questions_distances_uncertainties]
+        not_selected_f1_scores = f1_score(not_selected_distances, not_selected_uncertainties)
+        probs = softmax(not_selected_f1_scores)
+        customDist = stats.rv_discrete(name='custm', values=(not_selected_questions_idxs, probs))
 
         #np.random.seed(10)
         selected_idx = customDist.rvs(size=1)[0]
         selected_idxs.append(selected_idx)
         selected_data.append(embeddings[selected_idx])
+        demos.append(dataloader[selected_idx])
         j += 1
 
-        # print the number of distances in D2 which are equal to 0
         print('Iteration: ', j)
+        print('Length of not selected questions:', len(not_selected_questions_distances_uncertainties))
+        print('Selected question idx: ', selected_idx)
         print("Number of distances equal to 0: ", len(D2[D2 == 0]))
+        print('*' * 50)
 
-    
+    demos = {"demo": demos}
+    with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+        json.dump(demos, write_f, indent=4, ensure_ascii=False)
+
 if __name__ == "__main__":
     main()

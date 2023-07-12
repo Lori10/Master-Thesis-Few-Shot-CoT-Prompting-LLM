@@ -62,7 +62,7 @@ def main():
     args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
-    dataloader = create_dataloader(args)
+    dataloader = create_dataloader(args, answers_available=True)
 
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)
@@ -115,7 +115,7 @@ def generate_uncertainty_qes(args, example):
                               'rationale': example['rationale'], 'final_answer': example['final_answer'],
                               'entropy':float, 'occurrence':{}}
 
-    for trail in range(args.num_trails):
+    for _ in range(args.num_trails):
         # if zero-shot to generate uncertainty, construct first stage zero-shot prompt (step by step)
         if args.method == "few_shot_cot":
             prompt = given_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
@@ -192,8 +192,14 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k","svamp", "aqua", "csqa", "last_letters", "strategyqa", "asdiv", "singleeq", "addsub", "multiarith"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
+
+    parser.add_argument(
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+    )
+
     parser.add_argument(
         "--dir_prompts", type=str, default="prompts_active", help="prompts to use"
     )
@@ -239,32 +245,10 @@ def arg_parser():
     
     # Fill in the dataset path
     if args.dataset == "gsm8k":
-        args.data_path = "../datasets/gsm8k/train.jsonl"
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     elif args.dataset == "aqua":
-        args.data_path = "../datasets/AQuA/train.json" 
         args.direct_answer_trigger = "\nThe answer is"
 
-    elif args.dataset == "svamp":
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "asdiv":
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "singleeq":
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "addsub":
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "multiarith":
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    
-    elif args.dataset == "csqa":
-        args.dataset_path = "./dataset/CSQA/train_rand_split.jsonl" # train data path
-        args.direct_answer_trigger = "\nSo the answer is"
-    elif args.dataset == "strategyqa":
-        args.dataset_path = "./dataset/strategyQA/train.json" # train data path
-        args.direct_answer_trigger = "\nTherefore, the answer (Yes or No) is"
-    elif args.dataset == "last_letters":
-        args.dataset_path = "./dataset/last_letters/last_letters_train2.json" # train data path
-        args.direct_answer_trigger = "\nTherefore, the answer is"
     else:
         raise ValueError("dataset is not properly defined ...")
         

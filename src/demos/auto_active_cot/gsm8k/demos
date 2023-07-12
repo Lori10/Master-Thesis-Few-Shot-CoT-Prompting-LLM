@@ -1,39 +1,41 @@
 {
     "demo": [
         {
-            "dataset_idx": 0,
-            "question": "Q: Stefan goes to a restaurant to eat dinner with his family. They order an appetizer that costs $10 and 4 entrees that are $20 each. If they tip 20% of the total for the waiter, what is the total amount of money that they spend at the restaurant?\nA:",
-            "rationale": "Let's think step by step. The total cost of the entrees is 4 * $20 = $<<4*20=80>>80. The total cost of the dinner is $80 + $10 = $<<80+10=90>>90. The tip is $90 * 0.20 = $<<90*0.20=18>>18 The total cost with tip is $90 + $18 = $<<90+18=108>>108",
-            "final_answer": "108",
-            "variance": 0.0,
-            "entropy": 0.0,
-            "occurrence": {
-                "108": 5
-            },
-            "disagreement": 1
-        },
-        {
-            "dataset_idx": 6,
-            "question": "Q: There have been 15 \"Where's Waldo?\" books published. Each book has 30 puzzles to find Waldo. The average person takes 3 minutes to find Waldo in a puzzle. How long would it take to find every Waldo?\nA:",
-            "rationale": "Let's think step by step. There have been 450 puzzles because 15 x 30 = <<450=450>>450 It would take 1,350 minutes to find all the Waldo's because 450 x 3 = <<450*3=1350>>1,350",
-            "final_answer": "1350",
-            "variance": 423260.16,
+            "dataset_idx": 4,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "rationale": "Let's think step by step. Weng earns 12/60 = $<<12/60=0.2>>0.2 per minute. Working 50 minutes, she earned 0.2 x 50 = $<<0.2*50=10>>10.",
+            "final_answer": "10",
+            "variance": 384.0,
             "entropy": 0.6730116670092565,
             "occurrence": {
-                "22": 2,
-                "1350": 3
+                "50": 3,
+                "10": 2
             },
             "disagreement": 2
         },
         {
             "dataset_idx": 4,
-            "question": "Q: A portable battery charger can fully charge a smartphone in 26 minutes or a tablet in 53 minutes. Ana charged her tablet fully and her phone halfway. How many minutes did it take?\nA:",
-            "rationale": "Let's think step by step. Ana charged her phone halfway, so she took 26 / 2 = <<26/2=13>>13 minutes to charge her phone. Thus, it took Ana 13 + 53 = <<13+53=66>>66 minutes to charge her phone and tablet.",
-            "final_answer": "66",
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "rationale": "Let's think step by step. He writes each friend 3*2=<<3*2=6>>6 pages a week So he writes 6*2=<<6*2=12>>12 pages every week That means he writes 12*52=<<12*52=624>>624 pages a year",
+            "final_answer": "624",
+            "variance": 52738.56,
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "312": 2,
+                "624": 2,
+                "12": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "dataset_idx": 4,
+            "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
+            "rationale": "Let's think step by step. Natalia sold 48/2 = <<48/2=24>>24 clips in May. Natalia sold 48+24 = <<48+24=72>>72 clips altogether in April and May.",
+            "final_answer": "72",
             "variance": 0.0,
             "entropy": 0.0,
             "occurrence": {
-                "66": 5
+                "72": 5
             },
             "disagreement": 1
         }

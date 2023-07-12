@@ -7,17 +7,24 @@ from utils import *
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
+
+    parser.add_argument(
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+    )
+
     parser.add_argument(
         "--random_seed", type=int, default=42, help="seed for selecting random samples"
     )
 
     parser.add_argument(
-        "--nr_seeds", type=int, default=2, help="maximum number of reasoning chains"
+        "--labeled_demos_save_dir", type=str, default=42, help="directory to save the labeled demonstrations"
     )
 
+    
     parser.add_argument(
         "--demos_save_dir", type=str, default="demos/", help="maximum number of reasoning chains"
     )
@@ -26,16 +33,8 @@ def parse_arguments():
         "--dataset_size_limit", type=int, default=100, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
-    parser.add_argument(
-        "--nr_demos", type=int, default=3, help="nr of demonstrations to select"
-    )
 
     args = parser.parse_args()
-    if args.dataset == "gsm8k":
-        args.training_data_path = "../datasets/gsm8k/train.jsonl"
-    elif args.dataset == "aqua":
-        args.training_data_path = "../datasets/AQuA/train.json" 
-
     return args
 
 def main():
@@ -54,7 +53,7 @@ def main():
     args.demos_save_dir = f"{args.demos_save_dir}/random/{args.dataset}/"
 
     random.seed(args.random_seed)
-    dataloader = create_dataloader(args)
+    dataloader = create_dataloader(args, answers_available=True)
 
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)

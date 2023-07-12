@@ -131,56 +131,86 @@ def LangChain_model(model:str, input_prompt:list, max_tokens:int, time_interval,
     return resp
 
 
-def load_data(args):
+def load_data(args, answers_available):
+    
+    if answers_available:
+        questions = []
+        rationales = []
+        final_answers = []
+        decoder = json.JSONDecoder()
 
-    questions = []
-    rationales = []
-    final_answers = []
-    decoder = json.JSONDecoder()
+        if args.dataset == "gsm8k":
+            with open(args.data_path) as f:
+                lines = f.readlines()
+                for line in lines:
+                    json_res = decoder.raw_decode(line)[0]
+                    questions.append(f"Q: {json_res['question'].strip()}\nA:")
+                    rationales.append(f"Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
+                    final_answers.append(json_res["answer"].split("#### ")[-1].replace(",", ""))
 
-    if args.dataset == "gsm8k":
-        with open(args.data_path) as f:
-            lines = f.readlines()
-            for line in lines:
-                json_res = decoder.raw_decode(line)[0]
-                questions.append(f"Q: {json_res['question'].strip()}\nA:")
-                rationales.append(f"Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
-                final_answers.append(json_res["answer"].split("#### ")[-1].replace(",", ""))
+        elif args.dataset == "aqua":
+            with open(args.data_path) as f:
+                lines = f.readlines()
+                for line in lines:
+                    json_res = decoder.raw_decode(line)[0]
+                    qes = json_res["question"].strip() + " Answer Choices:"
 
-    elif args.dataset == "aqua":
-        with open(args.data_path) as f:
-            lines = f.readlines()
-            for line in lines:
-                json_res = decoder.raw_decode(line)[0]
-                qes = json_res["question"].strip() + " Answer Choices:"
+                    for opt in json_res["options"]:
+                        opt = opt.replace(')', ') ')
+                        qes += f" ({opt}"
 
-                for opt in json_res["options"]:
-                    opt = opt.replace(')', ') ')
-                    qes += f" ({opt}"
+                    questions.append(qes + '\nA:')
+                    rationales.append(f"Let's think step by step.\n{json_res['rationale']}")
+                    final_answers.append(json_res["correct"])
+        else:
+            raise NotImplementedError
 
-                questions.append(qes + '\nA:')
-                rationales.append(f"Let's think step by step.\n{json_res['rationale']}")
-                final_answers.append(json_res["correct"])
+        print(f"dataset: {args.dataset}")
+        print(f"dataset_size: {len(final_answers)}")
+        args.dataset_size = len(final_answers)
+        return questions, rationales, final_answers
+
     else:
-        raise NotImplementedError
+        questions = []
+        decoder = json.JSONDecoder()
 
-    print(f"dataset: {args.dataset}")
-    print(f"dataset_size: {len(final_answers)}")
-    args.dataset_size = len(final_answers)
-    return questions, rationales, final_answers
+        if args.dataset == "gsm8k":
+            with open(args.data_path) as f:
+                lines = f.readlines()
+                for line in lines:
+                    json_res = decoder.raw_decode(line)[0]
+                    questions.append(f"Q: {json_res['question'].strip()}\nA:")
 
+        elif args.dataset == "aqua":
+            with open(args.data_path) as f:
+                lines = f.readlines()
+                for line in lines:
+                    json_res = decoder.raw_decode(line)[0]
+                    qes = json_res["question"].strip() + " Answer Choices:"
 
+                    for opt in json_res["options"]:
+                        opt = opt.replace(')', ') ')
+                        qes += f" ({opt}"
+
+                    questions.append(qes + '\nA:')
+        else:
+            raise NotImplementedError
+
+        print(f"dataset: {args.dataset}")
+        print(f"dataset_size: {len(questions)}")
+        return questions
+        
 # return a customized dataloader of batches
 # Not PyTorch dataloader, it supprts random index(slice) access
-def create_dataloader(args)->list:
+def create_dataloader(args, answers_available)->list:
     set_random_seed(args.random_seed)
-    questions, rationales, answers = load_data(args)
+    questions, rationales, answers = load_data(args, answers_available=answers_available)
     dataset = []
     for idx in range(len(questions)):
         dataset.append({"question":questions[idx], "rationale" : rationales[idx],
                         "final_answer":answers[idx], "question_idx":idx})
 
-    random.shuffle(dataset)
+    #random.shuffle(dataset)
     return dataset
 
 

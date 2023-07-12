@@ -2,6 +2,7 @@ import argparse
 import json 
 import random
 import os
+from utils import *
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
@@ -10,7 +11,7 @@ def parse_arguments():
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
     parser.add_argument(
-        "--seed", type=int, default=42, help="seed for selecting random samples"
+        "--random_seed", type=int, default=42, help="seed for selecting random samples"
     )
 
     parser.add_argument(
@@ -22,11 +23,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=100, help="maximum number of reasoning chains"
+        "--dataset_size_limit", type=int, default=100, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
-        "--nr_demonstrations", type=int, default=3, help="maximum number of reasoning chains"
+        "--nr_demos", type=int, default=3, help="nr of demonstrations to select"
     )
 
     args = parser.parse_args()
@@ -52,49 +53,21 @@ def main():
 
     args.demos_save_dir = f"{args.demos_save_dir}/random/{args.dataset}/"
 
-    random.seed(args.seed)
-    with open(args.training_data_path) as fh:
-        train_data = [json.loads(line) for line in fh.readlines() if line]
+    random.seed(args.random_seed)
+    dataloader = create_dataloader(args)
 
     if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(train_data)
-    train_data = random.sample(train_data, args.dataset_size_limit)
+        args.dataset_size_limit = len(dataloader)
+    else:
+        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    print(f"Dataloader size: {len(dataloader)}")
 
     for i in range(args.nr_seeds):
-        selected_examples = random.sample(train_data, args.nr_demonstrations)
-        demos = []
-        if args.dataset == 'gsm8k':
-            for example in selected_examples:
-                question = f"Q: {example['question'].strip()}\nA:"
-                rationale = f"Let's think step by step.\n'{example['answer'].split('####')[0].strip()}"
-                final_answer = example["answer"].split("#### ")[-1].replace(",", "")
-                demo_element = {
-                            "question": question,
-                            "rationale": rationale,
-                            "final_answer": final_answer               
-                            }
-                demos.append(demo_element)
-
-            demos_dic = {"demo": demos}
-            with open(args.demos_save_dir + 'demos' + str(i+1), 'w', encoding="utf-8") as write_f:
-                json.dump(demos_dic, write_f, indent=4, ensure_ascii=False)
-
-        elif args.dataset == "aqua":
-            for example in selected_examples:
-                choices_str =  ' '.join([option for option in example['options']])
-                question = f"Q: {example['question'].strip()} Answer Choices: {choices_str}\nA:"
-                rationale = f"Let's think step by step.\n{example['rationale']}"
-                final_answer = example['correct']
-                demo_element = {
-                            "question": question,
-                            "rationale": rationale,
-                            "final_answer": final_answer               
-                            }
-                demos.append(demo_element)
-
-            demos_dic = {"demo": demos}
-            with open(args.demos_save_dir + 'demos' + str(i+1), 'w', encoding="utf-8") as write_f:
-                json.dump(demos_dic, write_f, indent=4, ensure_ascii=False)
-
+        selected_examples = random.sample(dataloader, args.nr_demos)
+        demos = [example for example in selected_examples]
+        demos_dic = {"demo": demos}
+        with open(args.demos_save_dir + 'demos' + str(i+1), 'w', encoding="utf-8") as write_f:
+            json.dump(demos_dic, write_f, indent=4, ensure_ascii=False)
+            
 if __name__ == "__main__":
     main()

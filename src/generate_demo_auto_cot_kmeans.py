@@ -13,7 +13,7 @@ from utils import *
 from generate_demo_active import create_uncertainty
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination")
+    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeans")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
@@ -39,7 +39,7 @@ def parse_arguments():
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=10, help="maximum number of samples to use for clustering"
+        "--dataset_size_limit", type=int, default=1000, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='disagreement', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -58,6 +58,9 @@ def parse_arguments():
     )
     parser.add_argument(
         "--concat_length", type=int, default=2, help='Used for task last_letters, indicates length of last letter concat'
+    )
+    parser.add_argument(
+        "--nr_demos", type=int, default=7, help='number of demonstrations'
     )
 
     args = parser.parse_args()
@@ -98,36 +101,22 @@ def main():
 
     args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot/{args.dataset}/"
 
-    set_random_seed(args.random_seed)
+    random.seed(args.random_seed)
     dataloader = create_dataloader(args)
 
-    if args.dataset_size > args.qes_limit:
-        dataloader = dataloader[:args.qes_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    if args.dataset_size_limit <= 0:
+        args.dataset_size_limit = len(dataloader)
+    else:
+        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Dataloader size: {len(dataloader)}")
-
-    if args.qes_limit == 0:
-        args.qes_limit = len(dataloader)
-
 
     corpus = [example['question'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]
     rationale_list = [example['rationale'] for example in dataloader]
     final_answer_list = [example['final_answer'] for example in dataloader] 
 
-    dataset_name = args.dataset
     max_ra_len = args.max_ra_len
-    if dataset_name == "last_letters":
-        max_ra_len = 7
-    if dataset_name == "aqua" or dataset_name == "last_letters":
-        num_clusters = 4
-    elif dataset_name == "commonsensqa":
-        num_clusters = 7
-    elif dataset_name == "strategyqa":
-        num_clusters = 6
-    else:
-        num_clusters = 8
-
-    num_clusters = 3
+    num_clusters = args.nr_demos
     encoder = OpenAIEmbeddings()
 
     corpus_embeddings = np.array(encoder.embed_documents(corpus))
@@ -136,7 +125,7 @@ def main():
     cluster_assignment = clustering_model.labels_
 
     clustered_sentences = [[] for i in range(num_clusters)]
-
+    
     dist = clustering_model.transform(corpus_embeddings)
     clustered_dists = [[] for i in range(num_clusters)]
     clustered_idx = [[] for i in range(num_clusters)]

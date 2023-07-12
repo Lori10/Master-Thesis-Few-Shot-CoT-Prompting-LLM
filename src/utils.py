@@ -181,7 +181,6 @@ def create_dataloader(args)->list:
                         "final_answer":answers[idx], "question_idx":idx})
 
     random.shuffle(dataset)
-    print(f"dataloader size: {len(dataset)}")
     return dataset
 
 

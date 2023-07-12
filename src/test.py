@@ -1,8 +1,3 @@
-import numpy as np
-import random  
+from sklearn.metrics import pairwise_distances
 
-random.seed(42)
-li = [1,2,3,4,5]
-
-#li = random.sample(li, 3)
-print(li[:10])
+print(pairwise_distances([[1,2,3]], [[1,2,3]], metric='euclidean', force_all_finite=False).ravel().astype(float))

@@ -62,16 +62,14 @@ def main():
     args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
-
     dataloader = create_dataloader(args)
 
-    if args.dataset_size > args.qet_limit:
-        dataloader = dataloader[:args.qes_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    if args.dataset_size_limit <= 0:
+        args.dataset_size_limit = len(dataloader)
+    else:
+        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Dataloader size: {len(dataloader)}")
-
-
-    if args.qes_limit == 0:
-        args.qes_limit = len(dataloader)
+    
 
     start =time.time()
     result = create_uncertainty(args, dataloader)
@@ -124,20 +122,9 @@ def generate_uncertainty_qes(args, example):
         elif args.method == "zero_shot_cot":
             prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
         
-        # if use zero-shot, here we get the first stage zero-shot result
-        # if not use zero-shot, here we get the final output
-        # responses = ChatGPT3_request(model=args.model, input_prompt=prompt_list, max_tokens=args.max_length_cot, time_interval=args.api_time_interval
-        #                          , temperature=args.temperature , stop=['Question:', "Q:"])
+        
         responses, _, _ = predict_llm(template=prompt, question=example['question'], model="gpt-3.5-turbo",
                                       max_tokens=args.max_length_cot, time_interval=args.api_time_interval, temperature=args.temperature, stop=['Question:', "Q:"]) 
-
-        # construct second stage prompt, to generate a single arabic num answer
-        # if args.method == "zero_shot_cot":
-        #     prompt_list[0] += responses['choices'][0]['text'] + args.direct_answer_trigger
-
-        #     # get the second stage zero-shot rationale result -> arabic num answer
-        #     responses = GPT3_request(model=args.model, input_prompt=prompt_list, max_tokens=args.max_length_cot, time_interval=args.api_time_interval,
-        #                               temperature=args.temperature, stop='.')
 
         # extract the pred answer
         pred_ans = answer_extraction(args, responses)
@@ -177,17 +164,12 @@ def generate_uncertainty_qes(args, example):
 # return a sorted list by uncertainty from high to low
 def create_uncertainty(args, dataloader):
     result = []
-    count = 0
 
     for example in dataloader:
-        if count == args.qes_limit:
-            break
-
         print(f'Question: {example["question"]}\n')
         uncertainty_record = generate_uncertainty_qes(args, example)
         print(f'Uncertainty Record: {uncertainty_record}')
         result.append(uncertainty_record)
-        count += 1
 
     if args.sort_by == "disagreement":
         if args.dataset == "strategyqa":
@@ -230,7 +212,7 @@ def arg_parser():
         "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     )
     parser.add_argument(
-        "--qes_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
         "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
@@ -249,7 +231,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=7, help='number of demonstrations'
+        "--nr_demos", type=int, default=7, help='nr of demonstrations to select'
     )
 
     

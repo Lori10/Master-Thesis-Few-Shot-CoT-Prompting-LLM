@@ -9,6 +9,7 @@ import argparse
 from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
 import os
+from utils import *
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
@@ -31,7 +32,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=50, help="maximum number of samples to use for clustering"
+        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+    )
+
+    parser.add_argument(
+        "--nr_demos", type=int, default=3, help="nr of demonstrations to select"
     )
     
     args = parser.parse_args()
@@ -57,54 +62,26 @@ def main():
 
     args.demos_save_dir = f"{args.demos_save_dir}/auto_cot/{args.dataset}/"
 
-    fix_seed(args.random_seed)
 
-    with open(args.training_data_path) as fh:
-        train_data = [json.loads(line) for line in fh.readlines() if line]
-    
+    random.seed(args.random_seed)
+    dataloader = create_dataloader(args)
+
     if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(train_data)
-    train_data = random.sample(train_data, args.dataset_size_limit)
+        args.dataset_size_limit = len(dataloader)
+    else:
+        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    print(f"Dataloader size: {len(dataloader)}")
 
     #encoder = SentenceTransformer(args.encoder)
     encoder = OpenAIEmbeddings()
 
-    dataset_name = args.dataset
     max_ra_len = args.max_ra_len
-    if dataset_name == "last_letters":
-        max_ra_len = 7
-    if dataset_name == "aqua" or dataset_name == "last_letters":
-        num_clusters = 4
-    elif dataset_name == "commonsensqa":
-        num_clusters = 7
-    elif dataset_name == "strategyqa":
-        num_clusters = 6
-    else:
-        num_clusters = 8
+    num_clusters = args.nr_demos
 
-    num_clusters = 3
-
-    corpus = []
-    question_list = []
-    rationale_list = []
-    final_answer_list = []
-    
-    if args.dataset == 'gsm8k':
-        for example in train_data:
-            question = f"Q: {example['question'].strip()}\nA:"
-            corpus.append(question)
-            question_list.append(question)
-            rationale_list.append(f"Let's think step by step.\n'{example['answer'].split('####')[0].strip()}")
-            final_answer_list.append(example["answer"].split("#### ")[-1].replace(",", ""))
-
-    elif args.dataset == "aqua":
-        for example in train_data:
-            choices_str =  ' '.join([option for option in example['options']])
-            question = f"Q: {example['question'].strip()} Answer Choices: {choices_str}\nA:"
-            corpus.append(question)
-            question_list.append(question)
-            rationale_list.append(f"Let's think step by step.\n{example['rationale']}")
-            final_answer_list.append(example['correct'])
+    corpus = [example['question'] for example in dataloader]
+    question_list = [example['question'] for example in dataloader]
+    rationale_list = [example['rationale'] for example in dataloader]
+    final_answer_list = [example['final_answer'] for example in dataloader]
     
     corpus_embeddings = np.array(encoder.embed_documents(corpus))
     clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)

@@ -20,10 +20,10 @@ def main():
     # load dataset
     dataloader = create_dataloader(args)
 
-    if args.method == "few_shot":
-        input_prompt = create_single_input_prompt(args, cot_flag=False)
-    elif args.method == "few_shot_cot" or args.method == "auto_cot" or args.method == "active_cot":
-        input_prompt = create_single_input_prompt(args, cot_flag=True)
+    if args.method == "standard":
+        input_prompt_list = create_several_input_prompts(args, cot_flag=False)
+    elif args.method == "random_cot" or args.method == "auto_cot" or args.method == "active_cot":
+        input_prompt_list = create_several_input_prompts(args, cot_flag=True)
     else:
         raise NotImplementedError
 
@@ -36,35 +36,57 @@ def main():
         dataloader = dataloader[:15] # only take 1000 questions randomly to annotate, randomness decided by seed
         args.qes_limit = len(dataloader)
     
-    correct, wrong_list, QA_record = inference_cot(args, dataloader, args.qes_limit, input_prompt)
-    print(f"correct_num: {correct}")
-    print(f"total: {args.qes_limit}")
-    print(f"Accuracy: {correct / (args.qes_limit)}")
+    correct_list, wrong_list, QA_record_list = inference_cot(args, dataloader, args.qes_limit, input_prompt_list)
     end = time.time()
     print(f"Execution time: {end - start} seconds")
+    assert len(correct_list) == len(wrong_list) == len(QA_record_list)
+    
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
+        os.makedirs(args.output_dir + args.method)
+        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+    elif not os.path.exists(args.output_dir + args.method):
+        os.makedirs(args.output_dir + args.method)
+        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+    elif not os.path.exists(args.output_dir + args.method  + '/' + args.dataset):
+        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
 
-    print(f"wrong questions: {wrong_list}")
-    # save the wrong predictions
+    args.output_dir = f"{args.output_dir}/{args.method}/{args.dataset}/"
+
+    acc_prompt_list = []
     if args.output_dir is not None:
-        path = f"{args.output_dir}/wrong_{args.dataset}.txt"
-        orginal_stdout = sys.stdout
-        with open(path, 'w') as f:
-            sys.stdout = f
-            for i in wrong_list:
-                print(str(i))
-        sys.stdout = orginal_stdout
-        
-        path = f"{args.output_dir}/QA_record_{args.dataset}.txt"
-        with open(path, 'w') as f:
-            f.write(json.dumps(QA_record, indent=4))
+        for i in range(len(correct_list)):
+            acc_prompt_dic = {'prompt' : input_prompt_list[i],
+                              'accuracy': correct_list[i] / args.qes_limit}
+            acc_prompt_list.append(acc_prompt_dic)
 
+            wrong = wrong_list[i]
+            QA_record = QA_record_list[i]
+            path = f"{args.output_dir}wrong_prompt{i+1}.txt"
+            orginal_stdout = sys.stdout
+            with open(path, 'w') as f:
+                sys.stdout = f
+                for j in wrong:
+                    print(str(j))
+            sys.stdout = orginal_stdout
 
-def inference_cot(args, question_pool, qes_limit, given_prompt):
-    correct = 0
+            path = f"{args.output_dir}QA_record_prompt{i+1}.txt"
+            with open(path, 'w') as f:
+                f.write(json.dumps(QA_record, indent=4))
+
+        overall_mean = np.mean([dic['accuracy'] for dic in acc_prompt_list])
+        acc_prompt_list.append({'mean_accuracy': overall_mean})
+        path = f"{args.output_dir}accuracy_prompts.txt"
+        with open(path, 'w') as f:
+            f.write(json.dumps(acc_prompt_list, indent=4))
+
+    
+def single_run_inference(single_prompt, question_pool, qes_limit, args):
+    correct_count = 0
     qes_count = 0
-    wrong_list = []
-    QA_record = []
-
+    wrong = [{'prompt' : single_prompt}]
+    QA_record = [{'prompt': single_prompt}]
+    
     for qes_num, qes in enumerate(question_pool):
         if qes_limit is not None and qes_count == qes_limit:
             break
@@ -73,21 +95,15 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
 
         if args.dataset == "last_letters" and args.use_code_style_prompt is True:
             # code style prompt
-            prompt = given_prompt + "Q: " + "{question}" + "\nA: Let's think step by step in Python."
+            prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step in Python."
         else:
-            prompt = given_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
+            prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
         
         # print(f'PROMPT: {prompt}')
         # sys.exit(0)
 
         # enable self-consistency if multipath > 1
         for path in range(0, args.multipath):
-            # responses = GPT3_request(model=args.model, input_prompt=prompt_list, max_tokens=args.max_length_cot, time_interval=args.api_time_interval,
-            #                           temperature=args.temperature, stop='\n')
-
-            # responses = ChatGPT3_request(model=args.model, input_prompt=prompt_list, max_tokens=args.max_length_cot, time_interval=args.api_time_interval,
-            #                           temperature=args.temperature, stop='\n')
-            #responses, _, _ = predict_llm(template=prompt , question=qes['question'], model_name='gpt-3.5-turbo')
 
             responses, _, _ = predict_llm(template=prompt, question=qes['question'], model="gpt-3.5-turbo",
                                       max_tokens=args.max_length_cot, time_interval=args.api_time_interval, 
@@ -100,8 +116,8 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
             QA['Q'] = qes['question']
             #QA['A'] = responses['choices'][0]['text']
             #QA['A'] = responses.choices[0].message.content
-            QA['R'] = responses
-            QA['A'] = pred_ans
+            QA['Pred_Rationale'] = responses
+            QA['Pred_FinalAnswer'] = pred_ans
             QA_record.append(QA)
 
             # output current inference result (only works when self-consistency is not enable)
@@ -109,16 +125,16 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
                 print('-' * 20)
                 print(f"Question number: {qes_num}")
                 print(f"Dataset index: {qes['question_idx']}")
-                print(f"Q: " + qes['question'])
+                print(f"Question: \n" + qes['question'])
                 if args.dataset == "last_letters" and args.use_code_style_prompt is True:
                     #print(f"A: Let's think step by step in Python." + responses['choices'][0]['text'])
                     #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step in Python." + responses)
+                    print(f"Let's think step by step in Python.\n" + responses)
 
                 else:
                     #print(f"A: Let's think step by step." + responses['choices'][0]['text'])
                     #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step." + responses)
+                    print(f"Let's think step by step.\n" + responses)
 
 
                 print(f"Prediction: {pred_ans}")
@@ -130,14 +146,27 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
         final_consistent_ans = find_most_frequent(all_self_consistency_ans, args.multipath)[-1]
 
         if final_consistent_ans == qes['final_answer']:
-            correct += 1
+            correct_count += 1
         else:
-            wrong_list.append({'idx':qes['question_idx'], 'pred_final_answer':final_consistent_ans, 'true_final_answer':qes['final_answer']})
+            wrong.append({'idx':qes['question_idx'], 'pred_final_answer':final_consistent_ans, 'true_final_answer':qes['final_answer']})
 
         qes_count += 1
 
-    return correct, wrong_list, QA_record
+    return correct_count, wrong, QA_record
 
+def inference_cot(args, question_pool, qes_limit, given_prompt):
+    correct_count_list = []
+    wrong_list = []
+    QA_record_list = []
+    for i in range(len(given_prompt)):
+        correct, wrong, QA_record = single_run_inference(given_prompt[i], question_pool, qes_limit, args)
+        correct_count_list.append(correct)
+        wrong_list.append(wrong)
+        QA_record_list.append(QA_record)
+
+    return correct_count_list, wrong_list, QA_record_list
+    
+        
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
@@ -146,16 +175,16 @@ def arg_parser():
         "--dataset", type=str, default="aqua", choices=["gsm8k","svamp", "aqua", "csqa", "asdiv", "last_letters", "addsub", "singleeq", "strategyqa", "multiarith"], help="dataset to inference"
     )
     parser.add_argument(
-        "--prompt_path", type=str, default="demos/active_aqua", help="prompts to use"
+        "--dir_prompts", type=str, default="demos/random/aqua", help="prompts to use"
     )
     parser.add_argument(
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
     )
     parser.add_argument(
-        "--method", type=str, default="active_cot", choices=["zero_shot", "zero_shot_cot", "few_shot", "few_shot_cot", "auto_cot", "active_cot"], help="method"
+        "--method", type=str, default="standard", choices=["zero_shot", "zero_shot_cot", "standard", "random_cot", "auto_cot", "active_cot"], help="method"
     )
     parser.add_argument(
-        "--output_dir", type=str, default="inference_results", help="output directory"
+        "--output_dir", type=str, default="inference_results/", help="output directory"
     )
     parser.add_argument(
         "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"

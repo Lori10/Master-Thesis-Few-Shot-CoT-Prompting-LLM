@@ -18,7 +18,7 @@ def main():
     set_random_seed(args.random_seed)
 
     # load dataset
-    dataloader = create_dataloader(args, answers_available=True)
+    dataloader = create_dataloader(args)
 
     if args.method == "standard":
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
@@ -180,7 +180,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="demos/random/gsm8k", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/gsm8k", help="prompts to use"
     )
     parser.add_argument(
         "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
@@ -214,7 +214,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
     
     args = parser.parse_args()

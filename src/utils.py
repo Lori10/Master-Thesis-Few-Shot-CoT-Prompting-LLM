@@ -131,9 +131,9 @@ def LangChain_model(model:str, input_prompt:list, max_tokens:int, time_interval,
     return resp
 
 
-def load_data(args, answers_available):
+def load_data(args):
     
-    if answers_available:
+    if args.answers_are_available:
         questions = []
         rationales = []
         final_answers = []
@@ -202,13 +202,19 @@ def load_data(args, answers_available):
         
 # return a customized dataloader of batches
 # Not PyTorch dataloader, it supprts random index(slice) access
-def create_dataloader(args, answers_available)->list:
+def create_dataloader(args)->list:
     set_random_seed(args.random_seed)
-    questions, rationales, answers = load_data(args, answers_available=answers_available)
     dataset = []
-    for idx in range(len(questions)):
-        dataset.append({"question":questions[idx], "rationale" : rationales[idx],
-                        "final_answer":answers[idx], "question_idx":idx})
+
+    if args.answers_are_available:
+        questions, rationales, answers = load_data(args)
+        for idx in range(len(questions)):
+            dataset.append({"question":questions[idx], "rationale" : rationales[idx],
+                            "final_answer":answers[idx], "question_idx":idx})
+    else:
+        questions = load_data(args)
+        for idx in range(len(questions)):
+            dataset.append({"question":questions[idx], "question_idx":idx})
 
     #random.shuffle(dataset)
     return dataset

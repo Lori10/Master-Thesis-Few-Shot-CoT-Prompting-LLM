@@ -1,0 +1,38 @@
+{
+    "demo": [
+        {
+            "dataset_idx": 0,
+            "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "72": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "dataset_idx": 9,
+            "question": "Q: Tina makes $18.00 an hour.  If she works more than 8 hours per shift, she is eligible for overtime, which is paid by your hourly wage + 1/2 your hourly wage.  If she works 10 hours every day for 5 days, how much money does she make?\nA:",
+            "variance": 155025.04000000004,
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "990": 2,
+                "5": 1,
+                "279": 1,
+                "414": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "dataset_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "variance": 15575.039999999999,
+            "entropy": 0.5004024235381879,
+            "occurrence": {
+                "312": 4,
+                "624": 1
+            },
+            "disagreement": 2
+        }
+    ]
+}

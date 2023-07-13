@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question_idx": 18,
+            "question": "John found that the average of 15 numbers is 40. If 10 is added to each number then the mean of number is? Answer Choices: (A) 50 (B) 45 (C) 65 (D) 78 (E) 64\nA:"
+        },
+        {
+            "question_idx": 31,
+            "question": "What will be the difference in simple and compound interest on 2000 after three years at the rate of 10 percent per annum? Answer Choices: (A) 160 (B) 42 (C) 62 (D) 20 (E) None of these\nA:"
+        },
+        {
+            "question_idx": 33,
+            "question": "Find the constant k so that : -x2 - (k + 11)x - 8 = -(x - 2)(x - 4) Answer Choices: (A) 11 (B) 12 (C) 17 (D) 14 (E) 15\nA:"
+        },
+        {
+            "question_idx": 42,
+            "question": "A person can walk at a constant rate of 8mph and can bike at a rate of 16mph. If he wants to travel 64 miles in 8 hours using bike and walking at their constant rates, how much distance would he require to walk? Answer Choices: (A) 20 (B) 30 (C) 48 (D) 64 (E) 72\nA:"
+        },
+        {
+            "question_idx": 44,
+            "question": "3 persons (1 couple and 1 single) are seated at random in a row of 5 chairs. What is the probability that the couple does not sit together? Answer Choices: (A) 5/7 (B) 4/5 (C) 2/5 (D) 3/5 (E) 11/8\nA:"
+        },
+        {
+            "question_idx": 9,
+            "question": "If X and Y are digits and 8XY is a 3-digit number that is divisible by 2, which of the following is a possible product of X and Y? Answer Choices: (A) 15 (B) 31 (C) 12 (D) 27 (E) 91\nA:"
+        }
+    ]
+}

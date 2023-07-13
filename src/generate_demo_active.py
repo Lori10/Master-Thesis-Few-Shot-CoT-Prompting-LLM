@@ -11,7 +11,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback 
 
-def predict_llm(template: str, model:str, question:str, max_tokens: int, time_interval, temperature=0.7, stop=None) -> Tuple[str, int]:
+def predict_llm(template: str, model:str, question:str, temperature=0.7) -> Tuple[str, int]:
     """
         Run a LLMChain for given a prompt template and question. Return the completion and
         total nr of processed tokens during the run.
@@ -62,7 +62,7 @@ def main():
     args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
 
     set_random_seed(args.random_seed)
-    dataloader = create_dataloader(args, answers_available=True)
+    dataloader = create_dataloader(args)
 
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)
@@ -77,7 +77,7 @@ def main():
     print('Total Execution Time: ', end - start, " seconds")
 
     demos = {'demo': result[:args.nr_demos]}
-    with open(f"{args.demos_save_dir}demos_k_{args.num_trails}", 'w', encoding="utf-8") as write_f:
+    with open(f"{args.demos_save_dir}demos_numtrials_{args.num_trails}", 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
         
@@ -101,19 +101,23 @@ def generate_uncertainty_qes(args, example):
         assert len(given_prompt_list) == 1
         given_prompt = given_prompt_list[0]
 
-    if args.dataset in ("gsm8k", "asdiv", "svamp", "singleeq", "addsub", "multiarith"):
+    if args.dataset in ("gsm8k"):
         # the float is reserved for variance calculation result
-        uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
-                              'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
-                              'variance':float, 'entropy':float, 'occurrence':{}}
-    elif args.dataset == "strategyqa":
-        uncertainty_record = {'dataset_idx': example['question_idx'], 'question': example['question'],
-                              'rationale': example['rationale'], 'final_answer': example['final_answer'],
-                             'entropy':float, 'occurrence':{"yes":0, "no":0}}
+        if args.answers_are_available:
+            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+                                'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
+                                'variance':float, 'entropy':float, 'occurrence':{}}
+        else:
+            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+                                  'variance':float, 'entropy':float, 'occurrence':{}}
     else:
-        uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
-                              'rationale': example['rationale'], 'final_answer': example['final_answer'],
-                              'entropy':float, 'occurrence':{}}
+        if args.answers_are_available:
+            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+                                'rationale': example['rationale'], 'final_answer': example['final_answer'],
+                                'entropy':float, 'occurrence':{}}
+        else:
+            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+                                  'entropy':float, 'occurrence':{}}
 
     for _ in range(args.num_trails):
         # if zero-shot to generate uncertainty, construct first stage zero-shot prompt (step by step)
@@ -123,8 +127,8 @@ def generate_uncertainty_qes(args, example):
             prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
         
         
-        responses, _, _ = predict_llm(template=prompt, question=example['question'], model="gpt-3.5-turbo",
-                                      max_tokens=args.max_length_cot, time_interval=args.api_time_interval, temperature=args.temperature, stop=['Question:', "Q:"]) 
+        responses, _, _ = predict_llm(template=prompt, question=example['question'], model=args.model,
+                                      temperature=args.temperature) 
 
         # extract the pred answer
         pred_ans = answer_extraction(args, responses)
@@ -144,7 +148,7 @@ def generate_uncertainty_qes(args, example):
                 uncertainty_record['occurrence'][NO_SOLUTION] = 1
 
     # calculate the variance for the question (only applied to datasets with numerical answer)
-    if args.dataset in ("gsm8k", "asdiv", "svamp", "singleeq", "addsub", "multiarith"):
+    if args.dataset in ("gsm8k"):
         ans_list = []
         for ans, occurs in uncertainty_record['occurrence'].items():
             for i in range(int(occurs)):
@@ -172,17 +176,8 @@ def create_uncertainty(args, dataloader):
         result.append(uncertainty_record)
 
     if args.sort_by == "disagreement":
-        if args.dataset == "strategyqa":
-            try:
-                # sort based on the entropy or the difference between yes and no answers
-                result.sort(key=lambda x: abs(x['occurrence']['yes'] - x['occurrence']['no']))
-            except:
-                # sort by disagreement
-                result.sort(key=lambda x: -len(x['occurrence']))
-        else:
-            result.sort(key=lambda x: -len(x['occurrence']))
-    elif args.sort_by == "variance" and args.dataset in ("gsm8k", "asdiv", "svamp", "singleeq", "addsub", "multiarith"):
-        # sort by variance
+        result.sort(key=lambda x: -len(x['occurrence']))
+    elif args.sort_by == "variance" and args.dataset in ("gsm8k"):
         result.sort(key=lambda x: -x['variance'])
     elif args.sort_by == "entropy" :
         result.sort(key=lambda x:-x['entropy'])
@@ -192,11 +187,11 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -205,24 +200,20 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--demos_save_dir", type=str, default="demos/", help="maximum number of reasoning chains"
-    )
-
-    parser.add_argument(
-        "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
+        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
     )
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
+    # parser.add_argument(
+    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
+    # )
     parser.add_argument(
-        "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
+        "--dataset_size_limit", type=int, default=5, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
-    parser.add_argument(
-        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
-    )
-    parser.add_argument(
-        "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
-    )
+    # parser.add_argument(
+    #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
+    # )
     parser.add_argument(
         "--temperature", type=float, default=0.7, help=""
     )
@@ -232,14 +223,14 @@ def arg_parser():
     parser.add_argument(
         "--sort_by", type=str, default='disagreement', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
+
     parser.add_argument(
-        "--concat_length", type=int, default=2, help='Used for task last_letters, indicates length of last letter concat'
+        "--nr_demos", type=int, default=3, help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=7, help='nr of demonstrations to select'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
-
     
     args = parser.parse_args()
     
@@ -248,9 +239,13 @@ def arg_parser():
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     elif args.dataset == "aqua":
         args.direct_answer_trigger = "\nThe answer is"
-
     else:
         raise ValueError("dataset is not properly defined ...")
+
+    if args.answers_are_available:
+        args.demos_save_dir = "labeled_demos/"
+    else:
+        args.demos_save_dir = "unlabeled_demos/"
         
     # "Therefore, the answer ..." -> "The answer ..."
     trigger = args.direct_answer_trigger.replace("\nTherefore, ", "")

@@ -21,7 +21,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeans")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
-        choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
+        choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
@@ -30,11 +30,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
+        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
     )
-    parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
-    )
+    # parser.add_argument(
+    #     "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+    # )
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each question"
@@ -42,10 +42,6 @@ def parse_arguments():
     parser.add_argument(
         "--sampling", type=str, default="center", help="whether to sample the cluster center first"
     )
-    parser.add_argument(
-        "--demos_save_dir", type=str, default="demos/", help="directory to save the generated demos"
-    )
-
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
@@ -55,23 +51,23 @@ def parse_arguments():
     parser.add_argument(
         "--sort_by", type=str, default='disagreement', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
+    # parser.add_argument(
+    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
+    # )
+    # parser.add_argument(
+    #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
+    # )
     parser.add_argument(
-        "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
-    )
-    parser.add_argument(
-        "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
-    )
-    parser.add_argument(
-        "--temperature", type=float, default=0.7, help=""
+        "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
         "--dir_prompts", type=str, default="prompts_active", help="prompts to use"
     )
     parser.add_argument(
-        "--concat_length", type=int, default=2, help='Used for task last_letters, indicates length of last letter concat'
+        "--nr_demos", type=int, default=5, help='number of demonstrations'
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=5, help='number of demonstrations'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     args = parser.parse_args()
@@ -81,6 +77,13 @@ def parse_arguments():
 
     elif args.dataset == "aqua":
         args.direct_answer_trigger = "\nThe answer is"
+    else:
+        raise NotImplementedError
+
+    if args.answers_are_available:
+        args.demos_save_dir = "labeled_demos/"
+    else:
+        args.demos_save_dir = "unlabeled_demos/"
 
     # "Therefore, the answer ..." -> "The answer ..."
     trigger = args.direct_answer_trigger.replace("\nTherefore, ", "")
@@ -121,7 +124,7 @@ def main():
     args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus/{args.dataset}/"
 
     set_random_seed(args.random_seed)
-    dataloader = create_dataloader(args, answers_available=True)
+    dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)
     else:

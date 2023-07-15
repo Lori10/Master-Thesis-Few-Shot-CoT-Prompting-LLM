@@ -14,12 +14,12 @@ from utils import *
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -43,7 +43,7 @@ def parse_arguments():
     )
     
     parser.add_argument(
-        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
     )
 
     args = parser.parse_args()
@@ -156,7 +156,6 @@ def main():
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
-
     
 
     y_km = clustering_model.fit_predict(corpus_embeddings)

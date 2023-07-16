@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: What will be the difference in simple and compound interest on 2000 after three years at the rate of 10 percent per annum? Answer Choices: (A) 160 (B) 42 (C) 62 (D) 20 (E) None of these + \nA:",
+            "rationale": "Let's think step by step.\nFor 3 years:\nDiff.=Sum×(rate)2(300+rate)/(100)3\n= 2000×10×10×310/100×100×100 = 62\nAnswer C",
+            "final_answer": "C",
+            "question_idx": 31
+        },
+        {
+            "question": "Q: The slant height of a cone is 35 cm and radius of the base is 14cm, find the curved surface of the cone. Answer Choices: (A) 4150 (B) 1780 (C) 1540 (D) 1500 (E) 6100 + \nA:",
+            "rationale": "Let's think step by step.\nπ * 14 * 35= 1540\nAnswer:C",
+            "final_answer": "C",
+            "question_idx": 28
+        },
+        {
+            "question": "Q: Mike took 5 mock tests before appearing for the GMAT. In each mock test he scored 10 points more than the previous mock test. If he scored 760 on the GMAT and his average score for the mocks and the GMAT was 716.67, what was the difference in the score of his last mock and his GMAT score? Answer Choices: (A) 20 (B) 32 (C) 40 (D) 50 (E) 60 + \nA:",
+            "rationale": "Let's think step by step.\nOne way to do this would be weighted average method..\n1) let the average of 5 mocks be x...\nso take it as a mix of5 quantitites of xand1 quantity of 760resulting in an average of 716.67...\nBy alligation/weighted average..\nthe difference in 760 and 716.67 is 5/6 of difference of 760 and x..\n760-716.67 = 5/6 * (760-x)\n760-x= 43.33*6/5=52...\nso x = 708..\nthe last of mock test will be 708+10+10=728...\nso ans = 760-728=32\nB",
+            "final_answer": "B",
+            "question_idx": 17
+        },
+        {
+            "question": "Q: A and B invests Rs.3000 and Rs.4000 respectively in a business. If A doubles his capital after 6 months. In what ratio should A and B divide that year's profit? Answer Choices: (A) 9:6 (B) 9:8 (C) 9:1 (D) 9:9 (E) 9:5 + \nA:",
+            "rationale": "Let's think step by step.\n(3*6 + 6*6): (4*12)\n54:48 => 9:8.Answer:B",
+            "final_answer": "B",
+            "question_idx": 94
+        },
+        {
+            "question": "Q: If q is the square of a positive integer, which of the following must be equal to the square of the next positive integer? Answer Choices: (A) √n + 1 (B) n + 1 (C) n^2 + 1 (D) q + 2√q + 1 (E) n^2 + 2n + 1 + \nA:",
+            "rationale": "Let's think step by step.\nIf q is the square of a positive integer, which of the following must be equal to the square of the next positive integer?\nq = (x)^2 where x is a positive integer\nTo calculate -\n(x+1)^2 = x^2 + 2x + 1\nroot(q) = x\nAns - q + 2 root(q) + 1\nThis should be D",
+            "final_answer": "D",
+            "question_idx": 13
+        }
+    ]
+}

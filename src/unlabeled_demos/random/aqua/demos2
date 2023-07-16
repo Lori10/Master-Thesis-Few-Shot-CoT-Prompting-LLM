@@ -1,0 +1,24 @@
+{
+    "demo": [
+        {
+            "question": "What will be the difference in simple and compound interest on 2000 after three years at the rate of 10 percent per annum? Answer Choices: (A) 160 (B) 42 (C) 62 (D) 20 (E) None of these\nA:",
+            "question_idx": 31
+        },
+        {
+            "question": "The slant height of a cone is 35 cm and radius of the base is 14cm, find the curved surface of the cone. Answer Choices: (A) 4150 (B) 1780 (C) 1540 (D) 1500 (E) 6100\nA:",
+            "question_idx": 28
+        },
+        {
+            "question": "Mike took 5 mock tests before appearing for the GMAT. In each mock test he scored 10 points more than the previous mock test. If he scored 760 on the GMAT and his average score for the mocks and the GMAT was 716.67, what was the difference in the score of his last mock and his GMAT score? Answer Choices: (A) 20 (B) 32 (C) 40 (D) 50 (E) 60\nA:",
+            "question_idx": 17
+        },
+        {
+            "question": "A and B invests Rs.3000 and Rs.4000 respectively in a business. If A doubles his capital after 6 months. In what ratio should A and B divide that year's profit? Answer Choices: (A) 9:6 (B) 9:8 (C) 9:1 (D) 9:9 (E) 9:5\nA:",
+            "question_idx": 94
+        },
+        {
+            "question": "If q is the square of a positive integer, which of the following must be equal to the square of the next positive integer? Answer Choices: (A) √n + 1 (B) n + 1 (C) n^2 + 1 (D) q + 2√q + 1 (E) n^2 + 2n + 1\nA:",
+            "question_idx": 13
+        }
+    ]
+}

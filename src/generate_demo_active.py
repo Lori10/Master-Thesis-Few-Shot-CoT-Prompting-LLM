@@ -37,7 +37,7 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Dataloader size: {len(dataloader)}")
+    print(f"Proceeding with data size: {len(dataloader)}")
     
 
     start =time.time()
@@ -73,19 +73,19 @@ def generate_uncertainty_qes(args, example):
     if args.dataset in ("gsm8k"):
         # the float is reserved for variance calculation result
         if args.answers_are_available:
-            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                 'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
                                 'variance':float, 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                   'variance':float, 'entropy':float, 'occurrence':{}}
     else:
         if args.answers_are_available:
-            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                 'rationale': example['rationale'], 'final_answer': example['final_answer'],
                                 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'dataset_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                   'entropy':float, 'occurrence':{}}
 
     for _ in range(args.num_trails):

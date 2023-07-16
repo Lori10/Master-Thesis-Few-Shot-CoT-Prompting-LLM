@@ -158,15 +158,14 @@ def load_data(args):
                         opt = opt.replace(')', ') ')
                         qes += f" ({opt}"
 
-                    questions.append(qes + '\nA:')
+                    questions.append(f'Q: {qes} + \nA:')
                     rationales.append(f"Let's think step by step.\n{json_res['rationale']}")
                     final_answers.append(json_res["correct"])
         else:
             raise NotImplementedError
 
-        print(f"dataset: {args.dataset}")
-        print(f"dataset_size: {len(final_answers)}")
-        args.dataset_size = len(final_answers)
+        print(f"Dataset: {args.dataset}")
+        print(f"Original Dataset size: {len(final_answers)}")
         return questions, rationales, final_answers
 
     else:

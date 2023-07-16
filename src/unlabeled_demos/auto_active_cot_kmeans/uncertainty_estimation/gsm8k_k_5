@@ -1,0 +1,116 @@
+{
+    "0": [
+        {
+            "question_idx": 0,
+            "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "72": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "1": [
+        {
+            "question_idx": 9,
+            "question": "Q: Tina makes $18.00 an hour.  If she works more than 8 hours per shift, she is eligible for overtime, which is paid by your hourly wage + 1/2 your hourly wage.  If she works 10 hours every day for 5 days, how much money does she make?\nA:",
+            "variance": 142353.03999999998,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "5": 1,
+                "279": 1,
+                "990": 1,
+                "198": 1,
+                "810": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question_idx": 1,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "variance": 256.0,
+            "entropy": 0.5004024235381879,
+            "occurrence": {
+                "10": 4,
+                "50": 1
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 2,
+            "question": "Q: Betty is saving money for a new wallet which costs $100. Betty has only half of the money she needs. Her parents decided to give her $15 for that purpose, and her grandparents twice as much as her parents. How much more money does Betty need to buy the wallet?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "5": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 8,
+            "question": "Q: Alexis is applying for a new job and bought a new set of business clothes to wear to the interview. She went to a department store with a budget of $200 and spent $30 on a button-up shirt, $46 on suit pants, $38 on a suit coat, $11 on socks, and $18 on a belt. She also purchased a pair of shoes, but lost the receipt for them. She has $16 left from her budget. How much did Alexis pay for the shoes?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "41": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "2": [
+        {
+            "question_idx": 7,
+            "question": "Q: Ken created a care package to send to his brother, who was away at boarding school.  Ken placed a box on a scale, and then he poured into the box enough jelly beans to bring the weight to 2 pounds.  Then, he added enough brownies to cause the weight to triple.  Next, he added another 2 pounds of jelly beans.  And finally, he added enough gummy worms to double the weight once again.  What was the final weight of the box of goodies, in pounds?\nA:",
+            "variance": 29.439999999999998,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "16": 3,
+                "12": 1,
+                "28": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "variance": 23362.56,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "624": 3,
+                "312": 2
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 3,
+            "question": "Q: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "42": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 5,
+            "question": "Q: Mark has a garden with flowers. He planted plants of three different colors in it. Ten of them are yellow, and there are 80% more of those in purple. There are only 25% as many green flowers as there are yellow and purple flowers. How many flowers does Mark have in his garden?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "35": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 6,
+            "question": "Q: Albert is wondering how much pizza he can eat in one day. He buys 2 large pizzas and 2 small pizzas. A large pizza has 16 slices and a small pizza has 8 slices. If he eats it all, how many pieces does he eat that day?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "48": 5
+            },
+            "disagreement": 1
+        }
+    ]
+}

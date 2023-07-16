@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: If |w|=−w, which of the following must be true? Answer Choices: (A) x≥0 (B) w≤0 (C) x2>x (D) x3<0 (E) 2x<x + \nA:",
+            "rationale": "Let's think step by step.\n|w| =-w means absolute value of w is equal to negative of w. Since absolute value cannot be negative hence negative of w should result in a non negative number. It means w is a non positive number i.e. w<0. Answer is B",
+            "final_answer": "B",
+            "question_idx": 81
+        },
+        {
+            "question": "Q: Rs. 5600 is divided into three parts A, B and C. How much A is more than C if their ratio is 1/7:1/7:1/14? Answer Choices: (A) 300 (B) 992 (C) 1120 (D) 552 (E) 312 + \nA:",
+            "rationale": "Let's think step by step.\n1/7:1/7:1/14 = 2:2:1\n1/5*5600 = 1120\n2240-1120 = 1120\nAnswer: C",
+            "final_answer": "C",
+            "question_idx": 14
+        },
+        {
+            "question": "Q: Carl is facing very difficult financial times and can only pay the interest on a $10,000 loan he has taken. The bank charges him a quarterly compound rate of 4%. What is the approximate interest he pays annually? Answer Choices: (A) $1600 (B) $2000 (C) $2150 (D) $2500 (E) $12000 + \nA:",
+            "rationale": "Let's think step by step.\nUsually, you are given the annual rate of interest and it is mentioned that it is annual rate.\nThe bank charges him a quarterly compounded ANNUAL rate of 16%.\nHere you find per quarter rate as (16/4)% = 4%\nI have actually never seen a question with quarter rate given but since this question did not mentionannual rate of interestand since the options did not make sense with 4% annual rate of interest, it is apparent that the intent was a 4% quarterly rate. So the bank charges 4% every quarter and compounds it in the next quarter. Had it been a simple quarterly rate, we would have just found 4 * 4% of 10,000 = $1600 as our answer.\nBut since, the interest is compounded, it will be a bit more than $1600. Option (A) looks correct.",
+            "final_answer": "A",
+            "question_idx": 3
+        },
+        {
+            "question": "Q: A and B invests Rs.3000 and Rs.4000 respectively in a business. If A doubles his capital after 6 months. In what ratio should A and B divide that year's profit? Answer Choices: (A) 9:6 (B) 9:8 (C) 9:1 (D) 9:9 (E) 9:5 + \nA:",
+            "rationale": "Let's think step by step.\n(3*6 + 6*6): (4*12)\n54:48 => 9:8.Answer:B",
+            "final_answer": "B",
+            "question_idx": 94
+        },
+        {
+            "question": "Q: Krishan and Nandan jointly started a business. Krishan invested six times as Nandan did and invested his money for double time as compared to Nandan. Nandan earned Rs. 6000. If the gain is proportional to the money invested and the time for which the money is invested then the total gain was? Answer Choices: (A) Rs.78000 (B) Rs.48000 (C) Rs.6000 (D) Rs.82000 (E) Rs.32000 + \nA:",
+            "rationale": "Let's think step by step.\n6:1\n2:1\n------\n12:1\n1 ----- 6000\n13 ----- ? => Rs.78,000\nAnswer: A",
+            "final_answer": "A",
+            "question_idx": 35
+        }
+    ]
+}

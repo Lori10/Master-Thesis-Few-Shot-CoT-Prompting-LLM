@@ -12,10 +12,11 @@ import os
 from utils import *
 from generate_demo_active import generate_uncertainty_qes
 import pandas as pd
-from sklearn.metrics.pairwise import euclidean_distances
+from sklearn.metrics.pairwise import cosine_similarity
 from scipy import stats
 import pickle
 from sklearn.metrics import pairwise_distances
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeans")
@@ -51,6 +52,10 @@ def parse_arguments():
     parser.add_argument(
         "--sort_by", type=str, default='disagreement', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
+
+    parser.add_argument(
+        "--distance_metric", type=str, default='cosine', choices=['cosine', 'euclidean'], help="sort the final result by given option"
+    )
     # parser.add_argument(
     #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     # )
@@ -63,6 +68,11 @@ def parse_arguments():
     parser.add_argument(
         "--dir_prompts", type=str, default="prompts_active", help="prompts to use"
     )
+
+    parser.add_argument(
+        "--uncertainty_scores_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
+    )
+
     parser.add_argument(
         "--nr_demos", type=int, default=5, help='number of demonstrations'
     )
@@ -105,6 +115,38 @@ def square_prob(f1_scores):
 def softmax(f1_scores):
     return np.exp(f1_scores) / np.sum(np.exp(f1_scores), axis=0)
 
+def generate_doc_embedding(corpus, encoder=OpenAIEmbeddings()):
+    return np.array(encoder.embed_documents(corpus))
+
+
+def compute_distances(args, embeddings, selected_data, uncertainty_list, question_idxs):
+    if args.distance_metric == 'cosine':
+        if len(selected_data) == 1:
+            D2 = 1 - pairwise_distances(embeddings, selected_data, metric='cosine', n_jobs=-1).ravel().astype(float)
+        else:
+            newD = 1 - pairwise_distances(embeddings, [selected_data[-1]], metric='cosine', n_jobs=-1).ravel().astype(float)
+            for i in range(len(embeddings)):
+                if D2[i] < newD[i]:
+                    D2[i] = newD[i]
+
+        D2[D2 > 0.999] = 1
+        not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(question_idxs, D2, uncertainty_list) if distance != 1]
+    
+    elif args.distance_metric == 'eucledian':
+        if len(selected_data) == 1:
+            D2 = pairwise_distances(embeddings, selected_data, metric='euclidean', n_jobs=-1).ravel().astype(float)
+        else:
+            newD = pairwise_distances(embeddings, [selected_data[-1]], metric='euclidean', n_jobs=-1).ravel().astype(float)
+            for i in range(len(embeddings)):
+                if D2[i] > newD[i]:
+                    D2[i] = newD[i] 
+
+        D2[D2 < 0.0001] = 0
+        not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(question_idxs, D2, uncertainty_list) if distance != 0]
+
+    return not_selected_questions_distances_uncertainties
+
+
 def main():
     args = parse_arguments()
     if not os.path.exists(args.demos_save_dir):
@@ -117,11 +159,12 @@ def main():
     elif not os.path.exists(args.demos_save_dir + 'auto_active_cot_kmeans_plusplus/' + args.dataset):
         os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans_plusplus/' + args.dataset)
 
-    uncertainty_estimation_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus/uncertainty_estimation/"
-    if not os.path.exists(uncertainty_estimation_dir):
-        os.makedirs(uncertainty_estimation_dir)
-
     args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus/{args.dataset}/"
+
+    if not os.path.exists(args.uncertainty_scores_dir):
+        os.makedirs(args.uncertainty_scores_dir)
+    uncertainty_filepath = f"{args.uncertainty_scores_dir}AutoActiveKMeansPlusPlus_{args.dataset}_numtrials_{args.num_trails}_sortby_{args.sort_by}"
+
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -160,25 +203,44 @@ def main():
     selected_data = [embeddings[first_question_idx]]
     j = 0
     demos = []
+
     while j < args.nr_demos:
         if len(selected_data) == 1:
-            D2 = pairwise_distances(embeddings, selected_data, metric='euclidean').ravel().astype(float)
+            if args.distance_metric == 'cosine':
+                D2 = 1 - pairwise_distances(embeddings, selected_data, metric='cosine', n_jobs=-1).ravel().astype(float)
+            elif args.distance_metric == 'euclidean':
+                D2 = pairwise_distances(embeddings, selected_data, metric='euclidean', n_jobs=-1).ravel().astype(float)
+            else:
+                raise NotImplementedError
         else:
-            newD = pairwise_distances(embeddings, [selected_data[-1]], metric='euclidean').ravel().astype(float)
-            for i in range(len(embeddings)):
-                if D2[i] > newD[i]:
-                    D2[i] = newD[i]
+            if args.distance_metric  == 'cosine':
+                newD = 1 - pairwise_distances(embeddings, [selected_data[-1]], metric='cosine', n_jobs=-1).ravel().astype(float)
+                for i in range(len(embeddings)):
+                    if D2[i] < newD[i]:
+                        D2[i] = newD[i]
+            elif args.distance_metric == 'euclidean':
+                newD = pairwise_distances(embeddings, [selected_data[-1]], metric='euclidean', n_jobs=-1).ravel().astype(float)
+                for i in range(len(embeddings)):
+                    if D2[i] > newD[i]:
+                        D2[i] = newD[i] 
+            else:
+                raise NotImplementedError
 
-        D2[D2 < 0.000001] = 0
-        not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 0]
+        if args.distance_metric == 'cosine':
+            D2[D2 > 0.999] = 1
+            not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 1]
+
+        elif args.distance_metric == 'euclidean':
+            D2[D2 < 0.0001] = 0
+            not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 0]
+
         not_selected_questions_idxs = [question_idx for question_idx, _, _ in not_selected_questions_distances_uncertainties]
         not_selected_distances = [distance for _, distance, _ in not_selected_questions_distances_uncertainties]
         not_selected_uncertainties = [uncertainty for _, _, uncertainty in not_selected_questions_distances_uncertainties]
         not_selected_f1_scores = f1_score(not_selected_distances, not_selected_uncertainties)
         probs = softmax(not_selected_f1_scores)
-        customDist = stats.rv_discrete(name='custm', values=(not_selected_questions_idxs, probs))
 
-        #np.random.seed(10)
+        customDist = stats.rv_discrete(name='custm', values=(not_selected_questions_idxs, probs))
         selected_idx = customDist.rvs(size=1)[0]
         selected_idxs.append(selected_idx)
         selected_data.append(embeddings[selected_idx])
@@ -188,7 +250,10 @@ def main():
         print('Iteration: ', j)
         print('Length of not selected questions:', len(not_selected_questions_distances_uncertainties))
         print('Selected question idx: ', selected_idx)
-        print("Number of distances equal to 0: ", len(D2[D2 == 0]))
+        if args.distance_metric == 'cosine':
+            print("Number of distances equal to 1: ", len(D2[D2 == 1.0]))
+        else:
+            print("Number of distances equal to 1: ", len(D2[D2 == 0]))
         print('*' * 50)
 
     demos = {"demo": demos}

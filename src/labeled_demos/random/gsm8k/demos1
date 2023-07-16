@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: Sam and Jeff had a skipping competition at recess. The competition was split into four rounds. Sam completed 1 more skip than Jeff in the first round. Jeff skipped 3 fewer times than Sam in the second round. Jeff skipped 4 more times than Sam in the third round. Jeff got tired and only completed half the number of skips as Sam in the last round. If Sam skipped 16 times in each round, what is the average number of skips per round completed by Jeff?\nA:",
+            "rationale": "Let's think step by step.\nIn round one, Jeff completed 16 - 1 = <<16-1=15>>15.\nIn round two, Jeff completed 16 - 3 = <<16-3=13>>13.\nIn round three, Jeff completed 16 + 4 = <<16+4=20>>20.\nIn round four, Jeff completed 16 / 2 = <<16/2=8>>8.\nJeff completed 15 + 13 + 20 + 8 = <<15+13+20+8=56>>56 skips in total.\nJeff skipped an average of 56 / 4 = <<56/4=14>>14 skips per round.",
+            "final_answer": "14",
+            "question_idx": 81
+        },
+        {
+            "question": "Q: Joy can read 8 pages of a book in 20 minutes. How many hours will it take her to read 120 pages?\nA:",
+            "rationale": "Let's think step by step.\nIn one hour, there are 3 sets of 20 minutes.\nSo, Joy can read 8 x 3 = <<8*3=24>>24 pages in an hour.\nIt will take her 120/24 = <<120/24=5>>5 hours to read 120 pages.",
+            "final_answer": "5",
+            "question_idx": 14
+        },
+        {
+            "question": "Q: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA:",
+            "rationale": "Let's think step by step.\nMaila read 12 x 2 = <<12*2=24>>24 pages today.\nSo she was able to read a total of 12 + 24 = <<12+24=36>>36 pages since yesterday.\nThere are 120 - 36 = <<120-36=84>>84 pages left to be read.\nSince she wants to read half of the remaining pages tomorrow, then she should read 84/2 = <<84/2=42>>42 pages.",
+            "final_answer": "42",
+            "question_idx": 3
+        },
+        {
+            "question": "Q: John writes 20 pages a day.  How long will it take him to write 3 books that are 400 pages each?\nA:",
+            "rationale": "Let's think step by step.\nHe wants to write 3*400=<<3*400=1200>>1200 pages\nSo it will take him 1200/20=<<1200/20=60>>60 days",
+            "final_answer": "60",
+            "question_idx": 94
+        },
+        {
+            "question": "Q: Mr. Sanchez found out that 40% of his Grade 5  students got a final grade below B. How many of his students got a final grade of B and above if he has 60 students in Grade 5?\nA:",
+            "rationale": "Let's think step by step.\nSince 40% of his students got below B, 100% - 40% = 60% of Mr. Sanchez's students got B and above.\nThus, 60 x 60/100 = <<60*60/100=36>>36 students got B and above in their final grade.",
+            "final_answer": "36",
+            "question_idx": 35
+        }
+    ]
+}

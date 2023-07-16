@@ -75,7 +75,7 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Dataloader size: {len(dataloader)}")
+    print(f"Proceeding with data size: {len(dataloader)}")
 
     #encoder = SentenceTransformer(args.encoder)
     encoder = OpenAIEmbeddings()
@@ -141,7 +141,7 @@ def main():
                     print("")
                     break
             else:
-                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60:
+                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 and final_answer != "":
                     question_idx = question_idxs[clustered_idx[i][min_idx]]
                     question = question_list[clustered_idx[i][min_idx]]        
                     demo_element = {

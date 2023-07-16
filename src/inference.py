@@ -13,16 +13,19 @@ def main():
     print(args)
     print('*****************************')
 
-    print(f"API_KEY: {API_KEY}")
-
     set_random_seed(args.random_seed)
 
     # load dataset
     dataloader = create_dataloader(args)
+    if args.dataset_size_limit <= 0:
+        args.dataset_size_limit = len(dataloader)
+    else:
+        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    print(f"Dataloader size: {len(dataloader)}")
 
     if args.method == "standard":
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
-    elif args.method == "random_cot" or args.method == "auto_cot" or args.method == "active_cot":
+    elif args.method == "cot":
         input_prompt_list = create_several_input_prompts(args, cot_flag=True)
     else:
         raise NotImplementedError
@@ -32,11 +35,8 @@ def main():
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     # no limit on how many batches to inference, assume inference all batches
-    if args.qes_limit == 0:
-        dataloader = dataloader[:15] # only take 1000 questions randomly to annotate, randomness decided by seed
-        args.qes_limit = len(dataloader)
     
-    correct_list, wrong_list, QA_record_list = inference_cot(args, dataloader, args.qes_limit, input_prompt_list)
+    correct_list, wrong_list, QA_record_list = inference_cot(args, dataloader, input_prompt_list)
     end = time.time()
     print(f"Execution time: {end - start} seconds")
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
@@ -81,33 +81,25 @@ def main():
             f.write(json.dumps(acc_prompt_list, indent=4))
 
     
-def single_run_inference(single_prompt, question_pool, qes_limit, args):
+def single_run_inference(single_prompt, question_pool, args):
     correct_count = 0
-    qes_count = 0
     wrong = [{'prompt' : single_prompt}]
     QA_record = [{'prompt': single_prompt}]
     
     for qes_num, qes in enumerate(question_pool):
-        if qes_limit is not None and qes_count == qes_limit:
-            break
         # create a list for each question to record all answers generated from self-consistency
         all_self_consistency_ans = []
 
-        if args.dataset == "last_letters" and args.use_code_style_prompt is True:
-            # code style prompt
-            prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step in Python."
-        else:
-            prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
-        
-        # print(f'PROMPT: {prompt}')
-        # sys.exit(0)
+        prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
+        print(f'PROMPT: {prompt}')
+        sys.exit(0)
 
         # enable self-consistency if multipath > 1
-        for path in range(0, args.multipath):
+        for _ in range(0, args.multipath):
 
-            responses, _, _ = predict_llm(template=prompt, question=qes['question'], model="gpt-3.5-turbo",
-                                      max_tokens=args.max_length_cot, time_interval=args.api_time_interval, 
-                                      stop='\n', temperature=args.temperature)
+            responses, _, _ = predict_llm(template=prompt, question=qes['question'], model=args.model,
+                                          temperature=args.temperature)
+
             pred_ans = answer_extraction(args, responses)
 
             # create a dict to record each Q&A for later review purposes
@@ -123,19 +115,9 @@ def single_run_inference(single_prompt, question_pool, qes_limit, args):
             # output current inference result (only works when self-consistency is not enable)
             if args.multipath == 1:
                 print('-' * 20)
-                print(f"Question number: {qes_num}")
                 print(f"Dataset index: {qes['question_idx']}")
                 print(f"Question: \n" + qes['question'])
-                if args.dataset == "last_letters" and args.use_code_style_prompt is True:
-                    #print(f"A: Let's think step by step in Python." + responses['choices'][0]['text'])
-                    #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step in Python.\n" + responses)
-
-                else:
-                    #print(f"A: Let's think step by step." + responses['choices'][0]['text'])
-                    #print(f"A: Let's think step by step in Python." + responses.choices[0].message.content)
-                    print(f"Let's think step by step.\n" + responses)
-
+                print(f"Let's think step by step.\n" + responses)
 
                 print(f"Prediction: {pred_ans}")
                 print(f"Ground Truth: {qes['final_answer']}")
@@ -150,16 +132,14 @@ def single_run_inference(single_prompt, question_pool, qes_limit, args):
         else:
             wrong.append({'idx':qes['question_idx'], 'pred_final_answer':final_consistent_ans, 'true_final_answer':qes['final_answer']})
 
-        qes_count += 1
-
     return correct_count, wrong, QA_record
 
-def inference_cot(args, question_pool, qes_limit, given_prompt):
+def inference_cot(args, question_pool, given_prompt):
     correct_count_list = []
     wrong_list = []
     QA_record_list = []
     for i in range(len(given_prompt)):
-        correct, wrong, QA_record = single_run_inference(given_prompt[i], question_pool, qes_limit, args)
+        correct, wrong, QA_record = single_run_inference(given_prompt[i], question_pool, args)
         correct_count_list.append(correct)
         wrong_list.append(wrong)
         QA_record_list.append(QA_record)
@@ -167,51 +147,50 @@ def inference_cot(args, question_pool, qes_limit, given_prompt):
     return correct_count_list, wrong_list, QA_record_list
     
         
-
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/gsm8k", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/aqua", help="prompts to use"
     )
     parser.add_argument(
-        "--model", type=str, default="text-davinci-002", choices=["text-davinci-002", "code-davinci-002"], help="model used for decoding."
+        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
     )
     parser.add_argument(
-        "--method", type=str, default="standard", choices=["zero_shot", "zero_shot_cot", "standard", "random_cot", "auto_cot", "active_cot"], help="method"
+        "--method", type=str, default="cot", choices=["standard", "cot"], help="method"
     )
     parser.add_argument(
         "--output_dir", type=str, default="inference_results/", help="output directory"
     )
+    # parser.add_argument(
+    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
+    # )
     parser.add_argument(
-        "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
+        "--dataset_size_limit", type=int, default=50, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
-    parser.add_argument(
-        "--qes_limit", type=int, default=0, help="whether to limit test dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for testing."
-    )
-    parser.add_argument(
-        "--api_time_interval", type=float, default=1.0, help="how many seconds to sleep between each request"
-    )
+    # parser.add_argument(
+    #     "--api_time_interval", type=float, default=1.0, help="how many seconds to sleep between each request"
+    # )
     parser.add_argument(
         "--temperature", type=float, default=0, help=""
     )
     parser.add_argument(
         "--multipath", type=int, default=1, help="self-consistency path num"
     )
-    parser.add_argument(
-        "--concat_length", type=int, default=4, help='Used for task last_letters, indicates length of last letter to concat, i.e. Elon Musk -> nk, use concat length of 2'
-    )
-    parser.add_argument(
-        "--use_code_style_prompt", type=bool, default=False, help='Use code-style prompt as mentioned in paper for last_letters dataset'
-    )
+    # parser.add_argument(
+    #     "--concat_length", type=int, default=4, help='Used for task last_letters, indicates length of last letter to concat, i.e. Elon Musk -> nk, use concat length of 2'
+    # )
+    # parser.add_argument(
+    #     "--use_code_style_prompt", type=bool, default=False, help='Use code-style prompt as mentioned in paper for last_letters dataset'
+    # )
 
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'

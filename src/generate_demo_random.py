@@ -39,7 +39,6 @@ def parse_arguments():
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
-
     args = parser.parse_args()
     if args.answers_are_available:
         args.demos_save_dir = "labeled_demos/"
@@ -69,7 +68,7 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Dataloader size: {len(dataloader)}")
+    print(f"Proceeding with data size: {len(dataloader)}")
 
     for i in range(args.nr_seeds):
         selected_examples = random.sample(dataloader, args.nr_demos)

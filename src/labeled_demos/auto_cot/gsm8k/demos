@@ -1,40 +1,34 @@
 {
     "demo": [
         {
-            "question_idx": 14,
-            "question": "Q: Joy can read 8 pages of a book in 20 minutes. How many hours will it take her to read 120 pages?\nA:",
-            "rationale": "Let's think step by step. In one hour, there are 3 sets of 20 minutes. So, Joy can read 8 x 3 = <<8*3=24>>24 pages in an hour. It will take her 120/24 = <<120/24=5>>5 hours to read 120 pages.",
-            "final_answer": "5"
+            "question_idx": 36,
+            "question": "Q: Lisa, Jack, and Tommy earned $60 from washing cars all week. However, half of the $60 was earned by Lisa. Tommy earned half of what Lisa earned. How much more money did Lisa earn than Tommy?\nA:",
+            "rationale": "Let's think step by step.\nLisa earned $60 * 1/2 = $<<60*1/2=30>>30.\nTommy earned $30 * 1/2 = $<<30*1/2=15>>15.\nLisa earned $30 - $15 = $<<30-15=15>>15 more than Tommy.",
+            "final_answer": "15"
         },
         {
             "question_idx": 6,
             "question": "Q: Albert is wondering how much pizza he can eat in one day. He buys 2 large pizzas and 2 small pizzas. A large pizza has 16 slices and a small pizza has 8 slices. If he eats it all, how many pieces does he eat that day?\nA:",
-            "rationale": "Let's think step by step. He eats 32 from the largest pizzas because 2 x 16 = <<2*16=32>>32 He eats 16 from the small pizza because 2 x 8 = <<2*8=16>>16 He eats 48 pieces because 32 + 16 = <<32+16=48>>48",
+            "rationale": "Let's think step by step.\nHe eats 32 from the largest pizzas because 2 x 16 = <<2*16=32>>32\nHe eats 16 from the small pizza because 2 x 8 = <<2*8=16>>16\nHe eats 48 pieces because 32 + 16 = <<32+16=48>>48",
             "final_answer": "48"
+        },
+        {
+            "question_idx": 3,
+            "question": "Q: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA:",
+            "rationale": "Let's think step by step.\nMaila read 12 x 2 = <<12*2=24>>24 pages today.\nSo she was able to read a total of 12 + 24 = <<12+24=36>>36 pages since yesterday.\nThere are 120 - 36 = <<120-36=84>>84 pages left to be read.\nSince she wants to read half of the remaining pages tomorrow, then she should read 84/2 = <<84/2=42>>42 pages.",
+            "final_answer": "42"
         },
         {
             "question_idx": 2,
             "question": "Q: Betty is saving money for a new wallet which costs $100. Betty has only half of the money she needs. Her parents decided to give her $15 for that purpose, and her grandparents twice as much as her parents. How much more money does Betty need to buy the wallet?\nA:",
-            "rationale": "Let's think step by step. In the beginning, Betty has only 100 / 2 = $<<100/2=50>>50. Betty's grandparents gave her 15 * 2 = $<<15*2=30>>30. This means, Betty needs 100 - 50 - 30 - 15 = $<<100-50-30-15=5>>5 more.",
+            "rationale": "Let's think step by step.\nIn the beginning, Betty has only 100 / 2 = $<<100/2=50>>50.\nBetty's grandparents gave her 15 * 2 = $<<15*2=30>>30.\nThis means, Betty needs 100 - 50 - 30 - 15 = $<<100-50-30-15=5>>5 more.",
             "final_answer": "5"
-        },
-        {
-            "question_idx": 12,
-            "question": "Q: Randy has 60 mango trees on his farm. He also has 5 less than half as many coconut trees as mango trees. How many trees does Randy have in all on his farm?\nA:",
-            "rationale": "Let's think step by step. Half of the number of Randy's mango trees is 60/2 = <<60/2=30>>30 trees. So Randy has 30 - 5 = <<30-5=25>>25 coconut trees. Therefore, Randy has 60 + 25 = <<60+25=85>>85 treeson his farm.",
-            "final_answer": "85"
         },
         {
             "question_idx": 49,
             "question": "Q: On a school trip to the seashore, Alan and his friends collected shells. Alan collected four times as many shells as Ben did. Ben got a late start and only collected a third of what Laurie did. If Laurie collected 36 shells how many did Alan collect?\nA:",
-            "rationale": "Let's think step by step. Ben collected 36/3=<<36/3=12>>12 shells Alan collected 12*4=<<12*4=48>>48 shells",
+            "rationale": "Let's think step by step.\nBen collected 36/3=<<36/3=12>>12 shells\nAlan collected 12*4=<<12*4=48>>48 shells",
             "final_answer": "48"
-        },
-        {
-            "question_idx": 36,
-            "question": "Q: Lisa, Jack, and Tommy earned $60 from washing cars all week. However, half of the $60 was earned by Lisa. Tommy earned half of what Lisa earned. How much more money did Lisa earn than Tommy?\nA:",
-            "rationale": "Let's think step by step. Lisa earned $60 * 1/2 = $<<60*1/2=30>>30. Tommy earned $30 * 1/2 = $<<30*1/2=15>>15. Lisa earned $30 - $15 = $<<30-15=15>>15 more than Tommy.",
-            "final_answer": "15"
         }
     ]
 }

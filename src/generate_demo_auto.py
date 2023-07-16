@@ -14,12 +14,12 @@ from utils import *
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -39,11 +39,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=6, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
     )
     
     parser.add_argument(
-        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
+    )
+
+    parser.add_argument(
+        "--plots_dir", type=str, default='auto_cot_plots/', help="directory to save the plots"
     )
 
     args = parser.parse_args()
@@ -67,6 +71,8 @@ def main():
 
     args.demos_save_dir = f"{args.demos_save_dir}auto_cot/{args.dataset}/"
 
+    if not os.path.exists(args.plots_dir):
+        os.makedirs(args.plots_dir)
 
     random.seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -121,27 +127,25 @@ def main():
                 rationale = rationale_list[clustered_idx[i][min_idx]].strip()
                 final_answer = final_answer_list[clustered_idx[i][min_idx]].strip()
 
+                nr_reasoning_steps = len(rationale.replace("\n\n", "\n").split("\n"))
+                if args.dataset == 'aqua':
+                    nr_reasoning_steps -= 1
                 if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 \
-                    and len(rationale.replace("\n\n", "\n").split("\n")) <= max_ra_len and final_answer != "":
-                    question_idx = question_idxs[clustered_idx[i][min_idx]]
-                    question = question_list[clustered_idx[i][min_idx]]
-                    rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
-                    rationale = " ".join(rationale.split())
-                    
+                    and nr_reasoning_steps <= max_ra_len and final_answer != "":
                     demo_element = {
-                        "question_idx": question_idx,
-                        "question": question,
+                        "question_idx": question_idxs[clustered_idx[i][min_idx]],
+                        "question": question_list[clustered_idx[i][min_idx]],
                         "rationale": rationale,
                         "final_answer": final_answer               
                         }
                     demos.append(demo_element)
-                    print(f'Q:\n{question}\n')
-                    print(f'R:\n{rationale}\n')
-                    print(f'FA:\n{final_answer}\n\n')
-                    print("")
+                    # print(f'Q:\n{question}\n')
+                    # print(f'R:\n{rationale}\n')
+                    # print(f'FA:\n{final_answer}\n\n')
+                    # print("")
                     break
             else:
-                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 and final_answer != "":
+                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60:
                     question_idx = question_idxs[clustered_idx[i][min_idx]]
                     question = question_list[clustered_idx[i][min_idx]]        
                     demo_element = {
@@ -149,8 +153,8 @@ def main():
                         "question": question,               
                         }
                     demos.append(demo_element)
-                    print(f'Q:\n{question}\n')
-                    print("")
+                    # print(f'Q:\n{question}\n')
+                    # print("")
                     break
 
     demos = {"demo": demos}
@@ -171,14 +175,16 @@ def main():
            c=np.arange(0,num_clusters),cmap=plt.cm.Paired,)
     plt.xticks([])
     plt.yticks([])
-    plt.savefig(f"demos_plots/{args.dataset}_clustering.png", dpi=600)
+    plt.savefig(f"{args.plots_dir}{args.dataset}_clustering_nrclusters_{args.nr_demos}.png", dpi=600)
     plt.close()
 
     if args.answers_are_available:
-        nr_reasoning_steps = [len(rat.strip().replace("\n\n", "\n").replace("\n", " ").strip().split('. ')) -1 for rat in rationale_list]
+        nr_reasoning_steps = [len(rat.strip().replace("\n\n", "\n").split("\n")) for rat in rationale_list]
+        if args.dataset == "aqua":
+            nr_reasoning_steps = [nr - 1 for nr in nr_reasoning_steps]
         plt.figure()
         plt.hist(nr_reasoning_steps, bins=5)
-        plt.savefig(f"demos_plots/{args.dataset}_nr_reasoning_steps.png", dpi=600)
+        plt.savefig(f"{args.plots_dir}{args.dataset}_nr_reasoning_steps.png", dpi=600)
         plt.close()
 
 if __name__ == "__main__":

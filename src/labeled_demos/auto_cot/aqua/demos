@@ -1,40 +1,34 @@
 {
     "demo": [
         {
-            "question_idx": 18,
-            "question": "John found that the average of 15 numbers is 40. If 10 is added to each number then the mean of number is? Answer Choices: (A) 50 (B) 45 (C) 65 (D) 78 (E) 64\nA:",
-            "rationale": "Let's think step by step. (x+x1+...x14)/15 = 40 50 Option A",
-            "final_answer": "A"
-        },
-        {
             "question_idx": 31,
-            "question": "What will be the difference in simple and compound interest on 2000 after three years at the rate of 10 percent per annum? Answer Choices: (A) 160 (B) 42 (C) 62 (D) 20 (E) None of these\nA:",
-            "rationale": "Let's think step by step. For 3 years: Diff.=Sum×(rate)2(300+rate)/(100)3 = 2000×10×10×310/100×100×100 = 62 Answer C",
+            "question": "Q: What will be the difference in simple and compound interest on 2000 after three years at the rate of 10 percent per annum? Answer Choices: (A) 160 (B) 42 (C) 62 (D) 20 (E) None of these + \nA:",
+            "rationale": "Let's think step by step.\nFor 3 years:\nDiff.=Sum×(rate)2(300+rate)/(100)3\n= 2000×10×10×310/100×100×100 = 62\nAnswer C",
             "final_answer": "C"
         },
         {
-            "question_idx": 6,
-            "question": "If (x^2 + 4x - 11)/5 ≤ x + 1, then x could be represented by which of the following? Answer Choices: (A) − 3 ≤ x ≤ 4 (B) − 4 ≤ x ≤ 3 (C) − 3 ≤ x ≤ 3 (D) − 4 ≤ x ≤ − 3 (E) 3 ≤ x ≤ 4\nA:",
-            "rationale": "Let's think step by step. IMO A is correct answer solving through eqautions x^2 +4x-11<= 5x+5 (x+3)(x-4)<=0",
-            "final_answer": "A"
+            "question_idx": 28,
+            "question": "Q: The slant height of a cone is 35 cm and radius of the base is 14cm, find the curved surface of the cone. Answer Choices: (A) 4150 (B) 1780 (C) 1540 (D) 1500 (E) 6100 + \nA:",
+            "rationale": "Let's think step by step.\nπ * 14 * 35= 1540\nAnswer:C",
+            "final_answer": "C"
         },
         {
-            "question_idx": 19,
-            "question": "A person is traveling at 20 km/hr and reached his destiny in 2.5 hr then find the distance? Answer Choices: (A) 53 km (B) 55 km (C) 52 km (D) 60 km (E) 50 km\nA:",
-            "rationale": "Let's think step by step. T = 2.5 hrs = 5/2 hrs D= T*S = 20*5/2 = 50 km Answer is E",
-            "final_answer": "E"
-        },
-        {
-            "question_idx": 15,
-            "question": "If a/b=3/4 and 8a+5b=22,then find the value of a. Answer Choices: (A) 1/2 (B) 3/2 (C) 5/2 (D) 4/2 (E) 7/2\nA:",
-            "rationale": "Let's think step by step. (a/b)=3/4 b=(4/3) a. Therefore, 8a+5b=22 = 8a+5*(4/3) a=22  8a+(20/3) a=22 =44a = 66 = a=(66/44)=3/2 Answer is B.",
+            "question_idx": 34,
+            "question": "Q: A positive whole number has factors of 3 and 5. The number MUST be divisible by: I. 15 II. 30 III. 60 Answer Choices: (A) I & II (B) III (C) I & III (D) II & III (E) II + \nA:",
+            "rationale": "Let's think step by step.\n15 , 30 is not divisible by 60.But 60 is divisible by 3,5,15,30\nSo answer is III\nAnswer : B",
             "final_answer": "B"
         },
         {
-            "question_idx": 9,
-            "question": "If X and Y are digits and 8XY is a 3-digit number that is divisible by 2, which of the following is a possible product of X and Y? Answer Choices: (A) 15 (B) 31 (C) 12 (D) 27 (E) 91\nA:",
-            "rationale": "Let's think step by step. Key to this question is to remember the fact that a number divisible by 2 must end with even OR 0 (i.e Y). If Y had to be 0, product should also be 0 regardless of X. Otherwise, product is a multiple of 2. Only one answer choice meets the requirement. Ans C.",
-            "final_answer": "C"
+            "question_idx": 19,
+            "question": "Q: A person is traveling at 20 km/hr and reached his destiny in 2.5 hr then find the distance? Answer Choices: (A) 53 km (B) 55 km (C) 52 km (D) 60 km (E) 50 km + \nA:",
+            "rationale": "Let's think step by step.\nT = 2.5 hrs = 5/2 hrs\nD= T*S = 20*5/2 = 50 km\nAnswer is E",
+            "final_answer": "E"
+        },
+        {
+            "question_idx": 6,
+            "question": "Q: If (x^2 + 4x - 11)/5 ≤ x + 1, then x could be represented by which of the following? Answer Choices: (A) − 3 ≤ x ≤ 4 (B) − 4 ≤ x ≤ 3 (C) − 3 ≤ x ≤ 3 (D) − 4 ≤ x ≤ − 3 (E) 3 ≤ x ≤ 4 + \nA:",
+            "rationale": "Let's think step by step.\nIMO A is correct answer\nsolving through eqautions\nx^2 +4x-11<= 5x+5\n(x+3)(x-4)<=0",
+            "final_answer": "A"
         }
     ]
 }

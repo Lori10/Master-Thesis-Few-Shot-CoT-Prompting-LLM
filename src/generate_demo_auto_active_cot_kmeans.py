@@ -118,7 +118,7 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Dataloader size: {len(dataloader)}")
+    print(f"Proceeding with data size: {len(dataloader)}")
 
     corpus = [example['question'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]

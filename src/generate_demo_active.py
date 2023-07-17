@@ -24,11 +24,11 @@ def main():
     elif not os.path.exists(args.demos_save_dir + 'active_cot/' + args.dataset):
         os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
 
-    uncertainty_estimation_dir = f"{args.demos_save_dir}active_cot/uncertainty_estimation/"
-    if not os.path.exists(uncertainty_estimation_dir):
-        os.makedirs(uncertainty_estimation_dir)
-
     args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
+
+    if not os.path.exists(args.uncertainty_scores_dir):
+        os.makedirs(args.uncertainty_scores_dir)
+    uncertainty_filepath = f"{args.uncertainty_scores_dir}Active_{args.dataset}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -50,13 +50,13 @@ def main():
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
         
-    with open(f"{uncertainty_estimation_dir}{args.dataset}_k_{args.num_trails}.txt", 'w') as f:
+    with open(uncertainty_filepath, 'w') as f:
         try:
             f.write(json.dumps(result, indent=4))
         except:
             for item in result:
                 try:
-                    if args.dataset in ("gsm8k", "asdiv", "svamp", "singleeq", "addsub", "multiarith"):
+                    if args.dataset in ("gsm8k"):
                         f.write(f"{item}, uncertainty: {len(item[-1])}, variance: {item[1]}\n")
                     else:
                         f.write(f"{item}, uncertainty: {len(item[-1])}\n")
@@ -70,7 +70,7 @@ def generate_uncertainty_qes(args, example):
         assert len(given_prompt_list) == 1
         given_prompt = given_prompt_list[0]
 
-    if args.dataset in ("gsm8k"):
+    if args.dataset == "gsm8k":
         # the float is reserved for variance calculation result
         if args.answers_are_available:
             uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
@@ -96,11 +96,11 @@ def generate_uncertainty_qes(args, example):
             prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
         
         
-        responses, _, _ = predict_llm(template=prompt, question=example['question'], model=args.model,
+        response, _, _ = predict_llm(template=prompt, question=example['question'], model=args.model,
                                       temperature=args.temperature) 
 
         # extract the pred answer
-        pred_ans = answer_extraction(args, responses)
+        pred_ans = answer_extraction(args, response)
         print(f'Single Trial Prediction: {pred_ans}\n')
 
         # check uncertainty
@@ -117,7 +117,7 @@ def generate_uncertainty_qes(args, example):
                 uncertainty_record['occurrence'][NO_SOLUTION] = 1
 
     # calculate the variance for the question (only applied to datasets with numerical answer)
-    if args.dataset in ("gsm8k"):
+    if args.dataset == "gsm8k":
         ans_list = []
         for ans, occurs in uncertainty_record['occurrence'].items():
             for i in range(int(occurs)):
@@ -146,7 +146,7 @@ def create_uncertainty(args, dataloader):
 
     if args.sort_by == "disagreement":
         result.sort(key=lambda x: -len(x['occurrence']))
-    elif args.sort_by == "variance" and args.dataset in ("gsm8k"):
+    elif args.sort_by == "variance" and args.dataset == "gsm8k":
         result.sort(key=lambda x: -x['variance'])
     elif args.sort_by == "entropy" :
         result.sort(key=lambda x:-x['entropy'])
@@ -172,19 +172,19 @@ def arg_parser():
         "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
     )
     parser.add_argument(
-        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     # parser.add_argument(
     #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     # )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=8, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     # parser.add_argument(
     #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
     # )
     parser.add_argument(
-        "--temperature", type=float, default=0.7, help=""
+        "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
@@ -198,7 +198,11 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+    )
+
+    parser.add_argument(
+        "--uncertainty_scores_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
     )
     
     args = parser.parse_args()

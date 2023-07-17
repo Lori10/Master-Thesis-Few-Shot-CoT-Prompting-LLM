@@ -1,0 +1,37 @@
+{
+    "demo": [
+        {
+            "question_idx": 1,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "variance": 384.0,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "10": 3,
+                "50": 2
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "variance": 23362.56,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "312": 3,
+                "624": 2
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 7,
+            "question": "Q: Ken created a care package to send to his brother, who was away at boarding school.  Ken placed a box on a scale, and then he poured into the box enough jelly beans to bring the weight to 2 pounds.  Then, he added enough brownies to cause the weight to triple.  Next, he added another 2 pounds of jelly beans.  And finally, he added enough gummy worms to double the weight once again.  What was the final weight of the box of goodies, in pounds?\nA:",
+            "variance": 34.56,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "28": 2,
+                "16": 3
+            },
+            "disagreement": 2
+        }
+    ]
+}

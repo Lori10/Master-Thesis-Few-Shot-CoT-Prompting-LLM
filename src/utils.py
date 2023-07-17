@@ -190,7 +190,7 @@ def load_data(args):
                         opt = opt.replace(')', ') ')
                         qes += f" ({opt}"
 
-                    questions.append(qes + '\nA:')
+                    questions.append(f'Q: {qes} + \nA:')
         else:
             raise NotImplementedError
 
@@ -266,17 +266,9 @@ def answer_extraction(args, responses):
         temp = temp.replace(",", "")
         temp = [s for s in re.findall(r'-?\d+\.?\d*', temp)]
     elif args.dataset in ("aqua"):
-        if 'none of the answer choices are correct' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or "The answer is not listed in the answer choices" in responses.lower() or responses == '':
+        if 'none of the answer choices are correct' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or 'The answer is not given in the answer choices' in responses.lower() or "The answer is not listed in the answer choices" in responses.lower():
             return 'No answer'
         temp = re.findall(r'A|B|C|D|E', temp)
-    # elif args.dataset in ("strategyqa", "coin_flip"):
-    #     temp = temp.lower()
-    #     temp = re.sub("\"|\'|\n|\.|\s|\:|\,"," ", temp)
-    #     temp = temp.split(" ")
-    #     temp = [i for i in temp if i in ("yes", "no")]
-    # elif args.dataset in ("last_letters"):
-    #     temp = re.sub("\"|\'|\n|\.|\s","", temp)
-    #     temp = [temp]
     
     if len(temp) != 0:
         answer = temp[-1]

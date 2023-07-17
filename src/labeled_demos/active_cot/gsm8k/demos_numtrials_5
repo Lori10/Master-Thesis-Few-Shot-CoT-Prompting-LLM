@@ -1,0 +1,43 @@
+{
+    "demo": [
+        {
+            "question_idx": 1,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "rationale": "Let's think step by step.\nWeng earns 12/60 = $<<12/60=0.2>>0.2 per minute.\nWorking 50 minutes, she earned 0.2 x 50 = $<<0.2*50=10>>10.",
+            "final_answer": "10",
+            "variance": 256.0,
+            "entropy": 0.5004024235381879,
+            "occurrence": {
+                "10": 4,
+                "50": 1
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "rationale": "Let's think step by step.\nHe writes each friend 3*2=<<3*2=6>>6 pages a week\nSo he writes 6*2=<<6*2=12>>12 pages every week\nThat means he writes 12*52=<<12*52=624>>624 pages a year",
+            "final_answer": "624",
+            "variance": 23362.56,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "624": 3,
+                "312": 2
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 7,
+            "question": "Q: Ken created a care package to send to his brother, who was away at boarding school.  Ken placed a box on a scale, and then he poured into the box enough jelly beans to bring the weight to 2 pounds.  Then, he added enough brownies to cause the weight to triple.  Next, he added another 2 pounds of jelly beans.  And finally, he added enough gummy worms to double the weight once again.  What was the final weight of the box of goodies, in pounds?\nA:",
+            "rationale": "Let's think step by step.\nTo the initial 2 pounds of jelly beans, he added enough brownies to cause the weight to triple, bringing the weight to 2*3=<<2*3=6>>6 pounds.\nNext, he added another 2 pounds of jelly beans, bringing the weight to 6+2=<<6+2=8>>8 pounds.\nAnd finally, he added enough gummy worms to double the weight once again, to a final weight of 8*2=<<8*2=16>>16 pounds.",
+            "final_answer": "16",
+            "variance": 34.56,
+            "entropy": 0.6730116670092565,
+            "occurrence": {
+                "16": 2,
+                "28": 3
+            },
+            "disagreement": 2
+        }
+    ]
+}

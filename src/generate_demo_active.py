@@ -28,7 +28,12 @@ def main():
 
     if not os.path.exists(args.uncertainty_scores_dir):
         os.makedirs(args.uncertainty_scores_dir)
-    uncertainty_filepath = f"{args.uncertainty_scores_dir}Active_{args.dataset}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
+
+    if '/' in args.model_id:
+        model_name = args.model_id.replace('/', '-')  
+    else:
+        model_name = args.model_id 
+    uncertainty_filepath = f"{args.uncertainty_scores_dir}method_active_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -96,12 +101,12 @@ def generate_uncertainty_qes(args, example):
             prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
         
         
-        response, _, _ = predict_llm(template=prompt, question=example['question'], model=args.model,
-                                      temperature=args.temperature) 
+        response, _, _ = predict_llm(template=prompt, question=example['question'], args=args) 
 
         # extract the pred answer
         pred_ans = answer_extraction(args, response)
-        print(f'Single Trial Prediction: {pred_ans}\n')
+        print(f'Single Trial Rationale:\n{response}')
+        print(f'Single Trial Final Answer: {pred_ans}\n')
 
         # check uncertainty
         if pred_ans != "":
@@ -165,12 +170,17 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="prompts_active", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use"
     )
 
     parser.add_argument(
-        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
+        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
+
+    parser.add_argument(
+        "--model_type", type=str, default="huggingfacehub", choices=["openai", "huggingfacehub"], help="the type of model"
+    )
+    
     parser.add_argument(
         "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )

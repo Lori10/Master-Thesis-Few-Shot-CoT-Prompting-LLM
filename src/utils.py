@@ -15,6 +15,7 @@ from langchain.chains import LLMChain
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback 
+from langchain import HuggingFaceHub
 
 
 # define for no solution if GPT cannot generate a valid solution
@@ -22,7 +23,7 @@ from langchain.callbacks import get_openai_callback
 NO_SOLUTION = '-10086'
 
 
-def predict_llm(template: str, model:str, question:str, temperature=0.7) -> Tuple[str, int]:
+def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
     """
         Run a LLMChain for given a prompt template and question. Return the completion and
         total nr of processed tokens during the run.
@@ -37,10 +38,16 @@ def predict_llm(template: str, model:str, question:str, temperature=0.7) -> Tupl
 
     """
     prompt = PromptTemplate(input_variables=["question"], template=template)
-    # llm = OpenAI(model_name=model, temperature=temperature, max_tokens=max_tokens, stop=stop, 
-    #              top_p=1, frequency_penalty=0, presence_penalty=0)
 
-    llm = OpenAI(model_name=model, temperature=temperature)
+    if args.model_type == 'openai':
+        llm = OpenAI(model_name=args.model_id, temperature=args.temperature)
+    elif args.model_type == 'huggingfacehub':
+        os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+        llm = HuggingFaceHub(repo_id=args.model_id, model_kwargs={"temperature": args.temperature,
+                                                                   "trust_remote_code": True,
+                                                                   "max_seq_len": 4096})
+
+    
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
     with get_openai_callback() as cb:
         result = llm_chain.run(question)
@@ -201,9 +208,8 @@ def load_data(args):
 # return a customized dataloader of batches
 # Not PyTorch dataloader, it supprts random index(slice) access
 def create_dataloader(args)->list:
-    set_random_seed(args.random_seed)
+    #set_random_seed(args.random_seed)
     dataset = []
-
     if args.answers_are_available:
         questions, rationales, answers = load_data(args)
         for idx in range(len(questions)):

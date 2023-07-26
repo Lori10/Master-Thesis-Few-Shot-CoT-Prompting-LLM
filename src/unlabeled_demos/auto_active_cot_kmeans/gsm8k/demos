@@ -1,37 +1,34 @@
 {
     "demo": [
         {
+            "question_idx": 5,
+            "question": "Q: Mark has a garden with flowers. He planted plants of three different colors in it. Ten of them are yellow, and there are 80% more of those in purple. There are only 25% as many green flowers as there are yellow and purple flowers. How many flowers does Mark have in his garden?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "80": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 3,
+            "question": "Q: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "24": 5
+            },
+            "disagreement": 1
+        },
+        {
             "question_idx": 0,
             "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
             "variance": 0.0,
             "entropy": 0.0,
             "occurrence": {
-                "72": 5
+                "5": 5
             },
             "disagreement": 1
-        },
-        {
-            "question_idx": 9,
-            "question": "Q: Tina makes $18.00 an hour.  If she works more than 8 hours per shift, she is eligible for overtime, which is paid by your hourly wage + 1/2 your hourly wage.  If she works 10 hours every day for 5 days, how much money does she make?\nA:",
-            "variance": 162931.36000000002,
-            "entropy": 0.9502705392332347,
-            "occurrence": {
-                "990": 3,
-                "414": 1,
-                "5": 1
-            },
-            "disagreement": 3
-        },
-        {
-            "question_idx": 5,
-            "question": "Q: Mark has a garden with flowers. He planted plants of three different colors in it. Ten of them are yellow, and there are 80% more of those in purple. There are only 25% as many green flowers as there are yellow and purple flowers. How many flowers does Mark have in his garden?\nA:",
-            "variance": 5.76,
-            "entropy": 0.5004024235381879,
-            "occurrence": {
-                "35": 4,
-                "29": 1
-            },
-            "disagreement": 2
         }
     ]
 }

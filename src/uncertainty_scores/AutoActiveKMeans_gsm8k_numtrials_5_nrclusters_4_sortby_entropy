@@ -1,0 +1,98 @@
+{
+    "cluster_0": [
+        {
+            "question_idx": 5,
+            "question": "Q: Mark has a garden with flowers. He planted plants of three different colors in it. Ten of them are yellow, and there are 80% more of those in purple. There are only 25% as many green flowers as there are yellow and purple flowers. How many flowers does Mark have in his garden?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "10": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 12,
+            "question": "Q: Randy has 60 mango trees on his farm. He also has 5 less than half as many coconut trees as mango trees. How many trees does Randy have in all on his farm?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "60": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "cluster_1": [
+        {
+            "question_idx": 3,
+            "question": "Q: Julie is reading a 120-page book. Yesterday, she was able to read 12 pages and today, she read twice as many pages as yesterday. If she wants to read half of the remaining pages tomorrow, how many pages should she read?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "24": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "2": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 6,
+            "question": "Q: Albert is wondering how much pizza he can eat in one day. He buys 2 large pizzas and 2 small pizzas. A large pizza has 16 slices and a small pizza has 8 slices. If he eats it all, how many pieces does he eat that day?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "2": 5
+            },
+            "disagreement": 1
+        }
+    ],
+    "cluster_2": [
+        {
+            "question_idx": 0,
+            "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "2": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 1,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "2": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 2,
+            "question": "Q: Betty is saving money for a new wallet which costs $100. Betty has only half of the money she needs. Her parents decided to give her $15 for that purpose, and her grandparents twice as much as her parents. How much more money does Betty need to buy the wallet?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "50": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 9,
+            "question": "Q: Tina makes $18.00 an hour.  If she works more than 8 hours per shift, she is eligible for overtime, which is paid by your hourly wage + 1/2 your hourly wage.  If she works 10 hours every day for 5 days, how much money does she make?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "1": 5
+            },
+            "disagreement": 1
+        }
+    ]
+}

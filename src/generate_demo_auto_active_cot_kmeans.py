@@ -25,12 +25,18 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
+        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
+
+    parser.add_argument(
+        "--model_type", type=str, default="huggingfacehub", choices=["openai", "huggingfacehub"], help="the type of model"
+    )
+
     parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
     )
@@ -39,7 +45,7 @@ def parse_arguments():
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=10, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=13, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -54,10 +60,10 @@ def parse_arguments():
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--dir_prompts", type=str, default="prompts_active", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use"
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=3, help='number of demonstrations'
+        "--nr_demos", type=int, default=4, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -109,7 +115,12 @@ def main():
 
     if not os.path.exists(args.uncertainty_per_cluster_dir):
         os.makedirs(args.uncertainty_per_cluster_dir)
-    uncertainty_filepath = f"{args.uncertainty_per_cluster_dir}AutoActiveKMeans_{args.dataset}_numtrials_{args.num_trails}_nrclusters_{args.nr_demos}_sortby_{args.sort_by}"
+
+    if '/' in args.model_id:
+        model_name = args.model_id.replace('/', '-')   
+    else:
+        model_name = args.model_id
+    uncertainty_filepath = f"{args.uncertainty_per_cluster_dir}method_AutoActiveKMeans_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_nrclusters_{args.nr_demos}_sortby_{args.sort_by}"
 
     random.seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -129,7 +140,7 @@ def main():
     max_ra_len = args.max_ra_len
     num_clusters = args.nr_demos
     encoder = OpenAIEmbeddings()
-
+    
     corpus_embeddings = np.array(encoder.embed_documents(corpus))
     clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
@@ -150,14 +161,15 @@ def main():
                                                     'question' : question,
             })
         
-    cluster_uncertainty_records = {}
+    cluster_uncertainty_records_dic = {}
     demos = []
     for cluster_id in range(num_clusters):
-        print(f'Cluster {cluster_id+1} has {len(cluster_to_examples[cluster_id])} examples.\n')
+        print(f'Cluster {cluster_id} has {len(cluster_to_examples[cluster_id])} examples.\n')
 
-        sorted_by_uncertainty_cluster_examples = create_uncertainty(args, cluster_to_examples[cluster_id])
-        cluster_uncertainty_records[f'cluster_{cluster_id}'] = sorted_by_uncertainty_cluster_examples
-        for example in sorted_by_uncertainty_cluster_examples:            
+        cluster_examples_filtered = []
+        cluster_examples = cluster_to_examples[cluster_id]
+
+        for example in cluster_examples:
             question_idx = example['question_idx']
             question = example['question']
             if args.answers_are_available:
@@ -174,31 +186,28 @@ def main():
                         "rationale": rationale,
                         "final_answer": final_answer,
                         }
-                    print(f'Q:\n{question}\n')
-                    print(f'R:\n{rationale}\n')
-                    print(f'FA:\n{final_answer}\n\n')
-                    print("")
-
-                    demos.append(demo_element)
-                    break
+                    cluster_examples_filtered.append(demo_element)
+                    
             else:
                 if len(question.strip().split()) <= 60:        
-                    demo_element = {
-                        "question_idx" : question_idx,
-                        "question": question,
-                        }
-                    print(f'Q:\n{question}\n')
-                    print("")
-                    demos.append(demo_element)
-                    break
-                    
+                    cluster_examples_filtered.append(example)
+        
+        print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples.\n')
+        if len(cluster_examples_filtered) > 0:
+            cluster_uncertainty_records = create_uncertainty(args, cluster_examples_filtered)  
+            print(f'Highest uncertainty example:\n{cluster_uncertainty_records[0]}')                   
+            demos.append(cluster_uncertainty_records[0])
+            cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = cluster_uncertainty_records
+        else:
+            print(f'After filtering out no examples left for cluster {cluster_id+1}.\n')
+
 
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
     with open(uncertainty_filepath, 'w', encoding="utf-8") as write_f:
-        json.dump(cluster_uncertainty_records, write_f, indent=4, ensure_ascii=False)
+        json.dump(cluster_uncertainty_records_dic, write_f, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":
     main()

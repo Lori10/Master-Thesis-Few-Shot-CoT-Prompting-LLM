@@ -16,6 +16,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy import stats
 import pickle
 from sklearn.metrics import pairwise_distances
+from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
+from langchain.vectorstores import FAISS
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 
 
 def parse_arguments():
@@ -99,9 +103,9 @@ def parse_arguments():
         "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
     )
 
-    parser.add_argument(
-        "--auto_active_limit_nr", type=int, default=500, help='the number of examples to use for auto-active labeling'
-    )
+    # parser.add_argument(
+    #     "--auto_active_limit_nr", type=int, default=500, help='the number of examples to use for auto-active labeling'
+    # )
 
     args = parser.parse_args()
 
@@ -188,18 +192,12 @@ def main():
     distance_uncertainty_filepath = f"{args.uncertainty_scores_dir}method_AutoActiveKMeansPlusPlus_{greedy_str}_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
 
     set_random_seed(args.random_seed)
-
-    
     dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Proceeding with data size: {len(dataloader)}")
-
-    # if args.auto_active_limit_nr > len(dataloader):
-    #     args.auto_active_limit_nr = len(dataloader)
-    # if args.nr_demos > args.auto_active_limit_nr:
 
     #uncertainty_list = []
     corpus = []
@@ -236,7 +234,7 @@ def main():
     print(f'Iteration: {j}')
     print(f'All indices: {questions_idxs}')
     print(f'Selected indices: {selected_idxs}')
-    while j < args.nr_demos:
+    while j < args.auto_active_limit_nr:
         if len(selected_data) == 1:
             D2 = pairwise_distances(embeddings, selected_data, metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
             if args.distance_metric == 'cosine':
@@ -318,12 +316,41 @@ def main():
             print("Number of distances equal to 0: ", len(D2[D2 == 0]))
         print('*' * 50)
 
-    demos = {"demo": demos}
-    with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
-        json.dump(demos, write_f, indent=4, ensure_ascii=False)
+    # examples = [{'questi'} for example in demos]
+    # examples = [
+    #     {"input": "happy", "output": "sad"},
+    #     {"input": "tall", "output": "short"},
+    #     {"input": "energetic", "output": "lethargic"},
+    #     {"input": "sunny", "output": "gloomy"},
+    #     {"input": "windy", "output": "calm"},
+    # ]
+    example_prompt = PromptTemplate(
+    input_variables=["question", "rationale"],
+    template="{question}\n{rationale}",
+    )
 
-    with open(distance_uncertainty_filepath, 'w') as f:
-        f.write(json.dumps(all_info_list, indent=2))
+    example_selector = SemanticSimilarityExampleSelector.from_examples(
+    examples, 
+    OpenAIEmbeddings(), 
+    FAISS, 
+    k=args.nr_demos
+    )
+    similar_prompt = FewShotPromptTemplate(
+        example_selector=example_selector,
+        example_prompt=example_prompt,
+        #prefix="Give the antonym of every input",
+        suffix="Input: {question}\nOutput:", 
+        input_variables=["question"],
+    )
+
+    print(similar_prompt.format(question=test_question))
+
+    # demos = {"demo": demos}
+    # with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+    #     json.dump(demos, write_f, indent=4, ensure_ascii=False)
+
+    # with open(distance_uncertainty_filepath, 'w') as f:
+    #     f.write(json.dumps(all_info_list, indent=2))
 
 if __name__ == "__main__":
     main()

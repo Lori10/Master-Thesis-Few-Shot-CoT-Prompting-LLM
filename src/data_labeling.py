@@ -47,9 +47,9 @@ def parse_arguments():
         "--llm_labeled_demos_save_dir", type=str, default="llm_labeled_demos/", help="the directory where the labeled demos should be saved"
     )
 
-    parser.add_argument(
-        "--random_seed", type=int, default=42, help="seed for selecting random samples"
-    )
+    # parser.add_argument(
+    #     "--random_seed", type=int, default=42, help="seed for selecting random samples"
+    # )
 
     args = parser.parse_args()
 

@@ -79,8 +79,8 @@ def generate_uncertainty_qes(args, example):
         # the float is reserved for variance calculation result
         if args.answers_are_available:
             uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
-                                'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
-                                'variance':float, 'entropy':float, 'occurrence':{}}
+                                 'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
+                                 'variance':float, 'entropy':float, 'occurrence':{}}
         else:
             uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                   'variance':float, 'entropy':float, 'occurrence':{}}
@@ -101,7 +101,7 @@ def generate_uncertainty_qes(args, example):
             prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
         
         
-        response, _, _ = predict_llm(template=prompt, question=example['question'], args=args) 
+        response = predict_llm(template=prompt, question=example['question'], args=args) 
 
         # extract the pred answer
         pred_ans = answer_extraction(args, response)

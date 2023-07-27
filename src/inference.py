@@ -57,21 +57,21 @@ def main():
     if args.output_dir is not None:
         for i in range(len(correct_list)):
             acc_prompt_dic = {'prompt' : input_prompt_list[i],
-                              'accuracy': correct_list[i] / args.qes_limit}
+                              'accuracy': correct_list[i] / len(dataloader)}
             acc_prompt_list.append(acc_prompt_dic)
 
             wrong = wrong_list[i]
             QA_record = QA_record_list[i]
             path = f"{args.output_dir}wrong_prompt{i+1}.txt"
             orginal_stdout = sys.stdout
-            with open(path, 'w') as f:
+            with open(path, 'w', encoding='utf-8') as f:
                 sys.stdout = f
                 for j in wrong:
                     print(str(j))
             sys.stdout = orginal_stdout
 
             path = f"{args.output_dir}QA_record_prompt{i+1}.txt"
-            with open(path, 'w') as f:
+            with open(path, 'w', encoding='utf-8') as f:
                 f.write(json.dumps(QA_record, indent=4))
 
         overall_mean = np.mean([dic['accuracy'] for dic in acc_prompt_list])
@@ -85,30 +85,31 @@ def single_run_inference(single_prompt, question_pool, args):
     correct_count = 0
     wrong = [{'prompt' : single_prompt}]
     QA_record = [{'prompt': single_prompt}]
-    
+    print_prompt_bool = True 
+
     for qes_num, qes in enumerate(question_pool):
         # create a list for each question to record all answers generated from self-consistency
         all_self_consistency_ans = []
 
         prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
-        print(f'PROMPT: {prompt}')
-        sys.exit(0)
+
+        if print_prompt_bool:
+            print(f'PROMPT: {prompt}')
+            print_prompt_bool = False
 
         # enable self-consistency if multipath > 1
         for _ in range(0, args.multipath):
+            
+            response = predict_llm(template=prompt, question=qes['question'], args=args) 
 
-            responses, _, _ = predict_llm(template=prompt, question=qes['question'], model=args.model,
-                                          temperature=args.temperature)
 
-            pred_ans = answer_extraction(args, responses)
+            pred_ans = answer_extraction(args, response)
 
             # create a dict to record each Q&A for later review purposes
             QA = {}
             QA['qes_idx'] = qes['question_idx']
             QA['Q'] = qes['question']
-            #QA['A'] = responses['choices'][0]['text']
-            #QA['A'] = responses.choices[0].message.content
-            QA['Pred_Rationale'] = responses
+            QA['Pred_Rationale'] = response
             QA['Pred_FinalAnswer'] = pred_ans
             QA_record.append(QA)
 
@@ -117,7 +118,7 @@ def single_run_inference(single_prompt, question_pool, args):
                 print('-' * 20)
                 print(f"Dataset index: {qes['question_idx']}")
                 print(f"Question: \n" + qes['question'])
-                print(f"Let's think step by step.\n" + responses)
+                print(f"Let's think step by step.\n" + response)
 
                 print(f"Prediction: {pred_ans}")
                 print(f"Ground Truth: {qes['final_answer']}")
@@ -151,18 +152,22 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/aqua", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/gsm8k", help="prompts to use"
     )
     parser.add_argument(
-        "--model", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+    )
+
+    parser.add_argument(
+        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
     )
     parser.add_argument(
         "--method", type=str, default="cot", choices=["standard", "cot"], help="method"
@@ -174,13 +179,13 @@ def arg_parser():
     #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
     # )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=50, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=10, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     # parser.add_argument(
     #     "--api_time_interval", type=float, default=1.0, help="how many seconds to sleep between each request"
     # )
     parser.add_argument(
-        "--temperature", type=float, default=0, help=""
+        "--temperature", type=float, default=0, help="temperature used for llm decoding"
     )
     parser.add_argument(
         "--multipath", type=int, default=1, help="self-consistency path num"

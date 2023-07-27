@@ -49,10 +49,11 @@ def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
 
     
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
-    with get_openai_callback() as cb:
-        result = llm_chain.run(question)
+    return llm_chain.run(question)
+    # with get_openai_callback() as cb:
+    #     result = llm_chain.run(question)
         
-    return result, cb.total_tokens, cb.total_cost
+    # return result, cb.total_tokens, cb.total_cost
 
 def fix_seed(seed):
     # random

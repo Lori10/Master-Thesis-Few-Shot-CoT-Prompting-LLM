@@ -23,12 +23,16 @@ def main():
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Dataloader size: {len(dataloader)}")
 
-    if args.method == "standard":
-        input_prompt_list = create_several_input_prompts(args, cot_flag=False)
-    elif args.method == "cot":
-        input_prompt_list = create_several_input_prompts(args, cot_flag=True)
+    if args.prompt_is_built:
+        with open(args.prompts_dir, 'r') as file:
+            input_prompt_list = [file.read()]
     else:
-        raise NotImplementedError
+        if args.method == "standard":
+            input_prompt_list = create_several_input_prompts(args, cot_flag=False)
+        elif args.method == "cot":
+            input_prompt_list = create_several_input_prompts(args, cot_flag=True)
+        else:
+            raise NotImplementedError
 
     start = time.time()
     print("Inference Start")
@@ -81,25 +85,25 @@ def main():
             f.write(json.dumps(acc_prompt_list, indent=4))
 
     
-def single_run_inference(single_prompt, question_pool, args):
+def single_run_inference(prompt_examples, question_pool, args):
     correct_count = 0
-    wrong = [{'prompt' : single_prompt}]
-    QA_record = [{'prompt': single_prompt}]
+    wrong = [{'prompt' : prompt_examples}]
+    QA_record = [{'prompt': prompt_examples}]
     print_prompt_bool = True 
 
     for qes_num, qes in enumerate(question_pool):
         # create a list for each question to record all answers generated from self-consistency
         all_self_consistency_ans = []
 
-        prompt = single_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
-
+        prompt = prompt_examples + "Q: " + "{question}" + "\nA: Let's think step by step."
+        
         if print_prompt_bool:
             print(f'PROMPT: {prompt}')
             print_prompt_bool = False
-
+            sys.exit(0)
+            
         # enable self-consistency if multipath > 1
         for _ in range(0, args.multipath):
-            
             response = predict_llm(template=prompt, question=qes['question'], args=args) 
 
 
@@ -160,7 +164,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/gsm8k", help="prompts to use"
+        "--prompts_dir", type=str, default="labeled_demos/auto_active_cot_kmeans_plusplus_greedy/gsm8k/demo.txt", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
@@ -200,6 +204,11 @@ def arg_parser():
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
+
+    parser.add_argument(
+        "--prompt_is_built", type=bool, default=True, help="if the prompt is already built as a string, set this to true"
+    )
+
     
     args = parser.parse_args()
 

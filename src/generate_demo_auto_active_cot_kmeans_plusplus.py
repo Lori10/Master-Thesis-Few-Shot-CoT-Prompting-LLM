@@ -56,7 +56,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use for uncertainty estimation"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use for uncertainty estimation"
     )
     
     parser.add_argument(

@@ -23,7 +23,7 @@ from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeansPlusPlus")
+    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeansPlusPlusRetrieval")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
@@ -60,7 +60,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use for uncertainty estimation"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use for uncertainty estimation"
     )
     
     parser.add_argument(
@@ -93,7 +93,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=9, help='number of demonstrations'
+        "--nr_demos", type=int, default=2, help='number of demonstrations'
     )
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
@@ -103,9 +103,16 @@ def parse_arguments():
         "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
     )
 
-    # parser.add_argument(
-    #     "--auto_active_limit_nr", type=int, default=500, help='the number of examples to use for auto-active labeling'
-    # )
+    # test_question_gsm8k = 'Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?
+    # test_question_aqua = ''
+    parser.add_argument(
+        "--test_question", type=str, default='Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?', help='test question for few-shot cot'
+    )
+
+    parser.add_argument(
+        "--auto_active_limit_nr", type=int, default=5, help='the number of examples to use for auto-active labeling'
+    )
+
 
     args = parser.parse_args()
 
@@ -316,7 +323,11 @@ def main():
             print("Number of distances equal to 0: ", len(D2[D2 == 0]))
         print('*' * 50)
 
-    # examples = [{'questi'} for example in demos]
+
+    examples = [{'question' : example['question'],
+                 'answer': ' ' + example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n\n'
+                 } for example in demos]
+    
     # examples = [
     #     {"input": "happy", "output": "sad"},
     #     {"input": "tall", "output": "short"},
@@ -325,8 +336,8 @@ def main():
     #     {"input": "windy", "output": "calm"},
     # ]
     example_prompt = PromptTemplate(
-    input_variables=["question", "rationale"],
-    template="{question}\n{rationale}",
+    input_variables=["question", "answer"],
+    template="{question}\n{answer}",
     )
 
     example_selector = SemanticSimilarityExampleSelector.from_examples(
@@ -339,11 +350,15 @@ def main():
         example_selector=example_selector,
         example_prompt=example_prompt,
         #prefix="Give the antonym of every input",
-        suffix="Input: {question}\nOutput:", 
+        suffix="Split:" + "{question}", 
         input_variables=["question"],
     )
 
-    print(similar_prompt.format(question=test_question))
+    formatted_prompt = similar_prompt.format(question=args.test_question).split('Split:')[0]
+    print(f'Final Prompt:\n{formatted_prompt}')
+
+    with open(args.demos_save_dir + 'demo.txt', 'w') as file:
+        file.write(formatted_prompt)
 
     # demos = {"demo": demos}
     # with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:

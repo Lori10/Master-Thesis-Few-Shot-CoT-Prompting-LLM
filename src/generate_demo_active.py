@@ -161,28 +161,28 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--model_type", type=str, default="huggingfacehub", choices=["openai", "huggingfacehub"], help="the type of model"
+        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
     )
     
     parser.add_argument(
-        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     # parser.add_argument(
     #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
@@ -200,7 +200,7 @@ def arg_parser():
         "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
     )
     parser.add_argument(
-        "--sort_by", type=str, default='disagreement', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
+        "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
 
     parser.add_argument(
@@ -208,7 +208,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     parser.add_argument(

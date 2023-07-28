@@ -6,6 +6,7 @@ import json
 from generate_demo_active import predict_llm 
 import sys
 import load_env_vars
+from constant_vars import *
 
 def main():
     # load arguments from terminal
@@ -22,21 +23,45 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    
     print(f"Dataloader size: {len(dataloader)}")
+    print(f'Method: {args.method}')
+    print(f'Dataset: {args.dataset}')
+    print(f'Model: {args.model_id}')
+    print(f'Multipath: {args.multipath}')
+    print(f'Temperature: {args.temperature}')
 
-    if args.prompt_is_built:
-        input_prompt_list = []
-        for file_path in os.listdir(args.dir_prompts):
-            prompt_full_path = os.path.join(args.dir_prompts, file_path)
-            with open(prompt_full_path, 'r', encoding='utf-8') as file:
-                input_prompt_list.append(file.read())
+    instructions = ' Follow the format of the examples below:\n'
+    if args.dataset == "gsm8k":
+        args.prefix = prefix_gsm8k
+    elif args.dataset == "aqua":
+        args.prefix = prefix_aqua
     else:
-        if args.method == "standard":
-            input_prompt_list = create_several_input_prompts(args, cot_flag=False)
-        elif args.method == "cot":
-            input_prompt_list = create_several_input_prompts(args, cot_flag=True)
+        raise NotImplementedError("dataset not implemented")
+
+    if args.method in ['cot', 'standard']: 
+        args.prefix = args.prefix + instructions
+    elif args.method == 'zero_shot_cot':
+        args.prefix = args.prefix + '\n'
+    else:
+        raise NotImplementedError
+
+    if args.method == 'zero_shot_cot':
+        input_prompt_list = [args.prefix + "Q: " + "{question}" + "\nA: Let's think step by step."]
+    elif args.method == 'cot':
+        if args.prompt_is_built:
+            input_prompt_list = []
+            for file_path in os.listdir(args.dir_prompts):
+                prompt_full_path = os.path.join(args.dir_prompts, file_path)
+                with open(prompt_full_path, 'r', encoding='utf-8') as file:
+                    input_prompt_list.append(args.prefix + file.read() + "\nQ: " + "{question}" + "\nA: Let's think step by step.")
         else:
-            raise NotImplementedError
+            input_prompt_list = create_several_input_prompts(args, cot_flag=True)
+
+    elif args.method == "standard":
+        input_prompt_list = create_several_input_prompts(args, cot_flag=False)
+    else:
+        raise NotImplementedError
 
     start = time.time()
     print("Inference Start")
@@ -89,26 +114,24 @@ def main():
             f.write(json.dumps(acc_prompt_list, indent=4))
 
     
-def single_run_inference(prompt_examples, question_pool, args):
+def single_run_inference(prompt, question_pool, args):
     correct_count = 0
-    wrong = [{'prompt' : prompt_examples}]
-    QA_record = [{'prompt': prompt_examples}]
+    wrong = [{'prompt' : prompt}]
+    QA_record = [{'prompt': prompt}]
     print_prompt_bool = True 
 
     for qes_num, qes in enumerate(question_pool):
         # create a list for each question to record all answers generated from self-consistency
         all_self_consistency_ans = []
 
-        prompt = prompt_examples + "Q: " + "{question}" + "\nA: Let's think step by step."
-        
         if print_prompt_bool:
             print(f'PROMPT: {prompt}')
             print_prompt_bool = False
-            
+            #sys.exit(0)
+
         # enable self-consistency if multipath > 1
         for _ in range(0, args.multipath):
             response = predict_llm(template=prompt, question=qes['question'], args=args) 
-
 
             pred_ans = answer_extraction(args, response)
 
@@ -174,7 +197,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["standard", "cot"], help="method"
+        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
     parser.add_argument(
         "--output_dir", type=str, default="inference_results/", help="output directory"
@@ -209,14 +232,12 @@ def arg_parser():
         "--prompt_is_built", type=bool, default=True, help="if the prompt is already built as a string, set this to true"
     )
 
-    
     args = parser.parse_args()
 
     if args.multipath > 1:
         args.temperature = 0.7
     else:
         args.temperature = 0
-    print(f"Temperature: {args.temperature}")
     
     if args.dataset == "gsm8k":
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"

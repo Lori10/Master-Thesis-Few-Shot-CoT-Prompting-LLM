@@ -1,2 +1,2 @@
-prefix_gsm8k = "You are an expert at arithmetic reasoning and are willing to solve grade school math problems. Follow the format of the examples below:\n"
-prefix_aqua = "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Follow the format of the examples below:\n"
+prefix_gsm8k = "You are an expert at arithmetic reasoning and are willing to solve grade school math problems."
+prefix_aqua = "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems."

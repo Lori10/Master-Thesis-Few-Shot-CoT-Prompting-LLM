@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve grade school math problems.\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.6
+    },
+    {
+        "mean_accuracy": 0.6
+    }
+]

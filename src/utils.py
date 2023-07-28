@@ -252,22 +252,14 @@ def create_single_input_prompt(args, prompt_filename, cot_flag:bool)->str:
     prompt_text = ""
     for i in index_list:
         if cot_flag:
-            if args.dataset == "strategyqa":
-                prompt_text += x[i] + " " + z[i] + " " + \
-                            "So the answer is" + " " + y[i] + ".\n\n"
-            else:
-                prompt_text += x[i] + " " + z[i] + " " + \
-                            args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
+            prompt_text += x[i] + " " + z[i] + " " + \
+                        args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
         else:
             prompt_text += x[i] + " " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
-    return prompt_text
-
+    return args.prefix + prompt_text + "Q: " + "{question}" + "\nA: Let's think step by step."
 
 def answer_extraction(args, responses):
     pred_ans = ""
-    
-    #temp = responses['choices'][0].text
-    #temp = responses.choices[0].message.content
     temp = responses
 
     if args.dataset in ("gsm8k"):

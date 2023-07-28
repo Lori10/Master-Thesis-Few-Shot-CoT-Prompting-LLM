@@ -176,10 +176,6 @@ def arg_parser():
     parser.add_argument(
         "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
-
-    parser.add_argument(
-        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
-    )
     
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"

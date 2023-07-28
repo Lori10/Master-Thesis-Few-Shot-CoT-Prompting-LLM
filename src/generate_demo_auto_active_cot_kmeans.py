@@ -29,10 +29,6 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_type", type=str, default="huggingfacehub", choices=["openai", "huggingfacehub"], help="the type of model"
-    )
-
-    parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
@@ -60,7 +56,7 @@ def parse_arguments():
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
     parser.add_argument(
         "--nr_demos", type=int, default=4, help='number of demonstrations'

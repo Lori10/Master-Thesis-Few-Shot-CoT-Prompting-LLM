@@ -35,10 +35,6 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
-    )
-
-    parser.add_argument(
         "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
     )
     # parser.add_argument(

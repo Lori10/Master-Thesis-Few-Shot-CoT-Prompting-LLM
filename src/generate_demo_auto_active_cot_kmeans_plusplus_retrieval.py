@@ -20,7 +20,7 @@ from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
-
+import load_env_vars
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeansPlusPlusRetrieval")
@@ -36,10 +36,6 @@ def parse_arguments():
 
     parser.add_argument(
         "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
-    )
-
-    parser.add_argument(
-        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
     )
 
     parser.add_argument(
@@ -179,14 +175,14 @@ def main():
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
         os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset + '_fewshot_built/')
     elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}'):
         os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset):
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset + '_fewshot_built/')
+    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset + '_fewshot_built/'):
+        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset + '_fewshot_built/')
 
-    args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus_{greedy_str}/{args.dataset}/"
+    args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus_{greedy_str}/{args.dataset}_fewshot_built/"
 
     if not os.path.exists(args.uncertainty_scores_dir):
         os.makedirs(args.uncertainty_scores_dir)
@@ -197,7 +193,7 @@ def main():
     else:
         model_name = args.model_id
     distance_uncertainty_filepath = f"{args.uncertainty_scores_dir}method_AutoActiveKMeansPlusPlus_{greedy_str}_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
-
+    
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:

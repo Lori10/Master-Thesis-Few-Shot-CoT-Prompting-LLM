@@ -5,6 +5,7 @@ import sys
 import json
 from generate_demo_active import predict_llm 
 import sys
+import load_env_vars
 
 def main():
     # load arguments from terminal
@@ -24,8 +25,11 @@ def main():
     print(f"Dataloader size: {len(dataloader)}")
 
     if args.prompt_is_built:
-        with open(args.prompts_dir, 'r') as file:
-            input_prompt_list = [file.read()]
+        input_prompt_list = []
+        for file_path in os.listdir(args.dir_prompts):
+            prompt_full_path = os.path.join(args.dir_prompts, file_path)
+            with open(prompt_full_path, 'r', encoding='utf-8') as file:
+                input_prompt_list.append(file.read())
     else:
         if args.method == "standard":
             input_prompt_list = create_several_input_prompts(args, cot_flag=False)
@@ -100,7 +104,6 @@ def single_run_inference(prompt_examples, question_pool, args):
         if print_prompt_bool:
             print(f'PROMPT: {prompt}')
             print_prompt_bool = False
-            sys.exit(0)
             
         # enable self-consistency if multipath > 1
         for _ in range(0, args.multipath):
@@ -164,15 +167,12 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--prompts_dir", type=str, default="labeled_demos/auto_active_cot_kmeans_plusplus_greedy/gsm8k/demo.txt", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto_active_cot_kmeans_plusplus_greedy/gsm8k_fewshot_built", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
-    parser.add_argument(
-        "--model_type", type=str, default="openai", choices=["openai", "huggingfacehub"], help="the type of model"
-    )
     parser.add_argument(
         "--method", type=str, default="cot", choices=["standard", "cot"], help="method"
     )

@@ -15,7 +15,7 @@ from langchain.chains import LLMChain
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback 
-from langchain import HuggingFaceHub
+from langchain.llms import HuggingFacePipeline
 
 
 # define for no solution if GPT cannot generate a valid solution
@@ -39,14 +39,15 @@ def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
     """
     prompt = PromptTemplate(input_variables=["question"], template=template)
 
-    if args.model_type == 'openai':
+    if args.model_id.startswith("gpt-3.5-turbo") or args.model_id.startswith('text-davinci') or args.model_id.startswith("gpt-4"):
         llm = OpenAI(model_name=args.model_id, temperature=args.temperature)
-    elif args.model_type == 'huggingfacehub':
-        os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
-        llm = HuggingFaceHub(repo_id=args.model_id, model_kwargs={"temperature": args.temperature,
-                                                                   "trust_remote_code": True,
-                                                                   "max_seq_len": 4096})
-
+    else:
+        llm = HuggingFacePipeline.from_model_id(
+        model_id=args.model_id,
+        model_kwargs={"temperature": args.temperature,
+                     "trust_remote_code": True,
+                     "max_seq_len": 4096}, # max_length
+        )
     
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
     return llm_chain.run(question)

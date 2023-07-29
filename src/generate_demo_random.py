@@ -53,13 +53,21 @@ def main():
         os.makedirs(args.demos_save_dir)
         os.makedirs(args.demos_save_dir + 'random')
         os.makedirs(args.demos_save_dir + 'random/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
     elif not os.path.exists(args.demos_save_dir + 'random'):
         os.makedirs(args.demos_save_dir + 'random')
-        os.makedirs(args.demos_save_dir + 'random/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'random/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'random/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}')
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + f'random/{args.dataset}'):
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}')
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
+        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    else:
+        print('Directory Already Exists!')
+        sys.exit(0)
 
-    args.demos_save_dir = f"{args.demos_save_dir}/random/{args.dataset}/"
+    args.demos_save_dir = args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'
 
     random.seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -74,7 +82,7 @@ def main():
         selected_examples = random.sample(dataloader, args.nr_demos)
         demos = [example for example in selected_examples]
         demos_dic = {"demo": demos}
-        with open(args.demos_save_dir + 'demos' + str(i+1), 'w', encoding="utf-8") as write_f:
+        with open(args.demos_save_dir + '/demos' + str(i+1), 'w', encoding="utf-8") as write_f:
             json.dump(demos_dic, write_f, indent=4, ensure_ascii=False)
             
 if __name__ == "__main__":

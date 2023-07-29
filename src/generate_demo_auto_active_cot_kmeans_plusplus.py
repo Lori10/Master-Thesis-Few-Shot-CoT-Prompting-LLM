@@ -16,7 +16,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy import stats
 import pickle
 from sklearn.metrics import pairwise_distances
-
+import load_env_vars
+from constant_vars import *
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeansPlusPlus")
@@ -37,16 +38,12 @@ def parse_arguments():
     parser.add_argument(
         "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
     )
-    # parser.add_argument(
-    #     "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
-    # )
+    
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each question"
     )
-    parser.add_argument(
-        "--sampling", type=str, default="center", help="whether to sample the cluster center first"
-    )
+
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
@@ -70,12 +67,6 @@ def parse_arguments():
         "--beta", type=int, default=1.7, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
     )
     
-    # parser.add_argument(
-    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
-    # )
-    # parser.add_argument(
-    #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
-    # )
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
@@ -93,10 +84,6 @@ def parse_arguments():
 
     parser.add_argument(
         "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
-    )
-
-    parser.add_argument(
-        "--auto_active_limit_nr", type=int, default=500, help='the number of examples to use for auto-active labeling'
     )
 
     args = parser.parse_args()
@@ -161,31 +148,55 @@ def main():
     else:
         greedy_str = 'random_weighted'
 
+    if args.dataset == "gsm8k":
+        prefix = prefix_gsm8k
+    elif args.dataset == "aqua":
+        prefix = prefix_aqua
+    else:
+        raise NotImplementedError("dataset not implemented")
+
+    model_name = args.model_id.replace('/', '-')  
+    model_name = model_name.replace('.', '-')
+    temperature = str(args.temperature).replace('.', '-')
+
+    beta = str(args.beta).replace('.', '-')
+    normalize_distance_uncertainty = str(args.normalize_distance_uncertainty)
+
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}'):
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset):
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}')
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
+    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}'):
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}')
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
+    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/' + args.dataset):
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
+    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}'):
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
+    else:
+        print('Directory already exists!')
+        sys.exit(0)
 
-    args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans_plusplus_{greedy_str}/{args.dataset}/"
+    args.demos_save_dir = f"{args.demos_save_dir}" + f'auto_active_kmeans_plusplus_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}/'
 
     if not os.path.exists(args.uncertainty_scores_dir):
         os.makedirs(args.uncertainty_scores_dir)
 
-
-    if '/' in args.model_id:
-        model_name = args.model_id.replace('/', '-')   
-    else:
-        model_name = args.model_id
-    distance_uncertainty_filepath = f"{args.uncertainty_scores_dir}method_AutoActiveKMeansPlusPlus_{greedy_str}_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
+    distance_uncertainty_filepath = f"{args.uncertainty_scores_dir}method_AutoActiveKMeansPlusPlus_{greedy_str}_dataset_{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}.txt"
 
     set_random_seed(args.random_seed)
 
-    
+    if args.method == "few_shot_cot":
+        args.prefix = prefix + ' Follow the format of the examples below:\n'
+        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
+        assert len(given_prompt_list) == 1
+        args.prompt = given_prompt_list[0]
+    elif args.method == "zero_shot_cot":
+        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+
     dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:
         args.dataset_size_limit = len(dataloader)

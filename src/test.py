@@ -1,5 +1,9 @@
 import numpy as np
+import random
 
-li = np.array([np.nan, 3, 4, np.nan, np.nan])
-li[np.isnan(li)] = 10
-print(li)
+random.seed(42)
+data = [4, 3, 10, 12, 20, 4]
+for i in range(2):
+    selected_data = random.sample(data, 2)
+    print(selected_data)
+    print('*************************')

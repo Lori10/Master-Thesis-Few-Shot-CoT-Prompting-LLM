@@ -1,0 +1,36 @@
+{
+    "demo": [
+        {
+            "question_idx": 0,
+            "question": "Q: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "72": 4
+            },
+            "disagreement": 1
+        },
+        {
+            "question_idx": 1,
+            "question": "Q: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA:",
+            "variance": 300.0,
+            "entropy": 0.5623351446188083,
+            "occurrence": {
+                "10": 3,
+                "50": 1
+            },
+            "disagreement": 2
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA:",
+            "variance": 24336.0,
+            "entropy": 0.6931471805599453,
+            "occurrence": {
+                "624": 2,
+                "312": 2
+            },
+            "disagreement": 2
+        }
+    ]
+}

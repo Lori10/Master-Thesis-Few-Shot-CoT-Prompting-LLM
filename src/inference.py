@@ -11,12 +11,8 @@ from constant_vars import *
 def main():
     # load arguments from terminal
     args = arg_parser()
-    print('*****************************')
-    print(args)
-    print('*****************************')
 
     set_random_seed(args.random_seed)
-
     # load dataset
     dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:
@@ -31,24 +27,17 @@ def main():
     print(f'Multipath: {args.multipath}')
     print(f'Temperature: {args.temperature}')
 
-    instructions = ' Follow the format of the examples below:\n'
     if args.dataset == "gsm8k":
-        args.prefix = prefix_gsm8k
+        prefix = prefix_gsm8k
     elif args.dataset == "aqua":
-        args.prefix = prefix_aqua
+        prefix = prefix_aqua
     else:
         raise NotImplementedError("dataset not implemented")
 
-    if args.method in ['cot', 'standard']: 
-        args.prefix = args.prefix + instructions
-    elif args.method == 'zero_shot_cot':
-        args.prefix = args.prefix + '\n'
-    else:
-        raise NotImplementedError
-
     if args.method == 'zero_shot_cot':
-        input_prompt_list = [args.prefix + "Q: " + "{question}" + "\nA: Let's think step by step."]
+        input_prompt_list = [prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
     elif args.method == 'cot':
+        args.prefix = prefix + ' Follow the format of the examples below:\n'
         if args.prompt_is_built:
             input_prompt_list = []
             for file_path in os.listdir(args.dir_prompts):
@@ -57,11 +46,9 @@ def main():
                     input_prompt_list.append(args.prefix + file.read() + "\nQ: " + "{question}" + "\nA: Let's think step by step.")
         else:
             input_prompt_list = create_several_input_prompts(args, cot_flag=True)
-
-    elif args.method == "standard":
+    elif args.method == 'standard':
+        args.prompt = prefix + '\n'
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
-    else:
-        raise NotImplementedError
 
     start = time.time()
     print("Inference Start")

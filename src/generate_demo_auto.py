@@ -10,6 +10,7 @@ from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
+import load_env_vars
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
@@ -27,19 +28,17 @@ def parse_arguments():
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
-    # parser.add_argument(
-    #     "--encoder", type=str, default="all-MiniLM-L6-v2", help="which sentence-transformer encoder for clustering"
-    # )
+    
     parser.add_argument(
         "--sampling", type=str, default="center", help="whether to sample the cluster center first"
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=30, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=3, help="nr of demonstrations to select"
     )
     
     parser.add_argument(
@@ -47,32 +46,47 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--plots_dir", type=str, default='auto_cot_plots/', help="directory to save the plots"
+        "--plots_dir", type=str, default='auto_plots/', help="directory to save the plots"
     )
 
     args = parser.parse_args()
     if args.answers_are_available:
         args.demos_save_dir = "labeled_demos/"
     else:
+        args.max_ra_len = 'None'
         args.demos_save_dir = "unlabeled_demos/"
     return args
 
 def main():
     args = parse_arguments()
+    
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'auto_cot')
-        os.makedirs(args.demos_save_dir + 'auto_cot/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto_cot'):
-        os.makedirs(args.demos_save_dir + 'auto_cot')
-        os.makedirs(args.demos_save_dir + 'auto_cot/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto_cot/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'auto_cot/' + args.dataset)
+        os.makedirs(args.demos_save_dir + 'auto')
+        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
+    elif not os.path.exists(args.demos_save_dir + 'auto'):
+        os.makedirs(args.demos_save_dir + 'auto')
+        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
+    elif not os.path.exists(args.demos_save_dir + 'auto/' + args.dataset):
+        os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
+    elif not os.path.exists(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}'):
+        os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
+    else:
+        print('Directory Already Exists!')
+        sys.exit(0)
 
-    args.demos_save_dir = f"{args.demos_save_dir}auto_cot/{args.dataset}/"
+    args.demos_save_dir = f"{args.demos_save_dir}auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}/"
 
     if not os.path.exists(args.plots_dir):
         os.makedirs(args.plots_dir)
+        os.makedirs(args.plots_dir + args.dataset)
+    elif not os.path.exists(args.plots_dir + args.dataset):
+        os.makedirs(args.plots_dir + args.dataset)
+    
+    args.plots_dir = args.plots_dir + args.dataset + '/'
 
     random.seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -139,10 +153,6 @@ def main():
                         "final_answer": final_answer               
                         }
                     demos.append(demo_element)
-                    # print(f'Q:\n{question}\n')
-                    # print(f'R:\n{rationale}\n')
-                    # print(f'FA:\n{final_answer}\n\n')
-                    # print("")
                     break
             else:
                 if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60:
@@ -153,8 +163,6 @@ def main():
                         "question": question,               
                         }
                     demos.append(demo_element)
-                    # print(f'Q:\n{question}\n')
-                    # print("")
                     break
 
     demos = {"demo": demos}
@@ -175,7 +183,7 @@ def main():
            c=np.arange(0,num_clusters),cmap=plt.cm.Paired,)
     plt.xticks([])
     plt.yticks([])
-    plt.savefig(f"{args.plots_dir}{args.dataset}_clustering_nrclusters_{args.nr_demos}.png", dpi=600)
+    plt.savefig(args.plots_dir + f'clustering_sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}.png', dpi=600)
     plt.close()
 
     if args.answers_are_available:
@@ -184,7 +192,7 @@ def main():
             nr_reasoning_steps = [nr - 1 for nr in nr_reasoning_steps]
         plt.figure()
         plt.hist(nr_reasoning_steps, bins=5)
-        plt.savefig(f"{args.plots_dir}{args.dataset}_nr_reasoning_steps.png", dpi=600)
+        plt.savefig(args.plots_dir + f'hist_nrreasoningsteps_sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}.png', dpi=600)
         plt.close()
 
 if __name__ == "__main__":

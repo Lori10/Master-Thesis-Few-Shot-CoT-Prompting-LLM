@@ -6,34 +6,47 @@ import numpy as np
 import json
 from scipy.stats import entropy
 from utils import predict_llm
-
+import load_env_vars
+from constant_vars import *
 
 def main():
     args = arg_parser()
-    print('*****************************')
-    print(args)
-    print('*****************************')
+    if args.dataset == "gsm8k":
+        prefix = prefix_gsm8k
+    elif args.dataset == "aqua":
+        prefix = prefix_aqua
+    else:
+        raise NotImplementedError("dataset not implemented")
+
+    model_name = args.model_id.replace('/', '-')  
+    model_name = model_name.replace('.', '-')
+    temperature = str(args.temperature).replace('.', '-')  
 
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'active_cot')
-        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'active_cot'):
-        os.makedirs(args.demos_save_dir + 'active_cot')
-        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'active_cot/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'active_cot/' + args.dataset)
+        os.makedirs(args.demos_save_dir + 'active')
+        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + 'active'):
+        os.makedirs(args.demos_save_dir + 'active')
+        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + 'active/' + args.dataset):
+        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
+        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    else:
+        print('Directory Already Exists!')
+        sys.exit(0)
 
-    args.demos_save_dir = f"{args.demos_save_dir}active_cot/{args.dataset}/"
+    args.demos_save_dir = args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}/'
 
     if not os.path.exists(args.uncertainty_scores_dir):
         os.makedirs(args.uncertainty_scores_dir)
 
-    if '/' in args.model_id:
-        model_name = args.model_id.replace('/', '-')  
-    else:
-        model_name = args.model_id 
-    uncertainty_filepath = f"{args.uncertainty_scores_dir}method_active_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_sortby_{args.sort_by}.txt"
+    uncertainty_filepath = f"{args.uncertainty_scores_dir}method_active_{args.dataset}_model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}.txt"
+    
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -43,15 +56,22 @@ def main():
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Proceeding with data size: {len(dataloader)}")
-    
 
-    start =time.time()
+    if args.method == "few_shot_cot":
+        args.prefix = prefix + ' Follow the format of the examples below:\n'
+        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
+        assert len(given_prompt_list) == 1
+        args.prompt = given_prompt_list[0]
+    elif args.method == "zero_shot_cot":
+        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+    
+    start =time.time()  
     result = create_uncertainty(args, dataloader)
     end = time.time()
     print('Total Execution Time: ', end - start, " seconds")
 
     demos = {'demo': result[:args.nr_demos]}
-    with open(f"{args.demos_save_dir}demos_numtrials_{args.num_trails}", 'w', encoding="utf-8") as write_f:
+    with open(f"{args.demos_save_dir}demos", 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
         
@@ -70,10 +90,6 @@ def main():
 
 
 def generate_uncertainty_qes(args, example):
-    if args.method == "few_shot_cot":
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        given_prompt = given_prompt_list[0]
 
     if args.dataset == "gsm8k":
         # the float is reserved for variance calculation result
@@ -93,19 +109,16 @@ def generate_uncertainty_qes(args, example):
             uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
                                   'entropy':float, 'occurrence':{}}
 
+    # prompt_bool = True
     for _ in range(args.num_trails):
-        # if zero-shot to generate uncertainty, construct first stage zero-shot prompt (step by step)
-        if args.method == "few_shot_cot":
-            prompt = given_prompt + "Q: " + "{question}" + "\nA: Let's think step by step."
-        elif args.method == "zero_shot_cot":
-            prompt = "Q: " + "{question}" + "\nA: Let's think step by step."
-        
-        
-        response = predict_llm(template=prompt, question=example['question'], args=args) 
+        # if prompt_bool:
+        #     print(f'PROMPT: {args.prompt}')
+        #     prompt_bool=False
+        #     sys.exit(0)
 
-        # extract the pred answer
+        response = predict_llm(template=args.prompt, question=example['question'], args=args) 
         pred_ans = answer_extraction(args, response)
-        print(f'Single Trial Rationale:\n{response}')
+        #print(f'Single Trial Rationale:\n{response}')
         print(f'Single Trial Final Answer: {pred_ans}\n')
 
         # check uncertainty
@@ -180,20 +193,16 @@ def arg_parser():
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
-    # parser.add_argument(
-    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
-    # )
+    
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=8, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=2, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
-    # parser.add_argument(
-    #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
-    # )
+    
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"

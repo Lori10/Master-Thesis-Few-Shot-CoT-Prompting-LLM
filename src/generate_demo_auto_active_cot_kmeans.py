@@ -11,6 +11,7 @@ from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
 from generate_demo_active import create_uncertainty
+from constant_vars import *
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeans")
@@ -25,7 +26,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -34,24 +35,18 @@ def parse_arguments():
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
 
     parser.add_argument(
-        "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
     )
 
     parser.add_argument(
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=13, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=10, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
-    # parser.add_argument(
-    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
-    # )
-    # parser.add_argument(
-    #     "--api_time_interval", type=float, default=1.0, help="how many seconds sleep between each request"
-    # )
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
@@ -59,7 +54,7 @@ def parse_arguments():
         "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help='number of demonstrations'
+        "--nr_demos", type=int, default=3, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -83,6 +78,7 @@ def parse_arguments():
     if args.answers_are_available:
         args.demos_save_dir = "labeled_demos/"
     else:
+        args.max_ra_len = 'None'
         args.demos_save_dir = "unlabeled_demos/"
         
     # "Therefore, the answer ..." -> "The answer ..."
@@ -97,28 +93,55 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
+    if args.dataset == "gsm8k":
+        prefix = prefix_gsm8k
+    elif args.dataset == "aqua":
+        prefix = prefix_aqua
+    else:
+        raise NotImplementedError("dataset not implemented")
+
+    model_name = args.model_id.replace('/', '-')  
+    model_name = model_name.replace('.', '-')
+    temperature = str(args.temperature).replace('.', '-')
+
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans')
-        os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto_active_cot_kmeans'):
-        os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans')
-        os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans/' + args.dataset)
-    elif not os.path.exists(args.demos_save_dir + 'auto_active_cot_kmeans/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'auto_active_cot_kmeans/' + args.dataset)
+        os.makedirs(args.demos_save_dir + 'auto_active_kmeans')
+        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + 'auto_active_kmeans'):
+        os.makedirs(args.demos_save_dir + 'auto_active_kmeans')
+        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset):
+        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
+        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+    else:
+        print('Directory already exists.')
+        sys.exit(0)
 
-    args.demos_save_dir = f"{args.demos_save_dir}auto_active_cot_kmeans/{args.dataset}/"
+    args.demos_save_dir = args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}/'
 
     if not os.path.exists(args.uncertainty_per_cluster_dir):
         os.makedirs(args.uncertainty_per_cluster_dir)
 
-    if '/' in args.model_id:
-        model_name = args.model_id.replace('/', '-')   
-    else:
-        model_name = args.model_id
-    uncertainty_filepath = f"{args.uncertainty_per_cluster_dir}method_AutoActiveKMeans_dataset_{args.dataset}_model_{model_name}_numtrials_{args.num_trails}_nrclusters_{args.nr_demos}_sortby_{args.sort_by}"
+    uncertainty_filepath = f"{args.uncertainty_per_cluster_dir}method_AutoActiveKMeans_dataset_{args.dataset}_model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}"
 
     random.seed(args.random_seed)
+
+    if args.method == "few_shot_cot":
+        args.prefix = prefix + ' Follow the format of the examples below:\n'
+        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
+        assert len(given_prompt_list) == 1
+        args.prompt = given_prompt_list[0]
+    elif args.method == "zero_shot_cot":
+        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+
+    # print(f'PROMPT: {args.prompt}')
+    # print('*' * 50)
+
     dataloader = create_dataloader(args)
 
     if args.dataset_size_limit <= 0:
@@ -135,8 +158,8 @@ def main():
 
     max_ra_len = args.max_ra_len
     num_clusters = args.nr_demos
+
     encoder = OpenAIEmbeddings()
-    
     corpus_embeddings = np.array(encoder.embed_documents(corpus))
     clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)

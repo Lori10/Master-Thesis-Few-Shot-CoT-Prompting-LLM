@@ -81,7 +81,6 @@ def CompletionModel(model:str, input_prompt:list, max_tokens:int, time_interval,
     done = False
     while not done:
         try:
-            openai.api_key = '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'
             resp = openai.Completion.create(
                 model=model,
                 prompt=input_prompt,
@@ -112,7 +111,6 @@ def ChatCompletionModel(model:str, input_prompt:list, max_tokens:int, time_inter
     done = False
     while not done:
         try:
-            openai.api_key = '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'
             resp = openai.ChatCompletion.create(
                 model=model,
                 messages=[{'role' : 'user', 'content': input_prompt[0]}],

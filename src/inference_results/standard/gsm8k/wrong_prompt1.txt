@@ -1,5 +1,0 @@
-{'prompt': "You are an expert at arithmetic reasoning and are willing to solve grade school math problems. Follow the format of the examples below:\nQ: Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA: The answer is 72.\n\nQ: Weng earns $12 an hour for babysitting. Yesterday, she just did 50 minutes of babysitting. How much did she earn?\nA: The answer is 10.\n\nQ: James writes a 3-page letter to 2 different friends twice a week.  How many pages does he write a year?\nA: The answer is 624.\n\nQ: {question}\nA: Let's think step by step."}
-{'idx': 2, 'pred_final_answer': '10000', 'true_final_answer': '70000'}
-{'idx': 4, 'pred_final_answer': '100', 'true_final_answer': '20'}
-{'idx': 5, 'pred_final_answer': '16', 'true_final_answer': '64'}
-{'idx': 8, 'pred_final_answer': '4', 'true_final_answer': '45'}

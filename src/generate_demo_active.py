@@ -5,7 +5,7 @@ import argparse
 import numpy as np
 import json
 from scipy.stats import entropy
-from utils import predict_llm
+from utils import initialize_llmchain
 import load_env_vars
 from constant_vars import *
 
@@ -47,6 +47,7 @@ def main():
 
     uncertainty_filepath = f"{args.uncertainty_scores_dir}method_active_{args.dataset}_model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}.txt"
     
+    print('Hyperparameters: ')
 
     set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -56,7 +57,14 @@ def main():
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Proceeding with data size: {len(dataloader)}")
-
+    print(f"model_id: {args.model_id}")
+    print(f"method: {args.method}")
+    print(f"num_trails: {args.num_trails}")
+    print(f"sort_by: {args.sort_by}")
+    print(f"temperature: {args.temperature}")
+    print(f"random_seed: {args.random_seed}")
+    print(f"nr_demos: {args.nr_demos}")
+    
     if args.method == "few_shot_cot":
         args.prefix = prefix + ' Follow the format of the examples below:\n'
         given_prompt_list = create_several_input_prompts(args, cot_flag=True)
@@ -65,6 +73,9 @@ def main():
     elif args.method == "zero_shot_cot":
         args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
     
+    print(f'PROMPT:\n{args.prompt}\n')
+    args.llm_chain = initialize_llmchain(args.prompt, args)
+
     start =time.time()  
     result = create_uncertainty(args, dataloader)
     end = time.time()
@@ -94,29 +105,24 @@ def generate_uncertainty_qes(args, example):
     if args.dataset == "gsm8k":
         # the float is reserved for variance calculation result
         if args.answers_are_available:
-            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question': example['question'],
                                  'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
                                  'variance':float, 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question': example['question'],
                                   'variance':float, 'entropy':float, 'occurrence':{}}
     else:
         if args.answers_are_available:
-            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question': example['question'],
                                 'rationale': example['rationale'], 'final_answer': example['final_answer'],
                                 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'question_idx':example['question_idx'], 'question': example['question'],
+            uncertainty_record = {'question': example['question'],
                                   'entropy':float, 'occurrence':{}}
 
-    # prompt_bool = True
     for _ in range(args.num_trails):
-        # if prompt_bool:
-        #     print(f'PROMPT: {args.prompt}')
-        #     prompt_bool=False
-        #     sys.exit(0)
+        response = args.llm_chain.run(question=example['question'])
 
-        response = predict_llm(template=args.prompt, question=example['question'], args=args) 
         pred_ans = answer_extraction(args, response)
         #print(f'Single Trial Rationale:\n{response}')
         print(f'Single Trial Final Answer: {pred_ans}\n')
@@ -161,6 +167,7 @@ def create_uncertainty(args, dataloader):
         uncertainty_record = generate_uncertainty_qes(args, example)
         print(f'Uncertainty Record: {uncertainty_record}')
         result.append(uncertainty_record)
+        print('\n' + '*' * 60 + '\n')
 
     if args.sort_by == "disagreement":
         result.sort(key=lambda x: -len(x['occurrence']))
@@ -187,7 +194,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
     
     parser.add_argument(
@@ -195,14 +202,14 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=2, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=5, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=3, help="number of trails to run for each qeestion"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"

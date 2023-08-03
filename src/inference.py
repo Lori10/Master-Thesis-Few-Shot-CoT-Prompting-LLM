@@ -3,14 +3,57 @@ import time
 import argparse
 import sys
 import json
-from generate_demo_active import predict_llm 
+from utils import initialize_llmchain 
 import sys
-import load_env_vars
 from constant_vars import *
 
 def main():
     # load arguments from terminal
     args = arg_parser()
+
+    # inference_results/cotorstandard/sampling_method/dataset/files
+    # inference_results/zeroshot/dataset/files
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
+        if args.method == 'cot' or args.method == 'standard':
+            os.makedirs(args.output_dir + args.method)
+            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
+            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
+        elif args.method == 'zero_shot_cot':
+            os.makedirs(args.output_dir + args.method)
+            os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+    elif not os.path.exists(args.output_dir + args.method):
+        os.makedirs(args.output_dir + args.method)
+        if args.method == 'cot' or args.method == 'standard':
+            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
+            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
+        elif args.method == 'zero_shot_cot':
+            os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+        
+    else:
+        if args.method == 'cot' or args.method == 'standard':
+            if not os.path.exists(args.output_dir + args.method + '/' + args.sampling_method):
+                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
+                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
+            elif not os.path.exists(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset):
+                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
+            else:
+                print('Directory Already Exists!')
+                sys.exit(0)
+        elif args.method == 'zero_shot_cot':
+            if not os.path.exists(args.output_dir + args.method + '/' + args.dataset):
+                os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+            else:
+                print('Directory Already Exists!')
+                sys.exit(0)
+
+
+    if args.method == 'cot' or args.method == 'standard':
+        args.output_dir = args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset + '/'
+    elif args.method == 'zero_shot_cot':
+        args.output_dir = args.output_dir + args.method + '/' + args.dataset + '/'
+    else:
+        raise NotImplementedError(f"Method not implemented")
 
     set_random_seed(args.random_seed)
     # load dataset
@@ -20,9 +63,10 @@ def main():
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     
+    print('Hyperparameters:')
+    print(f'Dataset: {args.dataset}')
     print(f"Dataloader size: {len(dataloader)}")
     print(f'Method: {args.method}')
-    print(f'Dataset: {args.dataset}')
     print(f'Model: {args.model_id}')
     print(f'Multipath: {args.multipath}')
     print(f'Temperature: {args.temperature}')
@@ -35,9 +79,11 @@ def main():
         raise NotImplementedError("dataset not implemented")
 
     if args.method == 'zero_shot_cot':
+        if args.dataset == 'aqua':
+            prefix = prefix + ' If none of options is correct, please choose the option "None of the above".'
         input_prompt_list = [prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
     elif args.method == 'cot':
-        args.prefix = prefix + ' Follow the format of the examples below:\n'
+        args.prefix = prefix + ' To generate the answer follow the format of the examples below:\n'
         if args.prompt_is_built:
             input_prompt_list = []
             for file_path in os.listdir(args.dir_prompts):
@@ -47,31 +93,18 @@ def main():
         else:
             input_prompt_list = create_several_input_prompts(args, cot_flag=True)
     elif args.method == 'standard':
-        args.prompt = prefix + '\n'
+        args.prefix = prefix + '\n'
         input_prompt_list = create_several_input_prompts(args, cot_flag=False)
 
-    start = time.time()
-    print("Inference Start")
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
-    # no limit on how many batches to inference, assume inference all batches
     
+    start = time.time()
     correct_list, wrong_list, QA_record_list = inference_cot(args, dataloader, input_prompt_list)
     end = time.time()
     print(f"Execution time: {end - start} seconds")
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
     
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
-        os.makedirs(args.output_dir + args.method)
-        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
-    elif not os.path.exists(args.output_dir + args.method):
-        os.makedirs(args.output_dir + args.method)
-        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
-    elif not os.path.exists(args.output_dir + args.method  + '/' + args.dataset):
-        os.makedirs(args.output_dir + args.method + '/' + args.dataset)
-
-    args.output_dir = f"{args.output_dir}/{args.method}/{args.dataset}/"
 
     acc_prompt_list = []
     if args.output_dir is not None:
@@ -101,42 +134,36 @@ def main():
             f.write(json.dumps(acc_prompt_list, indent=4))
 
     
-def single_run_inference(prompt, question_pool, args):
+def single_run_inference(llm_chain, question_pool, args):
     correct_count = 0
-    wrong = [{'prompt' : prompt}]
-    QA_record = [{'prompt': prompt}]
-    print_prompt_bool = True 
-
-    for qes_num, qes in enumerate(question_pool):
+    wrong = [{'prompt' : llm_chain.prompt.template}]
+    QA_record = [{'prompt': llm_chain.prompt.template}]
+    
+    for qes_nr, qes in enumerate(question_pool):
         # create a list for each question to record all answers generated from self-consistency
         all_self_consistency_ans = []
 
-        if print_prompt_bool:
-            print(f'PROMPT: {prompt}')
-            print_prompt_bool = False
-            #sys.exit(0)
-
         # enable self-consistency if multipath > 1
         for _ in range(0, args.multipath):
-            response = predict_llm(template=prompt, question=qes['question'], args=args) 
+            response = llm_chain.run(question=qes['question'])
 
             pred_ans = answer_extraction(args, response)
 
             # create a dict to record each Q&A for later review purposes
             QA = {}
-            QA['qes_idx'] = qes['question_idx']
+            QA['qes_idx'] = qes_nr
             QA['Q'] = qes['question']
             QA['Pred_Rationale'] = response
             QA['Pred_FinalAnswer'] = pred_ans
+            QA['True_FinalAnswer'] = qes['final_answer']
             QA_record.append(QA)
 
             # output current inference result (only works when self-consistency is not enable)
             if args.multipath == 1:
                 print('-' * 20)
-                print(f"Dataset index: {qes['question_idx']}")
+                print(f'Question Nr: {qes_nr}')
                 print(f"Question: \n" + qes['question'])
-                print(f"Let's think step by step.\n" + response)
-
+                print(f"Rationale: \nLet's think step by step. " + response)
                 print(f"Prediction: {pred_ans}")
                 print(f"Ground Truth: {qes['final_answer']}")
 
@@ -148,7 +175,7 @@ def single_run_inference(prompt, question_pool, args):
         if final_consistent_ans == qes['final_answer']:
             correct_count += 1
         else:
-            wrong.append({'idx':qes['question_idx'], 'pred_final_answer':final_consistent_ans, 'true_final_answer':qes['final_answer']})
+            wrong.append({'idx': qes_nr, 'pred_final_answer':final_consistent_ans, 'true_final_answer':qes['final_answer']})
 
     return correct_count, wrong, QA_record
 
@@ -157,11 +184,19 @@ def inference_cot(args, question_pool, given_prompt):
     wrong_list = []
     QA_record_list = []
     for i in range(len(given_prompt)):
-        correct, wrong, QA_record = single_run_inference(given_prompt[i], question_pool, args)
+        llm_chain = initialize_llmchain(given_prompt[i], args)
+        print(f'PROMPT:\n{llm_chain.prompt.template}\n')
+        print('START INFERENCE\n')
+        #print('*' * 60)
+        #continue 
+
+        correct, wrong, QA_record = single_run_inference(llm_chain, question_pool, args)
         correct_count_list.append(correct)
         wrong_list.append(wrong)
         QA_record_list.append(QA_record)
+        print('-' * 60)
 
+    #sys.exit(0)
     return correct_count_list, wrong_list, QA_record_list
     
         
@@ -177,21 +212,24 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto_active_cot_kmeans_plusplus_greedy/gsm8k_fewshot_built", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto/gsm8k/sampling_center_seed_42_nrdemos_3_datasetsizelimit_30_maxralen_5", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
         "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
+
+    parser.add_argument(
+        "--sampling_method", type=str, default="Auto", choices=["Random", "Auto", "Active", "Auto_Active_KMeans", "Auto_Active_KMeansPlusPlus", "Auto_Active_KMeansPlusPlus_Retrieval"], help="sampling method used for selecting the demo questions"
+    )
+
     parser.add_argument(
         "--output_dir", type=str, default="inference_results/", help="output directory"
     )
-    # parser.add_argument(
-    #     "--max_length_cot", type=int, default=256, help="maximum length of output tokens by model for reasoning extraction"
-    # )
+    
     parser.add_argument(
         "--dataset_size_limit", type=int, default=10, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
@@ -204,19 +242,13 @@ def arg_parser():
     parser.add_argument(
         "--multipath", type=int, default=1, help="self-consistency path num"
     )
-    # parser.add_argument(
-    #     "--concat_length", type=int, default=4, help='Used for task last_letters, indicates length of last letter to concat, i.e. Elon Musk -> nk, use concat length of 2'
-    # )
-    # parser.add_argument(
-    #     "--use_code_style_prompt", type=bool, default=False, help='Use code-style prompt as mentioned in paper for last_letters dataset'
-    # )
-
+   
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     parser.add_argument(
-        "--prompt_is_built", type=bool, default=True, help="if the prompt is already built as a string, set this to true"
+        "--prompt_is_built", type=bool, default=False, help="if the prompt is already built as a string, set this to true"
     )
 
     args = parser.parse_args()
@@ -257,7 +289,6 @@ def arg_parser():
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     else:
         raise ValueError("dataset is not properly defined ...")
-
         
     trigger = args.direct_answer_trigger.replace("\nTherefore, ", "")
     args.direct_answer_trigger_for_zeroshot = trigger[0].upper() + trigger[1:]

@@ -11,16 +11,17 @@ from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
 import load_env_vars
+import openai
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -61,18 +62,22 @@ def main():
     args = parse_arguments()
     
     if not os.path.exists(args.demos_save_dir):
+        print('STEP 1')
         os.makedirs(args.demos_save_dir)
         os.makedirs(args.demos_save_dir + 'auto')
         os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
         os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
     elif not os.path.exists(args.demos_save_dir + 'auto'):
+        print('STEP 2')
         os.makedirs(args.demos_save_dir + 'auto')
         os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
         os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
     elif not os.path.exists(args.demos_save_dir + 'auto/' + args.dataset):
+        print('STEP 3')
         os.makedirs(args.demos_save_dir + 'auto/' + args.dataset)
         os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
     elif not os.path.exists(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}'):
+        print('STEP 4')
         os.makedirs(args.demos_save_dir + f'auto/{args.dataset}/sampling_{args.sampling}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_maxralen_{args.max_ra_len}')
     else:
         print('Directory Already Exists!')
@@ -87,6 +92,8 @@ def main():
         os.makedirs(args.plots_dir + args.dataset)
     
     args.plots_dir = args.plots_dir + args.dataset + '/'
+    
+    print('Hyperparameters:')
 
     random.seed(args.random_seed)
     dataloader = create_dataloader(args)
@@ -95,15 +102,25 @@ def main():
         args.dataset_size_limit = len(dataloader)
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
+    
     print(f"Proceeding with data size: {len(dataloader)}")
+    print(f"nr_demos: {args.nr_demos}")
+    print(f"random_seed: {args.random_seed}")
+    print(f"sampling: {args.sampling}")
+    print(f"max_ra_len: {args.max_ra_len}")
 
-    #encoder = SentenceTransformer(args.encoder)
-    encoder = OpenAIEmbeddings()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    headers = {
+        "x-api-key": openai.api_key,
+    }
+
+    encoder = OpenAIEmbeddings(
+        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+    )
 
     max_ra_len = args.max_ra_len
     num_clusters = args.nr_demos
 
-    question_idxs = [example['question_idx'] for example in dataloader]
     corpus = [example['question'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]
 
@@ -129,7 +146,7 @@ def main():
     demos = []
     
     for i in range(len(clustered_dists)):
-        print("Cluster ", i+1)
+        print("Cluster ", i)
         tmp = list(map(list, zip(range(len(clustered_dists[i])), clustered_dists[i])))
         top_min_dist = sorted(tmp, key=lambda x: x[1], reverse=False)
         if not args.sampling == "center":
@@ -147,23 +164,26 @@ def main():
                 if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 \
                     and nr_reasoning_steps <= max_ra_len and final_answer != "":
                     demo_element = {
-                        "question_idx": question_idxs[clustered_idx[i][min_idx]],
                         "question": question_list[clustered_idx[i][min_idx]],
                         "rationale": rationale,
                         "final_answer": final_answer               
                         }
+
+                    print("Question: ", question_list[clustered_idx[i][min_idx]])
+                    print("Rationale: ", rationale)
+                    print("Final Answer: ", final_answer)
+                    print('\n\n')
                     demos.append(demo_element)
                     break
             else:
                 if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60:
-                    question_idx = question_idxs[clustered_idx[i][min_idx]]
                     question = question_list[clustered_idx[i][min_idx]]        
                     demo_element = {
-                        "question_idx": question_idx,
                         "question": question,               
                         }
                     demos.append(demo_element)
                     break
+            
 
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:

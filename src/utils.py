@@ -16,20 +16,20 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.callbacks import get_openai_callback 
 from langchain.llms import HuggingFacePipeline
-
+from langchain.llms import AzureOpenAI
+import load_env_vars
 
 # define for no solution if GPT cannot generate a valid solution
 # here define a magic number for the convenience of variance calculation
 NO_SOLUTION = '-10086'
 
-
-def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
+def initialize_llmchain(prompt_template: str, args) -> Tuple[str, int]:
     """
         Run a LLMChain for given a prompt template and question. Return the completion and
         total nr of processed tokens during the run.
         
         Args: 
-            template (str): template which includes prefix, few-shot demonstrations and suffix
+            prompt_template (str): template which includes prefix, few-shot demonstrations and suffix
             question (str): question which will be passed to LLM
             model_name (str): the id/name of the LLM
         Returns:
@@ -37,10 +37,23 @@ def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
             cb.total_tokens (int): nr of processed tokens during the run
 
     """
-    prompt = PromptTemplate(input_variables=["question"], template=template)
+    prompt = PromptTemplate(input_variables=["question"], template=prompt_template)
 
-    if args.model_id.startswith("gpt-3.5-turbo") or args.model_id.startswith('text-davinci') or args.model_id.startswith("gpt-4"):
-        llm = OpenAI(model_name=args.model_id, temperature=args.temperature)
+    if args.model_id.startswith("gpt-35") or args.model_id.startswith('text-davinci') or args.model_id.startswith("gpt-4"):
+        #llm = OpenAI(model_name=args.model_id, temperature=args.temperature)
+        
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        headers = {
+            "x-api-key": openai.api_key,
+        }
+
+        llm = AzureOpenAI(
+        deployment_name=args.model_id,
+        model_name=args.model_id,
+        temperature=args.temperature,
+        headers=headers,
+        max_tokens=1024,
+        )
     else:
         llm = HuggingFacePipeline.from_model_id(
         model_id=args.model_id,
@@ -50,7 +63,8 @@ def predict_llm(template: str, question:str, args) -> Tuple[str, int]:
         )
     
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
-    return llm_chain.run(question)
+    return llm_chain
+    #return llm_chain.run(question)
     # with get_openai_callback() as cb:
     #     result = llm_chain.run(question)
         
@@ -150,8 +164,8 @@ def load_data(args):
                 lines = f.readlines()
                 for line in lines:
                     json_res = decoder.raw_decode(line)[0]
-                    questions.append(f"Q: {json_res['question'].strip()}\nA:")
-                    rationales.append(f"Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
+                    questions.append(f"Q: {json_res['question'].strip()}")
+                    rationales.append(f"A: Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
                     final_answers.append(json_res["answer"].split("#### ")[-1].replace(",", ""))
 
         elif args.dataset == "aqua":
@@ -165,8 +179,8 @@ def load_data(args):
                         opt = opt.replace(')', ') ')
                         qes += f" ({opt}"
 
-                    questions.append(f'Q: {qes} + \nA:')
-                    rationales.append(f"Let's think step by step.\n{json_res['rationale']}")
+                    questions.append(f'Q: {qes}')
+                    rationales.append(f"A: Let's think step by step.\n{json_res['rationale']}")
                     final_answers.append(json_res["correct"])
         else:
             raise NotImplementedError
@@ -184,7 +198,7 @@ def load_data(args):
                 lines = f.readlines()
                 for line in lines:
                     json_res = decoder.raw_decode(line)[0]
-                    questions.append(f"Q: {json_res['question'].strip()}\nA:")
+                    questions.append(f"Q: {json_res['question'].strip()}")
 
         elif args.dataset == "aqua":
             with open(args.data_path) as f:
@@ -197,7 +211,7 @@ def load_data(args):
                         opt = opt.replace(')', ') ')
                         qes += f" ({opt}"
 
-                    questions.append(f'Q: {qes} + \nA:')
+                    questions.append(f'Q: {qes}')
         else:
             raise NotImplementedError
 
@@ -211,16 +225,17 @@ def create_dataloader(args)->list:
     #set_random_seed(args.random_seed)
     dataset = []
     if args.answers_are_available:
+
         questions, rationales, answers = load_data(args)
         for idx in range(len(questions)):
             dataset.append({"question":questions[idx], "rationale" : rationales[idx],
-                            "final_answer":answers[idx], "question_idx":idx})
+                            "final_answer":answers[idx]})
     else:
         questions = load_data(args)
         for idx in range(len(questions)):
-            dataset.append({"question":questions[idx], "question_idx":idx})
+            dataset.append({"question":questions[idx]})
 
-    #random.shuffle(dataset)
+    random.shuffle(dataset)
     return dataset
 
 
@@ -250,10 +265,10 @@ def create_single_input_prompt(args, prompt_filename, cot_flag:bool)->str:
     prompt_text = ""
     for i in index_list:
         if cot_flag:
-            prompt_text += x[i] + " " + z[i] + " " + \
+            prompt_text += x[i] + "\n" + z[i] + " " + \
                         args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
         else:
-            prompt_text += x[i] + " " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
+            prompt_text += x[i] + "\n" + "A: " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
     return args.prefix + prompt_text + "Q: " + "{question}" + "\nA: Let's think step by step."
 
 def answer_extraction(args, responses):

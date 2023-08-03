@@ -1,50 +1,50 @@
 {
     "demo": [
         {
-            "question": "Q: A certain sum of money at simple interest amounted Rs.840 in 10 years at 3% per annum, find the sum? Answer Choices: (A) 277 (B) 262 (C) 298 (D) 646 (E) 267 + \nA:",
-            "rationale": "Let's think step by step.\n840 = P [1 + (10*3)/100]\nP = 646\nAnswer: D",
+            "question": "Q: A certain sum of money at simple interest amounted Rs.840 in 10 years at 3% per annum, find the sum? Answer Choices: (A) 277 (B) 262 (C) 298 (D) 646 (E) 267",
+            "rationale": "A: Let's think step by step.\n840 = P [1 + (10*3)/100]\nP = 646\nAnswer: D",
             "final_answer": "D",
             "question_idx": 52099
         },
         {
-            "question": "Q: If a and b are positive integers such that a – b and a/b are both even integers, which of the following must be an odd integer? Answer Choices: (A) a/2 (B) b/2 (C) b/2 (D) (a+b) /2 (E) (b+2) /2 + \nA:",
-            "rationale": "Let's think step by step.\nA and B both have to be even to fulfill the condition.\na could be = 4, 6, 8 ...., b = 2,4, ....\nso a - b = 2 (Even)\na/b= 2k (Even)\na/2=2k\na = 4k\nso a must be multiple of 4\nnow try the options\nAns. D",
+            "question": "Q: If a and b are positive integers such that a – b and a/b are both even integers, which of the following must be an odd integer? Answer Choices: (A) a/2 (B) b/2 (C) b/2 (D) (a+b) /2 (E) (b+2) /2",
+            "rationale": "A: Let's think step by step.\nA and B both have to be even to fulfill the condition.\na could be = 4, 6, 8 ...., b = 2,4, ....\nso a - b = 2 (Even)\na/b= 2k (Even)\na/2=2k\na = 4k\nso a must be multiple of 4\nnow try the options\nAns. D",
             "final_answer": "D",
             "question_idx": 24839
         },
         {
-            "question": "Q: A man complete a journey in 10 hours. He travels first half of the journey at the rate of 21 km/hr and\nsecond half at the rate of 24 km/hr. Find the total journey in km Answer Choices: (A) 200 Km (B) 222 Km (C) 224 Km (D) 248 Km (E) None of these + \nA:",
-            "rationale": "Let's think step by step.\nExplanation:\nLet time taken to travel the first half = x hr\nThen time taken to travel the second half = (10 - x) hr\nDistance covered in the the first half = 21x [because, distance = time*speed]\nDistance covered in the the second half = 24(10 - x)\nDistance covered in the the first half = Distance covered in the the second half\nSo,\n21x = 24(10 - x)\n=> 45x = 240\n=> x = 16/3\nTotal Distance = 2*21(16/3) = 224 Km [multiplied by 2 as 21x was distance of half way]\nAnswer: C",
+            "question": "Q: A man complete a journey in 10 hours. He travels first half of the journey at the rate of 21 km/hr and\nsecond half at the rate of 24 km/hr. Find the total journey in km Answer Choices: (A) 200 Km (B) 222 Km (C) 224 Km (D) 248 Km (E) None of these",
+            "rationale": "A: Let's think step by step.\nExplanation:\nLet time taken to travel the first half = x hr\nThen time taken to travel the second half = (10 - x) hr\nDistance covered in the the first half = 21x [because, distance = time*speed]\nDistance covered in the the second half = 24(10 - x)\nDistance covered in the the first half = Distance covered in the the second half\nSo,\n21x = 24(10 - x)\n=> 45x = 240\n=> x = 16/3\nTotal Distance = 2*21(16/3) = 224 Km [multiplied by 2 as 21x was distance of half way]\nAnswer: C",
             "final_answer": "C",
             "question_idx": 43621
         },
         {
-            "question": "Q: What profit percent is made by selling an article at a certain price, if by selling at 2/3rd of that price, there would be a loss of 14%? Answer Choices: (A) 20% (B) 28% (C) 29% (D) 40% (E) 70% + \nA:",
-            "rationale": "Let's think step by step.\nSP2 = 2/3 SP1\nCP = 100\nSP2 = 86\n2/3 SP1 = 86\nSP1 = 129\n100 --- 29 => 29%\nAnswer:C",
+            "question": "Q: What profit percent is made by selling an article at a certain price, if by selling at 2/3rd of that price, there would be a loss of 14%? Answer Choices: (A) 20% (B) 28% (C) 29% (D) 40% (E) 70%",
+            "rationale": "A: Let's think step by step.\nSP2 = 2/3 SP1\nCP = 100\nSP2 = 86\n2/3 SP1 = 86\nSP1 = 129\n100 --- 29 => 29%\nAnswer:C",
             "final_answer": "C",
             "question_idx": 24245
         },
         {
-            "question": "Q: If 10 men can reap 120 acres of land in 15 days, how many acres of land can 20 men reap in 30 days? Answer Choices: (A) 120 (B) 240 (C) 360 (D) 1200 (E) 480 + \nA:",
-            "rationale": "Let's think step by step.\n10 men 120 acres 15 days\n20 men ? 30 days\n120 * 20/10 * 30/15\n120 *2 * 2\n120 * 4 = 480\nAnswer:E",
+            "question": "Q: If 10 men can reap 120 acres of land in 15 days, how many acres of land can 20 men reap in 30 days? Answer Choices: (A) 120 (B) 240 (C) 360 (D) 1200 (E) 480",
+            "rationale": "A: Let's think step by step.\n10 men 120 acres 15 days\n20 men ? 30 days\n120 * 20/10 * 30/15\n120 *2 * 2\n120 * 4 = 480\nAnswer:E",
             "final_answer": "E",
             "question_idx": 81990
         },
         {
-            "question": "Q: David purchased a Motor Bike and a mobile phone for Rs. 40000 and Rs. 8000 respectively. He sold the refrigerator at a loss of 10 percent and the mobile phone at a profit of 10 percent. Overall he make a. Answer Choices: (A) loss of Rs. 200 (B) loss of Rs. 3200 (C) profit of Rs. 100 (D) profit of Rs. 200 (E) None of these + \nA:",
-            "rationale": "Let's think step by step.\nTotal C.P. = 40000+8000 = 48000\nS.P. of motor bike = 40000/100*90= 36000\nS.P. of Mobile = 8000/100*110 = 8800\nTotal S.P. = 36000 + 8800 = 44800\nTota. C.P. - Total S.P. = 48000 - 44800 = 3200\nAnswer : B",
+            "question": "Q: David purchased a Motor Bike and a mobile phone for Rs. 40000 and Rs. 8000 respectively. He sold the refrigerator at a loss of 10 percent and the mobile phone at a profit of 10 percent. Overall he make a. Answer Choices: (A) loss of Rs. 200 (B) loss of Rs. 3200 (C) profit of Rs. 100 (D) profit of Rs. 200 (E) None of these",
+            "rationale": "A: Let's think step by step.\nTotal C.P. = 40000+8000 = 48000\nS.P. of motor bike = 40000/100*90= 36000\nS.P. of Mobile = 8000/100*110 = 8800\nTotal S.P. = 36000 + 8800 = 44800\nTota. C.P. - Total S.P. = 48000 - 44800 = 3200\nAnswer : B",
             "final_answer": "B",
             "question_idx": 1888
         },
         {
-            "question": "Q: 2 men and 2 women are lined up in a row. What is the number of cases where they stand with each other in turn? (The number of cases in which men (or women) do not stand next to each other) Answer Choices: (A) 4 (B) 15 (C) 18 (D) 21 (E) 24 + \nA:",
-            "rationale": "Let's think step by step.\nThe list should be WMWMW. Hence, from women 2! And men 2!, we get (2!)(2!)=4. Therefore, the correct answer is A.",
+            "question": "Q: 2 men and 2 women are lined up in a row. What is the number of cases where they stand with each other in turn? (The number of cases in which men (or women) do not stand next to each other) Answer Choices: (A) 4 (B) 15 (C) 18 (D) 21 (E) 24",
+            "rationale": "A: Let's think step by step.\nThe list should be WMWMW. Hence, from women 2! And men 2!, we get (2!)(2!)=4. Therefore, the correct answer is A.",
             "final_answer": "A",
             "question_idx": 69031
         },
         {
-            "question": "Q: The speed of a subway train is represented by the equation z=s^2+2s for all situations where 0≤s≤7, where z is the rate of speed in kilometers per hour and s is the time in seconds from the moment the train starts moving. In kilometers per hour, how much faster is the subway train moving after 6 seconds than it was moving after 3 seconds? Answer Choices: (A) 4 (B) 9 (C) 15 (D) 48 (E) 33 + \nA:",
-            "rationale": "Let's think step by step.\nGiven: z=s^2+2s for 0≤s≤7\nz(3) = 3^2 + 2*3 = 15\nz(6) = 6^2 + 2*6 = 48\nTherefore z(7) - z(3) = 48 - 15 = 33 km/hr\nOption E",
+            "question": "Q: The speed of a subway train is represented by the equation z=s^2+2s for all situations where 0≤s≤7, where z is the rate of speed in kilometers per hour and s is the time in seconds from the moment the train starts moving. In kilometers per hour, how much faster is the subway train moving after 6 seconds than it was moving after 3 seconds? Answer Choices: (A) 4 (B) 9 (C) 15 (D) 48 (E) 33",
+            "rationale": "A: Let's think step by step.\nGiven: z=s^2+2s for 0≤s≤7\nz(3) = 3^2 + 2*3 = 15\nz(6) = 6^2 + 2*6 = 48\nTherefore z(7) - z(3) = 48 - 15 = 33 km/hr\nOption E",
             "final_answer": "E",
             "question_idx": 91321
         }

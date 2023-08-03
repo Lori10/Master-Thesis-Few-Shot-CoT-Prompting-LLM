@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve grade school math problems.\nQ: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?\nA: The answer is 18.\n\nQ: There have been 15 \"Where's Waldo?\" books published. Each book has 30 puzzles to find Waldo. The average person takes 3 minutes to find Waldo in a puzzle. How long would it take to find every Waldo?\nA: The answer is 1350.\n\nQ: Darla needs to pay $4/watt of electricity for 300 watts of electricity, plus a $150 late fee. How much does she pay in total?\nA: The answer is 1350.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.4
+    },
+    {
+        "mean_accuracy": 0.4
+    }
+]

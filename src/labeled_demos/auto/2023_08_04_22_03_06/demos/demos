@@ -1,0 +1,14 @@
+{
+    "demo": [
+        {
+            "question": "Q: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?",
+            "rationale": "A: Let's think step by step.\nBen has 40+8 = <<40+8=48>>48 apples.\nThere are 48/8 = <<48/8=6>>6 apples in every eighth.\nTom has 6*3 = <<6*3=18>>18 apples.",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: Mitzel spent 35% of her allowance. If she spent $14, how much money is left in her allowance?",
+            "rationale": "A: Let's think step by step.\nIf 35% represents 14, then 100-35 = 65 represents the amount left of her allowance.\nThe amount she didn't use is 65*14/35 = <<65*14/35=26>>26",
+            "final_answer": "26"
+        }
+    ]
+}

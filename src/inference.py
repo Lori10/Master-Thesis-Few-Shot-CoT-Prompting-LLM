@@ -6,55 +6,22 @@ import json
 from utils import initialize_llmchain 
 import sys
 from constant_vars import *
+import datetime
 
 def main():
     # load arguments from terminal
     args = arg_parser()
 
-    # inference_results/cotorstandard/sampling_method/dataset/files
-    # inference_results/zeroshot/dataset/files
+    current_time = datetime.datetime.now()
+    time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
-        if args.method == 'cot' or args.method == 'standard':
-            os.makedirs(args.output_dir + args.method)
-            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
-            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
-        elif args.method == 'zero_shot_cot':
-            os.makedirs(args.output_dir + args.method)
-            os.makedirs(args.output_dir + args.method + '/' + args.dataset)
-    elif not os.path.exists(args.output_dir + args.method):
-        os.makedirs(args.output_dir + args.method)
-        if args.method == 'cot' or args.method == 'standard':
-            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
-            os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
-        elif args.method == 'zero_shot_cot':
-            os.makedirs(args.output_dir + args.method + '/' + args.dataset)
+        os.makedirs(args.output_dir + '/' + time_string)
+    else:
+        os.makedirs(args.output_dir + '/' + time_string)
+
+    args.output_dir = args.output_dir + '/' + time_string + '/'
         
-    else:
-        if args.method == 'cot' or args.method == 'standard':
-            if not os.path.exists(args.output_dir + args.method + '/' + args.sampling_method):
-                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method)
-                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
-            elif not os.path.exists(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset):
-                os.makedirs(args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset)
-            else:
-                print('Directory Already Exists!')
-                sys.exit(0)
-        elif args.method == 'zero_shot_cot':
-            if not os.path.exists(args.output_dir + args.method + '/' + args.dataset):
-                os.makedirs(args.output_dir + args.method + '/' + args.dataset)
-            else:
-                print('Directory Already Exists!')
-                sys.exit(0)
-
-
-    if args.method == 'cot' or args.method == 'standard':
-        args.output_dir = args.output_dir + args.method + '/' + args.sampling_method + '/' + args.dataset + '/'
-    elif args.method == 'zero_shot_cot':
-        args.output_dir = args.output_dir + args.method + '/' + args.dataset + '/'
-    else:
-        raise NotImplementedError(f"Method not implemented")
-
     set_random_seed(args.random_seed)
     # load dataset
     dataloader = create_dataloader(args)
@@ -133,7 +100,23 @@ def main():
         with open(path, 'w') as f:
             f.write(json.dumps(acc_prompt_list, indent=4))
 
-    
+        args_dict = {
+                    "dataset": args.dataset,
+                    "dataset_size_limit": len(dataloader),
+                    "data_path": args.data_path,
+                    "random_seed": args.random_seed,
+                    "dir_prompts": args.dir_prompts,
+                    "model_id": args.model_id,
+                    "method": args.method,
+                    "output_dir": args.output_dir,
+                    "temperature": args.temperature,
+                    "multipath": args.multipath,
+                    "answers_are_available": args.answers_are_available,
+                    "prompt_is_built": args.prompt_is_built,
+                }
+        with open(args.output_dir + 'inference_args.json', 'w') as f:
+            json.dump(args_dict, f, indent=4)
+
 def single_run_inference(llm_chain, question_pool, args):
     correct_count = 0
     wrong = [{'prompt' : llm_chain.prompt.template}]
@@ -212,7 +195,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/gsm8k/sampling_center_seed_42_nrdemos_3_datasetsizelimit_30_maxralen_5", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/active/gsm8k/model_text-davinci-003_method_few_shot_cot_numtrails_3_sortby_entropy_temperature_0-7_seed_42_nrdemos_3_datasetsizelimit_5", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
@@ -223,19 +206,13 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--sampling_method", type=str, default="Auto", choices=["Random", "Auto", "Active", "Auto_Active_KMeans", "Auto_Active_KMeansPlusPlus", "Auto_Active_KMeansPlusPlus_Retrieval"], help="sampling method used for selecting the demo questions"
-    )
-
-    parser.add_argument(
-        "--output_dir", type=str, default="inference_results/", help="output directory"
+        "--output_dir", type=str, default="inference_results", help="output directory"
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=10, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=5, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
-    # parser.add_argument(
-    #     "--api_time_interval", type=float, default=1.0, help="how many seconds to sleep between each request"
-    # )
+  
     parser.add_argument(
         "--temperature", type=float, default=0, help="temperature used for llm decoding"
     )

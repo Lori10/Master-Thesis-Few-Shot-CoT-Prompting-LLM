@@ -1,0 +1,44 @@
+{
+    "demo": [
+        {
+            "question": "Q: Bart makes a mixtape.  The first side has 6 songs.  The second side has 4 songs.  Each song is 4 minutes.  How long is the total tape?",
+            "rationale": "A: Let's think step by step.\nThere are 6+4=<<6+4=10>>10 songs on the tape.\nIn total, the time is 10*4=<<10*4=40>>40 minutes.",
+            "final_answer": "40"
+        },
+        {
+            "question": "Q: New York recorded 5000 new coronavirus cases on a particular week. In the second week, half as many new coronaviruses cases as the first week was recorded by the state. In the third week, 2000 more cases were recorded in the state. What is the total number of recorded new coronaviruses in the state after the three weeks?",
+            "rationale": "A: Let's think step by step.\nIf there were 5000 new cases on the first week, the total for the second week is 1/2 * 5000 cases = <<5000*1/2=2500>>2500 cases.\nThe total number of new coronavirus cases in the three weeks is 2500 cases + 5000 cases + 2000 cases = <<2500+5000+2000=9500>>9500 cases.",
+            "final_answer": "9500"
+        },
+        {
+            "question": "Q: An old pirate wants to leave his treasure on an island. He has 3500 gold coins. He wants to spread this equally across 5 chests. Additionally, he will put a total of 500 silver coins and twice as many bronze coins as silver, all distributed equally across the chests. How many coins in total will be in each chest?",
+            "rationale": "A: Let's think step by step.\nThere will be 3500 gold coins / 5 chest= <<3500/5=700>>700 gold coins in every chest.\nSo, there will be 500 silver coins / 5 chests = <<500/5=100>>100 silver coins in each chest.\nThen, the number of bronze coins is double the number of silver coins, so there are 2 * 500 = <<2*500=1000>>1000 bronze coins.\nSo there will be 1000 bronze coins / 5 chests = <<1000/5=200>>200 bronze coins in each chest.\nFinally, the total number of coins in every chest will be 700 gold coins + 100 silver coins + 200 bronze coins = <<700+100+200=1000>>1000 coins.",
+            "final_answer": "1000"
+        },
+        {
+            "question": "Q: Stefan goes to a restaurant to eat dinner with his family. They order an appetizer that costs $10 and 4 entrees that are $20 each. If they tip 20% of the total for the waiter, what is the total amount of money that they spend at the restaurant?",
+            "rationale": "A: Let's think step by step.\nThe total cost of the entrees is 4 * $20 = $<<4*20=80>>80.\nThe total cost of the dinner is $80 + $10 = $<<80+10=90>>90.\nThe tip is $90 * 0.20 = $<<90*0.20=18>>18\nThe total cost with tip is $90 + $18 = $<<90+18=108>>108",
+            "final_answer": "108"
+        },
+        {
+            "question": "Q: The gauge on a water tank shows that the tank is 1/3 full of water. To fill the tank, 16 gallons of water are added. How many gallons of water does the tank hold when full?",
+            "rationale": "A: Let's think step by step.\nGiven that the tank is 1/3 full of water, and that it requires 16 gallons to fill. 1 full tank -1/3 tank = 2/3 of the tank is empty, which is equal to 16 gallons.\nIf 2/3 of the tank equals 16 gallons, this means 1/3 of the tank is equal to 16 / 2 gallons = 8 gallons\nThe total capacity of the tank or how much the tanks holds = 16 + 8 = <<16+8=24>>24 gallons",
+            "final_answer": "24"
+        },
+        {
+            "question": "Q: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?",
+            "rationale": "A: Let's think step by step.\nBen has 40+8 = <<40+8=48>>48 apples.\nThere are 48/8 = <<48/8=6>>6 apples in every eighth.\nTom has 6*3 = <<6*3=18>>18 apples.",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: John wants to start a zoo.  He has 15 snakes.  He has twice as many monkeys as he does snakes.  He has 5 fewer lions than he does monkeys.   John has 8 more pandas than he does lions.  John has 1/3 as many dogs as he does pandas.  How many total animals does John have?",
+            "rationale": "A: Let's think step by step.\nJohn has 15 snakes * 2 = <<15*2=30>>30 monkeys.\nJohn has 30 monkeys - 5 = <<30-5=25>>25 lions.\nJohn has 25 lions + 8 = <<25+8=33>>33 pandas.\nJohn has 33 pandas / 3 = <<33/3=11>>11 dogs.\nJohn has 15+30 + 25 + 33 + 11 = <<15+30+25+33+11=114>>114 animals.",
+            "final_answer": "114"
+        },
+        {
+            "question": "Q: Darla needs to pay $4/watt of electricity for 300 watts of electricity, plus a $150 late fee. How much does she pay in total?",
+            "rationale": "A: Let's think step by step.\nFirst find the total cost of the electricity: $4/watt * 300 watts = $<<4*300=1200>>1200\nThen add the late fee: $1200 + $150 = $<<1200+150=1350>>1350",
+            "final_answer": "1350"
+        }
+    ]
+}

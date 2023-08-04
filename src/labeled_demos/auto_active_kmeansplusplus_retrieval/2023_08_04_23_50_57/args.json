@@ -1,0 +1,21 @@
+{
+    "sampling_method": "Auto_Active_KMeansPlusPlus_Retrieval",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 10,
+    "model_id": "text-davinci-003",
+    "normalize_distance_uncertainty": true,
+    "random_seed": 42,
+    "num_trails": 5,
+    "method": "few_shot_cot",
+    "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+    "sort_by": "entropy",
+    "distance_metric": "cosine",
+    "beta": 1.7,
+    "temperature": 0.7,
+    "nr_demos": 2,
+    "answers_are_available": true,
+    "greedy": true,
+    "test_question": "Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?",
+    "auto_active_limit_nr": 5
+}

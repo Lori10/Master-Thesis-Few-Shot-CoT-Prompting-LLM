@@ -1,0 +1,19 @@
+{
+    "demo": [
+        {
+            "question": "Q: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?",
+            "rationale": "A: Let's think step by step.\nBen has 40+8 = <<40+8=48>>48 apples.\nThere are 48/8 = <<48/8=6>>6 apples in every eighth.\nTom has 6*3 = <<6*3=18>>18 apples.",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: There have been 15 \"Where's Waldo?\" books published. Each book has 30 puzzles to find Waldo. The average person takes 3 minutes to find Waldo in a puzzle. How long would it take to find every Waldo?",
+            "rationale": "A: Let's think step by step.\nThere have been 450 puzzles because 15 x 30 = <<450=450>>450\nIt would take 1,350 minutes to find all the Waldo's because 450 x 3 = <<450*3=1350>>1,350",
+            "final_answer": "1350"
+        },
+        {
+            "question": "Q: Darla needs to pay $4/watt of electricity for 300 watts of electricity, plus a $150 late fee. How much does she pay in total?",
+            "rationale": "A: Let's think step by step.\nFirst find the total cost of the electricity: $4/watt * 300 watts = $<<4*300=1200>>1200\nThen add the late fee: $1200 + $150 = $<<1200+150=1350>>1350",
+            "final_answer": "1350"
+        }
+    ]
+}

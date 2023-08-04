@@ -8,44 +8,59 @@ from scipy.stats import entropy
 from utils import initialize_llmchain
 import load_env_vars
 from constant_vars import *
+import datetime 
 
 def main():
     args = arg_parser()
+
+    current_time = datetime.datetime.now()
+    time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
+    if not os.path.exists(args.demos_save_dir):
+        os.makedirs(args.demos_save_dir)
+        os.makedirs(args.demos_save_dir + '/' + 'active')
+        os.makedirs(args.demos_save_dir + '/' +  'active' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores')
+    elif not os.path.exists(args.demos_save_dir + '/' + 'active'):
+        os.makedirs(args.demos_save_dir + '/' + 'active')
+        os.makedirs(args.demos_save_dir + '/' +  'active' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores')
+    else:
+        os.makedirs(args.demos_save_dir + '/' +  'active' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores')
+
+    args.json_file = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'args.json'
+    args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores/'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos/'
+
+    args_dict = {
+        "sampling_method": "Active",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "dataset_size_limit": args.dataset_size_limit,
+        "random_seed": args.random_seed,
+        "nr_demos": args.nr_demos,
+        "demos_save_dir": args.demos_save_dir,
+        "method": args.method,
+        "model_id": args.model_id,
+        "num_trails": args.num_trails,
+        "sort_by": args.sort_by,
+        "temperature": args.temperature,
+        "answers_are_available": args.answers_are_available,
+    }
+
+    with open(args.json_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
+
+
     if args.dataset == "gsm8k":
         prefix = prefix_gsm8k
     elif args.dataset == "aqua":
         prefix = prefix_aqua
     else:
         raise NotImplementedError("dataset not implemented")
-
-    model_name = args.model_id.replace('/', '-')  
-    model_name = model_name.replace('.', '-')
-    temperature = str(args.temperature).replace('.', '-')  
-
-    if not os.path.exists(args.demos_save_dir):
-        os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'active')
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + 'active'):
-        os.makedirs(args.demos_save_dir + 'active')
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + 'active/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'active/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
-        os.makedirs(args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    else:
-        print('Directory Already Exists!')
-        sys.exit(0)
-
-    args.demos_save_dir = args.demos_save_dir + f'active/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}/'
-
-    if not os.path.exists(args.uncertainty_scores_dir):
-        os.makedirs(args.uncertainty_scores_dir)
-
-    uncertainty_filepath = f"{args.uncertainty_scores_dir}method_active_{args.dataset}_model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}.txt"
     
     print('Hyperparameters: ')
 
@@ -84,9 +99,8 @@ def main():
     demos = {'demo': result[:args.nr_demos]}
     with open(f"{args.demos_save_dir}demos", 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
-
         
-    with open(uncertainty_filepath, 'w') as f:
+    with open(args.uncertainty_scores_dir + 'uncertainties.txt', 'w') as f:
         try:
             f.write(json.dumps(result, indent=4))
         except:
@@ -238,9 +252,9 @@ def arg_parser():
         raise ValueError("dataset is not properly defined ...")
 
     if args.answers_are_available:
-        args.demos_save_dir = "labeled_demos/"
+        args.demos_save_dir = "labeled_demos"
     else:
-        args.demos_save_dir = "unlabeled_demos/"
+        args.demos_save_dir = "unlabeled_demos"
         
     # "Therefore, the answer ..." -> "The answer ..."
     trigger = args.direct_answer_trigger.replace("\nTherefore, ", "")

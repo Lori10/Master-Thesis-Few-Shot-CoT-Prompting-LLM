@@ -15,6 +15,7 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy import stats
 import pickle
+import openai
 from sklearn.metrics import pairwise_distances
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import FAISS
@@ -22,9 +23,10 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 import load_env_vars
 from constant_vars import *
+import datetime
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeansPlusPlusRetrieval")
+    parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
@@ -36,15 +38,13 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
         "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
     )
-    # parser.add_argument(
-    #     "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
-    # )
+    
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each question"
@@ -75,10 +75,6 @@ def parse_arguments():
     
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
-    )
-
-    parser.add_argument(
-        "--uncertainty_scores_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
     )
 
     parser.add_argument(
@@ -160,11 +156,7 @@ def generate_doc_embedding(corpus, encoder=OpenAIEmbeddings()):
 
 def main():
     args = parse_arguments()
-    if args.greedy:
-        greedy_str = 'greedy'
-    else:
-        greedy_str = 'random_weighted'
-
+    
     if args.dataset == "gsm8k":
         prefix = prefix_gsm8k
     elif args.dataset == "aqua":
@@ -172,39 +164,53 @@ def main():
     else:
         raise NotImplementedError("dataset not implemented")
 
-    model_name = args.model_id.replace('/', '-')  
-    model_name = model_name.replace('.', '-')
-    temperature = str(args.temperature).replace('.', '-')
-
-    beta = str(args.beta).replace('.', '-')
-    normalize_distance_uncertainty = str(args.normalize_distance_uncertainty)
-
+    current_time = datetime.datetime.now()
+    time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
     if not os.path.exists(args.demos_save_dir):
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}/' + args.dataset + '_fewshot_built/')
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}'):
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}')
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}/' + args.dataset + '_fewshot_built/')
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}/' + args.dataset + '_fewshot_built/'):
-        os.makedirs(args.demos_save_dir + f'auto_active_cot_kmeans_plusplus_retrieval_{greedy_str}/' + args.dataset + '_fewshot_built/')
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}'):
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval')
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeansplusplus_retrieval' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'metadata')
+    elif not os.path.exists(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval'):
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval')
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeansplusplus_retrieval' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'metadata')
     else:
-        print('Directory already exists!')
-        sys.exit(0)
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeansplusplus_retrieval' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'metadata')
 
-    args.demos_save_dir = f'{args.demos_save_dir}' + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}/'
-    
+    args.json_file = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'args.json'
+    args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'metadata/'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'demos/'
 
-    if not os.path.exists(args.uncertainty_scores_dir):
-        os.makedirs(args.uncertainty_scores_dir)
+    args_dict = {
+        "sampling_method": "Auto_Active_KMeansPlusPlus_Retrieval",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "dataset_size_limit": args.dataset_size_limit,
+        "model_id": args.model_id,
+        "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
+        "random_seed": args.random_seed,
+        "num_trails": args.num_trails,
+        "method": args.method,
+        "dir_prompts": args.dir_prompts,
+        "sort_by": args.sort_by,
+        "distance_metric": args.distance_metric,
+        "beta": args.beta,
+        "temperature": args.temperature,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+        "greedy": args.greedy,
+        "test_question": args.test_question,
+        "auto_active_limit_nr": args.auto_active_limit_nr
+    }
 
-    distance_uncertainty_filepath = f'{args.uncertainty_scores_dir}' + f'auto_active_kmeans_plusplus_retrieval_{greedy_str}/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}_autoactivelimitnr_{args.auto_active_limit_nr}_beta_{beta}_distancemetric_{args.distance_metric}_normalizedistanceuncertainty_{normalize_distance_uncertainty}.txt'
-    
+    with open(args.json_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
+
     set_random_seed(args.random_seed)
 
     if args.method == "few_shot_cot":
@@ -214,6 +220,8 @@ def main():
         args.prompt = given_prompt_list[0]
     elif args.method == "zero_shot_cot":
         args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+    
+    args.llm_chain = initialize_llmchain(args.prompt, args)
 
     dataloader = create_dataloader(args)
     if args.dataset_size_limit <= 0:
@@ -235,8 +243,13 @@ def main():
     # with open('uncertainties.pkl', 'wb') as f:
     #     pickle.dump(uncertainty_list, f)
     
-
-    #encoder = OpenAIEmbeddings()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    headers = {
+        "x-api-key": openai.api_key,
+    }
+    encoder = OpenAIEmbeddings(
+        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+    )
     #embeddings = np.array(encoder.embed_documents(corpus))
     
     file = open("embeddings", "rb")
@@ -341,16 +354,9 @@ def main():
 
 
     examples = [{'question' : example['question'],
-                 'answer': ' ' + example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n\n'
+                 'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
                  } for example in demos]
     
-    # examples = [
-    #     {"input": "happy", "output": "sad"},
-    #     {"input": "tall", "output": "short"},
-    #     {"input": "energetic", "output": "lethargic"},
-    #     {"input": "sunny", "output": "gloomy"},
-    #     {"input": "windy", "output": "calm"},
-    # ]
     example_prompt = PromptTemplate(
     input_variables=["question", "answer"],
     template="{question}\n{answer}",
@@ -358,7 +364,7 @@ def main():
 
     example_selector = SemanticSimilarityExampleSelector.from_examples(
     examples, 
-    OpenAIEmbeddings(), 
+    encoder, 
     FAISS, 
     k=args.nr_demos
     )
@@ -376,12 +382,8 @@ def main():
     with open(args.demos_save_dir + 'demo.txt', 'w') as file:
         file.write(formatted_prompt)
 
-    # demos = {"demo": demos}
-    # with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
-    #     json.dump(demos, write_f, indent=4, ensure_ascii=False)
-
-    # with open(distance_uncertainty_filepath, 'w') as f:
-    #     f.write(json.dumps(all_info_list, indent=2))
+    with open(args.uncertainty_scores_dir + 'metadata' , 'w') as f:
+        f.write(json.dumps(all_info_list, indent=2))
 
 if __name__ == "__main__":
     main()

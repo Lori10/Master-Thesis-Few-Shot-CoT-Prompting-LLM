@@ -1,0 +1,14 @@
+{
+    "dataset": "gsm8k",
+    "dataset_size_limit": 5,
+    "data_path": "../datasets/gsm8k/test.jsonl",
+    "random_seed": 1,
+    "dir_prompts": "labeled_demos/active/gsm8k/model_text-davinci-003_method_few_shot_cot_numtrails_3_sortby_entropy_temperature_0-7_seed_42_nrdemos_3_datasetsizelimit_5",
+    "model_id": "text-davinci-003",
+    "method": "cot",
+    "output_dir": "inference_results/2023_08_04_19_58_24/",
+    "temperature": 0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "prompt_is_built": false
+}

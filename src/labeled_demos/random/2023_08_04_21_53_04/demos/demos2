@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: On a mall-wide sale, Andre bought a $1350 treadmill for a 30% discount and 2 pieces of 45-pound plates for $50 each. How much did Andre pay for the treadmill and plates?",
+            "rationale": "A: Let's think step by step.\nAndre had $1350 x 30/100 = $<<1350*30/100=405>>405 discount for the treadmill.\nSo, a treadmill cost $1350 - $405 = $<<1350-405=945>>945.\nTwo 45-pound plates cost $50 x 2 = $100.\nSo, Andre paid a total of $945 + $100 = $<<945+100=1045>>1045.",
+            "final_answer": "1045"
+        },
+        {
+            "question": "Q: Jake makes a drink that is 2 parts Coke, 1 part Sprite and 3 parts Mountain Dew.  If the drink contains 6 ounces of Coke, how many ounces is the drink?",
+            "rationale": "A: Let's think step by step.\nThe drink is 2+1+3=<<2+1+3=6>>6 parts\nThe drink is 2/6=1/3 coke\nSo the drink is 6/(1/3)=<<6/(1/3)=18>>18 ounces",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: Emma bought a loaf of bread that had a certain number of slices. Her little cousin Andy ate 3 slices from the bread at two different points in time, and then Emma decided she would make toast with the remaining slices. If she uses 2 slices of bread to make 1 piece of toast bread, how many slices were in the original loaf if she was able to make 10 pieces of toast bread and had 1 slice of bread left?",
+            "rationale": "A: Let's think step by step.\nLittle Andy ate 3 slices 2 times giving a total of 3*2=<<3*2=6>>6 slices of bread\n1 piece of toast bread requires 2 slices of bread so 10 pieces need 10*2=<<10*2=20>>20 slices of bread\nThere is 1 slice of bread left so in total there were 6+20+1=<<6+20+1=27>>27 slices of bread in the loaf",
+            "final_answer": "27"
+        },
+        {
+            "question": "Q: Jerica is twice Louis' age. Matilda is 7 years older than Jerica. If Louis is 14, how many years old is Matilda?",
+            "rationale": "A: Let's think step by step.\nJerica = 2 * 14 = <<2*14=28>>28\nMatilda = 28 + 7 = <<28+7=35>>35\nMatilda is <<35=35>>35 years old.",
+            "final_answer": "35"
+        },
+        {
+            "question": "Q: Tameka is selling boxes of crackers for her scout troop. On Friday, she sold 40 boxes. On Saturday, she sold 10 fewer than twice that number. And on Sunday, she sold half as many as Sunday. How many boxes did she sell over the three days?",
+            "rationale": "A: Let's think step by step.\nSaturday's total was 2*40-10=<<2*40-10=70>>70.\nSunday's was 70/2=<<70/2=35>>35.\nThe sum is 40+70+35=<<40+70+35=145>>145.",
+            "final_answer": "145"
+        },
+        {
+            "question": "Q: Lao is farming chickens. He can sell each chicken for $1.50. A bag of chicken feed weighs 20 pounds and costs $2. Each chicken will need 2 pounds of feed from the time it hatches to the time he sells it. If he makes $65 profit from selling chickens, how many did he sell?",
+            "rationale": "A: Let's think step by step.\nA bag of feed is enough for 10 chickens because 20 / 2 = <<20/2=10>>10\nEach chicken costs $.2 to raise because 2 / 10 = <<2/10=.2>>.2\nEach chicken results in $1.3 of profit because 1.5 - .2 = <<1.5-.2=1.3>>1.3\nHe sells 50 chickens because 65 / 1.3 = <<65/1.3=50>>50",
+            "final_answer": "50"
+        }
+    ]
+}

@@ -3,6 +3,7 @@ import json
 import random
 import os
 from utils import *
+import datetime
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
@@ -17,7 +18,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--random_seed", type=int, default=20, help="seed for selecting random samples"
+        "--random_seed", type=int, default=22, help="seed for selecting random samples"
     )
 
     parser.add_argument(
@@ -37,38 +38,45 @@ def parse_arguments():
 
     args = parser.parse_args()
     if args.answers_are_available:
-        args.demos_save_dir = "labeled_demos/"
+        args.demos_save_dir = "labeled_demos"
     else:
-        args.demos_save_dir = "unlabeled_demos/"
+        args.demos_save_dir = "unlabeled_demos"
     return args
 
 def main():
     args = parse_arguments()
 
+    current_time = datetime.datetime.now()
+    time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
     if not os.path.exists(args.demos_save_dir):
-        print('STEP 1')
         os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'random')
-        os.makedirs(args.demos_save_dir + 'random/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + 'random'):
-        print('STEP 2')
-        os.makedirs(args.demos_save_dir + 'random')
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}')
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + f'random/{args.dataset}'):
-        print('STEP 3')
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}')
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
-        print('STEP 4')
-        os.makedirs(args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
+        os.makedirs(args.demos_save_dir + '/' + 'random')
+        os.makedirs(args.demos_save_dir + '/' +  'random' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos')
+    elif not os.path.exists(args.demos_save_dir + '/' + 'random'):
+        os.makedirs(args.demos_save_dir + '/' + 'random')
+        os.makedirs(args.demos_save_dir + '/' +  'random' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos')
     else:
-        print('STEP 5')
-        print('Directory Already Exists!')
-        sys.exit(0)
+        os.makedirs(args.demos_save_dir + '/' +  'random' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos')
 
-    args.demos_save_dir = args.demos_save_dir + f'random/{args.dataset}/nrprompts_{args.nr_seeds}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'
+    args.json_file = args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'args.json'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos/'
+    args_dict = {
+        "sampling_method": "Random",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "dataset_size_limit": args.dataset_size_limit,
+        "random_seed": args.random_seed,
+        "nr_seeds": args.nr_seeds,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+        "demos_save_dir": args.demos_save_dir
+    }
+
+    with open(args.json_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
 
     print('Hyperparameters:')
 

@@ -1,10 +1,8 @@
 import random
 # from sentence_transformers import SentenceTransformer
 from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
 import numpy as np
 import json
-import matplotlib.pyplot as plt
 import argparse
 from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
@@ -12,9 +10,13 @@ import os
 from utils import *
 from generate_demo_active import create_uncertainty
 from constant_vars import *
+import load_env_vars
+import datetime
+import openai
+from utils import initialize_llmchain
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-Active-CoT-Combination-KMeans")
+    parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
@@ -26,7 +28,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -58,11 +60,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--uncertainty_per_cluster_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
-    )
-
-    parser.add_argument(
-        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
+        "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     args = parser.parse_args()
@@ -76,10 +74,10 @@ def parse_arguments():
         raise NotImplementedError
 
     if args.answers_are_available:
-        args.demos_save_dir = "labeled_demos/"
+        args.demos_save_dir = "labeled_demos"
     else:
         args.max_ra_len = 'None'
-        args.demos_save_dir = "unlabeled_demos/"
+        args.demos_save_dir = "unlabeled_demos"
         
     # "Therefore, the answer ..." -> "The answer ..."
     trigger = args.direct_answer_trigger.replace("\nTherefore, ", "")
@@ -93,6 +91,50 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
+
+    current_time = datetime.datetime.now()
+    time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
+    if not os.path.exists(args.demos_save_dir):
+        os.makedirs(args.demos_save_dir)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans')
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
+    elif not os.path.exists(args.demos_save_dir + '/' + 'auto_active_kmeans'):
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans')
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
+    else:
+        os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
+        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
+
+    args.json_file = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'args.json'
+    args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores/'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos/'
+
+    args_dict = {
+        "sampling_method": "Auto_Active_KMeans",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "dataset_size_limit": args.dataset_size_limit,
+        "model_id": args.model_id,
+        "max_ra_len": args.max_ra_len,
+        "random_seed": args.random_seed,
+        "num_trails": args.num_trails,
+        "method": args.method,
+        "sort_by": args.sort_by,
+        "temperature": args.temperature,
+        "dir_prompts": args.dir_prompts,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+    }
+
+    with open(args.json_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
+
+
     if args.dataset == "gsm8k":
         prefix = prefix_gsm8k
     elif args.dataset == "aqua":
@@ -100,35 +142,7 @@ def main():
     else:
         raise NotImplementedError("dataset not implemented")
 
-    model_name = args.model_id.replace('/', '-')  
-    model_name = model_name.replace('.', '-')
-    temperature = str(args.temperature).replace('.', '-')
-
-    if not os.path.exists(args.demos_save_dir):
-        os.makedirs(args.demos_save_dir)
-        os.makedirs(args.demos_save_dir + 'auto_active_kmeans')
-        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + 'auto_active_kmeans'):
-        os.makedirs(args.demos_save_dir + 'auto_active_kmeans')
-        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset):
-        os.makedirs(args.demos_save_dir + 'auto_active_kmeans/' + args.dataset)
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    elif not os.path.exists(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}'):
-        os.makedirs(args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}')
-    else:
-        print('Directory already exists.')
-        sys.exit(0)
-
-    args.demos_save_dir = args.demos_save_dir + f'auto_active_kmeans/{args.dataset}/model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}/'
-
-    if not os.path.exists(args.uncertainty_per_cluster_dir):
-        os.makedirs(args.uncertainty_per_cluster_dir)
-
-    uncertainty_filepath = f"{args.uncertainty_per_cluster_dir}method_AutoActiveKMeans_dataset_{args.dataset}_model_{model_name}_method_{args.method}_numtrails_{args.num_trails}_sortby_{args.sort_by}_temperature_{temperature}_maxralen_{args.max_ra_len}_seed_{args.random_seed}_nrdemos_{args.nr_demos}_datasetsizelimit_{args.dataset_size_limit}"
-
+    print('Hyperparameters:')
     random.seed(args.random_seed)
 
     if args.method == "few_shot_cot":
@@ -139,8 +153,10 @@ def main():
     elif args.method == "zero_shot_cot":
         args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
 
-    # print(f'PROMPT: {args.prompt}')
-    # print('*' * 50)
+    args.llm_chain = initialize_llmchain(args.prompt, args)
+    
+    print('Prompt for uncertainty estimation:\n' + args.prompt)
+    print('*' * 50)
 
     dataloader = create_dataloader(args)
 
@@ -149,7 +165,19 @@ def main():
     else:
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Proceeding with data size: {len(dataloader)}")
-
+    print('hyperparameters ony by one')
+    print(f'args.data_path: {args.data_path}')
+    print(f'args.model_id: {args.model_id}')
+    print(f'args.max_ra_len: {args.max_ra_len}')
+    print(f'args.random_seed: {args.random_seed}')
+    print(f'args.num_trails: {args.num_trails}')
+    print(f'args.method: {args.method}')
+    print(f'args.sort_by: {args.sort_by}')
+    print(f'args.temperature: {args.temperature}')
+    print(f'args.dir_prompts: {args.dir_prompts}')
+    print(f'args.nr_demos: {args.nr_demos}')
+    print(f'args.answers_are_available: {args.answers_are_available}')
+    
     corpus = [example['question'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]
     if args.answers_are_available:
@@ -159,7 +187,15 @@ def main():
     max_ra_len = args.max_ra_len
     num_clusters = args.nr_demos
 
-    encoder = OpenAIEmbeddings()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    headers = {
+        "x-api-key": openai.api_key,
+    }
+
+    encoder = OpenAIEmbeddings(
+        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+    )
+
     corpus_embeddings = np.array(encoder.embed_documents(corpus))
     clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
@@ -225,7 +261,7 @@ def main():
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
-    with open(uncertainty_filepath, 'w', encoding="utf-8") as write_f:
+    with open(args.uncertainty_scores_dir + 'uncertainties', 'w', encoding="utf-8") as write_f:
         json.dump(cluster_uncertainty_records_dic, write_f, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":

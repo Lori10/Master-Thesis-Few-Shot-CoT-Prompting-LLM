@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: Emma bought a loaf of bread that had a certain number of slices. Her little cousin Andy ate 3 slices from the bread at two different points in time, and then Emma decided she would make toast with the remaining slices. If she uses 2 slices of bread to make 1 piece of toast bread, how many slices were in the original loaf if she was able to make 10 pieces of toast bread and had 1 slice of bread left?",
+            "rationale": "A: Let's think step by step.\nLittle Andy ate 3 slices 2 times giving a total of 3*2=<<3*2=6>>6 slices of bread\n1 piece of toast bread requires 2 slices of bread so 10 pieces need 10*2=<<10*2=20>>20 slices of bread\nThere is 1 slice of bread left so in total there were 6+20+1=<<6+20+1=27>>27 slices of bread in the loaf",
+            "final_answer": "27"
+        },
+        {
+            "question": "Q: To eat to when she gets full, Michaela needs 20 oranges. Cassandra needs twice as many oranges as Michaela to eat until she gets full. If they picked 90 oranges from the farm today, how many oranges would remain after they've both eaten until they were full?",
+            "rationale": "A: Let's think step by step.\nSince Michaela needs 20 oranges to eat to her full, and Cassandra eats twice as much to have her full, Cassandra needs 2*20 = <<20*2=40>>40 oranges to eat.\nThey eat 20+40 = <<20+40=60>>60 oranges together to have their fill.\nIf they picked 90 oranges today, after eating 60 together, 90-60 = <<90-60=30>>30 oranges would remain.",
+            "final_answer": "30"
+        },
+        {
+            "question": "Q: Rick held a fundraiser and is figuring out who still owes money. He marked on a sheet how much everyone has promised to contribute, but he forgot to note how much some people had actually paid. Altogether, everyone has promised to contribute $400, and Rick has actually received $285.  Sally, Amy, Derek, and Carl all still owe money. Sally and Carl both owe equal amounts, Amy owes $30, and Derek owes half as much as Amy. How much, in dollars, do Sally and Carl each owe?",
+            "rationale": "A: Let's think step by step.\nIn total, Rick is still owed 400 - 285 = $<<400-285=115>>115.\nDerek owes half as much as Amy, so he owes $30 / 2 = $<<30/2=15>>15.\nThis means that Sally and Carl owe a combined total of $115 - $30 – $15 = $<<115-30-15=70>>70.\nAs they owe equal amounts, they therefore owe $70 / 2 = $<<70/2=35>>35 each.",
+            "final_answer": "35"
+        },
+        {
+            "question": "Q: Jennifer will be 30 years old in ten years. At that time, her sister Jordana will be three times as old Jennifer. How old is Jennifer's sister now?",
+            "rationale": "A: Let's think step by step.\nWhen Jennifer is 30 years old in ten years, her sister Jordana will be 3*30=90 years old.\nShe's currently 10 years younger, so she's 90 - 10 = 80 years old",
+            "final_answer": "80"
+        },
+        {
+            "question": "Q: Tina makes $18.00 an hour.  If she works more than 8 hours per shift, she is eligible for overtime, which is paid by your hourly wage + 1/2 your hourly wage.  If she works 10 hours every day for 5 days, how much money does she make?",
+            "rationale": "A: Let's think step by step.\nShe works 8 hours a day for $18 per hour so she makes 8*18 = $<<8*18=144.00>>144.00 per 8-hour shift\nShe works 10 hours a day and anything over 8 hours is eligible for overtime, so she gets 10-8 = <<10-8=2>>2 hours of overtime\nOvertime is calculated as time and a half so and she makes $18/hour so her overtime pay is 18*.5 = $<<18*.5=9.00>>9.00\nHer overtime pay is 18+9 = $<<18+9=27.00>>27.00\nHer base pay is $144.00 per 8-hour shift and she works 5 days and makes 5 * $144 = $<<144*5=720.00>>720.00\nHer overtime pay is $27.00 per hour and she works 2 hours of overtime per day and makes 27*2 = $<<27*2=54.00>>54.00 in overtime pay\n2 hours of overtime pay for 5 days means she makes 54*5 = $270.00\nIn 5 days her base pay is $720.00 and she makes $270.00 in overtime pay so she makes $720 + $270 = $<<720+270=990.00>>990.00",
+            "final_answer": "990"
+        },
+        {
+            "question": "Q: Gina is figuring out how much she'll have to spend on college this year. She's taking 14 credits that cost $450 each, and she has to pay $120 for each of her 5 textbooks plus a $200 facilities fee. How much will Gina spend in total?",
+            "rationale": "A: Let's think step by step.\nFirst, find out how much will Gina pay for tuition by multiplying her number of credits by the cost per credit: 14 * 450 = $<<14*450=6300>>6300.\nThen find out how much she pays for textbooks by multiplying the number of books by the cost per book: 5 * 120 = $<<5*120=600>>600.\nFinally, add up all Gina's costs to find the total of 6300 + 600 + 200 = $<<6300+600+200=7100>>7100.",
+            "final_answer": "7100"
+        }
+    ]
+}

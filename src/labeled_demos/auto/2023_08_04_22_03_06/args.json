@@ -1,0 +1,11 @@
+{
+    "sampling_method": "Auto",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "max_ra_len": 5,
+    "random_seed": 42,
+    "sampling": "center",
+    "dataset_size_limit": 30,
+    "nr_demos": 2,
+    "answers_are_available": true
+}

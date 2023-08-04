@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: Antonio is preparing a meal of spaghetti and meatballs for his family.  His recipe for meatballs calls for 1/8 of a pound of hamburger per meatball.  Antonio has 8 family members, including himself.  If he uses 4 pounds of hamburger to make meatballs, and each member of the family eats an equal number of meatballs, how many meatballs will Antonio eat?",
+            "rationale": "A: Let's think step by step.\nIf one meatball is made from 1/8 pound of hamburger meat, then 4 pounds of hamburger meat will make 4/(1/8)=4*8=<<4/(1/8)=32>>32 meatballs.\n32 meatballs divided amongst 8 family members is 32/8=<<32/8=4>>4 meatballs per family member.",
+            "final_answer": "4"
+        },
+        {
+            "question": "Q: Three years ago, Bethany was twice the age of her younger sister. In 5 years, her younger sister will be 16. How old is Bethany now?",
+            "rationale": "A: Let's think step by step.\nFirst find how old Bethany's sister currently is: 16 years - 5 years = <<16-5=11>>11 years\nThen find how old her sister was 3 years ago: 11 years - 3 years = <<11-3=8>>8 years\nThen double that age to find how old Bethany was three years ago: 8 years * 2 = <<8*2=16>>16 years\nThen add 3 years to that number to find how old Bethany is now: 16 years + 3 years = <<16+3=19>>19 years",
+            "final_answer": "19"
+        },
+        {
+            "question": "Q: A kilogram of pork costs $6 while a kilogram of chicken costs $2 less. How much will a 3-kilogram of chicken and a kilogram of pork cost?",
+            "rationale": "A: Let's think step by step.\nA kilogram of chicken costs $6 - $2 = $<<6-2=4>>4.\nThree kilograms of chicken cost $4 x 3 = $<<4*3=12>>12.\nSo, a 3-kilogram of chicken and a kilogram of pork cost $12 + $6 = $18.",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: Eugene built a model house out of toothpicks and a deck of playing cards.  For every card, he used 75 toothpicks.  The deck of playing cards had 52 cards, and Eugene used all but 16 of the cards to build his house.  If a box of toothpicks contains 450 toothpicks, how many boxes of toothpicks did Eugene use to create his model house?",
+            "rationale": "A: Let's think step by step.\nIf Eugene used all but 16 of the 52 cards, then he used 52-16=<<52-16=36>>36 cards.\nIf for every card he used 75 toothpicks, then a box of toothpicks would have enough toothpicks for 450/75=<<450/75=6>>6 cards.\nSince one box has enough toothpicks for 6 cards, then for 36 cards he would need 36/6=<<36/6=6>>6 boxes of toothpicks.",
+            "final_answer": "6"
+        },
+        {
+            "question": "Q: A snail kite is a kind of bird that eats apple snails. On the first day, a snail kite ate 3 snails. Then it eats 2 more snails than it did the day before. How many apple snails in all did a snail kite eat for 5 days?",
+            "rationale": "A: Let's think step by step.\nOn the second day, the snail kite ate 3 + 2 = <<3+2=5>>5 apple snails.\nOn the third day, the snail kite ate 5 + 2 = <<5+2=7>>7 apple snails.\nOn the fourth day, the snail kite ate 7 + 2 = <<7+2=9>>9 apple snails.\nOn the fifth day, the snail kite ate 9 + 2 = <<9+2=11>>11 apple snails.\nThe snail kite ate a total of 3 + 5 + 7 + 9 + 11 = <<3+5+7+9+11=35>>35 apple snails in 5\ndays.",
+            "final_answer": "35"
+        },
+        {
+            "question": "Q: Jane is sewing sequins onto her trapeze artist costume. She sews 6 rows of 8 blue sequins each, 5 rows of 12 purple sequins each, and 9 rows of 6 green sequins each. How many sequins does she add total?",
+            "rationale": "A: Let's think step by step.\nFirst find the total number of blue sequins: 6 rows * 8 sequins/row = <<6*8=48>>48 sequins\nThen find the total number of purple sequins: 5 rows * 12 sequins/row = <<5*12=60>>60 sequins\nThen find the total number of green sequins: 9 rows * 6 sequins/row = <<9*6=54>>54 sequins\nThen add the number of each color of sequin to find the total number of sequins: 48 sequins + 60 sequins + 54 sequins = <<48+60+54=162>>162 sequins",
+            "final_answer": "162"
+        }
+    ]
+}

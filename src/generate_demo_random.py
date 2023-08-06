@@ -8,17 +8,17 @@ import datetime
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--random_seed", type=int, default=22, help="seed for selecting random samples"
+        "--random_seed", type=int, default=42, help="seed for selecting random samples"
     )
 
     parser.add_argument(
@@ -26,7 +26,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=70, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
         "--nr_demos", type=int, default=6, help="nr of demonstrations to select"

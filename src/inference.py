@@ -195,14 +195,14 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/active/gsm8k/model_text-davinci-003_method_few_shot_cot_numtrails_3_sortby_entropy_temperature_0-7_seed_42_nrdemos_3_datasetsizelimit_5", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_05_12_43_36/demos", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--method", type=str, default="standard", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -210,7 +210,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="whether to limit the dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=5, help="size of dataset to inference"
     )
   
     parser.add_argument(

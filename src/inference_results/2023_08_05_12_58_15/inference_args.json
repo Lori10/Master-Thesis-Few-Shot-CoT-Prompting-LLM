@@ -1,0 +1,14 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 5,
+    "data_path": "../datasets/AQuA/test.json",
+    "random_seed": 1,
+    "dir_prompts": "labeled_demos/random/2023_08_05_12_44_28/demos",
+    "model_id": "text-davinci-003",
+    "method": "cot",
+    "output_dir": "inference_results/2023_08_05_12_58_15/",
+    "temperature": 0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "prompt_is_built": false
+}

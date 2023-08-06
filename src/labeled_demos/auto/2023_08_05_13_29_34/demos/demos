@@ -1,0 +1,29 @@
+{
+    "demo": [
+        {
+            "question": "Q: New York recorded 5000 new coronavirus cases on a particular week. In the second week, half as many new coronaviruses cases as the first week was recorded by the state. In the third week, 2000 more cases were recorded in the state. What is the total number of recorded new coronaviruses in the state after the three weeks?",
+            "rationale": "A: Let's think step by step.\nIf there were 5000 new cases on the first week, the total for the second week is 1/2 * 5000 cases = <<5000*1/2=2500>>2500 cases.\nThe total number of new coronavirus cases in the three weeks is 2500 cases + 5000 cases + 2000 cases = <<2500+5000+2000=9500>>9500 cases.",
+            "final_answer": "9500"
+        },
+        {
+            "question": "Q: Ben has 8 apples more than Phillip does. Tom has three eighths as many apples at Ben has. If Phillip has 40 apples, how many apples does Tom have?",
+            "rationale": "A: Let's think step by step.\nBen has 40+8 = <<40+8=48>>48 apples.\nThere are 48/8 = <<48/8=6>>6 apples in every eighth.\nTom has 6*3 = <<6*3=18>>18 apples.",
+            "final_answer": "18"
+        },
+        {
+            "question": "Q: There are 180 students in ninth grade. 1/4 of them bombed their finals because they were going through difficult breakups. 1/3rd of the rest didn't show up to take the test, and another 20 got less than a D. How many students passed their finals?",
+            "rationale": "A: Let's think step by step.\nFirst find the number of students who went through breakups: 1/4 * 180 = <<1/4*180=45>>45 students\nThen subtract that number from the total number: 180 students - 45 students = <<180-45=135>>135 students\nThen divide that number by 3 to find the number of students who didn't show up to take the test: 135 students / 3 = <<135/3=45>>45 students\nThen subtract the number of students who failed in each way from the total number to find the number who passed: 180 students - 45 students - 45 students - 20 students = <<180-45-45-20=70>>70 students",
+            "final_answer": "70"
+        },
+        {
+            "question": "Q: Janet bought some muffins at the bakery. Each muffin is 75 cents. Janet paid $20 and got $11 in change back. How many muffins did Janet buy?",
+            "rationale": "A: Let's think step by step.\nJanet paid with $20 and got back $11, so her muffins cost $20 - $11 = $<<20-11=9>>9.\nEach muffin cost 75 cents, so she bought 9/.75 = <<9/.75=12>>12 muffins",
+            "final_answer": "12"
+        },
+        {
+            "question": "Q: Amy biked 12 miles yesterday. If she biked 3 miles less than twice as far as yesterday, how many miles did she bike in total in the two days?",
+            "rationale": "A: Let's think step by step.\nTwice the distance Amy biked yesterday is 12*2 = <<12*2=24>>24 miles\nIf Amy biked 3 miles less than twice as far as yesterday, she biked 24-3 = <<24-3=21>>21 miles today.\nThe total distance she biked in the two days is 21+12 = <<21+12=33>>33 miles",
+            "final_answer": "33"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "demo": [
+        {
+            "question": "Q: The gauge on a water tank shows that the tank is 1/3 full of water. To fill the tank, 16 gallons of water are added. How many gallons of water does the tank hold when full?",
+            "rationale": "A: Let's think step by step.\nGiven that the tank is 1/3 full of water, and that it requires 16 gallons to fill. 1 full tank -1/3 tank = 2/3 of the tank is empty, which is equal to 16 gallons.\nIf 2/3 of the tank equals 16 gallons, this means 1/3 of the tank is equal to 16 / 2 gallons = 8 gallons\nThe total capacity of the tank or how much the tanks holds = 16 + 8 = <<16+8=24>>24 gallons",
+            "final_answer": "24",
+            "question_id": 1
+        },
+        {
+            "question": "Q: New York recorded 5000 new coronavirus cases on a particular week. In the second week, half as many new coronaviruses cases as the first week was recorded by the state. In the third week, 2000 more cases were recorded in the state. What is the total number of recorded new coronaviruses in the state after the three weeks?",
+            "rationale": "A: Let's think step by step.\nIf there were 5000 new cases on the first week, the total for the second week is 1/2 * 5000 cases = <<5000*1/2=2500>>2500 cases.\nThe total number of new coronavirus cases in the three weeks is 2500 cases + 5000 cases + 2000 cases = <<2500+5000+2000=9500>>9500 cases.",
+            "final_answer": "9500",
+            "question_id": 9
+        },
+        {
+            "question": "Q: An old pirate wants to leave his treasure on an island. He has 3500 gold coins. He wants to spread this equally across 5 chests. Additionally, he will put a total of 500 silver coins and twice as many bronze coins as silver, all distributed equally across the chests. How many coins in total will be in each chest?",
+            "rationale": "A: Let's think step by step.\nThere will be 3500 gold coins / 5 chest= <<3500/5=700>>700 gold coins in every chest.\nSo, there will be 500 silver coins / 5 chests = <<500/5=100>>100 silver coins in each chest.\nThen, the number of bronze coins is double the number of silver coins, so there are 2 * 500 = <<2*500=1000>>1000 bronze coins.\nSo there will be 1000 bronze coins / 5 chests = <<1000/5=200>>200 bronze coins in each chest.\nFinally, the total number of coins in every chest will be 700 gold coins + 100 silver coins + 200 bronze coins = <<700+100+200=1000>>1000 coins.",
+            "final_answer": "1000",
+            "question_id": 8
+        }
+    ]
+}

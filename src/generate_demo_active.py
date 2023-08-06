@@ -195,14 +195,14 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
-
+    
     parser.add_argument(
         "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )

@@ -1,0 +1,33 @@
+[
+  {
+    "iteration": 0,
+    "selected_idx": 4
+  },
+  {
+    "iteration_nr": 1,
+    "selected_index": 8,
+    "current_selected_indexes": [
+      4,
+      8
+    ],
+    "distance": 0.4798908826804253,
+    "uncertainty_entropy": 0.6365141682948128,
+    "f1_score": 0.2218056074323668,
+    "normalized_distance": 0.11276653092968061,
+    "normalized_uncertainty_entropy": 0.3333333333333333
+  },
+  {
+    "iteration_nr": 2,
+    "selected_index": 1,
+    "current_selected_indexes": [
+      4,
+      8,
+      1
+    ],
+    "distance": 0.4583858154807597,
+    "uncertainty_entropy": 0.6365141682948128,
+    "f1_score": 0.2811904814721855,
+    "normalized_distance": 0.12416131067482251,
+    "normalized_uncertainty_entropy": 0.5
+  }
+]

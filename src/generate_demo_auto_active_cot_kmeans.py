@@ -18,12 +18,12 @@ from utils import initialize_llmchain
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 

@@ -166,7 +166,7 @@ def main():
     args.llm_chain = initialize_llmchain(args.prompt, args)
 
     start =time.time()  
-    result = create_uncertainty(args, dataloader)
+    result = generate_uncertainty_all_questions(args, dataloader)
     end = time.time()
     print('Total Execution Time: ', end - start, " seconds")
 

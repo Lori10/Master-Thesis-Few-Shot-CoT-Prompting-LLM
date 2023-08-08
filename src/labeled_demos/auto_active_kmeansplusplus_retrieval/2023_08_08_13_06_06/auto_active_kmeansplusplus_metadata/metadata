@@ -1,0 +1,56 @@
+[
+  {
+    "iteration": 0,
+    "selected_idx": 2
+  },
+  {
+    "iteration_nr": 1,
+    "selected_index": 9,
+    "current_selected_indexes": [
+      2,
+      9
+    ],
+    "distance": 0.47622577031818547,
+    "uncertainty_entropy": 1.0986122886681096,
+    "f1_score": 0.8223343942370396
+  },
+  {
+    "iteration_nr": 2,
+    "selected_index": 4,
+    "current_selected_indexes": [
+      2,
+      9,
+      4
+    ],
+    "distance": 0.4608411014573162,
+    "uncertainty_entropy": 0.6365141682948128,
+    "f1_score": 0.5797058350073528
+  },
+  {
+    "iteration_nr": 3,
+    "selected_index": 1,
+    "current_selected_indexes": [
+      2,
+      9,
+      4,
+      1
+    ],
+    "distance": 0.45576981292329605,
+    "uncertainty_entropy": 0.6365141682948128,
+    "f1_score": 0.5776274430820785
+  },
+  {
+    "iteration_nr": 4,
+    "selected_index": 6,
+    "current_selected_indexes": [
+      2,
+      9,
+      4,
+      1,
+      6
+    ],
+    "distance": 0.4513239987543311,
+    "uncertainty_entropy": 0.6365141682948128,
+    "f1_score": 0.5757795714839957
+  }
+]

@@ -1,6 +1,3 @@
-import random
-# from sentence_transformers import SentenceTransformer
-
 import json
 import argparse
 from utils import *
@@ -10,6 +7,8 @@ from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 import load_env_vars
 from constant_vars import *
 import datetime
+from langchain.embeddings import OpenAIEmbeddings
+import openai
 from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmeansplusplus
 from inference import single_run_inference
 
@@ -62,11 +61,7 @@ def parse_arguments():
     )
     
     parser.add_argument(
-        "--temperature", type=float, default=0.7, help="temperature for llm decoding"
-    )
-
-    parser.add_argument(
-        "--multipath", type=int, default=1, help="self-consistency path num"
+        "--auto_active_kmeansplusplus_temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
 
     parser.add_argument(
@@ -74,18 +69,23 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=3, help='number of demonstrations'
+        "--multipath", type=int, default=1, help="self-consistency path num"
     )
+
+    parser.add_argument(
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=5, help='the number of examples to use for auto-active labeling'
+    )
+
+    parser.add_argument(
+        "--retrieval_nr_demos", type=int, default=3, help='number of demonstrations'
+    )
+
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     parser.add_argument(
         "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
-    )
-
-    parser.add_argument(
-        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
     )
 
     parser.add_argument(
@@ -96,17 +96,29 @@ def parse_arguments():
     # parser.add_argument(
     #     "--test_question", type=str, default='Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?', help='test question for few-shot cot'
     # )
-    
-    parser.add_argument(
-        "--auto_active_limit_nr", type=int, default=5, help='the number of examples to use for auto-active labeling'
-    )
 
     parser.add_argument(
-        "--test_dataset_size_limit", type=int, default=3, help='the number of examples to use from the test dataset for inference'
+        "--test_dataset_size_limit", type=int, default=10, help='the number of examples to use from the test dataset for inference'
     )
 
     parser.add_argument(
         "--output_dir", type=str, default="inference_results", help="output directory"
+    )
+
+    parser.add_argument(
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
+    )
+
+    parser.add_argument(
+        "--load_demos_auto_active_kmeansplusplus", type=bool, default=True, help="whether to load the demonstrations from the auto-active kmeans++ method or compute the demonstrations from scratch"
+    )
+
+    parser.add_argument(
+        "--load_demos_auto_active_kmeansplusplus_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_08_13_01_17/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
+    )
+
+    parser.add_argument(
+        "--load_demos_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_08_13_01_17/metadata/metadata', help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     args = parser.parse_args()
@@ -176,10 +188,10 @@ def main_auto_active_kmeansplusplus_retrieval():
             "sort_by": args.sort_by,
             "distance_metric": args.distance_metric,
             "beta": args.beta,
-            "temperature_auto_active_kmeansplusplus": args.temperature,
+            "temperature_auto_active_kmeansplusplus": args.auto_active_kmeansplusplus_temperature,
             "temperature_inference": args.inference_temperature,
-            'auto_active_limit_nr': args.auto_active_limit_nr,
-            "nr_demos": args.nr_demos,
+            'auto_active_limit_nr': args.auto_active_kmeansplusplus_nr_demos,
+            "retrieval_nr_demos": args.retrieval_nr_demos,
             "answers_are_available": args.answers_are_available,
             "greedy": args.greedy,
             "test_data_path": args.test_data_path,
@@ -189,17 +201,29 @@ def main_auto_active_kmeansplusplus_retrieval():
         with open(args.json_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
 
-        args.nr_demos = args.auto_active_limit_nr
-        demos_json, encoder, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
+
+        if args.load_demos_auto_active_kmeansplusplus:
+            demos_json = json.load(open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8"))
+            auto_active_kmeansplusplus_info_list = json.load(open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8"))
+            openai.api_key = os.getenv("OPENAI_API_KEY")
+            headers = {
+                "x-api-key": openai.api_key,
+            }
+            encoder = OpenAIEmbeddings(
+                deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+            )
+        else:
+            if args.auto_active_kmeansplusplus_nr_demos <= args.retrieval_nr_demos:
+                print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
+                args.auto_active_kmeansplusplus_nr_demos = args.retrieval_nr_demos + 1
+            demos_json, encoder, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
+        
         with open(args.metadata + 'metadata' , 'w') as f:
             f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
 
         with open(args.auto_active_kmeansplusplus_demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
 
-        if args.auto_active_limit_nr <= args.nr_demos:
-            print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
-            args.auto_active_limit_nr = args.nr_demos - 1
         
         if args.dataset == "gsm8k":
             prefix = prefix_gsm8k
@@ -221,7 +245,7 @@ def main_auto_active_kmeansplusplus_retrieval():
         examples, 
         encoder, 
         FAISS, 
-        k=args.nr_demos
+        k=args.retrieval_nr_demos
         )
 
         similar_prompt = FewShotPromptTemplate(
@@ -245,8 +269,8 @@ def main_auto_active_kmeansplusplus_retrieval():
         args.temperature = args.inference_temperature
         for test_question_id, test_example in enumerate(test_dataloader):
             few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            print('Test Question ID: ' + str(test_question_id) + '\n')
-            print(f'Prompt:\n{few_shot_examples}')
+            #print('Test Question ID: ' + str(test_question_id) + '\n')
+            #print(f'Prompt:\n{few_shot_examples}')
             print('*' * 60)
 
             full_prompt = prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."

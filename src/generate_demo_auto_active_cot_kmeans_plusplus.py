@@ -83,8 +83,8 @@ def main_auto_active_kmeansplusplus(args):
             "sort_by": args.sort_by,
             "distance_metric": args.distance_metric,
             "beta": args.beta,
-            "temperature": args.temperature,
-            "nr_demos": args.nr_demos,
+            "temperature": args.auto_active_kmeansplusplus_temperature,
+            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
             "answers_are_available": args.answers_are_available,
             "greedy": args.greedy
         }
@@ -109,6 +109,7 @@ def main_auto_active_kmeansplusplus(args):
     elif args.method == "zero_shot_cot":
         args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
     
+    args.temperature = args.auto_active_kmeansplusplus_temperature
     args.llm_chain = initialize_llmchain(args.prompt, args)
 
     dataloader = create_dataloader(args)
@@ -161,7 +162,7 @@ def main_auto_active_kmeansplusplus(args):
     print(f'Iteration: {j}')
     print(f'All indices: {questions_idxs}')
     print(f'Selected indices: {selected_idxs}')
-    while j < args.nr_demos:
+    while j < args.auto_active_kmeansplusplus_nr_demos:
         if len(selected_data) == 1:
             D2 = pairwise_distances(embeddings, selected_data, metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
             if args.distance_metric == 'cosine':
@@ -248,7 +249,7 @@ def main_auto_active_kmeansplusplus(args):
         with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
 
-        with open(args.metadata + 'metadata' , 'w') as f:
-            f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
+        with open(args.metadata + 'metadata' , 'w', encoding='utf-8') as f:
+            f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2, ensure_ascii=False))
 
     return demos_json, encoder, auto_active_kmeansplusplus_info_list

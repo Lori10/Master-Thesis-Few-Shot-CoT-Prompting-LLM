@@ -1,0 +1,8 @@
+[
+    {
+        "accuracy": 0.7
+    },
+    {
+        "mean_accuracy": 0.7
+    }
+]

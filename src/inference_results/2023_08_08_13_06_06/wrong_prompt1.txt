@@ -1,0 +1,4 @@
+{'idx': 1, 'pred_final_answer': '4', 'true_final_answer': '38'}
+{'idx': 2, 'pred_final_answer': '44', 'true_final_answer': '48'}
+{'idx': 5, 'pred_final_answer': '24', 'true_final_answer': '34'}
+{'idx': 6, 'pred_final_answer': '71', 'true_final_answer': '147'}

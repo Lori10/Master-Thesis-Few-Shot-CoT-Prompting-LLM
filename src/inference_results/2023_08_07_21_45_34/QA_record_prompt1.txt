@@ -1,0 +1,29 @@
+[
+    [
+        {
+            "question_idx": 0,
+            "Question": "Q: Rose went to the store on Monday and bought 4 cakes. Tuesday she went to a different store and bought three times that number of cakes. On Wednesday she went to another store and bought 5 times the number of cakes she did on Tuesday. How many cakes did she buy after all three days?",
+            "Pred_Rationale": "\nRose bought 4 cakes on Monday, so on Tuesday she bought 3 * 4 = <<3*4=12>>12 cakes.\nOn Wednesday she bought 5 * 12 = <<5*12=60>>60 cakes.\nThe total number of cakes she bought after all three days is 4 + 12 + 60 = <<4+12+60=76>>76 cakes. The answer is 76.",
+            "Pred_FinalAnswer": "76",
+            "True_FinalAnswer": "76"
+        }
+    ],
+    [
+        {
+            "question_idx": 1,
+            "Question": "Q: Paul needs 63 cupcakes for a birthday party happening on Saturday. He already has 8 chocolate cupcakes and 40 toffee cupcakes. How many more cupcakes should Paul buy?",
+            "Pred_Rationale": "\nPaul needs 63 cupcakes, and he already has 8 chocolate cupcakes and 40 toffee cupcakes. So, he needs 63 - 8 - 40 = <<63-8-40=15>>15 more cupcakes. The answer is 15.",
+            "Pred_FinalAnswer": "15",
+            "True_FinalAnswer": "15"
+        }
+    ],
+    [
+        {
+            "question_idx": 2,
+            "Question": "Q: John fills a 6 foot by 4 foot pool that is 5 feet deep.  It cost $.1 per cubic foot to fill.  How much does it cost to fill?",
+            "Pred_Rationale": "\nThe pool has a volume of 6 x 4 x 5 = <<6*4*5=120>>120 cubic feet.\nIt will cost $.1 x 120 = <<.1*120=12>>$12 to fill the pool. The answer is $12.",
+            "Pred_FinalAnswer": "12",
+            "True_FinalAnswer": "12"
+        }
+    ]
+]

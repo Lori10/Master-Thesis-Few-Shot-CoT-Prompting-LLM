@@ -18,6 +18,8 @@ from langchain.callbacks import get_openai_callback
 from langchain.llms import HuggingFacePipeline
 from langchain.llms import AzureOpenAI
 import load_env_vars
+from scipy.stats import entropy
+import numpy as np
 
 # define for no solution if GPT cannot generate a valid solution
 # here define a magic number for the convenience of variance calculation
@@ -64,11 +66,6 @@ def initialize_llmchain(prompt_template: str, args) -> Tuple[str, int]:
     
     llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
     return llm_chain
-    #return llm_chain.run(question)
-    # with get_openai_callback() as cb:
-    #     result = llm_chain.run(question)
-        
-    # return result, cb.total_tokens, cb.total_cost
 
 def fix_seed(seed):
     # random
@@ -297,11 +294,6 @@ def answer_extraction(args, responses):
                 answer = str(round(float(answer)))
             except:
                 answer = "" # no sol or sol doesn't have valid format
-        # elif args.dataset in ("last_letters"):
-        #     try:
-        #         answer = answer[-args.concat_length:]
-        #     except:
-        #         answer = ""
         pred_ans = answer
     else:
         pred_ans = ""
@@ -313,3 +305,185 @@ def find_most_frequent(arr, n):
     arr_acounts = Counter(arr[:n])
     most_frequent_item, frequency = arr_acounts.most_common(1)[0]
     return frequency, most_frequent_item
+
+
+def run_llm_extract_answer(args, question):
+    response = args.llm_chain.run(question=question)
+    return answer_extraction(args, response), response
+
+def single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run):
+    all_self_consistency_ans = []
+
+    QA_record = []
+    # enable self-consistency if multipath > 1
+    for _ in range(0, args.multipath):
+        pred_ans, response = run_llm_extract_answer(args, example['question'])
+
+        # create a dict to record each Q&A for later review purposes
+        QA = {}
+        QA['question_idx'] = example_idx
+        QA['Question'] = example['question']
+        QA['Pred_Rationale'] = response
+        QA['Pred_FinalAnswer'] = pred_ans
+        QA['True_FinalAnswer'] = example['final_answer']
+        QA_record.append(QA)
+
+        # output current inference result (only works when self-consistency is not enable)
+        if args.multipath == 1:
+            print('-' * 20)
+            print(f'Question Nr: {example_idx}')
+            print(f"Question: \n" + example['question'])
+            print(f"Rationale: \nLet's think step by step. " + response)
+            print(f"Prediction: {pred_ans}")
+            print(f"Ground Truth: {example['final_answer']}")
+
+        # record all answers into the self-consistency list to find the most frequent one
+        all_self_consistency_ans.append(pred_ans)
+
+    final_consistent_ans = find_most_frequent(all_self_consistency_ans, args.multipath)[-1]
+
+    if final_consistent_ans == example['final_answer']:
+        correct_count_single_run += 1
+    else:
+        wrong_single_run.append({'idx': example_idx, 'pred_final_answer':final_consistent_ans, 'true_final_answer':example['final_answer']})
+
+    QA_record_single_run.append(QA_record)
+    return correct_count_single_run, wrong_single_run, QA_record_single_run
+
+def single_run_inference(data_loader, args):
+    correct_count_single_run = 0
+    wrong_single_run = [{'prompt' : args.llm_chain.prompt.template}]
+    QA_record_single_run = [{'prompt': args.llm_chain.prompt.template}]
+    for example_idx, example in enumerate(data_loader):
+        correct_count_single_run, wrong_single_run, QA_record_single_run = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run)
+    
+    return correct_count_single_run, wrong_single_run, QA_record_single_run
+        
+
+def all_prompts_inference(args, data_loader, prompts_list):
+    all_prompts_correct_count_list = []
+    all_prompts_wrong_list = []
+    all_prompts_QA_record_list = []
+    for i in range(len(prompts_list)):
+        args.llm_chain = initialize_llmchain(prompts_list[i], args)
+        print(f'PROMPT:\n{args.llm_chain.prompt.template}\n')
+        print('START INFERENCE\n')
+        #print('*' * 60)
+        #continue 
+        correct, wrong, QA_record = single_run_inference(data_loader, args)
+        all_prompts_correct_count_list.append(correct)
+        all_prompts_wrong_list.append(wrong)
+        all_prompts_QA_record_list.append(QA_record)
+        print('-' * 60)
+
+    #sys.exit(0)
+    return all_prompts_correct_count_list, all_prompts_wrong_list, all_prompts_QA_record_list
+
+
+def generate_uncertainty_single_question(args, example):
+
+    if args.dataset == "gsm8k":
+        # the float is reserved for variance calculation result
+        if args.answers_are_available:
+            uncertainty_record = {'question': example['question'],
+                                 'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
+                                 'variance':float, 'entropy':float, 'occurrence':{}}
+        else:
+            uncertainty_record = {'question': example['question'],
+                                  'variance':float, 'entropy':float, 'occurrence':{}}
+    else:
+        if args.answers_are_available:
+            uncertainty_record = {'question': example['question'],
+                                'rationale': example['rationale'], 'final_answer': example['final_answer'],
+                                'entropy':float, 'occurrence':{}}
+        else:
+            uncertainty_record = {'question': example['question'],
+                                  'entropy':float, 'occurrence':{}}
+
+    for _ in range(args.num_trails):
+        pred_ans, _ = run_llm_extract_answer(args, example['question'])
+
+        #print(f'Single Trial Rationale:\n{response}')
+        print(f'Single Trial Final Answer: {pred_ans}\n')
+
+        # check uncertainty
+        if pred_ans != "":
+            if pred_ans in uncertainty_record['occurrence']:
+                uncertainty_record['occurrence'][pred_ans] += 1 # increment answer occurrence
+            else:
+                uncertainty_record['occurrence'][pred_ans] = 1 # first occurence
+        else:
+            # Handle no solution case
+            if NO_SOLUTION in uncertainty_record['occurrence']:
+                uncertainty_record['occurrence'][NO_SOLUTION] += 1
+            else:
+                uncertainty_record['occurrence'][NO_SOLUTION] = 1
+
+    # calculate the variance for the question (only applied to datasets with numerical answer)
+    if args.dataset == "gsm8k":
+        ans_list = []
+        for ans, occurs in uncertainty_record['occurrence'].items():
+            for i in range(int(occurs)):
+                ans_list.append(float(ans))
+        uncertainty_record['variance'] = np.var(ans_list)
+        
+    # calculate the entropy for all dataset
+    frequency_list = list(uncertainty_record['occurrence'].values())
+    uncertainty_record['entropy'] = entropy(frequency_list)
+
+    # calculate the disagreement for all dataset
+    uncertainty_record['disagreement'] = len(uncertainty_record['occurrence'])
+    
+    return uncertainty_record
+
+
+# return a sorted list by uncertainty from high to low
+def generate_uncertainty_all_questions(args, dataloader):
+    result = []
+
+    for example in dataloader:
+        print(f'Question: {example["question"]}\n')
+        uncertainty_record = generate_uncertainty_single_question(args, example)
+        print(f'Uncertainty Record: {uncertainty_record}')
+        result.append(uncertainty_record)
+        print('\n' + '*' * 60 + '\n')
+    
+    if args.sort_by == "disagreement":
+        result.sort(key=lambda x: -len(x['occurrence']))
+    elif args.sort_by == "variance" and args.dataset == "gsm8k":
+        result.sort(key=lambda x: -x['variance'])
+    elif args.sort_by == "entropy" :
+        result.sort(key=lambda x:-x['entropy'])
+    return result
+
+def inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len_dataloader):
+    acc_prompt_list = []
+    if args.output_dir is not None:
+        for i in range(len(correct_list)):
+            if prompts_list:
+                acc_prompt_dic = {'prompt' : prompts_list[i],
+                                'accuracy': correct_list[i] / len_dataloader}
+            else:
+                acc_prompt_dic = {'accuracy': correct_list[i] / len_dataloader}
+                
+            acc_prompt_list.append(acc_prompt_dic)
+
+            wrong = wrong_list[i]
+            QA_record = QA_record_list[i]
+            path = f"{args.output_dir}wrong_prompt{i+1}.txt"
+            orginal_stdout = sys.stdout
+            with open(path, 'w', encoding='utf-8') as f:
+                sys.stdout = f
+                for j in wrong:
+                    print(str(j))
+            sys.stdout = orginal_stdout
+
+            path = f"{args.output_dir}QA_record_prompt{i+1}.txt"
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(json.dumps(QA_record, indent=4))
+
+        overall_mean = np.mean([dic['accuracy'] for dic in acc_prompt_list])
+        acc_prompt_list.append({'mean_accuracy': overall_mean})
+        path = f"{args.output_dir}accuracy_prompts.txt"
+        with open(path, 'w') as f:
+            f.write(json.dumps(acc_prompt_list, indent=4))

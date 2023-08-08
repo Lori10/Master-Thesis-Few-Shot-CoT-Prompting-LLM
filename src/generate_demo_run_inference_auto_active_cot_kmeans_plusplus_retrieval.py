@@ -1,24 +1,17 @@
 import random
 # from sentence_transformers import SentenceTransformer
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-import numpy as np
+
 import json
-import matplotlib.pyplot as plt
 import argparse
-from utils import fix_seed
 from utils import *
-from generate_demo_active import generate_uncertainty_qes
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics import pairwise_distances
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import FAISS
-from langchain.embeddings import OpenAIEmbeddings
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 import load_env_vars
 from constant_vars import *
 import datetime
 from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmeansplusplus
+from inference import single_run_inference
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval")
@@ -37,7 +30,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
+        "--normalize_distance_uncertainty", type=bool, default=False, help="whether to normalize the distance uncertainty before applying F1 score"
     )
     
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
@@ -73,6 +66,14 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--multipath", type=int, default=1, help="self-consistency path num"
+    )
+
+    parser.add_argument(
+        "--inference_temperature", type=float, default=0.0, help="temperature for llm decoding"
+    )
+
+    parser.add_argument(
         "--nr_demos", type=int, default=3, help='number of demonstrations'
     )
     parser.add_argument(
@@ -102,6 +103,10 @@ def parse_arguments():
 
     parser.add_argument(
         "--test_dataset_size_limit", type=int, default=3, help='the number of examples to use from the test dataset for inference'
+    )
+
+    parser.add_argument(
+        "--output_dir", type=str, default="inference_results", help="output directory"
     )
 
     args = parser.parse_args()
@@ -171,18 +176,20 @@ def main_auto_active_kmeansplusplus_retrieval():
             "sort_by": args.sort_by,
             "distance_metric": args.distance_metric,
             "beta": args.beta,
-            "temperature": args.temperature,
+            "temperature_auto_active_kmeansplusplus": args.temperature,
+            "temperature_inference": args.inference_temperature,
             'auto_active_limit_nr': args.auto_active_limit_nr,
             "nr_demos": args.nr_demos,
             "answers_are_available": args.answers_are_available,
             "greedy": args.greedy,
             "test_data_path": args.test_data_path,
-            "test_dataset_size_limit": args.test_dataset_size_limit            
+            "test_dataset_size_limit": args.test_dataset_size_limit,               
         }
 
         with open(args.json_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
 
+        args.nr_demos = args.auto_active_limit_nr
         demos_json, encoder, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
         with open(args.metadata + 'metadata' , 'w') as f:
             f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
@@ -190,10 +197,17 @@ def main_auto_active_kmeansplusplus_retrieval():
         with open(args.auto_active_kmeansplusplus_demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
 
-        if args.auto_active_limit_nr >= args.nr_demos:
-            print('The number of examples to use for auto-active labeling should be smaller than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
+        if args.auto_active_limit_nr <= args.nr_demos:
+            print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
             args.auto_active_limit_nr = args.nr_demos - 1
         
+        if args.dataset == "gsm8k":
+            prefix = prefix_gsm8k
+        elif args.dataset == "aqua":
+            prefix = prefix_aqua
+        else:
+            raise NotImplementedError("dataset not implemented")
+
         examples = [{'question' : example['question'],
                     'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
                     } for example in demos_json['demo']]
@@ -209,6 +223,7 @@ def main_auto_active_kmeansplusplus_retrieval():
         FAISS, 
         k=args.nr_demos
         )
+
         similar_prompt = FewShotPromptTemplate(
             example_selector=example_selector,
             example_prompt=example_prompt,
@@ -218,32 +233,48 @@ def main_auto_active_kmeansplusplus_retrieval():
         
         args.data_path = args.test_data_path
         test_dataloader = create_dataloader(args)
-        if args.dataset_size_limit <= 0:
-            args.dataset_size_limit = len(test_dataloader)
+        if args.test_dataset_size_limit <= 0:
+            args.test_dataset_size_limit = len(test_dataloader)
         else:
-            test_dataloader = test_dataloader[:args.dataset_size_limit]
+            test_dataloader = test_dataloader[:args.test_dataset_size_limit]
+        
+        correct_nr = 0
+        wrong_list = []
+        QA_record_list = []
 
-
-        test_questions = [example['question'] for example in test_dataloader]
-        # test_answers = [example['final_answer'] for example in test_dataloader]
-        # test_rationales = [example['rationale'] for example in test_dataloader]
-
-        for test_q_id, test_q in enumerate(test_questions):
-            formatted_prompt = similar_prompt.format(question=test_q).split('Split:')[0]
-            print('Test Question ID: ', test_q_id + '\n')
-            print(f'Final Prompt:\n{formatted_prompt}')
+        args.temperature = args.inference_temperature
+        for test_question_id, test_example in enumerate(test_dataloader):
+            few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
+            print('Test Question ID: ' + str(test_question_id) + '\n')
+            print(f'Prompt:\n{few_shot_examples}')
             print('*' * 60)
 
+            full_prompt = prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+            args.llm_chain = initialize_llmchain(full_prompt, args)
+            correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
+
             test_q_dic = {
-                'test_question_idx' : test_q_id,
-                'test_question': test_q,
-                'formatted_prompt': formatted_prompt
+                'test_question_idx' : test_question_id,
+                'test_question': test_example['question'],
+                'formatted_prompt': few_shot_examples
             }
 
-            with open(f'{args.test_questions_prompts}qes_{test_q_id}' , 'w') as f:
+            with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
                 f.write(json.dumps(test_q_dic, indent=2))
+
+        if not os.path.exists(args.output_dir):
+            os.makedirs(args.output_dir)
+            os.makedirs(args.output_dir + '/' + time_string)
+        else:
+            os.makedirs(args.output_dir + '/' + time_string)
+
+        args.output_dir = args.output_dir + '/' + time_string + '/'
+        inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))        
     else:
         _, _, _ = main_auto_active_kmeansplusplus(args)
+
+    print('Inference finished.')
+
 
 if __name__ == "__main__":
     main_auto_active_kmeansplusplus_retrieval()

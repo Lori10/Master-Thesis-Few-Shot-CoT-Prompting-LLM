@@ -1,21 +1,14 @@
-import random
-# from sentence_transformers import SentenceTransformer
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
 import numpy as np
 import json
-from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
-from generate_demo_active import generate_uncertainty_qes
 import pandas as pd
 from scipy import stats
 from sklearn.metrics import pairwise_distances
 import load_env_vars
 from constant_vars import *
 import datetime
-from utils import initialize_llmchain
 import openai
 
 
@@ -130,7 +123,7 @@ def main_auto_active_kmeansplusplus(args):
     questions_idxs = []
     for idx, example in enumerate(dataloader):
         print(f'Question: {example["question"]}\n')
-        uncertainty_record = generate_uncertainty_qes(args, example)
+        uncertainty_record = generate_uncertainty_single_question(args, example)
         corpus.append(example['question'])
         uncertainty_list.append(uncertainty_record['entropy'])
         questions_idxs.append(idx)

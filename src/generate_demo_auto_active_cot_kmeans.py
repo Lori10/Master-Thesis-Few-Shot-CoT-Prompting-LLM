@@ -4,26 +4,24 @@ from sklearn.cluster import KMeans
 import numpy as np
 import json
 import argparse
-from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
-from generate_demo_active import create_uncertainty
 from constant_vars import *
 import load_env_vars
 import datetime
 import openai
-from utils import initialize_llmchain
+import pickle
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -44,7 +42,7 @@ def parse_arguments():
         "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
     )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=10, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=20, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -63,8 +61,17 @@ def parse_arguments():
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
-    args = parser.parse_args()
+    # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeans CoT
+    parser.add_argument(
+        "--load_uncertainty_file", type=str, default='all_uncertainties/gsm8k/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
+    )
+    
+    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_10_11_45_01/embeddings.pkl'
+    parser.add_argument(
+        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+    )
 
+    args = parser.parse_args()
     if args.dataset == "gsm8k":
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
 
@@ -129,6 +136,10 @@ def main():
         "dir_prompts": args.dir_prompts,
         "nr_demos": args.nr_demos,
         "answers_are_available": args.answers_are_available,
+        "load_uncertainty_file": args.load_uncertainty_file,
+        "load_embeddings_file": args.load_embeddings_file,
+        "uncertainty_scores_dir": args.uncertainty_scores_dir,
+        "demos_save_dir": args.demos_save_dir
     }
 
     with open(args.json_file, 'w') as f:
@@ -141,6 +152,8 @@ def main():
         prefix = prefix_aqua
     else:
         raise NotImplementedError("dataset not implemented")
+
+    start = time.time()
 
     print('Hyperparameters:')
     random.seed(args.random_seed)
@@ -166,72 +179,62 @@ def main():
         dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
     print(f"Proceeding with data size: {len(dataloader)}")
     print('hyperparameters ony by one')
-    print(f'args.data_path: {args.data_path}')
-    print(f'args.model_id: {args.model_id}')
-    print(f'args.max_ra_len: {args.max_ra_len}')
-    print(f'args.random_seed: {args.random_seed}')
-    print(f'args.num_trails: {args.num_trails}')
-    print(f'args.method: {args.method}')
-    print(f'args.sort_by: {args.sort_by}')
-    print(f'args.temperature: {args.temperature}')
-    print(f'args.dir_prompts: {args.dir_prompts}')
-    print(f'args.nr_demos: {args.nr_demos}')
-    print(f'args.answers_are_available: {args.answers_are_available}')
+    print(f'data_path: {args.data_path}')
+    print(f'model id: {args.model_id}')
+    print(f'max_ra_len: {args.max_ra_len}')
+    print(f'random_seed: {args.random_seed}')
+    print(f'num_trails: {args.num_trails}')
+    print(f'.method: {args.method}')
+    print(f'sort_by: {args.sort_by}')
+    print(f'temperature: {args.temperature}')
+    print(f'dir_prompts: {args.dir_prompts}')
+    print(f'nr_demos: {args.nr_demos}')
+    print(f'answers_are_available: {args.answers_are_available}')
     
-    corpus = [example['question'] for example in dataloader]
-    question_list = [example['question'] for example in dataloader]
-    if args.answers_are_available:
-        rationale_list = [example['rationale'] for example in dataloader]
-        final_answer_list = [example['final_answer'] for example in dataloader] 
+    if args.load_embeddings_file:
+        with open(args.load_embeddings_file, 'rb') as read_f:
+            corpus_embeddings = pickle.load(read_f)
+    else:
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        headers = {
+            "x-api-key": openai.api_key,
+        }
 
-    max_ra_len = args.max_ra_len
-    num_clusters = args.nr_demos
+        encoder = OpenAIEmbeddings(
+            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+        )
 
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    headers = {
-        "x-api-key": openai.api_key,
-    }
+        corpus = [example['question'] for example in dataloader]
+        corpus_embeddings = np.array(encoder.embed_documents(corpus))
 
-    encoder = OpenAIEmbeddings(
-        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-    )
-
-    corpus_embeddings = np.array(encoder.embed_documents(corpus))
-    clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)
+    clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
     cluster_assignments = clustering_model.labels_
 
-    cluster_to_examples = [[] for i in range(num_clusters)]
-    question_idxs = list(range(len(question_list)))
-    if args.answers_are_available:
-        for question_idx, question, rationale, final_answer, cluster_id in zip(question_idxs, question_list, rationale_list, final_answer_list, cluster_assignments):
-            cluster_to_examples[cluster_id].append({'question_idx': question_idx, 
-                                                    'question' : question,
-                                                    'rationale' : rationale,
-                                                    'final_answer': final_answer
-            })
-    else:
-        for question_idx, question, cluster_id in zip(question_idxs, question_list, cluster_assignments):
-            cluster_to_examples[cluster_id].append({'question_idx': question_idx, 
-                                                    'question' : question,
-            })
-        
+    cluster_to_examples = [[] for i in range(args.nr_demos)]
+    for example, cluster_id in zip(dataloader, cluster_assignments):
+        cluster_to_examples[cluster_id].append(example)
+    
+    if args.load_uncertainty_file: 
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
+            unsorted_all_uncertainty_records = json.load(f)['result']
+
     cluster_uncertainty_records_dic = {}
     demos = []
-    for cluster_id in range(num_clusters):
+    for cluster_id in range(args.nr_demos):
+        print('\n' + '*' * 50 + '\n')
         print(f'Cluster {cluster_id} has {len(cluster_to_examples[cluster_id])} examples.\n')
-
         cluster_examples_filtered = []
         cluster_examples = cluster_to_examples[cluster_id]
 
         for example in cluster_examples:
-            question_idx = example['question_idx']
+            question_idx = example['idx']
             question = example['question']
             if args.answers_are_available:
                 rationale = example['rationale']
                 final_answer = example['final_answer']
 
-                if len(question.strip().split()) <= 60 and len(rationale.replace("\n\n", "\n").split("\n")) <= max_ra_len and final_answer != "":
+                if len(question.strip().split()) <= 60 and len(rationale.replace("\n\n", "\n").split("\n")) <= args.max_ra_len and final_answer != "":
                     rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
                     rationale = " ".join(rationale.split())
                     
@@ -242,21 +245,40 @@ def main():
                         "final_answer": final_answer,
                         }
                     cluster_examples_filtered.append(demo_element)
-                    
             else:
                 if len(question.strip().split()) <= 60:        
                     cluster_examples_filtered.append(example)
         
-        print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples.\n')
+        filtered_cluster_question_idxs = [example['question_idx'] for example in cluster_examples_filtered]
+        print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples. These are examples idxs: {filtered_cluster_question_idxs}\n')
         if len(cluster_examples_filtered) > 0:
-            cluster_uncertainty_records = create_uncertainty(args, cluster_examples_filtered)  
-            print(f'Highest uncertainty example:\n{cluster_uncertainty_records[0]}')                   
-            demos.append(cluster_uncertainty_records[0])
-            cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = cluster_uncertainty_records
+            # if args.load_uncertainty_file is None:
+            #     filtered_cluster_sorted_uncertainty_records = generate_uncertainty_all_questions(args, cluster_examples_filtered)
+            #     demos.append(filtered_cluster_sorted_uncertainty_records[0])
+            #     cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_sorted_uncertainty_records
+            #     print(f'Highest uncertainty example:\n{filtered_cluster_sorted_uncertainty_records[0]} \n')                   
+            # else:
+            #     filtered_cluster_uncertainties = unsorted_all_uncertainty_records[filtered_cluster_question_idxs]
+            #     filtered_cluster_uncertainties.sort(key=lambda x: -x['entropy']) 
+            #     demos.append(filtered_cluster_uncertainties[0])
+            #     cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_uncertainties
+            #     print(f'Highest uncertainty example:\n{filtered_cluster_uncertainties[0]} \n') 
+
+            if args.load_uncertainty_file:
+                filtered_cluster_sorted_uncertainty_records = unsorted_all_uncertainty_records[filtered_cluster_question_idxs]
+                filtered_cluster_sorted_uncertainty_records.sort(key=lambda x: -x['entropy'])
+            else:
+                filtered_cluster_sorted_uncertainty_records = generate_uncertainty_all_questions(args, cluster_examples_filtered)
+
+            demos.append(filtered_cluster_sorted_uncertainty_records[0])
+            cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_sorted_uncertainty_records
+            print(f'Highest uncertainty example:\n{filtered_cluster_sorted_uncertainty_records[0]} \n')
         else:
             print(f'After filtering out no examples left for cluster {cluster_id+1}.\n')
 
-
+    end = time.time()
+    print('Total Execution Time: ', end - start, " seconds")
+    
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)

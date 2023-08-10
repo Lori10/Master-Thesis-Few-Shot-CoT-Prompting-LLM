@@ -1,0 +1,41 @@
+{
+    "demo": [
+        {
+            "question": "Q: The gauge on a water tank shows that the tank is 1/3 full of water. To fill the tank, 16 gallons of water are added. How many gallons of water does the tank hold when full?",
+            "rationale": "A: Let's think step by step.\nGiven that the tank is 1/3 full of water, and that it requires 16 gallons to fill. 1 full tank -1/3 tank = 2/3 of the tank is empty, which is equal to 16 gallons.\nIf 2/3 of the tank equals 16 gallons, this means 1/3 of the tank is equal to 16 / 2 gallons = 8 gallons\nThe total capacity of the tank or how much the tanks holds = 16 + 8 = <<16+8=24>>24 gallons",
+            "final_answer": "24",
+            "variance": 146.0,
+            "entropy": 1.0986122886681096,
+            "occurrence": {
+                "21": 1,
+                "48": 1,
+                "24": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Stefan goes to a restaurant to eat dinner with his family. They order an appetizer that costs $10 and 4 entrees that are $20 each. If they tip 20% of the total for the waiter, what is the total amount of money that they spend at the restaurant?",
+            "rationale": "A: Let's think step by step.\nThe total cost of the entrees is 4 * $20 = $<<4*20=80>>80.\nThe total cost of the dinner is $80 + $10 = $<<80+10=90>>90.\nThe tip is $90 * 0.20 = $<<90*0.20=18>>18\nThe total cost with tip is $90 + $18 = $<<90+18=108>>108",
+            "final_answer": "108",
+            "variance": 128.0,
+            "entropy": 0.6365141682948128,
+            "occurrence": {
+                "108": 2,
+                "84": 1
+            },
+            "disagreement": 2
+        },
+        {
+            "question": "Q: A portable battery charger can fully charge a smartphone in 26 minutes or a tablet in 53 minutes. Ana charged her tablet fully and her phone halfway. How many minutes did it take?",
+            "rationale": "A: Let's think step by step.\nAna charged her phone halfway, so she took 26 / 2 = <<26/2=13>>13 minutes to charge her phone.\nThus, it took Ana 13 + 53 = <<13+53=66>>66 minutes to charge her phone and tablet.",
+            "final_answer": "66",
+            "variance": 37.555555555555564,
+            "entropy": 0.6365141682948128,
+            "occurrence": {
+                "66": 1,
+                "79": 2
+            },
+            "disagreement": 2
+        }
+    ]
+}

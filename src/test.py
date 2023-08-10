@@ -1,9 +1,4 @@
-import numpy as np
-import random
+import json 
 
-random.seed(42)
-data = [4, 3, 10, 12, 20, 4]
-for i in range(2):
-    selected_data = random.sample(data, 2)
-    print(selected_data)
-    print('*************************')
+x = json.load(open('all_uncertainties/gsm8k/unsorted_all_uncertainty_records'))['result']
+print(x[:2])

@@ -178,6 +178,10 @@ def create_dataloader(args) -> list:
             dataset.append({"question":questions[idx]})
 
     random.shuffle(dataset)
+    # add index to each example
+    for idx, example in enumerate(dataset):
+        example['question_idx'] = idx
+
     return dataset
 
 
@@ -354,19 +358,19 @@ def generate_uncertainty_single_question(args, example):
     if args.dataset == "gsm8k":
         # the float is reserved for variance calculation result
         if args.answers_are_available:
-            uncertainty_record = {'question': example['question'],
+            uncertainty_record = {'question': example['question'], 'question_idx' : example['question_idx'],
                                  'rationale': example['rationale'], 'final_answer': example['final_answer'] , 
                                  'variance':float, 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'question': example['question'],
+            uncertainty_record = {'question': example['question'], 'question_idx' : example['question_idx'],
                                   'variance':float, 'entropy':float, 'occurrence':{}}
     else:
         if args.answers_are_available:
-            uncertainty_record = {'question': example['question'],
+            uncertainty_record = {'question': example['question'], 'question_idx': example['question_idx'],
                                 'rationale': example['rationale'], 'final_answer': example['final_answer'],
                                 'entropy':float, 'occurrence':{}}
         else:
-            uncertainty_record = {'question': example['question'],
+            uncertainty_record = {'question': example['question'], 'question_idx': example['question_idx'],
                                   'entropy':float, 'occurrence':{}}
 
     for _ in range(args.num_trails):
@@ -422,6 +426,7 @@ def generate_uncertainty_all_questions(args, dataloader):
         result.sort(key=lambda x: -x['variance'])
     elif args.sort_by == "entropy" :
         result.sort(key=lambda x:-x['entropy'])
+
     return result
 
 def inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len_dataloader):

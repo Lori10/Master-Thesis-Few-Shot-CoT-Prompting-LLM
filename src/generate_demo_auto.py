@@ -6,13 +6,14 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 import argparse
-from utils import fix_seed
 from langchain.embeddings import OpenAIEmbeddings
 import os
 from utils import *
 import load_env_vars
 import openai
 import datetime 
+import pickle
+import sys
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
@@ -47,6 +48,11 @@ def parse_arguments():
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
+    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_10_11_45_01/embeddings.pkl'
+    parser.add_argument(
+        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+    )
+
     args = parser.parse_args()
     if args.answers_are_available:
         args.demos_save_dir = "labeled_demos"
@@ -77,7 +83,7 @@ def main():
         os.makedirs(args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'plots')
 
     args.plots_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'plots/'
-    args.json_file = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'args.json'
+    args.args_file = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'args.json'
     args.demos_save_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'demos/'
 
     args_dict = {
@@ -89,13 +95,17 @@ def main():
         "sampling": args.sampling,
         "dataset_size_limit": args.dataset_size_limit,
         "nr_demos": args.nr_demos,
-        "answers_are_available": args.answers_are_available
-
+        "answers_are_available": args.answers_are_available,
+        "load_embeddings_file": args.load_embeddings_file,
+        "demos_save_dir": args.demos_save_dir,
+        "plots_dir": args.plots_dir
     }
 
-    with open(args.json_file, 'w') as f:
+    with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
     
+    start = time.time()
+
     print('Hyperparameters:')
 
     random.seed(args.random_seed)
@@ -112,37 +122,38 @@ def main():
     print(f"sampling: {args.sampling}")
     print(f"max_ra_len: {args.max_ra_len}")
 
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    headers = {
-        "x-api-key": openai.api_key,
-    }
+    if args.load_embeddings_file:
+        with open(args.load_embeddings_file, 'rb') as read_f:
+            corpus_embeddings = pickle.load(read_f)
+    else:
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        headers = {
+            "x-api-key": openai.api_key,
+        }
 
-    encoder = OpenAIEmbeddings(
-        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-    )
+        encoder = OpenAIEmbeddings(
+            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+        )
 
-    max_ra_len = args.max_ra_len
-    num_clusters = args.nr_demos
+        corpus = [example['question'] for example in dataloader]
+        corpus_embeddings = np.array(encoder.embed_documents(corpus))
 
-    corpus = [example['question'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]
-
     if args.answers_are_available:
         rationale_list = [example['rationale'] for example in dataloader]
         final_answer_list = [example['final_answer'] for example in dataloader]
     
-    corpus_embeddings = np.array(encoder.embed_documents(corpus))
-    clustering_model = KMeans(n_clusters=num_clusters, random_state=args.random_seed)
+    clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
     cluster_assignment = clustering_model.labels_
 
-    clustered_sentences = [[] for i in range(num_clusters)]
+    clustered_sentences = [[] for i in range(args.nr_demos)]
 
     dist = clustering_model.transform(corpus_embeddings)
-    clustered_dists = [[] for i in range(num_clusters)]
-    clustered_idx = [[] for i in range(num_clusters)]
+    clustered_dists = [[] for i in range(args.nr_demos)]
+    clustered_idx = [[] for i in range(args.nr_demos)]
     for sentence_id, cluster_id in enumerate(cluster_assignment):
-        clustered_sentences[cluster_id].append(corpus[sentence_id])
+        clustered_sentences[cluster_id].append(question_list[sentence_id])
         clustered_dists[cluster_id].append(dist[sentence_id][cluster_id])
         clustered_idx[cluster_id].append(sentence_id)
 
@@ -165,7 +176,7 @@ def main():
                 if args.dataset == 'aqua':
                     nr_reasoning_steps -= 1
                 if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 \
-                    and nr_reasoning_steps <= max_ra_len and final_answer != "":
+                    and nr_reasoning_steps <= args.max_ra_len and final_answer != "":
                     demo_element = {
                         "question": question_list[clustered_idx[i][min_idx]],
                         "rationale": rationale,
@@ -187,6 +198,8 @@ def main():
                     demos.append(demo_element)
                     break
             
+    end = time.time()
+    print('Total Execution Time: ', end - start, " seconds")
 
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
@@ -203,7 +216,7 @@ def main():
     plt.scatter(centers[:, 0],centers[:, 1],
             s=250, marker='*', label='centroids',
             edgecolor='black',
-           c=np.arange(0,num_clusters),cmap=plt.cm.Paired,)
+           c=np.arange(0,args.nr_demos),cmap=plt.cm.Paired,)
     plt.xticks([])
     plt.yticks([])
     plt.savefig(args.plots_dir + f'clustering.png', dpi=600)

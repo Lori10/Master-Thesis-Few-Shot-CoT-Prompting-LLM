@@ -13,11 +13,11 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
     
@@ -51,6 +51,11 @@ def arg_parser():
         "--nr_demos", type=int, default=3, help='nr of demonstrations to select'
     )
 
+    # use the sorted uncertainty file to select the demonstrations for Active CoT
+    parser.add_argument(
+        "--load_uncertainty_file", type=str, default='all_uncertainties/gsm8k/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+    )
+
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
@@ -58,6 +63,7 @@ def arg_parser():
     parser.add_argument(
         "--uncertainty_scores_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
     )
+
     
     args = parser.parse_args()
     
@@ -123,6 +129,9 @@ def main():
         "sort_by": args.sort_by,
         "temperature": args.temperature,
         "answers_are_available": args.answers_are_available,
+        "uncertainty_scores_dir": args.uncertainty_scores_dir,
+        "dir_prompts": args.dir_prompts,
+        "load_uncertainty_file": args.load_uncertainty_file
     }
 
     with open(args.json_file, 'w') as f:
@@ -136,6 +145,8 @@ def main():
     else:
         raise NotImplementedError("dataset not implemented")
     
+    start = time.time()
+
     print('Hyperparameters: ')
 
     set_random_seed(args.random_seed)
@@ -165,8 +176,12 @@ def main():
     print(f'PROMPT:\n{args.prompt}\n')
     args.llm_chain = initialize_llmchain(args.prompt, args)
 
-    start =time.time()  
-    result = generate_uncertainty_all_questions(args, dataloader)
+    if args.load_uncertainty_file: 
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
+            result = json.load(f)['result']
+    else: 
+        result = generate_uncertainty_all_questions(args, dataloader)
+
     end = time.time()
     print('Total Execution Time: ', end - start, " seconds")
 

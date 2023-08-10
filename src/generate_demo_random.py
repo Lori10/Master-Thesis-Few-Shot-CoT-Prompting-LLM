@@ -61,7 +61,7 @@ def main():
         os.makedirs(args.demos_save_dir + '/' +  'random' + '/' + time_string)
         os.makedirs(args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos')
 
-    args.json_file = args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'args.json'
+    args.args_file = args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'args.json'
     args.demos_save_dir = args.demos_save_dir + '/' + 'random' + '/' + time_string + '/' + 'demos/'
     args_dict = {
         "sampling_method": "Random",
@@ -75,8 +75,10 @@ def main():
         "demos_save_dir": args.demos_save_dir
     }
 
-    with open(args.json_file, 'w') as f:
+    with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
+
+    start = time.time()  
 
     print('Hyperparameters:')
 
@@ -99,6 +101,10 @@ def main():
         demos_dic = {"demo": demos}
         with open(args.demos_save_dir + '/demos' + str(i+1), 'w', encoding="utf-8") as write_f:
             json.dump(demos_dic, write_f, indent=4, ensure_ascii=False)
-            
+
+    end = time.time()
+    print('Total Execution Time: ', end - start, " seconds")
+
+    print('Random Demo Generation Finished!')
 if __name__ == "__main__":
     main()

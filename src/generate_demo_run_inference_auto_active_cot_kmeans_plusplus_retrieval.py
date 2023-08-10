@@ -46,7 +46,7 @@ def parse_arguments():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=10, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=20, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -73,7 +73,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=5, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=3, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -106,7 +106,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
     )
 
     parser.add_argument(
@@ -119,6 +119,16 @@ def parse_arguments():
 
     parser.add_argument(
         "--load_demos_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_08_13_01_17/metadata/metadata', help="file path of the demonstrations from the auto-active kmeans++ method"
+    )
+
+    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_10_11_45_01/embeddings.pkl'
+    parser.add_argument(
+        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+    )
+
+    # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
+    parser.add_argument(
+        "--load_uncertainty_file", type=str, default='all_uncertainties/gsm8k/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     args = parser.parse_args()
@@ -195,16 +205,26 @@ def main_auto_active_kmeansplusplus_retrieval():
             "answers_are_available": args.answers_are_available,
             "greedy": args.greedy,
             "test_data_path": args.test_data_path,
-            "test_dataset_size_limit": args.test_dataset_size_limit,               
+            "test_dataset_size_limit": args.test_dataset_size_limit, 
+            "output_dir": args.output_dir,
+            "load_demos_auto_active_kmeansplusplus": args.load_demos_auto_active_kmeansplusplus,
+            "load_demos_auto_active_kmeansplusplus_file_path": args.load_demos_auto_active_kmeansplusplus_file_path,
+            "load_demos_auto_active_kmeansplusplus_metadata_file_path": args.load_demos_auto_active_kmeansplusplus_metadata_file_path,
+            "load_embeddings_file": args.load_embeddings_file
         }
 
         with open(args.json_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
 
+        start = time.time()
 
         if args.load_demos_auto_active_kmeansplusplus:
-            demos_json = json.load(open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8"))
-            auto_active_kmeansplusplus_info_list = json.load(open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8"))
+            # use with open to load json files below 
+            with open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8") as f:
+                demos_json = json.load(f)
+            with open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8") as f:
+                auto_active_kmeansplusplus_info_list = json.load(f)
+
             openai.api_key = os.getenv("OPENAI_API_KEY")
             headers = {
                 "x-api-key": openai.api_key,
@@ -224,7 +244,7 @@ def main_auto_active_kmeansplusplus_retrieval():
         with open(args.auto_active_kmeansplusplus_demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
 
-        
+
         if args.dataset == "gsm8k":
             prefix = prefix_gsm8k
         elif args.dataset == "aqua":
@@ -276,7 +296,7 @@ def main_auto_active_kmeansplusplus_retrieval():
             full_prompt = prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
             args.llm_chain = initialize_llmchain(full_prompt, args)
             correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
-
+            
             test_q_dic = {
                 'test_question_idx' : test_question_id,
                 'test_question': test_example['question'],
@@ -285,6 +305,9 @@ def main_auto_active_kmeansplusplus_retrieval():
 
             with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
                 f.write(json.dumps(test_q_dic, indent=2))
+
+        end = time.time()
+        print('Total Execution Time: ', end - start, " seconds")
 
         if not os.path.exists(args.output_dir):
             os.makedirs(args.output_dir)

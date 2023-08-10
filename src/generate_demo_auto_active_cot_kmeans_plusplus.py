@@ -10,7 +10,7 @@ import load_env_vars
 from constant_vars import *
 import datetime
 import openai
-
+import pickle
 
 def f1_score(distances, uncertainties, args):
     # distances is the precision, uncertainties is the recall, beta is the weight of recall
@@ -47,6 +47,8 @@ def generate_doc_embedding(corpus, encoder=OpenAIEmbeddings()):
 def main_auto_active_kmeansplusplus(args):
 
     if not args.retrieval:
+        start = time.time()
+
         current_time = datetime.datetime.now()
         time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
         if not os.path.exists(args.demos_save_dir):
@@ -86,9 +88,12 @@ def main_auto_active_kmeansplusplus(args):
             "temperature": args.auto_active_kmeansplusplus_temperature,
             "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
             "answers_are_available": args.answers_are_available,
-            "greedy": args.greedy
+            "greedy": args.greedy,
+            "demos_save_dir": args.demos_save_dir,
+            "load_embeddings_file": args.load_embeddings_file,
+            "load_uncertainty_file": args.load_uncertainty_file
         }
-
+        
         with open(args.json_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
 
@@ -99,6 +104,7 @@ def main_auto_active_kmeansplusplus(args):
     else:
         raise NotImplementedError("dataset not implemented")
 
+    
     set_random_seed(args.random_seed)
 
     if args.method == "few_shot_cot":
@@ -120,39 +126,40 @@ def main_auto_active_kmeansplusplus(args):
     print(f"Proceeding with data size: {len(dataloader)}")
 
     uncertainty_list = []
-    corpus = []
-    questions_idxs = []
-    for idx, example in enumerate(dataloader):
-        print(f'Question: {example["question"]}\n')
-        uncertainty_record = generate_uncertainty_single_question(args, example)
-        corpus.append(example['question'])
-        uncertainty_list.append(uncertainty_record['entropy'])
-        questions_idxs.append(idx)
-        dataloader[idx]['question_id'] = idx
+    corpus = [example['question'] for example in dataloader]
+    questions_idxs = [example['question_id'] for example in dataloader]
+    all_uncertainty_records = json.load(open(args.load_uncertainty_file, 'r', encoding="utf-8"))['result']
+    uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]
 
-    # with open('uncertainties.pkl', 'wb') as f:
-    #     pickle.dump(uncertainty_list, f)
+    # for idx, example in enumerate(dataloader):
+    #     print(f'Question: {example["question"]}\n')
+    #     uncertainty_record = generate_uncertainty_single_question(args, example)
+    #     corpus.append(example['question'])
+    #     uncertainty_list.append(uncertainty_record['entropy'])
+    #     questions_idxs.append(idx)
+    #     dataloader[idx]['question_id'] = idx
     
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    headers = {
-        "x-api-key": openai.api_key,
-    }
+    if args.load_embeddings_file:
+        with open(args.load_embeddings_file, 'rb') as read_f:
+            corpus_embeddings = pickle.load(read_f)
+    else:
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        headers = {
+            "x-api-key": openai.api_key,
+        }
 
-    encoder = OpenAIEmbeddings(
-        deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-    )
-    embeddings = np.array(encoder.embed_documents(corpus))
-    
-    # file = open("embeddings", "rb")
-    # embeddings = np.load(file)
+        encoder = OpenAIEmbeddings(
+            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
+        )
 
-    # with open('uncertainties.pkl', 'rb') as f:
-    #     uncertainty_list = pickle.load(f)
+        corpus = [example['question'] for example in dataloader]
+        corpus_embeddings = np.array(encoder.embed_documents(corpus))
+        
 
     uncertainties_series = pd.Series(data=uncertainty_list, index=questions_idxs)
     first_question_idx = list(uncertainties_series.sort_values(ascending=False).head(1).index)[0]
     selected_idxs = [first_question_idx]
-    selected_data = [embeddings[first_question_idx]]
+    selected_data = [corpus_embeddings[first_question_idx]]
     auto_active_kmeansplusplus_info_list = [{'iteration' : 0,
                      'selected_idx': first_question_idx,
                     }] 
@@ -164,19 +171,19 @@ def main_auto_active_kmeansplusplus(args):
     print(f'Selected indices: {selected_idxs}')
     while j < args.auto_active_kmeansplusplus_nr_demos:
         if len(selected_data) == 1:
-            D2 = pairwise_distances(embeddings, selected_data, metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
+            D2 = pairwise_distances(corpus_embeddings, selected_data, metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
             if args.distance_metric == 'cosine':
                 D2 = 1 - D2
         else:
-            newD = pairwise_distances(embeddings, [selected_data[-1]], metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
+            newD = pairwise_distances(corpus_embeddings, [selected_data[-1]], metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
             if args.distance_metric == 'cosine':
                 newD = 1 - newD
-                for i in range(len(embeddings)):
+                for i in range(len(corpus_embeddings)):
                     if D2[i] < newD[i]:
                         D2[i] = newD[i]
 
             elif args.distance_metric == 'euclidean':
-                for i in range(len(embeddings)):
+                for i in range(len(corpus_embeddings)):
                     if D2[i] > newD[i]:
                         D2[i] = newD[i]
 
@@ -201,7 +208,6 @@ def main_auto_active_kmeansplusplus(args):
         if args.greedy:
             highest_f1_score = max(not_selected_f1_scores)
             selected_idx = not_selected_questions_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
-            
         else:
             probs = softmax(not_selected_f1_scores)
             # print(f'Probs: {probs}')
@@ -212,7 +218,7 @@ def main_auto_active_kmeansplusplus(args):
             selected_idx = customDist.rvs(size=1)[0]
 
         selected_idxs.append(selected_idx)
-        selected_data.append(embeddings[selected_idx])
+        selected_data.append(corpus_embeddings[selected_idx])
         demos.append(dataloader[selected_idx])
 
         index_selected_question = not_selected_questions_idxs.index(selected_idx)
@@ -246,6 +252,9 @@ def main_auto_active_kmeansplusplus(args):
     demos_json = {"demo": demos}
 
     if not args.retrieval:
+        end = time.time()
+        print('Total Execution Time: ', end - start, " seconds")
+
         with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
 

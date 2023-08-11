@@ -17,12 +17,12 @@ import load_env_vars
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -48,10 +48,10 @@ def parse_arguments():
     )
 
     # gsm8k embeddings: 'embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl'; put the date and time of the embeddings you want to load
-    # aqua embeddings: 'embeddings/aqua/2023_08_10_11_45_01/embeddings.pkl'; put the date and time of the embeddings you want to load
+    # aqua embeddings: 'embeddings/aqua/2023_08_11_16_27_46/embeddings.pkl'; put the date and time of the embeddings you want to load
     
     parser.add_argument(
-        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_11_16_27_46/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -96,6 +96,7 @@ def main():
     else:
         corpus_embeddings = generate_corpus_embeddings(args, dataloader)
 
+    questions_idx = [example['question_idx'] for example in dataloader]
     question_list = [example['question'] for example in dataloader]
     if args.answers_are_available:
         rationale_list = [example['rationale'] for example in dataloader]
@@ -106,11 +107,11 @@ def main():
     cluster_assignment = clustering_model.labels_
 
     clustered_sentences = [[] for i in range(args.nr_demos)]
-
     dist = clustering_model.transform(corpus_embeddings)
     clustered_dists = [[] for i in range(args.nr_demos)]
     clustered_idx = [[] for i in range(args.nr_demos)]
-    for sentence_id, cluster_id in enumerate(cluster_assignment):
+    #for sentence_id, cluster_id in enumerate(cluster_assignment):
+    for sentence_id, cluster_id in zip(questions_idx, cluster_assignment):
         clustered_sentences[cluster_id].append(question_list[sentence_id])
         clustered_dists[cluster_id].append(dist[sentence_id][cluster_id])
         clustered_idx[cluster_id].append(sentence_id)
@@ -127,7 +128,6 @@ def main():
             if args.answers_are_available:
                 rationale = rationale_list[clustered_idx[i][min_idx]].strip()
                 final_answer = final_answer_list[clustered_idx[i][min_idx]].strip()
-
                 nr_reasoning_steps = len(rationale.replace("\n\n", "\n").split("\n"))
                 if args.dataset == 'aqua':
                     nr_reasoning_steps -= 1

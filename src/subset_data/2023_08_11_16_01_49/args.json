@@ -1,0 +1,9 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 1000,
+    "random_seed": 42,
+    "answers_are_available": true,
+    "output_dir": "subset_data/2023_08_11_16_01_49/",
+    "execution_time": "0.062453269958496094 seconds"
+}

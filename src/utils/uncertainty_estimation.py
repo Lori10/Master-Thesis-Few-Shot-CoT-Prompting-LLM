@@ -1,7 +1,7 @@
-from src.constant_vars import NO_SOLUTION
-from src.utils.final_answer_extraction import run_llm_extract_answer 
+from utils.final_answer_extraction import run_llm_extract_answer 
 import numpy as np
 from scipy.stats import entropy
+from constant_vars import NO_SOLUTION
 
 def generate_uncertainty_single_question(args, example):
 
@@ -46,7 +46,7 @@ def generate_uncertainty_single_question(args, example):
     if args.dataset == "gsm8k":
         ans_list = []
         for ans, occurs in uncertainty_record['occurrence'].items():
-            for i in range(int(occurs)):
+            for _ in range(int(occurs)):
                 ans_list.append(float(ans))
         uncertainty_record['variance'] = np.var(ans_list)
         
@@ -59,16 +59,16 @@ def generate_uncertainty_single_question(args, example):
     
     return uncertainty_record
 
-def generate_uncertainty_all_questions(args, dataloader):
+def generate_uncertainty_all_questions(args, dataloader, sort):
     result = []
     for example in dataloader:
-        print(f'Question: {example["question"]}\n')
+        print(f'Question:\n{example["question"]}\n')
         uncertainty_record = generate_uncertainty_single_question(args, example)
         print(f'Uncertainty Record: {uncertainty_record}')
         result.append(uncertainty_record)
         print('\n' + '*' * 60 + '\n')
 
-    if args.sort:
+    if sort:
         if args.sort_by == "disagreement":
             result.sort(key=lambda x: -len(x['occurrence']))
         elif args.sort_by == "variance" and args.dataset == "gsm8k":

@@ -1,6 +1,5 @@
 import re
 from collections import Counter
-from src import load_env_vars
 
 def answer_extraction(args: object, responses: str):
     """

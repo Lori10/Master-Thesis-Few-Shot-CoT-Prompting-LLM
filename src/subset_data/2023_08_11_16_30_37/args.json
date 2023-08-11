@@ -1,0 +1,9 @@
+{
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "dataset_size_limit": 1000,
+    "random_seed": 42,
+    "answers_are_available": true,
+    "output_dir": "subset_data/2023_08_11_16_30_37/",
+    "execution_time": "0.7663755416870117 seconds"
+}

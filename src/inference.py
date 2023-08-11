@@ -58,31 +58,6 @@ def arg_parser():
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     elif args.dataset == "aqua":
         args.direct_answer_trigger = "The answer is"
-
-    elif args.dataset == "svamp":
-        args.dataset_path = "./dataset/SVAMP/SVAMP.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "asdiv":
-        args.dataset_path = "./dataset/ASDiv/ASDiv.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "csqa":
-        args.dataset_path = "./dataset/CSQA/dev_rand_split.jsonl"
-        args.direct_answer_trigger = "So the answer is"
-    elif args.dataset == "strategyqa":
-        args.dataset_path = "./dataset/strategyQA/task.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (Yes or No) is"
-    elif args.dataset == "last_letters":
-        args.dataset_path = "./dataset/last_letters/last_letters_test.json"
-        args.direct_answer_trigger = "\nTherefore, the answer is"
-    elif args.dataset == "addsub":
-        args.dataset_path = "./dataset/MAWPS/AddSub.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "singleeq":
-        args.dataset_path = "./dataset/MAWPS/SingleEq.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
-    elif args.dataset == "multiarith":
-        args.dataset_path = "./dataset/MAWPS/MultiArith.json"
-        args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
     else:
         raise ValueError("dataset is not properly defined ...")
         

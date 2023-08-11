@@ -3,7 +3,6 @@ from langchain.prompts import PromptTemplate
 import os 
 import openai 
 from langchain.llms import HuggingFacePipeline, AzureOpenAI
-from src import load_env_vars
 from constant_vars import *
 import json
 
@@ -87,8 +86,7 @@ def initialize_llmchain(args) -> LLMChain:
                      "max_seq_len": 4096}, # max_length
         )
     
-    llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
-    return llm_chain
+    args.llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
 
 def build_prefix(args):
     """

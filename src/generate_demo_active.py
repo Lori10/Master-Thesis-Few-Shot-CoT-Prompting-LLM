@@ -11,18 +11,17 @@ from utils.uncertainty_estimation import generate_uncertainty_all_questions
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
     
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use"
     )
 
     parser.add_argument(
@@ -36,6 +35,8 @@ def arg_parser():
     parser.add_argument(
         "--dataset_size_limit", type=int, default=5, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
+
+    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
@@ -52,18 +53,14 @@ def arg_parser():
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
+    # aqua: uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records'
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='all_uncertainties/gsm8k/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default=None, help='nr of demonstrations to select'
     )
 
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
-
-    parser.add_argument(
-        "--uncertainty_scores_dir", type=str, default='uncertainty_scores/', help='directory where the uncertainty scores are saved'
-    )
-
     
     args = parser.parse_args()
     
@@ -115,9 +112,8 @@ def main():
     args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores/'
     args.demos_save_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos/'
     
-
     dataloader = create_dataloader(args)
-    
+
     start = time.time()
 
     if args.load_uncertainty_file: 
@@ -125,8 +121,7 @@ def main():
             result = json.load(f)['result']
     else: 
         build_prompt_initialize_llmchain(args)
-        args.sort = True
-        result = generate_uncertainty_all_questions(args, dataloader)
+        result = generate_uncertainty_all_questions(args, dataloader, True)
 
     end = time.time()
 
@@ -147,7 +142,7 @@ def main():
         "uncertainty_scores_dir": args.uncertainty_scores_dir,
         "dir_prompts": args.dir_prompts,
         "load_uncertainty_file": args.load_uncertainty_file,
-        "execution_time": end - start,
+        "execution_time": str(end - start) + " seconds",
     }
 
     with open(args.args_file, 'w') as f:
@@ -170,6 +165,8 @@ def main():
                 except:
                     pass
 
+    
+    print('Active CoT finished!')
 
 if __name__ == "__main__":
     main()

@@ -1,22 +1,22 @@
 import argparse
 import json 
 import os
-from constant_vars import *
 import datetime
 import time
 from utils.prompts_llm import build_prompt_initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.load_data import create_dataloader
+import load_env_vars
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Uncertainty-Estimator")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -57,11 +57,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--sort", type=bool, default=False, help="whether to sort the uncertainty records"
-    )
-
-    parser.add_argument(
-        "--uncertainty_save_dir", type=str, default="all_uncertainties", help="output directory"
+        "--uncertainty_save_dir", type=str, default="uncertainties", help="output directory"
     )
 
     args = parser.parse_args()
@@ -97,16 +93,34 @@ def main():
         os.makedirs(args.uncertainty_save_dir + '/' + args.dataset + '/' + time_string)
 
     args.uncertainty_save_dir = args.uncertainty_save_dir + '/' + args.dataset + '/' + time_string + '/'
+    args.args_file = args.uncertainty_save_dir + 'args.json'
 
     dataloader = create_dataloader(args)
 
     start = time.time()
     build_prompt_initialize_llmchain(args)
-    args.sort = False
-    result = generate_uncertainty_all_questions(args, dataloader)
+    result = generate_uncertainty_all_questions(args, dataloader, False)
     end = time.time()
-    print('Total Execution Time: ', end - start, " seconds")
     
+    args_dict = {
+        'dataset': args.dataset,
+        'data_path': args.data_path,
+        'random_seed': args.random_seed,
+        'dataset_size_limit': args.dataset_size_limit,
+        'num_trails': args.num_trails,
+        'temperature': args.temperature,
+        'model_id': args.model_id,
+        'method': args.method,
+        'dir_prompts': args.dir_prompts,
+        'answers_are_available': args.answers_are_available,
+        'sort_by': args.sort_by,
+        'uncertainty_save_dir': args.uncertainty_save_dir,
+        'execution_time': str(end - start) + ' seconds',
+    }
+
+    with open(args.args_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
+
     unsorted_result = {'result': result}
     with open(f"{args.uncertainty_save_dir}unsorted_all_uncertainty_records", 'w', encoding="utf-8") as write_f:
         json.dump(unsorted_result, write_f, indent=2, ensure_ascii=False)
@@ -122,5 +136,7 @@ def main():
     with open(f"{args.uncertainty_save_dir}sorted_all_uncertainty_records", 'w', encoding="utf-8") as write_f:
         json.dump(sorted_result, write_f, indent=2, ensure_ascii=False)
     
+    print('Uncertainty estimation finished!')
+
 if __name__ == '__main__':
     main()

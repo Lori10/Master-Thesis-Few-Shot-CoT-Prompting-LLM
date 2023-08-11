@@ -12,12 +12,12 @@ from utils.embedding_generation import generate_corpus_embeddings
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Embeddings-Generator")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -29,10 +29,6 @@ def parse_arguments():
 
     parser.add_argument(
         "--output_dir", type=str, default='embeddings', help="the directory where embeddings will be stored"
-    )
-    
-    parser.add_argument(
-        "--answers_are_available", type=bool, default=False, help='true if answers are available in the test dataset, false otherwise'
     )
 
     args = parser.parse_args()
@@ -57,7 +53,8 @@ def main():
     args.args_file = args.output_dir + 'args.json'
 
     start = time.time()
-
+    
+    args.answers_are_available = False
     dataloader = create_dataloader(args)
     corpus_embeddings = generate_corpus_embeddings(args, dataloader)
 

@@ -6,14 +6,13 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 import argparse
-from langchain.embeddings import OpenAIEmbeddings
 import os
-from utils import *
-import load_env_vars
-import openai
+from utils.load_data import create_dataloader 
+from utils.embedding_generation import generate_corpus_embeddings
 import datetime 
 import pickle
-import sys
+import time
+import load_env_vars
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
@@ -37,20 +36,22 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=50, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=20, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=6, help="nr of demonstrations to select"
     )
     
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
-    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_10_11_45_01/embeddings.pkl'
+    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl'; put the date and time of the embeddings you want to load
+    # aqua embeddings: 'embeddings/aqua/2023_08_10_11_45_01/embeddings.pkl'; put the date and time of the embeddings you want to load
+    
     parser.add_argument(
-        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -85,58 +86,15 @@ def main():
     args.plots_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'plots/'
     args.args_file = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'args.json'
     args.demos_save_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'demos/'
-
-    args_dict = {
-        "sampling_method": "Auto",
-        "dataset": args.dataset,
-        "data_path": args.data_path,
-        "max_ra_len": args.max_ra_len,
-        "random_seed": args.random_seed,
-        "sampling": args.sampling,
-        "dataset_size_limit": args.dataset_size_limit,
-        "nr_demos": args.nr_demos,
-        "answers_are_available": args.answers_are_available,
-        "load_embeddings_file": args.load_embeddings_file,
-        "demos_save_dir": args.demos_save_dir,
-        "plots_dir": args.plots_dir
-    }
-
-    with open(args.args_file, 'w') as f:
-        json.dump(args_dict, f, indent=4)
     
-    start = time.time()
-
-    print('Hyperparameters:')
-
-    random.seed(args.random_seed)
     dataloader = create_dataloader(args)
 
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
-    else:
-        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    
-    print(f"Proceeding with data size: {len(dataloader)}")
-    print(f"nr_demos: {args.nr_demos}")
-    print(f"random_seed: {args.random_seed}")
-    print(f"sampling: {args.sampling}")
-    print(f"max_ra_len: {args.max_ra_len}")
-
+    start = time.time()
     if args.load_embeddings_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             corpus_embeddings = pickle.load(read_f)
     else:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        headers = {
-            "x-api-key": openai.api_key,
-        }
-
-        encoder = OpenAIEmbeddings(
-            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-        )
-
-        corpus = [example['question'] for example in dataloader]
-        corpus_embeddings = np.array(encoder.embed_documents(corpus))
+        corpus_embeddings = generate_corpus_embeddings(args, dataloader)
 
     question_list = [example['question'] for example in dataloader]
     if args.answers_are_available:
@@ -160,14 +118,12 @@ def main():
     demos = []
     
     for i in range(len(clustered_dists)):
-        print("Cluster ", i)
         tmp = list(map(list, zip(range(len(clustered_dists[i])), clustered_dists[i])))
         top_min_dist = sorted(tmp, key=lambda x: x[1], reverse=False)
         if not args.sampling == "center":
             random.shuffle(top_min_dist)
         for element in top_min_dist:
             min_idx = element[0]
-
             if args.answers_are_available:
                 rationale = rationale_list[clustered_idx[i][min_idx]].strip()
                 final_answer = final_answer_list[clustered_idx[i][min_idx]].strip()
@@ -175,31 +131,48 @@ def main():
                 nr_reasoning_steps = len(rationale.replace("\n\n", "\n").split("\n"))
                 if args.dataset == 'aqua':
                     nr_reasoning_steps -= 1
-                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60 \
+
+                question = question_list[clustered_idx[i][min_idx]] 
+                if len(question.strip().split()) <= 60 \
                     and nr_reasoning_steps <= args.max_ra_len and final_answer != "":
                     demo_element = {
-                        "question": question_list[clustered_idx[i][min_idx]],
+                        "question_idx": clustered_idx[i][min_idx],
+                        "question": question,
                         "rationale": rationale,
                         "final_answer": final_answer               
                         }
 
-                    print("Question: ", question_list[clustered_idx[i][min_idx]])
-                    print("Rationale: ", rationale)
-                    print("Final Answer: ", final_answer)
-                    print('\n\n')
                     demos.append(demo_element)
                     break
             else:
-                if len(question_list[clustered_idx[i][min_idx]].strip().split()) <= 60:
-                    question = question_list[clustered_idx[i][min_idx]]        
+                if len(question.strip().split()) <= 60:
                     demo_element = {
+                        "question_idx": clustered_idx[i][min_idx],
                         "question": question,               
                         }
                     demos.append(demo_element)
                     break
             
     end = time.time()
-    print('Total Execution Time: ', end - start, " seconds")
+
+    args_dict = {
+        "sampling_method": "Auto",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "max_ra_len": args.max_ra_len,
+        "random_seed": args.random_seed,
+        "sampling": args.sampling,
+        "dataset_size_limit": args.dataset_size_limit,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+        "load_embeddings_file": args.load_embeddings_file,
+        "demos_save_dir": args.demos_save_dir,
+        "plots_dir": args.plots_dir,
+        "execution_time": str(end - start) + ' seconds',
+    }
+
+    with open(args.args_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
 
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
@@ -230,6 +203,8 @@ def main():
         plt.hist(nr_reasoning_steps, bins=5)
         plt.savefig(args.plots_dir + f'hist_nrreasoningsteps.png', dpi=600)
         plt.close()
+
+    print('Auto demo generation finished!')
 
 if __name__ == "__main__":
     main()

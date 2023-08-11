@@ -1,16 +1,18 @@
 import numpy as np
 import json
-from langchain.embeddings import OpenAIEmbeddings
 import os
-from utils import *
 import pandas as pd
 from scipy import stats
 from sklearn.metrics import pairwise_distances
 import load_env_vars
 from constant_vars import *
 import datetime
-import openai
 import pickle
+import time
+from utils.load_data import create_dataloader
+from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.uncertainty_estimation import generate_uncertainty_all_questions
+from utils.embedding_generation import generate_corpus_embeddings
 
 def f1_score(distances, uncertainties, args):
     # distances is the precision, uncertainties is the recall, beta is the weight of recall
@@ -41,13 +43,9 @@ def softmax(scores):
 def normalization(scores):
     return (scores - min(scores)) / (max(scores) - min(scores))
 
-def generate_doc_embedding(corpus, encoder=OpenAIEmbeddings()):
-    return np.array(encoder.embed_documents(corpus))
-
 def main_auto_active_kmeansplusplus(args):
 
     if not args.retrieval:
-        start = time.time()
 
         current_time = datetime.datetime.now()
         time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
@@ -67,94 +65,35 @@ def main_auto_active_kmeansplusplus(args):
             os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'demos')
             os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'metadata')
 
-        args.json_file = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'args.json'
+        args.args_file = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'args.json'
         args.metadata = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'metadata/'
         args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'demos/'
 
-        args_dict = {
-            "sampling_method": "Auto_Active_KMeansPlusPlus",
-            "dataset": args.dataset,
-            "data_path": args.data_path,
-            "dataset_size_limit": args.dataset_size_limit,
-            "dir_prompts": args.dir_prompts,
-            "model_id": args.model_id,
-            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
-            "random_seed": args.random_seed,
-            "num_trails": args.num_trails,
-            "method": args.method,
-            "sort_by": args.sort_by,
-            "distance_metric": args.distance_metric,
-            "beta": args.beta,
-            "temperature": args.auto_active_kmeansplusplus_temperature,
-            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
-            "answers_are_available": args.answers_are_available,
-            "greedy": args.greedy,
-            "demos_save_dir": args.demos_save_dir,
-            "load_embeddings_file": args.load_embeddings_file,
-            "load_uncertainty_file": args.load_uncertainty_file
-        }
-        
-        with open(args.json_file, 'w') as f:
-            json.dump(args_dict, f, indent=4)
-
-    if args.dataset == "gsm8k":
-        prefix = prefix_gsm8k
-    elif args.dataset == "aqua":
-        prefix = prefix_aqua
-    else:
-        raise NotImplementedError("dataset not implemented")
-
-    
-    set_random_seed(args.random_seed)
-
-    if args.method == "few_shot_cot":
-        args.prefix = prefix + ' Follow the format of the examples below:\n'
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        args.prompt = given_prompt_list[0]
-    elif args.method == "zero_shot_cot":
-        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-    
-    args.temperature = args.auto_active_kmeansplusplus_temperature
-    args.llm_chain = initialize_llmchain(args.prompt, args)
-
     dataloader = create_dataloader(args)
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
+
+    if not args.retrieval:
+        start = time.time()
+    
+    if args.load_uncertainty_file:
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as read_f:
+            all_uncertainty_records = json.load(read_f)['result']
     else:
-        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Proceeding with data size: {len(dataloader)}")
+        args.temperature = args.auto_active_kmeansplusplus_temperature
+        build_prompt_initialize_llmchain(args)    
+        args.sort = False
+        args.dataloader = dataloader
+        all_uncertainty_records = generate_uncertainty_all_questions(args)
 
-    uncertainty_list = []
-    corpus = [example['question'] for example in dataloader]
-    questions_idxs = [example['question_id'] for example in dataloader]
-    all_uncertainty_records = json.load(open(args.load_uncertainty_file, 'r', encoding="utf-8"))['result']
+    questions_idxs = [uncertainty_record['question_id'] for uncertainty_record in all_uncertainty_records]
     uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]
-
-    # for idx, example in enumerate(dataloader):
-    #     print(f'Question: {example["question"]}\n')
-    #     uncertainty_record = generate_uncertainty_single_question(args, example)
-    #     corpus.append(example['question'])
-    #     uncertainty_list.append(uncertainty_record['entropy'])
-    #     questions_idxs.append(idx)
-    #     dataloader[idx]['question_id'] = idx
     
     if args.load_embeddings_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             corpus_embeddings = pickle.load(read_f)
     else:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        headers = {
-            "x-api-key": openai.api_key,
-        }
-
-        encoder = OpenAIEmbeddings(
-            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-        )
-
-        corpus = [example['question'] for example in dataloader]
-        corpus_embeddings = np.array(encoder.embed_documents(corpus))
+        corpus_embeddings = generate_corpus_embeddings(args, dataloader)
         
+    assert len(corpus_embeddings) == len(uncertainty_list) == len(questions_idxs)
 
     uncertainties_series = pd.Series(data=uncertainty_list, index=questions_idxs)
     first_question_idx = list(uncertainties_series.sort_values(ascending=False).head(1).index)[0]
@@ -253,7 +192,32 @@ def main_auto_active_kmeansplusplus(args):
 
     if not args.retrieval:
         end = time.time()
-        print('Total Execution Time: ', end - start, " seconds")
+        args_dict = {
+            "sampling_method": "Auto_Active_KMeansPlusPlus",
+            "dataset": args.dataset,
+            "data_path": args.data_path,
+            "dataset_size_limit": args.dataset_size_limit,
+            "dir_prompts": args.dir_prompts,
+            "model_id": args.model_id,
+            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
+            "random_seed": args.random_seed,
+            "num_trails": args.num_trails,
+            "method": args.method,
+            "sort_by": args.sort_by,
+            "distance_metric": args.distance_metric,
+            "beta": args.beta,
+            "temperature": args.auto_active_kmeansplusplus_temperature,
+            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
+            "answers_are_available": args.answers_are_available,
+            "greedy": args.greedy,
+            "demos_save_dir": args.demos_save_dir,
+            "load_embeddings_file": args.load_embeddings_file,
+            "load_uncertainty_file": args.load_uncertainty_file,
+            "execution_time": end - start,
+        }
+        
+        with open(args.args_file, 'w') as f:
+            json.dump(args_dict, f, indent=4)
 
         with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
             json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
@@ -261,4 +225,4 @@ def main_auto_active_kmeansplusplus(args):
         with open(args.metadata + 'metadata' , 'w', encoding='utf-8') as f:
             f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2, ensure_ascii=False))
 
-    return demos_json, encoder, auto_active_kmeansplusplus_info_list
+    return demos_json, auto_active_kmeansplusplus_info_list

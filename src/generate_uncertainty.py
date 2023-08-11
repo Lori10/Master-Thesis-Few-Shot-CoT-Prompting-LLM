@@ -1,21 +1,22 @@
 import argparse
 import json 
-import random
 import os
-from utils import *
-import sys
 from constant_vars import *
 import datetime
+import time
+from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.uncertainty_estimation import generate_uncertainty_all_questions
+from utils.load_data import create_dataloader
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Uncertainty-Estimator")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -56,6 +57,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--sort", type=bool, default=False, help="whether to sort the uncertainty records"
+    )
+
+    parser.add_argument(
         "--uncertainty_save_dir", type=str, default="all_uncertainties", help="output directory"
     )
 
@@ -93,44 +98,12 @@ def main():
 
     args.uncertainty_save_dir = args.uncertainty_save_dir + '/' + args.dataset + '/' + time_string + '/'
 
-    set_random_seed(args.random_seed)
     dataloader = create_dataloader(args)
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
-    else:
-        dataloader = dataloader[:args.dataset_size_limit] 
-    
-    print('HERE')
-    print(dataloader[:2])
-    print('*' * 60)
 
-    if args.dataset == "gsm8k":
-        prefix = prefix_gsm8k
-    elif args.dataset == "aqua":
-        prefix = prefix_aqua
-    else:
-        raise NotImplementedError("dataset not implemented")
-
-    if args.method == "few_shot_cot":
-        args.prefix = prefix + ' Follow the format of the examples below:\n'
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        args.prompt = given_prompt_list[0]
-    elif args.method == "zero_shot_cot":
-        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-    
-    print(f'PROMPT:\n{args.prompt}\n')
-    args.llm_chain = initialize_llmchain(args.prompt, args)
-
-    start = time.time()  
-    result = []
-    for example in dataloader:
-        print(f'Question: {example["question"]}\n')
-        uncertainty_record = generate_uncertainty_single_question(args, example)
-        print(f'Uncertainty Record: {uncertainty_record}')
-        result.append(uncertainty_record)
-        print('\n' + '*' * 60 + '\n')
-
+    start = time.time()
+    build_prompt_initialize_llmchain(args)
+    args.sort = False
+    result = generate_uncertainty_all_questions(args, dataloader)
     end = time.time()
     print('Total Execution Time: ', end - start, " seconds")
     

@@ -1,16 +1,19 @@
 import json
 import argparse
-from utils import *
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import FAISS
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 import load_env_vars
 from constant_vars import *
 import datetime
-from langchain.embeddings import OpenAIEmbeddings
-import openai
 from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmeansplusplus
-from inference import single_run_inference
+import time
+import os
+from utils.load_data import create_dataloader
+from utils.prompts_llm import build_prefix, initialize_llmchain
+from utils.save_results import inference_save_info
+from utils.embedding_generation import initialize_embedding_model
+from utils.inference_llm import single_question_inference
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval")
@@ -154,7 +157,7 @@ def parse_arguments():
     args.cot_trigger = "Let's think step by step."
     return args
 
-def main_auto_active_kmeansplusplus_retrieval():
+def main():
     args = parse_arguments()
  
     if args.retrieval:
@@ -179,11 +182,88 @@ def main_auto_active_kmeansplusplus_retrieval():
             os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'auto_active_kmeansplusplus_metadata')
             os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'test_questions_prompts')
 
-        args.json_file = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'args.json'
+        args.args_file = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'args.json'
         args.metadata = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'auto_active_kmeansplusplus_metadata/'
         args.test_questions_prompts_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'test_questions_prompts/'
         args.auto_active_kmeansplusplus_demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'auto_active_kmeansplusplus_demos/'
 
+        start = time.time()
+
+        if args.load_demos_auto_active_kmeansplusplus:
+            # use with open to load json files below 
+            with open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8") as f:
+                demos_json = json.load(f)
+            with open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8") as f:
+                auto_active_kmeansplusplus_info_list = json.load(f)
+            
+        else:
+            if args.auto_active_kmeansplusplus_nr_demos <= args.retrieval_nr_demos:
+                print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
+                args.auto_active_kmeansplusplus_nr_demos = args.retrieval_nr_demos + 1
+            demos_json, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
+        
+        with open(args.metadata + 'metadata' , 'w') as f:
+            f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
+
+        with open(args.auto_active_kmeansplusplus_demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+            json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
+
+
+        examples = [{'question' : example['question'],
+                    'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
+                    } for example in demos_json['demo']]
+        
+        example_prompt = PromptTemplate(
+        input_variables=["question", "answer"],
+        template="{question}\n{answer}",
+        )
+
+        encoder = initialize_embedding_model()
+        example_selector = SemanticSimilarityExampleSelector.from_examples(
+        examples, 
+        encoder, 
+        FAISS, 
+        k=args.retrieval_nr_demos
+        )
+
+        similar_prompt = FewShotPromptTemplate(
+            example_selector=example_selector,
+            example_prompt=example_prompt,
+            suffix="Split:" + "{question}", 
+            input_variables=["question"],
+        )
+        
+        args.data_path = args.test_data_path
+        args.dataset_size_limit = args.test_dataset_size_limit
+        test_dataloader = create_dataloader(args)
+        
+        correct_nr = 0
+        wrong_list = []
+        QA_record_list = []
+        
+        args.temperature = args.inference_temperature
+        build_prefix(args)
+
+        for test_question_id, test_example in enumerate(test_dataloader):
+            few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
+            #print('Test Question ID: ' + str(test_question_id) + '\n')
+            #print(f'Prompt:\n{few_shot_examples}')
+            print('*' * 60)
+
+            full_prompt = args.prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+            args.llm_chain = initialize_llmchain(full_prompt, args)
+            correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
+
+            test_q_dic = {
+                'test_question_idx' : test_question_id,
+                'test_question': test_example['question'],
+                'formatted_prompt': few_shot_examples
+            }
+
+            with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
+                f.write(json.dumps(test_q_dic, indent=2))
+
+        end = time.time()
         args_dict = {
             "sampling_method": "Auto_Active_KMeansPlusPlus_Retrieval",
             "dataset": args.dataset,
@@ -210,104 +290,12 @@ def main_auto_active_kmeansplusplus_retrieval():
             "load_demos_auto_active_kmeansplusplus": args.load_demos_auto_active_kmeansplusplus,
             "load_demos_auto_active_kmeansplusplus_file_path": args.load_demos_auto_active_kmeansplusplus_file_path,
             "load_demos_auto_active_kmeansplusplus_metadata_file_path": args.load_demos_auto_active_kmeansplusplus_metadata_file_path,
-            "load_embeddings_file": args.load_embeddings_file
+            "load_embeddings_file": args.load_embeddings_file,
+            "execution_time": end - start,
         }
 
-        with open(args.json_file, 'w') as f:
+        with open(args.args_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
-
-        start = time.time()
-
-        if args.load_demos_auto_active_kmeansplusplus:
-            # use with open to load json files below 
-            with open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8") as f:
-                demos_json = json.load(f)
-            with open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8") as f:
-                auto_active_kmeansplusplus_info_list = json.load(f)
-
-            openai.api_key = os.getenv("OPENAI_API_KEY")
-            headers = {
-                "x-api-key": openai.api_key,
-            }
-            encoder = OpenAIEmbeddings(
-                deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-            )
-        else:
-            if args.auto_active_kmeansplusplus_nr_demos <= args.retrieval_nr_demos:
-                print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
-                args.auto_active_kmeansplusplus_nr_demos = args.retrieval_nr_demos + 1
-            demos_json, encoder, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
-        
-        with open(args.metadata + 'metadata' , 'w') as f:
-            f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
-
-        with open(args.auto_active_kmeansplusplus_demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
-            json.dump(demos_json, write_f, indent=4, ensure_ascii=False)
-
-
-        if args.dataset == "gsm8k":
-            prefix = prefix_gsm8k
-        elif args.dataset == "aqua":
-            prefix = prefix_aqua
-        else:
-            raise NotImplementedError("dataset not implemented")
-
-        examples = [{'question' : example['question'],
-                    'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
-                    } for example in demos_json['demo']]
-        
-        example_prompt = PromptTemplate(
-        input_variables=["question", "answer"],
-        template="{question}\n{answer}",
-        )
-
-        example_selector = SemanticSimilarityExampleSelector.from_examples(
-        examples, 
-        encoder, 
-        FAISS, 
-        k=args.retrieval_nr_demos
-        )
-
-        similar_prompt = FewShotPromptTemplate(
-            example_selector=example_selector,
-            example_prompt=example_prompt,
-            suffix="Split:" + "{question}", 
-            input_variables=["question"],
-        )
-        
-        args.data_path = args.test_data_path
-        test_dataloader = create_dataloader(args)
-        if args.test_dataset_size_limit <= 0:
-            args.test_dataset_size_limit = len(test_dataloader)
-        else:
-            test_dataloader = test_dataloader[:args.test_dataset_size_limit]
-        
-        correct_nr = 0
-        wrong_list = []
-        QA_record_list = []
-
-        args.temperature = args.inference_temperature
-        for test_question_id, test_example in enumerate(test_dataloader):
-            few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            #print('Test Question ID: ' + str(test_question_id) + '\n')
-            #print(f'Prompt:\n{few_shot_examples}')
-            print('*' * 60)
-
-            full_prompt = prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-            args.llm_chain = initialize_llmchain(full_prompt, args)
-            correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
-            
-            test_q_dic = {
-                'test_question_idx' : test_question_id,
-                'test_question': test_example['question'],
-                'formatted_prompt': few_shot_examples
-            }
-
-            with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
-                f.write(json.dumps(test_q_dic, indent=2))
-
-        end = time.time()
-        print('Total Execution Time: ', end - start, " seconds")
 
         if not os.path.exists(args.output_dir):
             os.makedirs(args.output_dir)
@@ -324,4 +312,4 @@ def main_auto_active_kmeansplusplus_retrieval():
 
 
 if __name__ == "__main__":
-    main_auto_active_kmeansplusplus_retrieval()
+    main()

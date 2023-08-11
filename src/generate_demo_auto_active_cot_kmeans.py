@@ -1,17 +1,17 @@
-import random
-# from sentence_transformers import SentenceTransformer
 from sklearn.cluster import KMeans
-import numpy as np
 import json
 import argparse
 from langchain.embeddings import OpenAIEmbeddings
 import os
-from utils import *
 from constant_vars import *
 import load_env_vars
 import datetime
-import openai
 import pickle
+import time
+from utils.load_data import create_dataloader
+from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.uncertainty_estimation import generate_uncertainty_all_questions
+from utils.embedding_generation import generate_corpus_embeddings
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
@@ -117,95 +117,26 @@ def main():
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
 
-    args.json_file = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'args.json'
+    args.args_file = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'args.json'
     args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores/'
     args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos/'
 
-    args_dict = {
-        "sampling_method": "Auto_Active_KMeans",
-        "dataset": args.dataset,
-        "data_path": args.data_path,
-        "dataset_size_limit": args.dataset_size_limit,
-        "model_id": args.model_id,
-        "max_ra_len": args.max_ra_len,
-        "random_seed": args.random_seed,
-        "num_trails": args.num_trails,
-        "method": args.method,
-        "sort_by": args.sort_by,
-        "temperature": args.temperature,
-        "dir_prompts": args.dir_prompts,
-        "nr_demos": args.nr_demos,
-        "answers_are_available": args.answers_are_available,
-        "load_uncertainty_file": args.load_uncertainty_file,
-        "load_embeddings_file": args.load_embeddings_file,
-        "uncertainty_scores_dir": args.uncertainty_scores_dir,
-        "demos_save_dir": args.demos_save_dir
-    }
-
-    with open(args.json_file, 'w') as f:
-        json.dump(args_dict, f, indent=4)
-
-
-    if args.dataset == "gsm8k":
-        prefix = prefix_gsm8k
-    elif args.dataset == "aqua":
-        prefix = prefix_aqua
-    else:
-        raise NotImplementedError("dataset not implemented")
-
-    start = time.time()
-
-    print('Hyperparameters:')
-    random.seed(args.random_seed)
-
-    if args.method == "few_shot_cot":
-        args.prefix = prefix + ' Follow the format of the examples below:\n'
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        args.prompt = given_prompt_list[0]
-    elif args.method == "zero_shot_cot":
-        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-
-    args.llm_chain = initialize_llmchain(args.prompt, args)
-    
-    print('Prompt for uncertainty estimation:\n' + args.prompt)
-    print('*' * 50)
-
     dataloader = create_dataloader(args)
 
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
-    else:
-        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Proceeding with data size: {len(dataloader)}")
-    print('hyperparameters ony by one')
-    print(f'data_path: {args.data_path}')
-    print(f'model id: {args.model_id}')
-    print(f'max_ra_len: {args.max_ra_len}')
-    print(f'random_seed: {args.random_seed}')
-    print(f'num_trails: {args.num_trails}')
-    print(f'.method: {args.method}')
-    print(f'sort_by: {args.sort_by}')
-    print(f'temperature: {args.temperature}')
-    print(f'dir_prompts: {args.dir_prompts}')
-    print(f'nr_demos: {args.nr_demos}')
-    print(f'answers_are_available: {args.answers_are_available}')
+    start = time.time()
     
     if args.load_embeddings_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             corpus_embeddings = pickle.load(read_f)
     else:
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        headers = {
-            "x-api-key": openai.api_key,
-        }
+        corpus_embeddings = generate_corpus_embeddings(args, dataloader)
 
-        encoder = OpenAIEmbeddings(
-            deployment="text-embedding-ada-002-v2", headers=headers, chunk_size=1
-        )
+    if args.load_uncertainty_file: 
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
+            unsorted_all_uncertainty_records = json.load(f)['result']
+    else:
+        build_prompt_initialize_llmchain(args)
 
-        corpus = [example['question'] for example in dataloader]
-        corpus_embeddings = np.array(encoder.embed_documents(corpus))
 
     clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
@@ -215,9 +146,6 @@ def main():
     for example, cluster_id in zip(dataloader, cluster_assignments):
         cluster_to_examples[cluster_id].append(example)
     
-    if args.load_uncertainty_file: 
-        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
-            unsorted_all_uncertainty_records = json.load(f)['result']
 
     cluster_uncertainty_records_dic = {}
     demos = []
@@ -252,18 +180,6 @@ def main():
         filtered_cluster_question_idxs = [example['question_idx'] for example in cluster_examples_filtered]
         print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples. These are examples idxs: {filtered_cluster_question_idxs}\n')
         if len(cluster_examples_filtered) > 0:
-            # if args.load_uncertainty_file is None:
-            #     filtered_cluster_sorted_uncertainty_records = generate_uncertainty_all_questions(args, cluster_examples_filtered)
-            #     demos.append(filtered_cluster_sorted_uncertainty_records[0])
-            #     cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_sorted_uncertainty_records
-            #     print(f'Highest uncertainty example:\n{filtered_cluster_sorted_uncertainty_records[0]} \n')                   
-            # else:
-            #     filtered_cluster_uncertainties = unsorted_all_uncertainty_records[filtered_cluster_question_idxs]
-            #     filtered_cluster_uncertainties.sort(key=lambda x: -x['entropy']) 
-            #     demos.append(filtered_cluster_uncertainties[0])
-            #     cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_uncertainties
-            #     print(f'Highest uncertainty example:\n{filtered_cluster_uncertainties[0]} \n') 
-
             if args.load_uncertainty_file:
                 filtered_cluster_sorted_uncertainty_records = unsorted_all_uncertainty_records[filtered_cluster_question_idxs]
                 filtered_cluster_sorted_uncertainty_records.sort(key=lambda x: -x['entropy'])
@@ -277,8 +193,31 @@ def main():
             print(f'After filtering out no examples left for cluster {cluster_id+1}.\n')
 
     end = time.time()
-    print('Total Execution Time: ', end - start, " seconds")
-    
+    args_dict = {
+        "sampling_method": "Auto_Active_KMeans",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "dataset_size_limit": args.dataset_size_limit,
+        "model_id": args.model_id,
+        "max_ra_len": args.max_ra_len,
+        "random_seed": args.random_seed,
+        "num_trails": args.num_trails,
+        "method": args.method,
+        "sort_by": args.sort_by,
+        "temperature": args.temperature,
+        "dir_prompts": args.dir_prompts,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+        "load_uncertainty_file": args.load_uncertainty_file,
+        "load_embeddings_file": args.load_embeddings_file,
+        "uncertainty_scores_dir": args.uncertainty_scores_dir,
+        "demos_save_dir": args.demos_save_dir,
+        "execution_time": end - start,
+    }
+
+    with open(args.args_file, 'w') as f:
+        json.dump(args_dict, f, indent=4)
+
     demos = {"demo": demos}
     with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)

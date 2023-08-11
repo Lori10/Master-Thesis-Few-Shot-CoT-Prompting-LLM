@@ -1,13 +1,13 @@
 # This file used to generate uncertainty score for each question
-from utils import *
 import time
 import argparse
 import json
-from utils import initialize_llmchain
 import load_env_vars
-from constant_vars import *
 import datetime 
-from utils import *
+import os
+from utils.load_data import create_dataloader
+from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.uncertainty_estimation import generate_uncertainty_all_questions
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
@@ -111,9 +111,24 @@ def main():
         os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos')
         os.makedirs(args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores')
 
-    args.json_file = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'args.json'
+    args.args_file = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'args.json'
     args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores/'
     args.demos_save_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos/'
+    
+
+    dataloader = create_dataloader(args)
+    
+    start = time.time()
+
+    if args.load_uncertainty_file: 
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
+            result = json.load(f)['result']
+    else: 
+        build_prompt_initialize_llmchain(args)
+        args.sort = True
+        result = generate_uncertainty_all_questions(args, dataloader)
+
+    end = time.time()
 
     args_dict = {
         "sampling_method": "Active",
@@ -131,59 +146,12 @@ def main():
         "answers_are_available": args.answers_are_available,
         "uncertainty_scores_dir": args.uncertainty_scores_dir,
         "dir_prompts": args.dir_prompts,
-        "load_uncertainty_file": args.load_uncertainty_file
+        "load_uncertainty_file": args.load_uncertainty_file,
+        "execution_time": end - start,
     }
 
-    with open(args.json_file, 'w') as f:
+    with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
-
-
-    if args.dataset == "gsm8k":
-        prefix = prefix_gsm8k
-    elif args.dataset == "aqua":
-        prefix = prefix_aqua
-    else:
-        raise NotImplementedError("dataset not implemented")
-    
-    start = time.time()
-
-    print('Hyperparameters: ')
-
-    set_random_seed(args.random_seed)
-    dataloader = create_dataloader(args)
-
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
-    else:
-        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    print(f"Proceeding with data size: {len(dataloader)}")
-    print(f"model_id: {args.model_id}")
-    print(f"method: {args.method}")
-    print(f"num_trails: {args.num_trails}")
-    print(f"sort_by: {args.sort_by}")
-    print(f"temperature: {args.temperature}")
-    print(f"random_seed: {args.random_seed}")
-    print(f"nr_demos: {args.nr_demos}")
-    
-    if args.method == "few_shot_cot":
-        args.prefix = prefix + ' Follow the format of the examples below:\n'
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        args.prompt = given_prompt_list[0]
-    elif args.method == "zero_shot_cot":
-        args.prompt = prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-    
-    print(f'PROMPT:\n{args.prompt}\n')
-    args.llm_chain = initialize_llmchain(args.prompt, args)
-
-    if args.load_uncertainty_file: 
-        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
-            result = json.load(f)['result']
-    else: 
-        result = generate_uncertainty_all_questions(args, dataloader)
-
-    end = time.time()
-    print('Total Execution Time: ', end - start, " seconds")
 
     demos = {'demo': result[:args.nr_demos]}
     with open(f"{args.demos_save_dir}demos", 'w', encoding="utf-8") as write_f:

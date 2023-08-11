@@ -1,11 +1,12 @@
-from utils import *
 import time
 import argparse
-import sys
 import json
-import sys
 from constant_vars import *
 import datetime
+import os 
+from utils.load_data import create_dataloader
+from utils.prompts_llm import build_prefix
+from utils.inference_llm import all_prompts_inference, inference_save_info, create_prompts_inference
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
@@ -22,7 +23,7 @@ def arg_parser():
         "--dir_prompts", type=str, default="labeled_demos/random/2023_08_05_12_43_36/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -107,7 +108,29 @@ def main():
         os.makedirs(args.output_dir + '/' + time_string)
 
     args.output_dir = args.output_dir + '/' + time_string + '/'
+        
+    dataloader = create_dataloader(args)
 
+    print('Hyperparameters:')
+    print(f'Dataset: {args.dataset}')
+    print(f"Dataloader size: {len(dataloader)}")
+    print(f'Method: {args.method}')
+    print(f'Model: {args.model_id}')
+    print(f'Multipath: {args.multipath}')
+    print(f'Temperature: {args.temperature}')
+
+    build_prefix(args)
+    prompts_list = create_prompts_inference(args)
+
+    if args.multipath != 1:
+        print("Self-consistency Enabled, output each inference result is not available")
+    
+    start = time.time()
+
+    correct_list, wrong_list, QA_record_list = all_prompts_inference(args, dataloader, prompts_list)
+    assert len(correct_list) == len(wrong_list) == len(QA_record_list)
+
+    end = time.time()
     args_dict = {
                 "dataset": args.dataset,
                 "dataset_size_limit": args.dataset_size_limit,
@@ -120,53 +143,12 @@ def main():
                 "temperature": args.temperature,
                 "multipath": args.multipath,
                 "answers_are_available": args.answers_are_available,
+                "execution_time": end - start,
                 }
+                
     with open(args.output_dir + 'inference_args.json', 'w') as f:
         json.dump(args_dict, f, indent=4)
-        
-    set_random_seed(args.random_seed)
-    # load dataset
-    dataloader = create_dataloader(args)
-    if args.dataset_size_limit <= 0:
-        args.dataset_size_limit = len(dataloader)
-    else:
-        dataloader = dataloader[:args.dataset_size_limit] # replace 7 with 1000; only take 1000 questions randomly to annotate, randomness decided by seed
-    
-    print('Hyperparameters:')
-    print(f'Dataset: {args.dataset}')
-    print(f"Dataloader size: {len(dataloader)}")
-    print(f'Method: {args.method}')
-    print(f'Model: {args.model_id}')
-    print(f'Multipath: {args.multipath}')
-    print(f'Temperature: {args.temperature}')
 
-    if args.dataset == "gsm8k":
-        prefix = prefix_gsm8k
-    elif args.dataset == "aqua":
-        prefix = prefix_aqua
-    else:
-        raise NotImplementedError("dataset not implemented")
-
-    if args.method == 'zero_shot_cot':
-        if args.dataset == 'aqua':
-            prefix = prefix + ' If none of options is correct, please choose the option "None of the above".'
-        prompts_list = [prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
-    elif args.method == 'cot':
-        args.prefix = prefix + ' To generate the answer follow the format of the examples below:\n'        
-        prompts_list = create_several_input_prompts(args, cot_flag=True)
-    elif args.method == 'standard':
-        args.prefix = prefix + '\n'
-        prompts_list = create_several_input_prompts(args, cot_flag=False)
-
-    if args.multipath != 1:
-        print("Self-consistency Enabled, output each inference result is not available")
-    
-    start = time.time()
-    correct_list, wrong_list, QA_record_list = all_prompts_inference(args, dataloader, prompts_list)
-    end = time.time()
-    print(f"Execution time: {end - start} seconds")
-    assert len(correct_list) == len(wrong_list) == len(QA_record_list)
-    
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
 
     print('Inference finished!')

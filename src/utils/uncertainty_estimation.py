@@ -3,6 +3,16 @@ import numpy as np
 from scipy.stats import entropy
 from constant_vars import NO_SOLUTION
 
+
+def sort_uncertainty(args, result):
+    if args.sort_by == "disagreement":
+        result.sort(key=lambda x: -len(x['occurrence']))
+    elif args.sort_by == "variance" and args.dataset == "gsm8k":
+        result.sort(key=lambda x: -x['variance'])
+    elif args.sort_by == "entropy" :
+        result.sort(key=lambda x:-x['entropy'])
+    return result
+
 def generate_uncertainty_single_question(args, example):
 
     if args.dataset == "gsm8k":
@@ -69,11 +79,6 @@ def generate_uncertainty_all_questions(args, dataloader, sort):
         print('\n' + '*' * 60 + '\n')
 
     if sort:
-        if args.sort_by == "disagreement":
-            result.sort(key=lambda x: -len(x['occurrence']))
-        elif args.sort_by == "variance" and args.dataset == "gsm8k":
-            result.sort(key=lambda x: -x['variance'])
-        elif args.sort_by == "entropy" :
-            result.sort(key=lambda x:-x['entropy'])
-
-    return result
+        return sort_uncertainty(args, result)
+    else:
+        return result

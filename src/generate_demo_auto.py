@@ -17,12 +17,12 @@ import load_env_vars
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -40,18 +40,23 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=6, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
     )
     
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
-    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl'; put the date and time of the embeddings you want to load
-    # aqua embeddings: 'embeddings/aqua/2023_08_11_16_27_46/embeddings.pkl'; put the date and time of the embeddings you want to load
-    
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_11_16_27_46/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
+        "--embedding_model_id", type=str, default="text-embedding-ada-002-v2", help="the id of the embedding model to use"
+    )
+
+    parser.add_argument(
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl' , help='file to load embeddings from; either None or a path to a file'
+    )
+
+    parser.add_argument(
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -87,13 +92,35 @@ def main():
     args.args_file = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'args.json'
     args.demos_save_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'demos/'
     
+    args_dict = {
+        "sampling_method": "Auto",
+        "dataset": args.dataset,
+        "data_path": args.data_path,
+        "max_ra_len": args.max_ra_len,
+        "random_seed": args.random_seed,
+        "sampling": args.sampling,
+        "dataset_size_limit": args.dataset_size_limit,
+        "nr_demos": args.nr_demos,
+        "answers_are_available": args.answers_are_available,
+        "load_embeddings_file": args.load_embeddings_file,
+        "load_embeddings_args_file": args.load_embeddings_args_file,
+        "demos_save_dir": args.demos_save_dir,
+        "plots_dir": args.plots_dir
+    }
+
     dataloader = create_dataloader(args)
 
     start = time.time()
-    if args.load_embeddings_file:
+    if args.load_embeddings_file and args.load_embeddings_args_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             corpus_embeddings = pickle.load(read_f)
+
+        with open(args.load_embeddings_args_file, 'r', encoding="utf-8") as f:
+            embeddings_args = json.load(f)
+
+        args_dict['generate_embeddings_args'] = embeddings_args
     else:
+        args_dict['embedding_model_id'] = args.embedding_model_id
         corpus_embeddings = generate_corpus_embeddings(args, dataloader)
 
     questions_idx = [example['question_idx'] for example in dataloader]
@@ -117,12 +144,14 @@ def main():
         clustered_idx[cluster_id].append(sentence_id)
 
     demos = []
-    
     for i in range(len(clustered_dists)):
         tmp = list(map(list, zip(range(len(clustered_dists[i])), clustered_dists[i])))
         top_min_dist = sorted(tmp, key=lambda x: x[1], reverse=False)
         if not args.sampling == "center":
             random.shuffle(top_min_dist)
+        
+        print(f'Cluster {i} has {len(clustered_dists[i])} elements.\n')
+        demo_found=False
         for element in top_min_dist:
             min_idx = element[0]
             if args.answers_are_available:
@@ -143,6 +172,7 @@ def main():
                         }
 
                     demos.append(demo_element)
+                    demo_found=True
                     break
             else:
                 if len(question.strip().split()) <= 60:
@@ -151,25 +181,14 @@ def main():
                         "question": question,               
                         }
                     demos.append(demo_element)
+                    demo_found=True
                     break
+        
+        if not demo_found:
+            print(f'No demo found for cluster {i} since no example satisfied the constraints.\n')
             
     end = time.time()
-
-    args_dict = {
-        "sampling_method": "Auto",
-        "dataset": args.dataset,
-        "data_path": args.data_path,
-        "max_ra_len": args.max_ra_len,
-        "random_seed": args.random_seed,
-        "sampling": args.sampling,
-        "dataset_size_limit": args.dataset_size_limit,
-        "nr_demos": args.nr_demos,
-        "answers_are_available": args.answers_are_available,
-        "load_embeddings_file": args.load_embeddings_file,
-        "demos_save_dir": args.demos_save_dir,
-        "plots_dir": args.plots_dir,
-        "execution_time": str(end - start) + ' seconds',
-    }
+    args_dict["execution_time"] = str(end - start) + ' seconds'
 
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)

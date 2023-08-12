@@ -68,7 +68,8 @@ def all_prompts_inference(args, data_loader, prompts_list):
     all_prompts_wrong_list = []
     all_prompts_QA_record_list = []
     for i in range(len(prompts_list)):
-        args.llm_chain = initialize_llmchain(prompts_list[i], args)
+        args.prompt_template = prompts_list[i]
+        initialize_llmchain(args)
         print(f'PROMPT:\n{args.llm_chain.prompt.template}\n')
         print('START INFERENCE\n')
         #print('*' * 60)

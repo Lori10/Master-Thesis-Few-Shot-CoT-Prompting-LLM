@@ -4,7 +4,7 @@ import os
 import datetime
 import time
 from utils.prompts_llm import build_prompt_initialize_llmchain
-from utils.uncertainty_estimation import generate_uncertainty_all_questions
+from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.load_data import create_dataloader
 import load_env_vars
 
@@ -125,14 +125,8 @@ def main():
     with open(f"{args.uncertainty_save_dir}unsorted_all_uncertainty_records", 'w', encoding="utf-8") as write_f:
         json.dump(unsorted_result, write_f, indent=2, ensure_ascii=False)
 
-    if args.sort_by == "disagreement":
-        result.sort(key=lambda x: -len(x['occurrence']))
-    elif args.sort_by == "variance" and args.dataset == "gsm8k":
-        result.sort(key=lambda x: -x['variance'])
-    elif args.sort_by == "entropy" :
-        result.sort(key=lambda x:-x['entropy'])
-
-    sorted_result = {'result': result}
+    sorted_result = sort_uncertainty(args, result)
+    sorted_result = {'result': sorted_result}
     with open(f"{args.uncertainty_save_dir}sorted_all_uncertainty_records", 'w', encoding="utf-8") as write_f:
         json.dump(sorted_result, write_f, indent=2, ensure_ascii=False)
     

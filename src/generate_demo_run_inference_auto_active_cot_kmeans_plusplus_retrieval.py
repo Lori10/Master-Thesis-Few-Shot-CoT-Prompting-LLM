@@ -76,11 +76,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=3, help='the number of examples to use for auto-active labeling'
-    )
-
-    parser.add_argument(
-        "--retrieval_nr_demos", type=int, default=3, help='number of demonstrations'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=5, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -88,7 +84,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
+        "--greedy", type=bool, default=False, help='whether to select examples with the highest f1-score or use random-weighted sampling'
     )
 
     parser.add_argument(
@@ -101,7 +97,11 @@ def parse_arguments():
     # )
 
     parser.add_argument(
-        "--test_dataset_size_limit", type=int, default=10, help='the number of examples to use from the test dataset for inference'
+        "--test_dataset_size_limit", type=int, default=7, help='the number of examples to use from the test dataset for inference'
+    )
+
+    parser.add_argument(
+        "--retrieval_nr_demos", type=int, default=3, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -112,26 +112,39 @@ def parse_arguments():
         "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
     )
 
+    # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
     parser.add_argument(
-        "--load_demos_auto_active_kmeansplusplus", type=bool, default=True, help="whether to load the demonstrations from the auto-active kmeans++ method or compute the demonstrations from scratch"
+        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default=None, help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_demos_auto_active_kmeansplusplus_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_08_13_01_17/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_demos_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_08_13_01_17/metadata/metadata', help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/args.json', help="file path of the args from the auto-active kmeans++ method"
     )
 
-    # gsm8k embeddings: 'embeddings/gsm8k/2023_08_10_11_45_01/embeddings.pkl'
     parser.add_argument(
-        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+        "--embedding_model_id", type=str, default="text-embedding-ada-002-v2", help="the id of the embedding model to use"
+    )
+
+    parser.add_argument(
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl', help='file to load embeddings from'
+    )
+
+    parser.add_argument(
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
+    # uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='all_uncertainties/gsm8k/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records', help='file to load uncertainties from'
+    )
+
+    parser.add_argument(
+        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
     )
 
     args = parser.parse_args()
@@ -187,20 +200,50 @@ def main():
         args.test_questions_prompts_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'test_questions_prompts/'
         args.auto_active_kmeansplusplus_demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus_retrieval' + '/' + time_string + '/' + 'auto_active_kmeansplusplus_demos/'
 
+        args_dict = {
+            "sampling_method": "Auto_Active_KMeansPlusPlus_Retrieval",
+            "dataset": args.dataset,
+            "data_path": args.data_path,
+            "dataset_size_limit": args.dataset_size_limit,
+            "random_seed": args.random_seed,
+            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
+            "answers_are_available": args.answers_are_available,
+            "demos_save_dir": args.demos_save_dir,
+            "greedy": args.greedy,
+            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
+            "distance_metric": args.distance_metric,
+            "beta": args.beta,
+            "test_data_path": args.test_data_path,
+            "test_dataset_size_limit": args.test_dataset_size_limit,
+            "inference_temperature" : args.inference_temperature,
+            "multi_path" : args.multipath,
+            'auto_active_limit_nr': args.auto_active_kmeansplusplus_nr_demos,
+            "retrieval_nr_demos": args.retrieval_nr_demos,
+            "output_dir": args.output_dir,
+            "load_auto_active_kmeansplusplus_demos_file_path": args.load_auto_active_kmeansplusplus_demos_file_path,
+            "load_auto_active_kmeansplusplus_metadata_file_path": args.load_auto_active_kmeansplusplus_metadata_file_path,
+            "load_auto_active_kmeansplusplus_args_file_path": args.load_auto_active_kmeansplusplus_args_file_path,
+        }
+
         start = time.time()
 
-        if args.load_demos_auto_active_kmeansplusplus:
+        if args.load_auto_active_kmeansplusplus_demos_file_path and args.load_auto_active_kmeansplusplus_metadata_file_path and args.load_auto_active_kmeansplusplus_args_file_path:
             # use with open to load json files below 
-            with open(args.load_demos_auto_active_kmeansplusplus_file_path, 'r', encoding="utf-8") as f:
+            with open(args.load_auto_active_kmeansplusplus_demos_file_path, 'r', encoding="utf-8") as f:
                 demos_json = json.load(f)
-            with open(args.load_demos_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8") as f:
+
+            with open(args.load_auto_active_kmeansplusplus_metadata_file_path, 'r', encoding="utf-8") as f:
                 auto_active_kmeansplusplus_info_list = json.load(f)
+
+            with open(args.load_auto_active_kmeansplusplus_args_file_path, 'r', encoding="utf-8") as f:
+                auto_active_kmeans_args = json.load(f)
             
+            args_dict['Auto_Active_KMeansPlusplus_args'] = auto_active_kmeans_args
         else:
             if args.auto_active_kmeansplusplus_nr_demos <= args.retrieval_nr_demos:
                 print('The number of examples to use for auto-active labeling should be greater than the number of demonstrations. Proceeding with the auto_active_limit_nr = args.nr_demos - 1.')
                 args.auto_active_kmeansplusplus_nr_demos = args.retrieval_nr_demos + 1
-            demos_json, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args)
+            demos_json, auto_active_kmeansplusplus_info_list = main_auto_active_kmeansplusplus(args, args_dict)
         
         with open(args.metadata + 'metadata' , 'w') as f:
             f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2))
@@ -218,7 +261,7 @@ def main():
         template="{question}\n{answer}",
         )
 
-        encoder = initialize_embedding_model()
+        encoder = initialize_embedding_model(args)
         example_selector = SemanticSimilarityExampleSelector.from_examples(
         examples, 
         encoder, 
@@ -232,7 +275,7 @@ def main():
             suffix="Split:" + "{question}", 
             input_variables=["question"],
         )
-        
+  
         args.data_path = args.test_data_path
         args.dataset_size_limit = args.test_dataset_size_limit
         test_dataloader = create_dataloader(args)
@@ -243,15 +286,14 @@ def main():
         
         args.temperature = args.inference_temperature
         build_prefix(args)
-
         for test_question_id, test_example in enumerate(test_dataloader):
             few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            #print('Test Question ID: ' + str(test_question_id) + '\n')
-            #print(f'Prompt:\n{few_shot_examples}')
+            args.prompt_template = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+
+            print(f'PROMPT TEMPLATE:\n{args.prompt_template}')            
             print('*' * 60)
 
-            full_prompt = args.prefix  + ' To generate the answer follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-            args.llm_chain = initialize_llmchain(full_prompt, args)
+            initialize_llmchain(args)
             correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
 
             test_q_dic = {
@@ -264,36 +306,8 @@ def main():
                 f.write(json.dumps(test_q_dic, indent=2))
 
         end = time.time()
-        args_dict = {
-            "sampling_method": "Auto_Active_KMeansPlusPlus_Retrieval",
-            "dataset": args.dataset,
-            "data_path": args.data_path,
-            "dataset_size_limit": args.dataset_size_limit,
-            "dir_prompts": args.dir_prompts,
-            "model_id": args.model_id,
-            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
-            "random_seed": args.random_seed,
-            "num_trails": args.num_trails,
-            "method": args.method,
-            "sort_by": args.sort_by,
-            "distance_metric": args.distance_metric,
-            "beta": args.beta,
-            "temperature_auto_active_kmeansplusplus": args.auto_active_kmeansplusplus_temperature,
-            "temperature_inference": args.inference_temperature,
-            'auto_active_limit_nr': args.auto_active_kmeansplusplus_nr_demos,
-            "retrieval_nr_demos": args.retrieval_nr_demos,
-            "answers_are_available": args.answers_are_available,
-            "greedy": args.greedy,
-            "test_data_path": args.test_data_path,
-            "test_dataset_size_limit": args.test_dataset_size_limit, 
-            "output_dir": args.output_dir,
-            "load_demos_auto_active_kmeansplusplus": args.load_demos_auto_active_kmeansplusplus,
-            "load_demos_auto_active_kmeansplusplus_file_path": args.load_demos_auto_active_kmeansplusplus_file_path,
-            "load_demos_auto_active_kmeansplusplus_metadata_file_path": args.load_demos_auto_active_kmeansplusplus_metadata_file_path,
-            "load_embeddings_file": args.load_embeddings_file,
-            "execution_time": end - start,
-        }
-
+        args_dict["execution_time"] =  str(end - start) + ' seconds'
+        
         with open(args.args_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
 
@@ -306,9 +320,9 @@ def main():
         args.output_dir = args.output_dir + '/' + time_string + '/'
         inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))        
     else:
-        _, _, _ = main_auto_active_kmeansplusplus(args)
+        _, _, = main_auto_active_kmeansplusplus(args, None)
 
-    print('Inference finished.')
+    print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation finished.')
 
 
 if __name__ == "__main__":

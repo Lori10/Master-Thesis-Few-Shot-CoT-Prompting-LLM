@@ -1,3 +1,0 @@
-{'idx': 4, 'pred_final_answer': '36', 'true_final_answer': '20'}
-{'idx': 8, 'pred_final_answer': '27', 'true_final_answer': '50'}
-{'idx': 9, 'pred_final_answer': '25', 'true_final_answer': '85'}

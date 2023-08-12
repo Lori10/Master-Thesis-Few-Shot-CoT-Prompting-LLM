@@ -1,0 +1,41 @@
+{
+    "demo": [
+        {
+            "question": "Q: How many digits 2^400 has? Answer Choices: (A) 31 (B) 35 (C) 50 (D) 99 (E) 121",
+            "question_idx": 3,
+            "rationale": "A: Let's think step by step. 2^10 = 1.024 * 10^3 => 2^100 = (1.024)^10 * 10^120 therefore 121 digits would be my best guess E",
+            "final_answer": "E",
+            "entropy": 1.0397207708399179,
+            "occurrence": {
+                "A": 1,
+                "E": 2,
+                "D": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%",
+            "question_idx": 2,
+            "rationale": "A: Let's think step by step. S.I. = (17000 - 12500) = Rs. 4500/- Rate = (100 * 4500) / (12500 * 4) = 9% ANSWER:A",
+            "final_answer": "A",
+            "entropy": 1.0397207708399179,
+            "occurrence": {
+                "D": 1,
+                "C": 1,
+                "A": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Find the area of circle whose radius is 7m? Answer Choices: (A) 298 (B) 154 (C) 267 (D) 268 (E) 298",
+            "question_idx": 11,
+            "rationale": "A: Let's think step by step. 22/7 * 7 * 7 = 154 Answer: B",
+            "final_answer": "B",
+            "entropy": 0.0,
+            "occurrence": {
+                "B": 4
+            },
+            "disagreement": 1
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "demo": [
+        {
+            "question": "Q: A bowl contains equal numbers of red, orange, green, blue, and yellow candies. Kaz eats all of the green candies and half of the orange ones. Next, he eats half of the remaining pieces of each color. Finally, he eats red and yellow candies in equal proportions until the total number of remaining candies of all colors equals 20% of the original number. What percent of the red candies remain? Answer Choices: (A) 5% (B) 7.5% (C) 10% (D) 12.5% (E) 15%",
+            "question_idx": 0,
+            "rationale": "A: Let's think step by step.\nLet x be the original number of each color.\nKaz eats all of the green candies and half of the orange ones.\nThere are 0 green candies and 0.5x orange candies remaining.\nHe eats half of the remaining pieces of each color.\nThere are 0.25x orange candies, and 0.5x each of red, yellow, and blue candies.\nHe eats red and yellow candies in equal proportions.\norange+blue+red+yellow = 0.75x + red + yellow = x\nred + yellow = 0.25x\nred = 0.125x, since red = yellow.\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.3862943611198906,
+            "occurrence": {
+                "A": 1,
+                "E": 1,
+                "D": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If one positive integer is greater than another positive integer by 4, and the difference of their cubes is 208, what is their sum? Answer Choices: (A) 8 (B) 10 (C) 12 (D) 14 (E) 16",
+            "question_idx": 13,
+            "rationale": "A: Let's think step by step.\n1^3 = 1\n2^3 = 8\n3^3 = 27\n4^3 = 64\n5^3 = 125\n6^3 = 216\nThe two numbers are 2 and 6.\nThe answer is A.",
+            "final_answer": "A",
+            "entropy": 1.3862943611198906,
+            "occurrence": {
+                "C": 1,
+                "D": 1,
+                "E": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%",
+            "question_idx": 2,
+            "rationale": "A: Let's think step by step.\nS.I. = (17000 - 12500) = Rs. 4500/-\nRate = (100 * 4500) / (12500 * 4) = 9%\nANSWER:A",
+            "final_answer": "A",
+            "entropy": 1.0397207708399179,
+            "occurrence": {
+                "E": 1,
+                "A": 2,
+                "D": 1
+            },
+            "disagreement": 3
+        }
+    ]
+}

@@ -13,40 +13,11 @@ from utils.load_data import create_dataloader
 from utils.prompts_llm import build_prompt_initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.embedding_generation import generate_corpus_embeddings
+from utils.scaler_and_metrics import f1_score, softmax
 
-def f1_score(distances, uncertainties, args):
-    # distances is the precision, uncertainties is the recall, beta is the weight of recall
-    distances = np.array(distances)
-    uncertainties = np.array(uncertainties)
-    #print(f'Distances before Normalization:\n{distances}')
-    #print(f'Uncertainties before Normalization:\n{uncertainties}')
-    print('---------------------------------------------')
-    if args.normalize_distance_uncertainty:
-        distances = distances / sum(distances)
-        uncertainties = uncertainties / sum(uncertainties)
-        #print(f'Distances after Normalization:\n{distances}')
-        #print(f'Uncertainties after Normalization:\n{uncertainties}')
-        # print(distances[3])
-        # print(uncertainties[3])
-        # print('------------')
-
-    f1_scores = ((args.beta**2 + 1) * distances * uncertainties) / (args.beta**2 * distances + uncertainties)
-    f1_scores[np.isnan(f1_scores)] = 0
-    return f1_scores, distances, uncertainties
-
-def square_prob(scores):
-    return (scores ** 2)/ sum(scores ** 2)
-    
-def softmax(scores):
-    return np.exp(scores) / np.sum(np.exp(scores), axis=0)
-
-def normalization(scores):
-    return (scores - min(scores)) / (max(scores) - min(scores))
-
-def main_auto_active_kmeansplusplus(args):
+def main_auto_active_kmeansplusplus(args, args_dict):
 
     if not args.retrieval:
-
         current_time = datetime.datetime.now()
         time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
         if not os.path.exists(args.demos_save_dir):
@@ -72,25 +43,60 @@ def main_auto_active_kmeansplusplus(args):
     dataloader = create_dataloader(args)
 
     if not args.retrieval:
+        args_dict = {
+            "sampling_method": "Auto_Active_KMeansPlusPlus",
+            "dataset": args.dataset,
+            "data_path": args.data_path,
+            "dataset_size_limit": args.dataset_size_limit,
+            "random_seed": args.random_seed,
+            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
+            "answers_are_available": args.answers_are_available,
+            "demos_save_dir": args.demos_save_dir,
+            "load_embeddings_file": args.load_embeddings_file,
+            "load_embeddings_args_file": args.load_embeddings_args_file,
+            "load_uncertainty_file": args.load_uncertainty_file,
+            "load_uncertainty_args_file": args.load_uncertainty_args_file,
+            "greedy": args.greedy,
+            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
+            "distance_metric": args.distance_metric,
+            "beta": args.beta
+        }
+
         start = time.time()
     
-    if args.load_uncertainty_file:
+    if args.load_uncertainty_file and args.load_uncertainty_args_file:
         with open(args.load_uncertainty_file, 'r', encoding="utf-8") as read_f:
             all_uncertainty_records = json.load(read_f)['result']
+
+        with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
+            uncertainty_args = json.load(f)
+        
+        args_dict['generate_uncertainty_args'] = uncertainty_args
     else:
+        args_dict["method"] = args.method
+        args_dict["model_id"] = args.model_id
+        args_dict["num_trails"] = args.num_trails
+        args_dict["sort_by"] = args.sort_by
+        args_dict["temperature"] = args.auto_active_kmeansplusplus_temperature
+        args_dict["dir_prompts"] = args.dir_prompts
+
         args.temperature = args.auto_active_kmeansplusplus_temperature
         build_prompt_initialize_llmchain(args)    
-        args.sort = False
-        args.dataloader = dataloader
-        all_uncertainty_records = generate_uncertainty_all_questions(args)
+        all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False)
 
-    questions_idxs = [uncertainty_record['question_id'] for uncertainty_record in all_uncertainty_records]
+    questions_idxs = [uncertainty_record['question_idx'] for uncertainty_record in all_uncertainty_records]
     uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]
     
-    if args.load_embeddings_file:
+    if args.load_embeddings_file and args.load_embeddings_args_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             corpus_embeddings = pickle.load(read_f)
+
+        with open(args.load_embeddings_args_file, 'r', encoding="utf-8") as f:
+            embeddings_args = json.load(f)
+
+        args_dict['generate_embeddings_args'] = embeddings_args
     else:
+        args_dict['embedding_model_id'] = args.embedding_model_id
         corpus_embeddings = generate_corpus_embeddings(args, dataloader)
         
     assert len(corpus_embeddings) == len(uncertainty_list) == len(questions_idxs)
@@ -101,6 +107,8 @@ def main_auto_active_kmeansplusplus(args):
     selected_data = [corpus_embeddings[first_question_idx]]
     auto_active_kmeansplusplus_info_list = [{'iteration' : 0,
                      'selected_idx': first_question_idx,
+                     'uncertainty' : uncertainties_series[first_question_idx],
+                     f'highest_uncertainty_{args.sort_by}' : max(uncertainty_list),
                     }] 
     j = 1
 
@@ -192,29 +200,7 @@ def main_auto_active_kmeansplusplus(args):
 
     if not args.retrieval:
         end = time.time()
-        args_dict = {
-            "sampling_method": "Auto_Active_KMeansPlusPlus",
-            "dataset": args.dataset,
-            "data_path": args.data_path,
-            "dataset_size_limit": args.dataset_size_limit,
-            "dir_prompts": args.dir_prompts,
-            "model_id": args.model_id,
-            "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
-            "random_seed": args.random_seed,
-            "num_trails": args.num_trails,
-            "method": args.method,
-            "sort_by": args.sort_by,
-            "distance_metric": args.distance_metric,
-            "beta": args.beta,
-            "temperature": args.auto_active_kmeansplusplus_temperature,
-            "nr_demos": args.auto_active_kmeansplusplus_nr_demos, 
-            "answers_are_available": args.answers_are_available,
-            "greedy": args.greedy,
-            "demos_save_dir": args.demos_save_dir,
-            "load_embeddings_file": args.load_embeddings_file,
-            "load_uncertainty_file": args.load_uncertainty_file,
-            "execution_time": end - start,
-        }
+        args_dict["execution_time"] = str(end - start) + " seconds"
         
         with open(args.args_file, 'w') as f:
             json.dump(args_dict, f, indent=4)
@@ -224,5 +210,7 @@ def main_auto_active_kmeansplusplus(args):
 
         with open(args.metadata + 'metadata' , 'w', encoding='utf-8') as f:
             f.write(json.dumps(auto_active_kmeansplusplus_info_list, indent=2, ensure_ascii=False))
+
+        print('Auto Active KMeans++ Demo Generation Completed!')
 
     return demos_json, auto_active_kmeansplusplus_info_list

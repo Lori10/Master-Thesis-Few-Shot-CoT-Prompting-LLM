@@ -6,11 +6,13 @@ import datetime
 import os 
 from utils.load_data import create_dataloader
 from utils.prompts_llm import build_prefix
-from utils.inference_llm import all_prompts_inference, inference_save_info, create_prompts_inference
+from utils.save_results import inference_save_info
+from utils.inference_llm import create_prompts_inference, all_prompts_inference
+import load_env_vars
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
-    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
@@ -20,10 +22,10 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_05_12_43_36/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_12_21_16_16/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="gpt-3.5-turbo", choices=["gpt-3.5-turbo", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["gpt-3.5-turbo", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -35,7 +37,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=7, help="size of dataset to inference"
     )
   
     parser.add_argument(
@@ -83,16 +85,9 @@ def main():
         os.makedirs(args.output_dir + '/' + time_string)
 
     args.output_dir = args.output_dir + '/' + time_string + '/'
+    args.args_file = args.output_dir + 'args.json'
         
     dataloader = create_dataloader(args)
-
-    print('Hyperparameters:')
-    print(f'Dataset: {args.dataset}')
-    print(f"Dataloader size: {len(dataloader)}")
-    print(f'Method: {args.method}')
-    print(f'Model: {args.model_id}')
-    print(f'Multipath: {args.multipath}')
-    print(f'Temperature: {args.temperature}')
 
     build_prefix(args)
     prompts_list = create_prompts_inference(args)
@@ -118,10 +113,10 @@ def main():
                 "temperature": args.temperature,
                 "multipath": args.multipath,
                 "answers_are_available": args.answers_are_available,
-                "execution_time": end - start,
+                "execution_time": str(end - start) + ' seconds',
                 }
                 
-    with open(args.output_dir + 'inference_args.json', 'w') as f:
+    with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))

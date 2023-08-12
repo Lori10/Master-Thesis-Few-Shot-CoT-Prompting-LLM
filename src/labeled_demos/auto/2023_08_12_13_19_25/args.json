@@ -1,0 +1,24 @@
+{
+    "sampling_method": "Auto",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "max_ra_len": 5,
+    "random_seed": 42,
+    "sampling": "center",
+    "dataset_size_limit": 20,
+    "nr_demos": 5,
+    "answers_are_available": true,
+    "load_embeddings_file": "embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl",
+    "load_embeddings_args_file": "embeddings/gsm8k/2023_08_11_15_17_19/args.json",
+    "demos_save_dir": "labeled_demos/auto/2023_08_12_13_19_25/demos/",
+    "plots_dir": "labeled_demos/auto/2023_08_12_13_19_25/plots/",
+    "generate_embeddings_args": {
+        "dataset": "gsm8k",
+        "data_path": "../datasets/gsm8k/train.jsonl",
+        "random_seed": 42,
+        "dataset_size_limit": 20,
+        "output_dir": "embeddings/gsm8k/2023_08_11_15_17_19/",
+        "execution_time": "5.470309257507324 seconds"
+    },
+    "execution_time": "0.4174985885620117 seconds"
+}

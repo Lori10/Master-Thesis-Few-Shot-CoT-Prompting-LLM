@@ -1,0 +1,23 @@
+{
+    "sampling_method": "Auto_Active_KMeansPlusPlus",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 20,
+    "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+    "model_id": "text-davinci-003",
+    "normalize_distance_uncertainty": false,
+    "random_seed": 42,
+    "num_trails": 4,
+    "method": "few_shot_cot",
+    "sort_by": "entropy",
+    "distance_metric": "cosine",
+    "beta": 1.7,
+    "temperature": 0.7,
+    "nr_demos": 3,
+    "answers_are_available": true,
+    "greedy": false,
+    "demos_save_dir": "labeled_demos/auto_active_kmeansplusplus/2023_08_11_21_47_11/demos/",
+    "load_embeddings_file": "embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl",
+    "load_uncertainty_file": "uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records",
+    "execution_time": "0.0572056770324707 seconds"
+}

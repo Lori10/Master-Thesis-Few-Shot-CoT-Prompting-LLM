@@ -1,0 +1,14 @@
+{
+    "dataset": "gsm8k",
+    "dataset_size_limit": 7,
+    "data_path": "../datasets/gsm8k/test.jsonl",
+    "random_seed": 1,
+    "dir_prompts": "labeled_demos/random/2023_08_12_21_16_16/demos",
+    "model_id": "text-davinci-003",
+    "method": "cot",
+    "output_dir": "inference_results/2023_08_12_21_16_44/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "27.662709951400757 seconds"
+}

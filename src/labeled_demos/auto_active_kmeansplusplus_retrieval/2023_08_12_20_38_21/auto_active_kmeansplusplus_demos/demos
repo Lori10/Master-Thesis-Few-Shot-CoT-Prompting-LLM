@@ -1,0 +1,34 @@
+{
+    "demo": [
+        {
+            "question": "Q: When Jason plays the video game, Duty for Ashes, his mission to slay the dragon hoard requires that he fire his weapon on average every 15 seconds.   And each time he fires his weapon, his power-fire setting allows him to shoot a flame for 5 seconds.  On average, how many seconds per minute does Jason shoot flames at the dragon hoard?",
+            "rationale": "A: Let's think step by step.\nSince he fires his weapon on average every 15 seconds, then in one minute he fires the flamethrower 60/15=<<60/15=4>>4 times.\nAnd since each time he fires his weapon, he shoots flame for 5 seconds, then Jason shoots flames at the dragon hoard a total of 4*5=<<4*5=20>>20 seconds of every minute.",
+            "final_answer": "20",
+            "question_idx": 19
+        },
+        {
+            "question": "Q: An old pirate wants to leave his treasure on an island. He has 3500 gold coins. He wants to spread this equally across 5 chests. Additionally, he will put a total of 500 silver coins and twice as many bronze coins as silver, all distributed equally across the chests. How many coins in total will be in each chest?",
+            "rationale": "A: Let's think step by step.\nThere will be 3500 gold coins / 5 chest= <<3500/5=700>>700 gold coins in every chest.\nSo, there will be 500 silver coins / 5 chests = <<500/5=100>>100 silver coins in each chest.\nThen, the number of bronze coins is double the number of silver coins, so there are 2 * 500 = <<2*500=1000>>1000 bronze coins.\nSo there will be 1000 bronze coins / 5 chests = <<1000/5=200>>200 bronze coins in each chest.\nFinally, the total number of coins in every chest will be 700 gold coins + 100 silver coins + 200 bronze coins = <<700+100+200=1000>>1000 coins.",
+            "final_answer": "1000",
+            "question_idx": 8
+        },
+        {
+            "question": "Q: 4 friends are running a 4 x 100 relay race.  Mary ran first and took twice as long as Susan.  Susan ran second and she took 10 seconds longer than Jen.  Jen ran third and finished in 30 seconds.  Tiffany ran the last leg and finished in 7 seconds less than Mary.  How many seconds did it take the team to finish the race?",
+            "rationale": "A: Let's think step by step.\nSusan's time was 30 seconds + 10 seconds = <<30+10=40>>40 seconds.\nMary's time was 40 seconds * 2 = <<40*2=80>>80 seconds.\nTiffany's time was 80 seconds - 7 seconds = <<80-7=73>>73 seconds.\nThe total time for the team was 80 seconds + 40 seconds + 30 seconds + 73 seconds = <<80+40+30+73=223>>223 seconds.",
+            "final_answer": "223",
+            "question_idx": 17
+        },
+        {
+            "question": "Q: Mitzel spent 35% of her allowance. If she spent $14, how much money is left in her allowance?",
+            "rationale": "A: Let's think step by step.\nIf 35% represents 14, then 100-35 = 65 represents the amount left of her allowance.\nThe amount she didn't use is 65*14/35 = <<65*14/35=26>>26",
+            "final_answer": "26",
+            "question_idx": 13
+        },
+        {
+            "question": "Q: Carolyn is planning out her final essay. The introduction will be 450 words, the conclusion will be triple the length of the introduction, and each of the four body sections will be the same length. If her essay has to be 5000 words total, how long is each section?",
+            "rationale": "A: Let's think step by step.\nFirst find the length of the conclusion by tripling the length of the introduction: 450 words * 3 = <<450*3=1350>>1350 words\nThen subtract the length of the introduction and conclusion from the total length to find the combined length of the body sections: 5000 words - 1350 words - 450 words = <<5000-1350-450=3200>>3200 words\nThen divide the combined length of the body section by the number of body sections to find the length of each section: 3200 words / 4 sections = <<3200/4=800>>800 words/section",
+            "final_answer": "800",
+            "question_idx": 11
+        }
+    ]
+}

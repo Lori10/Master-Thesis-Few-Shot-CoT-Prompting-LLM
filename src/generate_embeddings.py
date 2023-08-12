@@ -28,6 +28,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--embedding_model_id", type=str, default="text-embedding-ada-002-v2", help="the id of the embedding model to use"
+    )
+
+    parser.add_argument(
         "--output_dir", type=str, default='embeddings', help="the directory where embeddings will be stored"
     )
 
@@ -65,6 +69,7 @@ def main():
         'random_seed': args.random_seed,
         'dataset_size_limit': args.dataset_size_limit,
         'output_dir': args.output_dir,
+        'embedding_model_id': args.embedding_model_id,
         'execution_time': str(end - start) + ' seconds',
     }
 

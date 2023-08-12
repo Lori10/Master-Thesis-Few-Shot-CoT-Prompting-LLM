@@ -1,0 +1,32 @@
+{
+    "sampling_method": "Auto-Active-KMeans",
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "dataset_size_limit": 20,
+    "random_seed": 42,
+    "nr_demos": 3,
+    "demos_save_dir": "labeled_demos/auto_active_kmeans/2023_08_12_19_34_56/demos/",
+    "answers_are_available": true,
+    "uncertainty_scores_dir": "labeled_demos/auto_active_kmeans/2023_08_12_19_34_56/uncertainty_scores/",
+    "load_uncertainty_file": "uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records",
+    "load_uncertainty_args_file": "uncertainties/aqua/2023_08_11_17_21_05/args.json",
+    "load_embeddings_file": null,
+    "load_embeddings_args_file": null,
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "generate_uncertainty_args": {
+        "dataset": "aqua",
+        "data_path": "../datasets/AQuA/train.json",
+        "random_seed": 42,
+        "dataset_size_limit": 20,
+        "num_trails": 4,
+        "temperature": 0.7,
+        "model_id": "text-davinci-003",
+        "method": "few_shot_cot",
+        "dir_prompts": "uncertainty_estimation_prompts/aqua",
+        "answers_are_available": true,
+        "sort_by": "entropy",
+        "uncertainty_save_dir": "uncertainties/aqua/2023_08_11_17_21_05/",
+        "execution_time": "218.32471370697021 seconds"
+    },
+    "execution_time": "6.045331001281738 seconds"
+}

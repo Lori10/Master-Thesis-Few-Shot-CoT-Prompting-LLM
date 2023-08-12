@@ -1,0 +1,17 @@
+{
+    "sampling_method": "Auto",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "max_ra_len": 5,
+    "random_seed": 42,
+    "sampling": "center",
+    "dataset_size_limit": 20,
+    "nr_demos": 5,
+    "answers_are_available": true,
+    "load_embeddings_file": null,
+    "load_embeddings_args_file": null,
+    "demos_save_dir": "labeled_demos/auto/2023_08_12_13_06_24/demos/",
+    "plots_dir": "labeled_demos/auto/2023_08_12_13_06_24/plots/",
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "execution_time": "6.103125095367432 seconds"
+}

@@ -12,11 +12,11 @@ from utils.uncertainty_estimation import generate_uncertainty_all_questions
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
     
@@ -33,7 +33,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=20, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
@@ -53,9 +53,12 @@ def arg_parser():
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
-    # aqua: uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records'
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default=None, help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+    )
+
+    parser.add_argument(
+        "--load_uncertainty_args_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/args.json', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
@@ -112,19 +115,6 @@ def main():
     args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores/'
     args.demos_save_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos/'
     
-    dataloader = create_dataloader(args)
-
-    start = time.time()
-
-    if args.load_uncertainty_file: 
-        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
-            result = json.load(f)['result']
-    else: 
-        build_prompt_initialize_llmchain(args)
-        result = generate_uncertainty_all_questions(args, dataloader, True)
-
-    end = time.time()
-
     args_dict = {
         "sampling_method": "Active",
         "dataset": args.dataset,
@@ -133,18 +123,40 @@ def main():
         "random_seed": args.random_seed,
         "nr_demos": args.nr_demos,
         "demos_save_dir": args.demos_save_dir,
-        "method": args.method,
-        "model_id": args.model_id,
-        "num_trails": args.num_trails,
-        "sort_by": args.sort_by,
-        "temperature": args.temperature,
         "answers_are_available": args.answers_are_available,
         "uncertainty_scores_dir": args.uncertainty_scores_dir,
-        "dir_prompts": args.dir_prompts,
         "load_uncertainty_file": args.load_uncertainty_file,
-        "execution_time": str(end - start) + " seconds",
-    }
+        "load_uncertainty_args_file": args.load_uncertainty_args_file
+        }
 
+    dataloader = create_dataloader(args)
+
+    start = time.time()
+
+    if args.load_uncertainty_file and args.load_uncertainty_args_file: 
+        with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
+            result = json.load(f)['result']
+
+        with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
+            uncertainty_args = json.load(f)
+
+        args_dict['generate_uncertainty_args'] = uncertainty_args
+
+    else: 
+        args_dict["method"] = args.method
+        args_dict["model_id"] = args.model_id
+        args_dict["num_trails"] = args.num_trails
+        args_dict["sort_by"] = args.sort_by
+        args_dict["temperature"] = args.temperature
+        args_dict["dir_prompts"] = args.dir_prompts
+
+        build_prompt_initialize_llmchain(args)
+        result = generate_uncertainty_all_questions(args, dataloader, True)
+
+    end = time.time()
+
+    args_dict["execution_time"] = str(end - start) + " seconds"
+    
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 

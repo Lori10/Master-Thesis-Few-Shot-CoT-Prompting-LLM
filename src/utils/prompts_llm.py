@@ -2,9 +2,25 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os 
 import openai 
-from langchain.llms import HuggingFacePipeline, AzureOpenAI
+from langchain.llms import HuggingFacePipeline, AzureOpenAI 
+from langchain.chat_models import AzureChatOpenAI
 from constant_vars import *
 import json
+
+def create_prompts_inference(args):
+    if args.method == 'zero_shot_cot':
+        if args.dataset == 'aqua':
+            args.prefix = args.prefix + ' If none of options is correct, please choose the option "None of the above".'
+        prompts_list = [args.prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
+    elif args.method == 'cot':
+        args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'        
+        prompts_list = create_several_input_prompts(args, cot_flag=True)
+    elif args.method == 'standard':
+        args.prefix = args.prefix + '\n'
+        prompts_list = create_several_input_prompts(args, cot_flag=False)
+
+    return prompts_list
+
 
 def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool)->str:
     """
@@ -108,7 +124,7 @@ def build_prompt_template(args: object):
             args (object): the arguments passed in from the command line
     """
     if args.method == "few_shot_cot":
-        args.prefix = args.prefix + ' Follow the format of the examples below:\n'
+        args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'
         given_prompt_list = create_several_input_prompts(args, cot_flag=True)
         assert len(given_prompt_list) == 1
         args.prompt_template = given_prompt_list[0]

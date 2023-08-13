@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. If none of options is correct, please choose the option \"None of the above\".\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.5714285714285714
+    },
+    {
+        "mean_accuracy": 0.5714285714285714
+    }
+]

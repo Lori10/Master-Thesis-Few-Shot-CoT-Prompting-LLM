@@ -1,0 +1,68 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems.\nQ: Find the area of circle whose radius is 7m? Answer Choices: (A) 298 (B) 154 (C) 267 (D) 268 (E) 298\nA: The answer is B.\n\nQ: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%\nA: The answer is A.\n\nQ: In how many ways 6 persons can be formed from 8 men and 7 women? Answer Choices: (A) 5005 (B) 6452 (C) 4516 (D) 2313 (E) 3564\nA: The answer is A.\n\nQ: A 300 m long train crosses a platform in 39 sec while it crosses a signal pole in 18 sec. What is the length of the platform? Answer Choices: (A) 286 m (B) 350 m (C) 277 m (D) 278 m (E) 267 m\nA: The answer is B.\n\nQ: {question}\nA: Let's think step by step."
+    },
+    [
+        {
+            "Question_idx": 0,
+            "Question": "Q: At Daifu university, 24% of all students are members of both a chess club and a swim team. If 20% of members of the swim team are not members of the chess club, what percentage of all Daifu students are members of the swim team? Answer Choices: (A) 20% (B) 30% (C) 40% (D) 50% (E) 60%",
+            "Pred_Rationale": "\n\n24% of all students are members of both a chess club and a swim team.\n\n20% of members of the swim team are not members of the chess club.\n\nSo, 80% of members of the swim team are members of the chess club.\n\nTherefore, the percentage of all Daifu students who are members of the swim team is 80%.\n\nThe answer is C.",
+            "Pred_FinalAnswer": "C",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 1,
+            "Question": "Q: A sales person gets a 10% commission on each sale he makes. How many sales of $250 each must he make in order to reach a salary of at least $1000? Answer Choices: (A) 15 (B) 24 (C) 25 (D) 40 (E) 52",
+            "Pred_Rationale": "\n\n1. 10% of $250 is $25.\n2. To reach a salary of $1000, the salesperson needs to make 40 sales of $250 each.\n3. Therefore, the answer is D.",
+            "Pred_FinalAnswer": "D",
+            "True_FinalAnswer": "D"
+        }
+    ],
+    [
+        {
+            "Question_idx": 2,
+            "Question": "Q: Suppose you want to arrange your English, Hindi, Mathematics, History, Geography and Science books on a shelf. In how many ways can you do it ? Answer Choices: (A) 520 (B) 720 (C) 920 (D) None (E) Cannot be determined",
+            "Pred_Rationale": " First, you can arrange the books in 6! ways. Then, you can arrange the books in any order within each subject, so you can multiply the result by 6! again. The answer is B. 720.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 3,
+            "Question": "Q: A rectangle has a length of 8 centimeters and a width of 3 centimeters. Find the perimeter. Answer Choices: (A) 18cm (B) 22cm (C) 20cm (D) 30cm (E) 28cm",
+            "Pred_Rationale": " The perimeter of a rectangle is the sum of the lengths of all four sides. The length of the two sides with length 8 cm is 8 + 8 = 16 cm. The length of the two sides with width 3 cm is 3 + 3 = 6 cm. So, the perimeter is 16 + 6 = 22 cm. The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 4,
+            "Question": "Q: 20 marbles were pulled out of a bag of only white marbles, painted black, and then put back in. Then, another 20 marbles were pulled out, of which 1 was black, after which they were all returned to the bag. If the percentage of black marbles pulled out the second time represents their percentage in the bag, how many marbles in total Q does the bag currently hold? Answer Choices: (A) 40 (B) 200 (C) 380 (D) 400 (E) 3200",
+            "Pred_Rationale": " We know that 20 marbles were pulled out the first time, and 1 of them was black. So, 19 of them were white. We also know that the percentage of black marbles pulled out the second time represents their percentage in the bag. So, if 1 out of 20 marbles was black, then the percentage of black marbles in the bag is 5%.\n\nTherefore, the total number of marbles in the bag is 400 (5% of 400 is 20). So, the answer is D.",
+            "Pred_FinalAnswer": "D",
+            "True_FinalAnswer": "D"
+        }
+    ],
+    [
+        {
+            "Question_idx": 5,
+            "Question": "Q: If the population of a city increases by 5 % annually, what will be the population of the city in 2 years time if its current population is 78000? Answer Choices: (A) 81900 (B) 85995 (C) 85800 (D) 90000 (E) None of these",
+            "Pred_Rationale": "\n\nThe population of the city increases by 5% each year.\n\nYear 1: 78000 + (78000 x 0.05) = 81900\n\nYear 2: 81900 + (81900 x 0.05) = 85995\n\nTherefore, the answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 6,
+            "Question": "Q: The sum of the digits of a three digit number is 17, and the sum of the squares of its digits is 109. If we subtract 495 from the number, we shall get a number consisting of the same digits written in the reverse order. Find the number. Answer Choices: (A) 368 (B) 377 (C) 288 (D) 997 (E) 112",
+            "Pred_Rationale": "\n\nThe sum of the digits of the number is 17, so the digits must be 1, 7, and 9.\n\nThe sum of the squares of the digits is 109, so the digits must be 1, 3, and 9.\n\nSubtracting 495 from the number gives us a number consisting of the same digits written in the reverse order. This means the number must be 931.\n\nThe answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "A"
+        }
+    ]
+]

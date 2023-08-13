@@ -16,7 +16,7 @@ from utils.embedding_generation import initialize_embedding_model
 from utils.inference_llm import single_question_inference
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval")
+    parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval-Inference")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
@@ -91,11 +91,6 @@ def parse_arguments():
         "--test_data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
-    # test_question_gsm8k = 'Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?
-    # parser.add_argument(
-    #     "--test_question", type=str, default='Dave bought a large pack of french fries and ate fourteen before a hungry seagull stole the pack out of his hand. When the seagull landed, he gobbled down half the amount of french fries that Dave ate. Then three pigeons bullied him away from the food, and each pigeon ate three fries. Later, a raccoon stole two thirds of the remaining fries. Ants carried off a final french fry, leaving five behind. How many french fries were in the pack when Dave bought it?', help='test question for few-shot cot'
-    # )
-
     parser.add_argument(
         "--test_dataset_size_limit", type=int, default=7, help='the number of examples to use from the test dataset for inference'
     )
@@ -148,6 +143,9 @@ def parse_arguments():
     )
 
     args = parser.parse_args()
+
+    if args.multipath > 1:
+        args.inference_temperature = 0.7
 
     if args.dataset == "gsm8k":
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"

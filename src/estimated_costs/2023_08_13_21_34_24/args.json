@@ -1,0 +1,10 @@
+{
+    "uncertainty_cost": 51.04697999999995,
+    "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+    "model_id": [
+        "text-davinci-003"
+    ],
+    "method": "few_shot_cot",
+    "temperature": 0.7,
+    "num_trails": 3
+}

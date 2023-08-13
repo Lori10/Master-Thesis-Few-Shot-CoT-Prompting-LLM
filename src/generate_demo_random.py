@@ -30,7 +30,7 @@ def parse_arguments():
         "--dataset_size_limit", type=int, default=100, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
     )
 
     parser.add_argument(

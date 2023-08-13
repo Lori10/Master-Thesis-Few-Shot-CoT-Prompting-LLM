@@ -1,0 +1,13 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 7,
+    "data_path": "../datasets/AQuA/test.json",
+    "random_seed": 42,
+    "model_id": "text-davinci-003",
+    "method": "zero_shot_cot",
+    "output_dir": "inference_results/2023_08_13_16_04_17/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "16.042346715927124 seconds"
+}

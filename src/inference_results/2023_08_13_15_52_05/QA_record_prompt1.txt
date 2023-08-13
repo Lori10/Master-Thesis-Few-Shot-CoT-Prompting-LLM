@@ -1,0 +1,68 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. To generate the answer follow the format of the examples below:\nQ: Find the area of circle whose radius is 7m? Answer Choices: (A) 298 (B) 154 (C) 267 (D) 268 (E) 298\nA: Let's think step by step.\n22/7 * 7 * 7 = 154\nAnswer: B The answer is B.\n\nQ: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%\nA: Let's think step by step.\nS.I. = (17000 - 12500) = Rs. 4500/-\nRate = (100 * 4500) / (12500 * 4) = 9%\nANSWER:A The answer is A.\n\nQ: In how many ways 6 persons can be formed from 8 men and 7 women? Answer Choices: (A) 5005 (B) 6452 (C) 4516 (D) 2313 (E) 3564\nA: Let's think step by step.\nTotal number of persons = 15\nRequired number of ways = 15C6 = 5005\nAnswer is A The answer is A.\n\nQ: A 300 m long train crosses a platform in 39 sec while it crosses a signal pole in 18 sec. What is the length of the platform? Answer Choices: (A) 286 m (B) 350 m (C) 277 m (D) 278 m (E) 267 m\nA: Let's think step by step.\nSpeed = 300/18 = 50/3 m/sec.\nLet the length of the platform be x meters.\nThen, (x + 300)/39 = 50/3\n3x + 900 = 1950 => x = 350 m.\nAnswer:B The answer is B.\n\nQ: {question}\nA: Let's think step by step."
+    },
+    [
+        {
+            "Question_idx": 0,
+            "Question": "Q: At Daifu university, 24% of all students are members of both a chess club and a swim team. If 20% of members of the swim team are not members of the chess club, what percentage of all Daifu students are members of the swim team? Answer Choices: (A) 20% (B) 30% (C) 40% (D) 50% (E) 60%",
+            "Pred_Rationale": "\nLet x = total number of students in Daifu University\nLet y = number of students who are members of both a chess club and a swim team\nLet z = number of members of the swim team who are not members of the chess club\n\ny = 24% of x\nz = 20% of (x - y)\n\nTherefore, x - y - z = 80% of (x - y)\n=> x - y = 80% of x\n=> y = 20% of x\n\nTherefore, the percentage of all Daifu students who are members of the swim team is 20%.\nAnswer:A The answer is A.",
+            "Pred_FinalAnswer": "A",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 1,
+            "Question": "Q: A sales person gets a 10% commission on each sale he makes. How many sales of $250 each must he make in order to reach a salary of at least $1000? Answer Choices: (A) 15 (B) 24 (C) 25 (D) 40 (E) 52",
+            "Pred_Rationale": "\nCommission on each sale = 10% of $250 = $25\nRequired number of sales = (1000/25) = 40\nAnswer:D The answer is D.",
+            "Pred_FinalAnswer": "D",
+            "True_FinalAnswer": "D"
+        }
+    ],
+    [
+        {
+            "Question_idx": 2,
+            "Question": "Q: Suppose you want to arrange your English, Hindi, Mathematics, History, Geography and Science books on a shelf. In how many ways can you do it ? Answer Choices: (A) 520 (B) 720 (C) 920 (D) None (E) Cannot be determined",
+            "Pred_Rationale": "\nTotal number of books = 6\nRequired number of ways = 6! = 720\nAnswer:B The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 3,
+            "Question": "Q: A rectangle has a length of 8 centimeters and a width of 3 centimeters. Find the perimeter. Answer Choices: (A) 18cm (B) 22cm (C) 20cm (D) 30cm (E) 28cm",
+            "Pred_Rationale": "\nPerimeter = 2(length + width) = 2(8 + 3) = 22 cm\nAnswer:B The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 4,
+            "Question": "Q: 20 marbles were pulled out of a bag of only white marbles, painted black, and then put back in. Then, another 20 marbles were pulled out, of which 1 was black, after which they were all returned to the bag. If the percentage of black marbles pulled out the second time represents their percentage in the bag, how many marbles in total Q does the bag currently hold? Answer Choices: (A) 40 (B) 200 (C) 380 (D) 400 (E) 3200",
+            "Pred_Rationale": "\nLet the total number of marbles in the bag be x.\nThen, x/20 = 1/20 => x = 400\nAnswer:D The answer is D.",
+            "Pred_FinalAnswer": "D",
+            "True_FinalAnswer": "D"
+        }
+    ],
+    [
+        {
+            "Question_idx": 5,
+            "Question": "Q: If the population of a city increases by 5 % annually, what will be the population of the city in 2 years time if its current population is 78000? Answer Choices: (A) 81900 (B) 85995 (C) 85800 (D) 90000 (E) None of these",
+            "Pred_Rationale": "\nPopulation after 1 year = 78000 * 1.05 = 81700\nPopulation after 2 years = 81700 * 1.05 = 85995\nAnswer: B The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 6,
+            "Question": "Q: The sum of the digits of a three digit number is 17, and the sum of the squares of its digits is 109. If we subtract 495 from the number, we shall get a number consisting of the same digits written in the reverse order. Find the number. Answer Choices: (A) 368 (B) 377 (C) 288 (D) 997 (E) 112",
+            "Pred_Rationale": "\nLet the number be abc.\nThen, a + b + c = 17 and a2 + b2 + c2 = 109\nSubtracting 495 from the number, we get cba = 495\nTherefore, a2 + b2 + c2 = 109\n=> (c - 4)2 + (b - 4)2 + (a - 4)2 = 109\n=> c2 + b2 + a2 - 8(c + b + a) + 16 = 109\n=> 17 - 8(17) + 16 = 109\n=> 8a + 8b + 8c = 81\n=> a + b + c = 9\n=> a = 9 - b - c\n=> a2 + b2 + c2 = 92 + b2 + c2\n=> b2 + c2 = 17\n=> b = 4 and c = 3\n=> a = 9 - 4 - 3 = 2\nTherefore, the number is 243.\nAnswer:C The answer is C.",
+            "Pred_FinalAnswer": "C",
+            "True_FinalAnswer": "A"
+        }
+    ]
+]

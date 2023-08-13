@@ -1,0 +1,4 @@
+{'prompt': 'You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. If none of options is correct, please choose the option "None of the above".\nQ: {question}\nA: Let\'s think step by step.'}
+{'question_idx': 0, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 4, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 6, 'pred_final_answer': 'B', 'true_final_answer': 'A'}

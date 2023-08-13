@@ -1,19 +1,5 @@
 from utils.final_answer_extraction import run_llm_extract_answer, find_most_frequent
-from utils.prompts_llm import initialize_llmchain, create_several_input_prompts
-
-def create_prompts_inference(args):
-    if args.method == 'zero_shot_cot':
-        if args.dataset == 'aqua':
-            args.prefix = args.prefix + ' If none of options is correct, please choose the option "None of the above".'
-        prompts_list = [args.prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
-    elif args.method == 'cot':
-        args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'        
-        prompts_list = create_several_input_prompts(args, cot_flag=True)
-    elif args.method == 'standard':
-        args.prefix = args.prefix + '\n'
-        prompts_list = create_several_input_prompts(args, cot_flag=False)
-
-    return prompts_list
+from utils.prompts_llm import initialize_llmchain
 
 def single_question_inference(args: object, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run):
     all_self_consistency_ans = []

@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question": "Q: Dante needs half as many cups of flour to bake his chocolate cake as he needs eggs. If he uses 60 eggs in his recipe, calculate the total number of cups of flour and eggs that he uses altogether.",
+            "rationale": "A: Let's think step by step.\nDante needs half as many cups of flour to bake his chocolate cake as he needs eggs, meaning he needs 60/2 = <<60/2=30>>30 cups of flour for his recipe.\nAltogether, Dante needs 30+60 = <<30+60=90>>90 eggs and cups of flour for his recipe.",
+            "final_answer": "90",
+            "question_idx": 32
+        },
+        {
+            "question": "Q: Yanna bought 60 apples. She gave eighteen apples to Zenny. She gave six more apples to Andrea and kept the rest. How many apples did she keep?",
+            "rationale": "A: Let's think step by step.\nAfter giving 18 apples to Zenny, Yanna remained with 60 - 18 = <<60-18=42>>42 apples.\nSince she also gave Andrea 6 apples, Yanna remained with 42 - 6 = <<36=36>>36 apples\nTherefore, Yanna kept 36 apples.",
+            "final_answer": "36",
+            "question_idx": 764
+        },
+        {
+            "question": "Q: Betty has 20 books, and her sister has 1/4 times more books than Betty. What's the total number of books the two have?",
+            "rationale": "A: Let's think step by step.\nBetty's sister has 1/4 * 20 books = <<1/4*20=5>>5 more books.\nThe total number of books Betty's sister has is 20 books + 5 books = <<20+5=25>>25 books\nThe total number of books the two have is 25 books + 20 books = <<25+20=45>>45 books",
+            "final_answer": "45",
+            "question_idx": 144
+        },
+        {
+            "question": "Q: Bill put his french fries in the oven after it finished heating.  The recommended time was 5 minutes for them to be fully cooked.  He put them in for 45 seconds.  How many seconds remained?",
+            "rationale": "A: Let's think step by step.\nEach minute last 60 seconds, so that means for the fries to be fully cooked Bill needs to cook them for 5*60=<<5*60=300>>300 seconds\nSince Bill had the fries in the oven for 45 seconds so far, that means they need to stay in the oven for another 300-45= <<300-45=255>>255 seconds.",
+            "final_answer": "255",
+            "question_idx": 424
+        },
+        {
+            "question": "Q: Suzanna's history textbook has 160 pages and her geography textbook has 70 more pages. Her math textbook has half of the sum of the first two books' pages, and her science textbook has twice the number of pages of her history textbook. If Suzanna stacks all her textbooks on her desk, how many pages would there be in total?",
+            "rationale": "A: Let's think step by step.\nHer geography textbook has 160 + 70 = <<160+70=230>>230 pages\nThe sum of pages of her history and geography textbook is 160 + 230 = <<160+230=390>>390 pages\nHer math textbook has 390/2 = <<390/2=195>>195 pages\nHer science textbook has 160 x 2 = <<160*2=320>>320 pages\nIn total, there would be 160 + 230 + 195 + 320 = <<160+230+195+320=905>>905 pages",
+            "final_answer": "905",
+            "question_idx": 675
+        },
+        {
+            "question": "Q: Tim won a $100 raffle.  He gave away 20% to his friend.  How much did he keep?",
+            "rationale": "A: Let's think step by step.\nHe gave away 100*.2=$<<100*.2=20>>20\nSo he kept 100-20=$<<100-20=80>>80",
+            "final_answer": "80",
+            "question_idx": 298
+        },
+        {
+            "question": "Q: On a weekend road trip, the Jensen family drove 210 miles on highways, where their car gets 35 miles for each gallon of gas and 54 miles on city streets where their car gets 18 miles for each gallon. How many gallons of gas did they use?",
+            "rationale": "A: Let's think step by step.\nOn highways, the Jensen family used 210 miles / 35 miles/gallon = <<210/35=6>>6 gallons of gas.\nOn city streets, the Jensen family used 54 miles / 18 miles/gallon = <<54/18=3>>3 gallons of gas.\nTotal, the Jensen family used 6 gallons + 3 gallons = <<6+3=9>>9 gallons of gas.",
+            "final_answer": "9",
+            "question_idx": 525
+        },
+        {
+            "question": "Q: Marcy spends 12 minutes petting her cat and 1/3 of that time combing it. How many minutes does she spend with her cat in total?",
+            "rationale": "A: Let's think step by step.\nFirst find the time Marcy spends combing the cat: 12 minutes / 3 = <<12/3=4>>4 minutes\nThen add that to the time spent petting the cat to find the total time she spends with it: 4 minutes + 12 minutes = <<4+12=16>>16 minutes",
+            "final_answer": "16",
+            "question_idx": 772
+        }
+    ]
+}

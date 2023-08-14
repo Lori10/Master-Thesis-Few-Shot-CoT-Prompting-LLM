@@ -1,0 +1,12 @@
+{
+    "sampling_method": "Random",
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "dataset_size_limit": 1000,
+    "random_seed": 1,
+    "nr_seeds": 2,
+    "nr_demos": 4,
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/random/2023_08_14_14_16_49/demos/",
+    "execution_time": "0.0010004043579101562 seconds"
+}

@@ -9,44 +9,36 @@ import load_env_vars
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl", "../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl", "../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_11_14_58_42/demos", help="prompts to use"
+        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
+    )
+
+    parser.add_argument(
+        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_14_14_24_43/demos", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot", "zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "standard", "cot", "zero_shot_cot", "few_shot_cot"], help="method"
     )
 
     parser.add_argument(
         "--output_dir", type=str, default="estimated_costs", help="output directory"
     )
-    
-    parser.add_argument(
-        "--dataset_size_limit", type=int, default=1000, help="size of dataset to inference"
-    )
-
-    parser.add_argument(
-        "--temperature", type=float, default=0.7, help="temperature for llm decoding"
-    )
 
     parser.add_argument(
         "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
-    )
-  
-    parser.add_argument(
-        "--multipath", type=int, default=1, help="self-consistency path num"
     )
 
     parser.add_argument(
@@ -58,13 +50,10 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--type", type=str, default='embedding', choices=['estimation', 'embedding', 'inference'], help="self-consistency path num"
+        "--type", type=str, default='inference', choices=['estimation', 'embedding', 'inference'], help="self-consistency path num"
     )
    
     args = parser.parse_args()
-
-    if args.multipath > 1:
-        args.temperature = 0.7
     
     if args.dataset == "gsm8k":
         args.direct_answer_trigger = "\nTherefore, the answer (arabic numerals) is"
@@ -112,7 +101,6 @@ def main():
         args_dict['dir_prompts'] = args.dir_prompts
         args_dict['model_id'] = args.model_id,
         args_dict['method'] = args.method
-        args_dict['temperature'] = args.temperature
         args_dict['num_trails'] = args.num_trails
         args_dict['uncertainty_cost'] = uncertainty_cost
 
@@ -125,7 +113,6 @@ def main():
         args_dict['dir_prompts'] = args.dir_prompts
         args_dict['model_id'] = args.model_id,
         args_dict['method'] = args.method
-        args_dict['temperature'] = args.temperature
         args_dict['inference_cost'] = inference_cost
         
     elif args.type == 'embedding':

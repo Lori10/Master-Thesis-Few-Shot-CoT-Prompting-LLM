@@ -1,0 +1,8 @@
+{
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "dataset_size_limit": 1000,
+    "random_seed": 1,
+    "embedding_model_id": "text-embedding-ada-002",
+    "embedding_cost": 0.03133520000000002
+}

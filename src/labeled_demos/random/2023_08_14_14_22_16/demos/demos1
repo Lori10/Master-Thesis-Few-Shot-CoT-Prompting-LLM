@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question": "Q: Alice is now 10 years older than Bob. If in 6 years Alice will be twice as old as Bob, how old will Alice be in 5 years? Answer Choices: (A) 19 (B) 21 (C) 23 (D) 25 (E) 27",
+            "rationale": "A: Let's think step by step.\nA=B+10 so B=A-10.\nA+6=2(B+6).\nA+6=2(A-10+6).\nA+6=2A-8.\nA=14.\nIn 5 years, Alice will be 19 years old.\nThe answer is A.",
+            "final_answer": "A",
+            "question_idx": 278
+        },
+        {
+            "question": "Q: A certain store sold pens for $0.35 each and pencils for $0.25 each. If a customer purchased both pens and pencils from the store for a total of $3.50, what total number of pens and pencils did the customer purchase? Answer Choices: (A) 8 (B) 9 (C) 10 (D) 11 (E) 12",
+            "rationale": "A: Let's think step by step.\nAnswer: Algebraically, the question looks like this: 2.5 = 0.35x + 0.25y There are six possible numbers of pens that fit that requirement:\n1 pen: $0.35\n2 pens: $0.70\n3 pens: $1.05\n4 pens: $1.40\n5 pens: $1.75 balance can fetch 7 pencils for $0.25 each. That's 5 pens and 7 pencils for a total of 12 pens and pencils. Choice (E) is correct.",
+            "final_answer": "E",
+            "question_idx": 558
+        },
+        {
+            "question": "Q: Two numbers are in the ratio of 2:3 . if 4 is added in both numbers the ratio becomes 5:7. Find the difference between numbers. Answer Choices: (A) 8 (B) 6 (C) 4 (D) 2 (E) 10",
+            "rationale": "A: Let's think step by step.\nWe're told that two numbers are in the ratio of 2:3. Thus, the two numbers could be...\n2 and 3\n4 and 6\n6 and 9\n8 and 12\n10 and 15\nEtc.\nWe're told that ADDING 4 to each number changes the ratio of the numbers to 5:7. We're asked for the DIFFERENCE between the original numbers.\nSince adding 4 makes the first number a multiple of 5, this limits the possibilities....\n2+4 = 6 NOT POSSIBLE\n4+4 = 8 NOT POSSIBLE\n6+4 = 10 This IS possible...Using this example, we would have...\n6 and 9, after adding 4 to each, becomes10 and 13...this is NOT a ratio of 5 to 7 though (even though it's pretty close), so we have to keep looking....\nThe next value that becomes a multiple of 5 when you add 4 to it is...16...\n16 + 4 = 20\nWith16 and 24, after adding 4 to each, we have20 and 28.This IS a ratio of 5 to 7, so we have our pair of original numbers.\nThe difference between them is 8.\nFinal Answer:\nA",
+            "final_answer": "A",
+            "question_idx": 157
+        },
+        {
+            "question": "Q: If x is 50 percent greater than 88, then x = Answer Choices: (A) 68 (B) 132 (C) 86 (D) 105.6 (E) 108",
+            "rationale": "A: Let's think step by step.\nx=88*1.5=132\nSo the answer is B.",
+            "final_answer": "B",
+            "question_idx": 95
+        }
+    ]
+}

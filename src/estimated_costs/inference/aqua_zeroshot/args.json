@@ -1,0 +1,12 @@
+{
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/test.json",
+    "dataset_size_limit": 254,
+    "random_seed": 1,
+    "dir_prompts": "labeled_demos/random/2023_08_14_14_24_43/demos",
+    "model_id": [
+        "text-davinci-003"
+    ],
+    "method": "zero_shot_cot",
+    "inference_cost": 0.8879999999999997
+}

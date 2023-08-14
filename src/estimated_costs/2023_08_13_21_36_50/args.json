@@ -1,9 +1,0 @@
-{
-    "inference_cost": 41.25132000000001,
-    "dir_prompts": "labeled_demos/random/2023_08_11_14_58_42/demos",
-    "model_id": [
-        "text-davinci-003"
-    ],
-    "method": "cot",
-    "temperature": 0.7
-}

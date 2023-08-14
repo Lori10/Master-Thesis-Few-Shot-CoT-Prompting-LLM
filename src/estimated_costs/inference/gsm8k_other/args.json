@@ -1,0 +1,12 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/test.jsonl",
+    "dataset_size_limit": 1319,
+    "random_seed": 1,
+    "dir_prompts": "labeled_demos/auto/2023_08_14_13_56_16/demos",
+    "model_id": [
+        "text-davinci-003"
+    ],
+    "method": "cot",
+    "inference_cost": 41.377860000000055
+}

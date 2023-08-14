@@ -18,10 +18,9 @@ def num_tokens_from_string(string: str, model_name: str) -> int:
 
 def single_run_costs(data_loader, args, prompt_template):
     costs = 0
-    
     for example in data_loader:
         formatted_prompt = prompt_template.format(question=example['question'])
-        example_total_tokens = num_tokens_from_string(formatted_prompt, args.model_id) + 100 
+        example_total_tokens = num_tokens_from_string(formatted_prompt, args.model_id) + 50 
         costs += COST_PER_TOKEN[args.model_id] * example_total_tokens
     return costs
 
@@ -38,14 +37,12 @@ def uncertainty_cost_all_examples(args, dataloader):
     for example in dataloader:
         single_example_cost = uncertainty_cost_single_example(args, example)
         all_costs += single_example_cost
-
     return all_costs
 
 def uncertainty_cost_single_example(args, example):
     formatted_prompt = args.prompt_template.format(question=example['question'])
-    example_total_tokens = num_tokens_from_string(formatted_prompt, args.model_id) + 100 
+    example_total_tokens = num_tokens_from_string(formatted_prompt, args.model_id) + 50 
     return COST_PER_TOKEN[args.model_id] * example_total_tokens * args.num_trails
-
 
 def embedding_cost(args, dataloader):
     costs = 0

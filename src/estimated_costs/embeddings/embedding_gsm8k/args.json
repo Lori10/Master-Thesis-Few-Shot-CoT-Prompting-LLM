@@ -1,0 +1,8 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 1000,
+    "random_seed": 1,
+    "embedding_model_id": "text-embedding-ada-002",
+    "embedding_cost": 0.023621999999999976
+}

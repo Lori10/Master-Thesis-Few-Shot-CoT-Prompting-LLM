@@ -1,0 +1,13 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 1000,
+    "random_seed": 1,
+    "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+    "model_id": [
+        "text-davinci-003"
+    ],
+    "method": "few_shot_cot",
+    "num_trails": 5,
+    "uncertainty_cost": 79.89560000000003
+}

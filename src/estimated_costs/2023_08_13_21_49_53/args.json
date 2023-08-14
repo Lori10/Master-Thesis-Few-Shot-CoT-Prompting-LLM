@@ -1,8 +1,0 @@
-{
-    "dataset": "gsm8k",
-    "data_path": "../datasets/gsm8k/test.jsonl",
-    "dataset_size_limit": 1000,
-    "random_seed": 42,
-    "embedding_model_id": "text-embedding-ada-002",
-    "embedding_cost": 0.02438839999999998
-}

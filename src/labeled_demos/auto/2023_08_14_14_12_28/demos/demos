@@ -1,0 +1,46 @@
+{
+    "demo": [
+        {
+            "question_idx": 4,
+            "question": "Q: Oliver had $9, then he saved $5 from his allowance and spent $4 on a frisbee and $3 on a puzzle. His friend gives him another $8 as it's his birthday. How much money does Oliver have left?",
+            "rationale": "A: Let's think step by step.\nThe total amount of money saved is $9 + $5 = $<<9+5=14>>14.\nThe total cost of the frisbee and the puzzle is $4 + $3 = $<<4+3=7>>7.\nSo Oliver has $14 - $7 = $<<14-7=7>>7 left.\nHis friend gives him $8, so now he has $7 + $8 = $<<7+8=15>>15.",
+            "final_answer": "15"
+        },
+        {
+            "question_idx": 15,
+            "question": "Q: Every Monday to Friday morning, Alice walks 10 miles through a large grass field to get to school. To avoid the hot afternoon sun on her way home, she walks 12 miles through a forest. When she gets home on Friday, how many miles will she have walked that week?",
+            "rationale": "A: Let's think step by step.\nOn Monday the total number of miles Alice walks to and from school is 10 + 12 = <<10+12=22>>22 miles.\nFor the other 4 days, from Tuesday to Friday, she walks an additional 4 * 22 = <<4*22=88>>88 miles\nThe total number of miles she will have walked by Friday 22 + 88 = <<22+88=110>>110 miles",
+            "final_answer": "110"
+        },
+        {
+            "question_idx": 25,
+            "question": "Q: Mr. Maximilian is a dairy animal farmer and has 140 cows on his farm. Forty percent of the cows on his farm have a red spot, 25 percent of the cows without a red spot have a blue spot and the remaining cows do not have any spot. How many cows on the farm have no spot?",
+            "rationale": "A: Let's think step by step.\nIf Mr. Maximilian has 140 cows and 40% of them have red spots, then 40/100*140 = <<140*40/100=56>>56 cows have red spots.\nThe number of cows with no red spot is 140-56 = <<140-56=84>>84 cows.\nOut of the 84 cows without a red spot, 25% of them have a blue spot, a total of 25/100*84 = <<25/100*84=21>>21 cows.\nThe number of cows without any spot is 84-21 =<<84-21=63>>63 animals.",
+            "final_answer": "63"
+        },
+        {
+            "question_idx": 26,
+            "question": "Q: Ann can skate 6 miles an hour. Her friend Glenda can skate 8 miles an hour. If they start in the same place and skate in straight lines in opposite directions for 3 hours, how many miles apart do they end up?",
+            "rationale": "A: Let's think step by step.\nFirst find how far Glenda goes in 3 hours by multiplying her speed by the number of hours she travels: 3 hours * 8 miles/hour = <<3*8=24>>24 miles\nThen do the same thing for Ann: 3 hours * 6 miles/hour = <<3*6=18>>18 miles\nNow add the number of miles both people skated to find the total distance between them: 18 miles + 24 miles = <<18+24=42>>42 miles",
+            "final_answer": "42"
+        },
+        {
+            "question_idx": 45,
+            "question": "Q: Merry had 50 boxes of apples on Saturday and 25 boxes on Sunday. There were 10 apples in each box. If she sold a total of 720 apples on Saturday and Sunday, how many boxes of apples are left?",
+            "rationale": "A: Let's think step by step.\nMerry had a total of 50 + 25 = <<50+25=75>>75 boxes of apples.\nThese 75 boxes is equal to 75 x 10 = <<75*10=750>>750 apples.\nThere were 750 - 720 = <<750-720=30>>30 apples left.\nThus, 30/10 = <<30/10=3>>3 boxes of apples are left.",
+            "final_answer": "3"
+        },
+        {
+            "question_idx": 1,
+            "question": "Q: Trent caught 180 tadpoles then let 75% of them go. How many did he keep?",
+            "rationale": "A: Let's think step by step.\nFirst find the number of tadpoles Trent released: 180 tadpoles * .75 = <<180*.75=135>>135 tadpoles\nThen subtract the number he let go from the total number to find the number of tadpoles he keeps: 180 tadpoles - 135 tadpoles = <<180-135=45>>45 tadpoles",
+            "final_answer": "45"
+        },
+        {
+            "question_idx": 6,
+            "question": "Q: A group of bedbugs infested an old mattress. Every day, the number of bedbugs would triple. After four days, there were 810 bedbugs burrowing into the mattress. How many bedbugs did the group start with?",
+            "rationale": "A: Let's think step by step.\nOn the third day, there were one-third of the number of bedbugs as the fourth day, so there were 810 / 3 = <<810/3=270>>270 bedbugs.\nOn the second day, there were one-third of the third day’s bedbugs, so there were 270 / 3 = <<270/3=90>>90 bedbugs.\nOn the first day, there were 90 / 3 = <<90/3=30>>30 bedbugs in the group to start with.",
+            "final_answer": "30"
+        }
+    ]
+}

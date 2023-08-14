@@ -19,7 +19,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--random_seed", type=int, default=42, help="seed for selecting random samples"
+        "--random_seed", type=int, default=1, help="seed for selecting random samples"
     )
 
     parser.add_argument(
@@ -27,10 +27,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=100, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=5, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
     )
 
     parser.add_argument(

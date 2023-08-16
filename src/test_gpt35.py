@@ -1,27 +1,24 @@
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-from langchain.llms import HuggingFacePipeline, AzureOpenAI
-import openai 
-import load_env_vars
-import os 
+from typing import TypeVar, Generic, List
 
-prompt_template='Q: {question}\nA: Let\'s think step by step.'
-prompt = PromptTemplate(input_variables=["question"], template=prompt_template)
+T = TypeVar('T')
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-headers = {
-            "x-api-key": openai.api_key,
-        }
+class DataRepository(Generic[T]):
+    def __init__(self):
+        self.data = []
 
-#gpt-3.5-turbo
-llm = AzureOpenAI(
-deployment_name='gpt-3.5-turbo',
-model_name='gpt-3.5-turbo',
-temperature=0,
-headers=headers,
-max_tokens=1024,
-)
+    def add_data(self, item: T) -> None:
+        self.data.append(item)
 
-llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
-response = llm_chain.run(question="Who is the president of the United States of America?")
-print(response)
+    def remove_data(self, item: int) -> None:
+        self.data.remove(item)
+
+    def get_all_data(self) -> List[str]:
+        return self.data
+
+repo = DataRepository[int]()
+repo.add_data(10)
+repo.add_data(20)
+repo.add_data(30)
+print(repo.get_all_data()) # Output: [10, 20, 30]
+repo.remove_data(20)
+print(repo.get_all_data()) # Output: [10, 30]

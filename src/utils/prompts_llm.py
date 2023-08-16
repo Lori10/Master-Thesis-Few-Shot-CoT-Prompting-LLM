@@ -6,20 +6,23 @@ from langchain.llms import HuggingFacePipeline, AzureOpenAI
 from langchain.chat_models import AzureChatOpenAI
 from constant_vars import *
 import json
+from langchain.prompts import ChatPromptTemplate
+from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate, HumanMessage, AIMessage
+import sys
 
 def create_prompts_inference(args):
-    if args.method == 'zero_shot_cot':
-        if args.dataset == 'aqua':
-            args.prefix = args.prefix + ' If none of options is correct, please choose the option "None of the above".'
-        prompts_list = [args.prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."]
-    elif args.method == 'cot':
+    args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
+    if args.method == 'zero_shot_cot':        
+        prompts_list = [args.prefix]
+    else:
         args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'        
-        prompts_list = create_several_input_prompts(args, cot_flag=True)
-    elif args.method == 'standard':
-        args.prefix = args.prefix + '\n'
-        prompts_list = create_several_input_prompts(args, cot_flag=False)
+        if args.method == 'cot':
+            prompts_list = create_several_input_prompts(args, cot_flag=True)
+        elif args.method == 'standard':
+            args.prefix = args.prefix + 'To generate the answer follow the format of the examples below:\n'
+            prompts_list = create_several_input_prompts(args, cot_flag=False)
 
-    return prompts_list
+    return [prompt + args.suffix for prompt in prompts_list]
 
 
 def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool)->str:
@@ -52,7 +55,8 @@ def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool
                         args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
         else:
             prompt_text += x[i] + "\n" + "A: " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
-    return args.prefix + prompt_text + "Q: " + "{question}" + "\nA: Let's think step by step."
+    
+    return args.prefix + prompt_text
 
 def create_several_input_prompts(args: object, cot_flag:bool) -> list:
     """
@@ -79,14 +83,59 @@ def initialize_llmchain(args) -> LLMChain:
         Returns:
             llm_chain (LLMChain): the LLMChain object
     """
-    prompt = PromptTemplate(input_variables=["question"], template=args.prompt_template)
 
-    if args.model_id.startswith("gpt-35") or args.model_id.startswith('text-davinci') or args.model_id.startswith("gpt-4"):        
+    if args.model_id.startswith("gpt-35"):
         openai.api_key = os.getenv("OPENAI_API_KEY")
         headers = {
             "x-api-key": openai.api_key,
         }
 
+        llm = AzureChatOpenAI(
+        deployment_name=args.model_id,
+        model_name=args.model_id,
+        temperature=args.temperature,
+        headers=headers,
+        max_tokens=1024,
+        )
+
+        full_prompt = args.prompt_template
+        start = full_prompt.find('Q: ')
+        end = full_prompt.rfind('Q: ')
+        few_shot_examples_str = full_prompt[start:end]
+        few_shot_examples_list = [example.strip() for example in few_shot_examples_str.split('\n\n') if example.strip() != '']
+        few_shot_examples_messages = [SystemMessage(
+                                            content=(
+                                                args.prefix.strip()
+                                            )
+                                    )]
+        for example in few_shot_examples_list:
+            start = example.find('Q: ')
+            end = example.rfind('A: ')
+            example_question = example[start:end].strip()
+            example_answer = example[end:].strip()
+            few_shot_examples_messages += [HumanMessage(content=example_question), AIMessage(content=example_answer)]
+
+        template = ChatPromptTemplate.from_messages(few_shot_examples_messages + [HumanMessagePromptTemplate.from_template(args.suffix.strip())]) 
+
+        # print('PREFIX: ' + args.prefix + '\n')
+        # print('SUFFIX: ' + args.suffix + '\n')
+        # print('---------------------------------')
+        # for x in few_shot_examples_messages:
+        #     print(x.content + '\n')
+        #     print('\n ********************** \n')
+
+        print('FULL PROMPT: ')
+        print(template)
+        sys.exit(0)
+
+    elif args.model_id.startswith('text-davinci'):       
+        template = PromptTemplate(input_variables=["question"], template=args.prompt_template)
+ 
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        headers = {
+            "x-api-key": openai.api_key,
+        }
+        
         llm = AzureOpenAI(
         deployment_name=args.model_id,
         model_name=args.model_id,
@@ -95,6 +144,8 @@ def initialize_llmchain(args) -> LLMChain:
         max_tokens=1024,
         )
     else:
+        template = PromptTemplate(input_variables=["question"], template=args.prompt_template)
+
         llm = HuggingFacePipeline.from_model_id(
         model_id=args.model_id,
         model_kwargs={"temperature": args.temperature,
@@ -102,7 +153,7 @@ def initialize_llmchain(args) -> LLMChain:
                      "max_seq_len": 4096}, # max_length
         )
     
-    args.llm_chain = LLMChain(prompt=prompt, llm=llm, verbose=False)
+    args.llm_chain = LLMChain(prompt=template, llm=llm, verbose=False)
 
 def build_prefix(args):
     """

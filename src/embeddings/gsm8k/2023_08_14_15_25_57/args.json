@@ -1,0 +1,9 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "random_seed": 1,
+    "dataset_size_limit": 1000,
+    "output_dir": "embeddings/gsm8k/2023_08_14_15_25_57/",
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "execution_time": "179.77454233169556 seconds"
+}

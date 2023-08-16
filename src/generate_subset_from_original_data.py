@@ -21,14 +21,14 @@ def parse_arguments():
         "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
 
     parser.add_argument(
         "--answers_are_available", type=bool, default=True, help='true if answers are available in the test dataset, false otherwise'
     )
 
     parser.add_argument(
-        "--output_dir", type=str, default='subset_data', help='directory to save the subset data in'
+        "--output_dir", type=str, default='training_subset_data', help='directory to save the subset data in'
     )
 
     args = parser.parse_args()

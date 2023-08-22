@@ -10,7 +10,7 @@ from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmean
 import time
 import os
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prefix, initialize_llmchain
+from utils.prompts_llm import build_prefix, initialize_llmchain, create_prompt_template_gpt35, create_prompt_template_other_models, initialize_llm
 from utils.save_results import inference_save_info
 from utils.embedding_generation import initialize_embedding_model
 from utils.inference_llm import single_question_inference
@@ -28,7 +28,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -41,7 +41,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -92,7 +92,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--test_dataset_size_limit", type=int, default=7, help='the number of examples to use from the test dataset for inference'
+        "--test_dataset_size_limit", type=int, default=5, help='the number of examples to use from the test dataset for inference'
     )
 
     parser.add_argument(
@@ -284,14 +284,30 @@ def main():
         
         args.temperature = args.inference_temperature
         build_prefix(args)
+        args.method = 'cot'
+        args.llm = initialize_llm(args)
+        dic = {'gpt-35': create_prompt_template_gpt35, 
+               'others' : create_prompt_template_other_models
+               } 
+        if args.model_id.startswith("gpt-35"):
+            model_key = 'gpt-35'
+        else:
+            model_key = 'others'
+        
         for test_question_id, test_example in enumerate(test_dataloader):
             few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            args.prompt_template = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-
-            print(f'PROMPT TEMPLATE:\n{args.prompt_template}')            
+            prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+            prompt_callable = dic[model_key]
+            prompt_template = prompt_callable(prompt, args)
+            
+            # if args.model_id.startswith("gpt-35"):
+            #     prompt_template = create_prompt_template_gpt35(prompt, args)
+            # else:
+            #     prompt_template = PromptTemplate(input_variables=["question"], template=prompt)
+            print(f'PROMPT TEMPLATE:\n{prompt_template}')            
             print('*' * 60)
 
-            initialize_llmchain(args)
+            initialize_llmchain(args, prompt_template, llm_init=False)
             correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
 
             test_q_dic = {

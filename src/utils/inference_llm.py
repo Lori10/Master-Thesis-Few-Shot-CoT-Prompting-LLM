@@ -1,5 +1,6 @@
 from utils.final_answer_extraction import run_llm_extract_answer, find_most_frequent
 from utils.prompts_llm import initialize_llmchain
+import sys
 
 def single_question_inference(args: object, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run):
     all_self_consistency_ans = []
@@ -41,25 +42,25 @@ def single_question_inference(args: object, example, example_idx, correct_count_
     return correct_count_single_run, wrong_single_run, QA_record_single_run
 
 def single_run_inference(data_loader, args):
+    prompt = args.llm_chain.prompt.messages if args.model_id.startswith("gpt-35") else args.llm_chain.prompt.template
+    print(f'PROMPT TEMPLATE:\n{prompt}\n')
+    print('START INFERENCE\n')
+    sys.exit(0)
+    
     correct_count_single_run = 0
-    wrong_single_run = [{'prompt' : args.llm_chain.prompt.template}]
-    QA_record_single_run = [{'prompt': args.llm_chain.prompt.template}]
+    wrong_single_run = [{'prompt' : prompt}]
+    QA_record_single_run = [{'prompt': prompt}]
     for example_idx, example in enumerate(data_loader):
         correct_count_single_run, wrong_single_run, QA_record_single_run = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run)
     
     return correct_count_single_run, wrong_single_run, QA_record_single_run
 
-def all_prompts_inference(args, data_loader, prompts_list):
+def all_prompts_inference(args, data_loader, prompts_list):    
     all_prompts_correct_count_list = []
     all_prompts_wrong_list = []
     all_prompts_QA_record_list = []
     for i in range(len(prompts_list)):
-        args.prompt_template = prompts_list[i]
-        initialize_llmchain(args)
-        print(f'PROMPT:\n{args.llm_chain.prompt.template}\n')
-        print('START INFERENCE\n')
-        #print('*' * 60)
-        #continue 
+        initialize_llmchain(args.llm, prompts_list[i], llm_init=True)        
         correct, wrong, QA_record = single_run_inference(data_loader, args)
         all_prompts_correct_count_list.append(correct)
         all_prompts_wrong_list.append(wrong)
@@ -68,3 +69,5 @@ def all_prompts_inference(args, data_loader, prompts_list):
 
     #sys.exit(0)
     return all_prompts_correct_count_list, all_prompts_wrong_list, all_prompts_QA_record_list
+
+

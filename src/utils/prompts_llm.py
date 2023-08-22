@@ -11,18 +11,27 @@ from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate, Hu
 import sys
 
 def create_prompts_inference(args):
+    build_prefix(args)
+    
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
-    if args.method == 'zero_shot_cot':        
-        prompts_list = [args.prefix]
+    if args.method == 'zero_shot_cot':  
+        if args.model_id.startswith("gpt-35"):
+            return [create_prompt_template_gpt35(args)]
+        else:
+            return [PromptTemplate(input_variables=["question"], template=args.prefix + args.suffix)]
     else:
         args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'        
         if args.method == 'cot':
             prompts_list = create_several_input_prompts(args, cot_flag=True)
         elif args.method == 'standard':
-            args.prefix = args.prefix + 'To generate the answer follow the format of the examples below:\n'
             prompts_list = create_several_input_prompts(args, cot_flag=False)
 
-    return [prompt + args.suffix for prompt in prompts_list]
+        if args.model_id.startswith("gpt-35"):
+            prompts_list = [create_prompt_template_gpt35(prompt, args) for prompt in prompts_list]
+        else:
+            prompts_list = [PromptTemplate(input_variables=["question"], template=prompt) for prompt in prompts_list]
+    
+    return prompts_list
 
 
 def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool)->str:
@@ -56,7 +65,7 @@ def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool
         else:
             prompt_text += x[i] + "\n" + "A: " + args.direct_answer_trigger_for_fewshot + " " + y[i] + ".\n\n"
     
-    return args.prefix + prompt_text
+    return args.prefix + prompt_text + args.suffix
 
 def create_several_input_prompts(args: object, cot_flag:bool) -> list:
     """
@@ -72,24 +81,37 @@ def create_several_input_prompts(args: object, cot_flag:bool) -> list:
         prompt_demos.append(prompt)
     return prompt_demos
 
+def create_prompt_template_other_models(prompt, _):
+    return PromptTemplate(input_variables=["question"], template=prompt)
 
-def initialize_llmchain(args) -> LLMChain:
-    """
-        Run a LLMChain for given a prompt template and question. Return the completion and
-        total nr of processed tokens during the run.
+def create_prompt_template_gpt35(prompt: str, args):
+    messages = [SystemMessage(content=(args.prefix.strip()))]
+    if args.method in ['cot', 'standard']:
+        start = prompt.find('Q: ')
+        end = prompt.rfind('Q: ')
+        few_shot_examples_str = prompt[start:end]
+        few_shot_examples_list = [example.strip() for example in few_shot_examples_str.split('\n\n') if example.strip() != '']
         
-        Args: 
-            args: the arguments passed in from the command line
-        Returns:
-            llm_chain (LLMChain): the LLMChain object
-    """
+        for example in few_shot_examples_list:
+            start = example.find('Q: ')
+            end = example.rfind('A: ')
+            example_question = example[start:end].strip()
+            example_answer = example[end:].strip()
+            messages += [HumanMessage(content=example_question), AIMessage(content=example_answer)]
+
+    return ChatPromptTemplate.from_messages(messages + [HumanMessagePromptTemplate.from_template(args.suffix.strip())]) 
+
+def create_header_llm(args):
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    headers = {
+        "x-api-key": openai.api_key,
+    }
+    return headers
+
+def initialize_llm(args):
+    headers = create_header_llm(args)
 
     if args.model_id.startswith("gpt-35"):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        headers = {
-            "x-api-key": openai.api_key,
-        }
-
         llm = AzureChatOpenAI(
         deployment_name=args.model_id,
         model_name=args.model_id,
@@ -97,63 +119,32 @@ def initialize_llmchain(args) -> LLMChain:
         headers=headers,
         max_tokens=1024,
         )
-
-        full_prompt = args.prompt_template
-        start = full_prompt.find('Q: ')
-        end = full_prompt.rfind('Q: ')
-        few_shot_examples_str = full_prompt[start:end]
-        few_shot_examples_list = [example.strip() for example in few_shot_examples_str.split('\n\n') if example.strip() != '']
-        few_shot_examples_messages = [SystemMessage(
-                                            content=(
-                                                args.prefix.strip()
-                                            )
-                                    )]
-        for example in few_shot_examples_list:
-            start = example.find('Q: ')
-            end = example.rfind('A: ')
-            example_question = example[start:end].strip()
-            example_answer = example[end:].strip()
-            few_shot_examples_messages += [HumanMessage(content=example_question), AIMessage(content=example_answer)]
-
-        template = ChatPromptTemplate.from_messages(few_shot_examples_messages + [HumanMessagePromptTemplate.from_template(args.suffix.strip())]) 
-
-        # print('PREFIX: ' + args.prefix + '\n')
-        # print('SUFFIX: ' + args.suffix + '\n')
-        # print('---------------------------------')
-        # for x in few_shot_examples_messages:
-        #     print(x.content + '\n')
-        #     print('\n ********************** \n')
-
-        print('FULL PROMPT: ')
-        print(template)
-        sys.exit(0)
-
-    elif args.model_id.startswith('text-davinci'):       
-        template = PromptTemplate(input_variables=["question"], template=args.prompt_template)
- 
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        headers = {
-            "x-api-key": openai.api_key,
-        }
-        
-        llm = AzureOpenAI(
-        deployment_name=args.model_id,
-        model_name=args.model_id,
-        temperature=args.temperature,
-        headers=headers,
-        max_tokens=1024,
-        )
     else:
-        template = PromptTemplate(input_variables=["question"], template=args.prompt_template)
+        if args.model_id.startswith('text-davinci'):
+            llm = AzureOpenAI(
+            deployment_name=args.model_id,
+            model_name=args.model_id,
+            temperature=args.temperature,
+            headers=headers,
+            max_tokens=1024,
+            )
+        else:
+            llm = HuggingFacePipeline.from_model_id(
+            model_id=args.model_id,
+            model_kwargs={"temperature": args.temperature,
+                        "trust_remote_code": True,
+                        "max_seq_len": 4096}, # max_length
+            )
 
-        llm = HuggingFacePipeline.from_model_id(
-        model_id=args.model_id,
-        model_kwargs={"temperature": args.temperature,
-                     "trust_remote_code": True,
-                     "max_seq_len": 4096}, # max_length
-        )
+    return llm
+
+def initialize_llmchain(args, prompt_template, llm_init=False):
+    if not llm_init:
+        args.llm = initialize_llm(args)
+
+    args.llm_chain = LLMChain(prompt=prompt_template, llm=args.llm, verbose=False)
     
-    args.llm_chain = LLMChain(prompt=template, llm=llm, verbose=False)
+
 
 def build_prefix(args):
     """
@@ -167,30 +158,4 @@ def build_prefix(args):
         args.prefix = prefix_aqua
     else:
         raise NotImplementedError("dataset not implemented")
-
-def build_prompt_template(args: object):
-    """
-        Build the prompt template for the given dataset and method
-        Args:
-            args (object): the arguments passed in from the command line
-    """
-    if args.method == "few_shot_cot":
-        args.prefix = args.prefix + ' To generate the answer follow the format of the examples below:\n'
-        given_prompt_list = create_several_input_prompts(args, cot_flag=True)
-        assert len(given_prompt_list) == 1
-        args.prompt_template = given_prompt_list[0]
-    elif args.method == "zero_shot_cot":
-        args.prompt_template = args.prefix + "\nQ: " + "{question}" + "\nA: Let's think step by step."
-    
-    print(f'PROMPT TEMPLATE:\n{args.prompt_template}\n')
-
-def build_prompt_initialize_llmchain(args):
-    """
-        Build the prefix, prompt template and initialize the LLMChain
-        Args:
-            args (object): the arguments passed in from the command line
-    """
-    build_prefix(args)
-    build_prompt_template(args)
-    initialize_llmchain(args)
 

@@ -3,7 +3,7 @@ import json
 import os
 import datetime
 import time
-from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.load_data import create_dataloader
 import load_env_vars
@@ -25,7 +25,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=20, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=3, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
@@ -41,11 +41,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -98,7 +98,11 @@ def main():
     dataloader = create_dataloader(args)
 
     start = time.time()
-    build_prompt_initialize_llmchain(args)
+
+    prompts_list = create_prompts_inference(args)
+    assert len(prompts_list) == 1
+
+    initialize_llmchain(args, prompts_list[0], llm_init=False)
     result = generate_uncertainty_all_questions(args, dataloader, False)
     end = time.time()
     

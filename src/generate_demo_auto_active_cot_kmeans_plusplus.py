@@ -10,10 +10,10 @@ import datetime
 import pickle
 import time
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prompt_initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.embedding_generation import generate_corpus_embeddings
 from utils.scaler_and_metrics import f1_score, softmax
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain
 
 def main_auto_active_kmeansplusplus(args, args_dict):
 
@@ -81,9 +81,12 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         args_dict["dir_prompts"] = args.dir_prompts
 
         args.temperature = args.auto_active_kmeansplusplus_temperature
-        build_prompt_initialize_llmchain(args)    
+        
+        prompts_list = create_prompts_inference(args)
+        assert len(prompts_list) == 1
+        initialize_llmchain(args, prompts_list[0], llm_init=False)   
         all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False)
-
+    
     questions_idxs = [uncertainty_record['question_idx'] for uncertainty_record in all_uncertainty_records]
     uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]
     

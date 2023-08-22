@@ -8,7 +8,7 @@ import datetime
 import pickle
 import time
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prompt_initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.embedding_generation import generate_corpus_embeddings
 
@@ -25,7 +25,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -181,7 +181,9 @@ def main():
         args_dict["temperature"] = args.temperature
         args_dict["dir_prompts"] = args.dir_prompts
         
-        build_prompt_initialize_llmchain(args)
+        prompts_list = create_prompts_inference(args)
+        assert len(prompts_list) == 1
+        initialize_llmchain(args, prompts_list[0], llm_init=False) 
 
     clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)

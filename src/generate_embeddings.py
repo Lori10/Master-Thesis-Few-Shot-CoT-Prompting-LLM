@@ -13,7 +13,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Embeddings-Generator")
     parser.add_argument(
         "--dataset", type=str, default="aqua",
-        choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
+        choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(

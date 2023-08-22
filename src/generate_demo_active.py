@@ -6,8 +6,9 @@ import load_env_vars
 import datetime 
 import os
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prompt_initialize_llmchain
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain
+
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
@@ -25,7 +26,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
     
     parser.add_argument(
@@ -85,8 +86,7 @@ def arg_parser():
     args.direct_answer_trigger_for_zeroshot = trigger[0].upper() + trigger[1:]
     args.direct_answer_trigger_for_zeroshot_cot = args.direct_answer_trigger
     args.direct_answer_trigger_for_fewshot = "The answer is"
-    args.cot_trigger = "Let's think step by step."
-    
+    args.cot_trigger = "Let's think step by step."    
     return args
 
 
@@ -150,7 +150,9 @@ def main():
         args_dict["temperature"] = args.temperature
         args_dict["dir_prompts"] = args.dir_prompts
 
-        build_prompt_initialize_llmchain(args)
+        prompts_list = create_prompts_inference(args)
+        assert len(prompts_list) == 1
+        initialize_llmchain(args, prompts_list[0], llm_init=False)        
         result = generate_uncertainty_all_questions(args, dataloader, True)
 
     end = time.time()

@@ -5,9 +5,9 @@ from constant_vars import *
 import datetime
 import os 
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prefix, create_prompts_inference
+from utils.prompts_llm import create_prompts_inference
 from utils.save_results import inference_save_info
-from utils.inference_llm import all_prompts_inference
+from utils.inference_llm import all_prompts_inference, initialize_llm
 import load_env_vars
 
 def arg_parser():
@@ -89,8 +89,8 @@ def main():
         
     dataloader = create_dataloader(args)
 
-    build_prefix(args)
     prompts_list = create_prompts_inference(args)
+    args.llm = initialize_llm(args)
 
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")

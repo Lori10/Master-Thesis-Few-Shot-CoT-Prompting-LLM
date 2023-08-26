@@ -10,7 +10,7 @@ from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmean
 import time
 import os
 from utils.load_data import create_dataloader
-from utils.prompts_llm import build_prefix, initialize_llmchain, create_prompt_template_gpt35, create_prompt_template_other_models, initialize_llm
+from utils.prompts_llm import build_prefix, initialize_llmchain, create_prompt_template_gpt35, create_prompt_template_other_models, initialize_llm, from_chatmodelmessages_to_string
 from utils.save_results import inference_save_info
 from utils.embedding_generation import initialize_embedding_model
 from utils.inference_llm import single_question_inference
@@ -28,11 +28,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--normalize_distance_uncertainty", type=bool, default=False, help="whether to normalize the distance uncertainty before applying F1 score"
+        "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
     )
     
     parser.add_argument("--random_seed", type=int, default=42, help="random seed")
@@ -104,20 +104,21 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
     )
 
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
+    
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default=None, help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_26_14_24_37/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_26_14_24_37/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/args.json', help="file path of the args from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_26_14_24_37/args.json', help="file path of the args from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
@@ -125,21 +126,20 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl', help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default=None, help='file to load embeddings from; either None or a path to a file'
     )
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
-    # uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records', help='file to load uncertainties from'
+        "--load_uncertainty_file", type=str, default=None, help='file to load uncertainties from'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default=None, help='nr of demonstrations to select'
     )
 
     args = parser.parse_args()
@@ -284,6 +284,7 @@ def main():
         
         args.temperature = args.inference_temperature
         build_prefix(args)
+        args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
         args.method = 'cot'
         args.llm = initialize_llm(args)
         dic = {'gpt-35': create_prompt_template_gpt35, 
@@ -296,16 +297,13 @@ def main():
         
         for test_question_id, test_example in enumerate(test_dataloader):
             few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + "\nQ: " + "{question}" + "\nA: Let's think step by step."
+            prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
             prompt_callable = dic[model_key]
             prompt_template = prompt_callable(prompt, args)
             
-            # if args.model_id.startswith("gpt-35"):
-            #     prompt_template = create_prompt_template_gpt35(prompt, args)
-            # else:
-            #     prompt_template = PromptTemplate(input_variables=["question"], template=prompt)
-            print(f'PROMPT TEMPLATE:\n{prompt_template}')            
-            print('*' * 60)
+            # print(f'PROMPT TEMPLATE for question {test_question_id}:')
+            # print(from_chatmodelmessages_to_string(prompt_template))            
+            # print('*' * 60)
 
             initialize_llmchain(args, prompt_template, llm_init=False)
             correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
@@ -332,11 +330,16 @@ def main():
             os.makedirs(args.output_dir + '/' + time_string)
 
         args.output_dir = args.output_dir + '/' + time_string + '/'
+        with open(args.output_dir + 'args.json', 'w') as f:
+            json.dump(args_dict, f, indent=4)
+
         inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))        
+
+        print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation finished.')
+
     else:
         _, _, = main_auto_active_kmeansplusplus(args, None)
 
-    print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation finished.')
 
 
 if __name__ == "__main__":

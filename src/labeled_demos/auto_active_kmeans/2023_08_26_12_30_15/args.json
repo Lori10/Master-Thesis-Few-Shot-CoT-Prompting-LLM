@@ -1,0 +1,39 @@
+{
+    "sampling_method": "Auto-Active-KMeans",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "dataset_size_limit": 20,
+    "random_seed": 42,
+    "nr_demos": 3,
+    "demos_save_dir": "labeled_demos/auto_active_kmeans/2023_08_26_12_30_15/demos/",
+    "answers_are_available": true,
+    "uncertainty_scores_dir": "labeled_demos/auto_active_kmeans/2023_08_26_12_30_15/uncertainty_scores/",
+    "load_uncertainty_file": "uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records",
+    "load_uncertainty_args_file": "uncertainties/gsm8k/2023_08_11_17_27_35/args.json",
+    "load_embeddings_file": "embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl",
+    "load_embeddings_args_file": "embeddings/gsm8k/2023_08_11_15_17_19/args.json",
+    "generate_embeddings_args": {
+        "dataset": "gsm8k",
+        "data_path": "../datasets/gsm8k/train.jsonl",
+        "random_seed": 42,
+        "dataset_size_limit": 20,
+        "output_dir": "embeddings/gsm8k/2023_08_11_15_17_19/",
+        "execution_time": "5.470309257507324 seconds"
+    },
+    "generate_uncertainty_args": {
+        "dataset": "gsm8k",
+        "data_path": "../datasets/gsm8k/train.jsonl",
+        "random_seed": 42,
+        "dataset_size_limit": 20,
+        "num_trails": 3,
+        "temperature": 0.7,
+        "model_id": "text-davinci-003",
+        "method": "few_shot_cot",
+        "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+        "answers_are_available": true,
+        "sort_by": "entropy",
+        "uncertainty_save_dir": "uncertainties/gsm8k/2023_08_11_17_27_35/",
+        "execution_time": "117.987961769104 seconds"
+    },
+    "execution_time": "0.37095046043395996 seconds"
+}

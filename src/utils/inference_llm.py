@@ -1,5 +1,5 @@
 from utils.final_answer_extraction import run_llm_extract_answer, find_most_frequent
-from utils.prompts_llm import initialize_llmchain
+from utils.prompts_llm import initialize_llmchain, from_chatmodelmessages_to_string
 import sys
 
 def single_question_inference(args: object, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run):
@@ -42,10 +42,9 @@ def single_question_inference(args: object, example, example_idx, correct_count_
     return correct_count_single_run, wrong_single_run, QA_record_single_run
 
 def single_run_inference(data_loader, args):
-    prompt = args.llm_chain.prompt.messages if args.model_id.startswith("gpt-35") else args.llm_chain.prompt.template
+    prompt = from_chatmodelmessages_to_string(args.llm_chain.prompt.messages) if args.model_id.startswith("gpt-35") else args.llm_chain.prompt.template
     print(f'PROMPT TEMPLATE:\n{prompt}\n')
     print('START INFERENCE\n')
-    sys.exit(0)
     
     correct_count_single_run = 0
     wrong_single_run = [{'prompt' : prompt}]
@@ -60,7 +59,7 @@ def all_prompts_inference(args, data_loader, prompts_list):
     all_prompts_wrong_list = []
     all_prompts_QA_record_list = []
     for i in range(len(prompts_list)):
-        initialize_llmchain(args.llm, prompts_list[i], llm_init=True)        
+        initialize_llmchain(args, prompts_list[i], llm_init=True)        
         correct, wrong, QA_record = single_run_inference(data_loader, args)
         all_prompts_correct_count_list.append(correct)
         all_prompts_wrong_list.append(wrong)

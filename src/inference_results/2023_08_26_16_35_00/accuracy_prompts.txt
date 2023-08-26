@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: How many digits 2^400 has? Answer Choices: (A) 31 (B) 35 (C) 50 (D) 99 (E) 121\n\nA: Let's think step by step.\n2^10 = 1.024 * 10^3 => 2^100 = (1.024)^10 * 10^120\ntherefore 121 digits would be my best guess\nE The answer is E.\n\nQ: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%\n\nA: Let's think step by step.\nS.I. = (17000 - 12500) = Rs. 4500/-\nRate = (100 * 4500) / (12500 * 4) = 9%\nANSWER:A The answer is A.\n\nQ: Find the area of circle whose radius is 7m? Answer Choices: (A) 298 (B) 154 (C) 267 (D) 268 (E) 298\n\nA: Let's think step by step.\n22/7 * 7 * 7 = 154\nAnswer: B The answer is B.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.4
+    },
+    {
+        "mean_accuracy": 0.4
+    }
+]

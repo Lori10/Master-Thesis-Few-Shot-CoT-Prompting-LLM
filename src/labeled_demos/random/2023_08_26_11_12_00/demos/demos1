@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question": "Q: Daisy is climbing trees all around her neighborhood and starts to notice the number of branches and the height. The first tree she climbs is 50 feet tall and has 200 branches. The second tree she climbs is 40 feet tall and has 180 branches. The third tree she climbs is 60 feet tall and has 180 branches. The final tree she climbs is 34 feet tall and has 153 branches. On average, how many branches do these trees have per foot?",
+            "rationale": "A: Let's think step by step.\nThe first tree has 4 branches per foot because 200 / 50 = <<200/50=4>>4\nThe second tree tree has 4.5 branches per foot because 180 / 40 = <<180/40=4.5>>4.5\nThe third tree has 3 branches per foot because 180 / 60 = <<180/60=3>>3\nThe fourth tree has 4.5 branches per foot because 153 / 34 = <<153/34=4.5>>4.5\nThe total branches per foot is 16 because 4 + 4.5 + 3 + 4.5 = <<4+4.5+3+4.5=16>>16\nThe average branches per foot is 4 because 16 / 4 = <<16/4=4>>4",
+            "final_answer": "4",
+            "question_idx": 471
+        },
+        {
+            "question": "Q: Mr. Maximilian is a dairy animal farmer and has 140 cows on his farm. Forty percent of the cows on his farm have a red spot, 25 percent of the cows without a red spot have a blue spot and the remaining cows do not have any spot. How many cows on the farm have no spot?",
+            "rationale": "A: Let's think step by step.\nIf Mr. Maximilian has 140 cows and 40% of them have red spots, then 40/100*140 = <<140*40/100=56>>56 cows have red spots.\nThe number of cows with no red spot is 140-56 = <<140-56=84>>84 cows.\nOut of the 84 cows without a red spot, 25% of them have a blue spot, a total of 25/100*84 = <<25/100*84=21>>21 cows.\nThe number of cows without any spot is 84-21 =<<84-21=63>>63 animals.",
+            "final_answer": "63",
+            "question_idx": 25
+        },
+        {
+            "question": "Q: Peter and Kristin are to read 20 fantasy novels each in a week. Peter can read three times as fast as Kristin. If Peter reads one book in 18 hours, how long will Kristin read half of her books?",
+            "rationale": "A: Let's think step by step.\nSince Peter reads three times as fast as Kristin, Kristin will take 18*3 = <<18*3=54>>54 hours to read one book.\nKristin reads half of her books, a total of 20/2 = <<20/2=10>>10 books.\nThe time Kristin will take to read half of her books is 10*54 = <<10*54=540>>540",
+            "final_answer": "540",
+            "question_idx": 587
+        },
+        {
+            "question": "Q: Cristine bought a dozen lemons and gave 1/4 of them to her neighbor. How many lemons does Cristine have left?",
+            "rationale": "A: Let's think step by step.\nCristine bought 1 x 12 = <<1*12=12>>12 lemons.\nShe gave 12 x 1/4 = <<12*1/4=3>>3 lemons to her neighbor.\nSo, Cristine is left with 12 - 3 = <<12-3=9>>9 lemons.",
+            "final_answer": "9",
+            "question_idx": 182
+        }
+    ]
+}

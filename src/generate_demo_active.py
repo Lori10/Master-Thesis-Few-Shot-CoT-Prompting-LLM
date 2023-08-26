@@ -7,8 +7,8 @@ import datetime
 import os
 from utils.load_data import create_dataloader
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain
-
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, from_chatmodelmessages_to_string
+import sys
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
@@ -22,15 +22,15 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
     
     parser.add_argument(
-        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="standard", choices=["standard", "zero_shot_cot", "cot"], help="method"
     )
     
     parser.add_argument(
@@ -43,23 +43,23 @@ def arg_parser():
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--num_trails", type=int, default=3, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=3, help='nr of demonstrations to select'
+        "--nr_demos", type=int, default=4, help='nr of demonstrations to select'
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/sorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
@@ -152,7 +152,11 @@ def main():
 
         prompts_list = create_prompts_inference(args)
         assert len(prompts_list) == 1
-        initialize_llmchain(args, prompts_list[0], llm_init=False)        
+        initialize_llmchain(args, prompts_list[0], llm_init=False) 
+        # print('PROMPT FOR UNCERTAINTY ESTIMATION:')
+        # print(from_chatmodelmessages_to_string(args.llm_chain.prompt.messages))
+        # print('*' * 50)
+
         result = generate_uncertainty_all_questions(args, dataloader, True)
 
     end = time.time()

@@ -1,0 +1,14 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 5,
+    "data_path": "../datasets/AQuA/test.json",
+    "random_seed": 1,
+    "model_id": "gpt-35-turbo-0613",
+    "method": "cot",
+    "output_dir": "inference_results/2023_08_26_16_35_00/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "16.314228057861328 seconds",
+    "dir_prompts": "labeled_demos/auto_active_kmeans/2023_08_26_12_22_16/demos"
+}

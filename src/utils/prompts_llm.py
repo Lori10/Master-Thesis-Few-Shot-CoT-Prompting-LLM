@@ -10,13 +10,17 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate, HumanMessage, AIMessage
 import sys
 
+
+def from_chatmodelmessages_to_string(messages_prompt):
+    return '\n\n'.join([message.content for message in messages_prompt[:-1]]) + '\n\n'  + messages_prompt[-1].prompt.template 
+
 def create_prompts_inference(args):
     build_prefix(args)
     
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
     if args.method == 'zero_shot_cot':  
         if args.model_id.startswith("gpt-35"):
-            return [create_prompt_template_gpt35(args)]
+            return [create_prompt_template_gpt35(None, args)]
         else:
             return [PromptTemplate(input_variables=["question"], template=args.prefix + args.suffix)]
     else:
@@ -143,7 +147,6 @@ def initialize_llmchain(args, prompt_template, llm_init=False):
         args.llm = initialize_llm(args)
 
     args.llm_chain = LLMChain(prompt=prompt_template, llm=args.llm, verbose=False)
-    
 
 
 def build_prefix(args):

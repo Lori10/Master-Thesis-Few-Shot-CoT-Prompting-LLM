@@ -1,9 +1,0 @@
-[
-    {
-        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems.\nQ: Find the area of circle whose radius is 7m? Answer Choices: (A) 298 (B) 154 (C) 267 (D) 268 (E) 298\nA: The answer is B.\n\nQ: A sum of Rs. 12500 amounts to Rs. 17000 in 4 years at the rate of simple interest. What is the rate of interest? Answer Choices: (A) 9% (B) 5% (C) 6% (D) 8% (E) 14%\nA: The answer is A.\n\nQ: In how many ways 6 persons can be formed from 8 men and 7 women? Answer Choices: (A) 5005 (B) 6452 (C) 4516 (D) 2313 (E) 3564\nA: The answer is A.\n\nQ: A 300 m long train crosses a platform in 39 sec while it crosses a signal pole in 18 sec. What is the length of the platform? Answer Choices: (A) 286 m (B) 350 m (C) 277 m (D) 278 m (E) 267 m\nA: The answer is B.\n\nQ: {question}\nA: Let's think step by step.",
-        "accuracy": 0.7142857142857143
-    },
-    {
-        "mean_accuracy": 0.7142857142857143
-    }
-]

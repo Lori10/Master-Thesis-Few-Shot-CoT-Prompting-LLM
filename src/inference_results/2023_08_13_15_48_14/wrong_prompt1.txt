@@ -1,6 +1,0 @@
-{'prompt': "You are an expert at arithmetic reasoning and are willing to solve grade school math problems.\nQ: {question}\nA: Let's think step by step."}
-{'question_idx': 1, 'pred_final_answer': '1', 'true_final_answer': '5'}
-{'question_idx': 2, 'pred_final_answer': '149', 'true_final_answer': '83'}
-{'question_idx': 3, 'pred_final_answer': '6', 'true_final_answer': '10'}
-{'question_idx': 4, 'pred_final_answer': '40', 'true_final_answer': '70'}
-{'question_idx': 6, 'pred_final_answer': '44', 'true_final_answer': '48'}

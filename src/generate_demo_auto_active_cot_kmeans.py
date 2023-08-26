@@ -15,17 +15,17 @@ from utils.embedding_generation import generate_corpus_embeddings
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="text-davinci-003", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613" ,"text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -38,7 +38,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--method", type=str, default="few_shot_cot", choices=["zero_shot_cot", "few_shot_cot"], help="method"
+        "--method", type=str, default="cot", choices=["standard", "zero_shot_cot", "cot"], help="method"
     )
     parser.add_argument(
         "--dataset_size_limit", type=int, default=20, help="limit the size of training data used to select the demonstrations"
@@ -61,14 +61,12 @@ def parse_arguments():
     )
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeans CoT
-    # embeddings: 'uncertainties/aqua/2023_08_11_17_21_05/unsorted_all_uncertainty_records.pkl'
-
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='uncertainties/aqua/2023_08_11_17_21_05/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
     )
     
     parser.add_argument(
@@ -76,11 +74,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl', help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default=None, help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()

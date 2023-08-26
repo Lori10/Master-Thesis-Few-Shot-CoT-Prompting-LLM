@@ -5,24 +5,24 @@ from constant_vars import *
 import datetime
 import os 
 from utils.load_data import create_dataloader
-from utils.prompts_llm import create_prompts_inference
+from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string
 from utils.save_results import inference_save_info
-from utils.inference_llm import all_prompts_inference, initialize_llm
+from utils.inference_llm import all_prompts_inference
 import load_env_vars
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_14_14_12_28/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto_active_kmeans/2023_08_26_12_22_16/demos", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
@@ -37,7 +37,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=7, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=5, help="size of dataset to inference"
     )
   
     parser.add_argument(
@@ -122,8 +122,10 @@ def main():
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
-    inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
+    if args.model_id.startswith("gpt-35"):
+        prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
 
+    inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
     print('Inference finished!')
     
 

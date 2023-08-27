@@ -33,24 +33,30 @@ def generate_uncertainty_single_question(args, example):
             uncertainty_record = {'question': example['question'], 'question_idx': example['question_idx'],
                                   'entropy':float, 'occurrence':{}}
 
-    for _ in range(args.num_trails):
-        pred_ans, _ = run_llm_extract_answer(args, example['question'])
+    i = 1
+    while i<=args.num_trails:
+        try:
+            pred_ans, _ = run_llm_extract_answer(args, example['question'])
+            print(f'Single Trial Final Answer: {pred_ans}\n')
 
-        #print(f'Single Trial Rationale:\n{response}')
-        print(f'Single Trial Final Answer: {pred_ans}\n')
+            # check uncertainty
+            if pred_ans != "":
+                if pred_ans in uncertainty_record['occurrence']:
+                    uncertainty_record['occurrence'][pred_ans] += 1 # increment answer occurrence
+                else:
+                    uncertainty_record['occurrence'][pred_ans] = 1 # first occurence
+            else:
+                # Handle no solution case
+                if NO_SOLUTION in uncertainty_record['occurrence']:
+                    uncertainty_record['occurrence'][NO_SOLUTION] += 1
+                else:
+                    uncertainty_record['occurrence'][NO_SOLUTION] = 1
+            
+        except Exception as e:
+            print(f'For question {example["question_idx"]}, error message : {e}')
+            i -= 1
 
-        # check uncertainty
-        if pred_ans != "":
-            if pred_ans in uncertainty_record['occurrence']:
-                uncertainty_record['occurrence'][pred_ans] += 1 # increment answer occurrence
-            else:
-                uncertainty_record['occurrence'][pred_ans] = 1 # first occurence
-        else:
-            # Handle no solution case
-            if NO_SOLUTION in uncertainty_record['occurrence']:
-                uncertainty_record['occurrence'][NO_SOLUTION] += 1
-            else:
-                uncertainty_record['occurrence'][NO_SOLUTION] = 1
+        i += 1
 
     # calculate the variance for the question (only applied to datasets with numerical answer)
     if args.dataset == "gsm8k":
@@ -71,9 +77,12 @@ def generate_uncertainty_single_question(args, example):
 
 def generate_uncertainty_all_questions(args, dataloader, sort):
     result = []
-    for example in dataloader:
+    for example_id, example in enumerate(dataloader):
+        print(f'Example ID: {example_id}')
         print(f'Question:\n{example["question"]}\n')
+
         uncertainty_record = generate_uncertainty_single_question(args, example)
+
         print(f'Uncertainty Record: {uncertainty_record}')
         result.append(uncertainty_record)
         print('\n' + '*' * 60 + '\n')

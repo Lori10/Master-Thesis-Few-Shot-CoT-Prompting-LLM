@@ -7,7 +7,7 @@ import datetime
 import os
 from utils.load_data import create_dataloader
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain, from_chatmodelmessages_to_string
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain
 import sys
 
 def arg_parser():

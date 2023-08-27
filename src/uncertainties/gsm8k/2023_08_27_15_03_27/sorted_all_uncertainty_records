@@ -1,0 +1,65 @@
+{
+  "result": [
+    {
+      "question": "Q: Tricia is a third of Amilia’s age and Amilia is a quarter of Yorick’s age. Yorick is twice Eugene’s age and Khloe is a third of Eugene’s age. Rupert is 10 years older than Khloe but 2 years younger than Vincent who is 22 years old. How old, in years, is Tricia?",
+      "question_idx": 3,
+      "rationale": "A: Let's think step by step.\nRupert is younger than Vincent by 2 years, so he is 22 years old – 2 years = <<22-2=20>>20 years old.\nKhloe is 10 years younger than Rupert so she is 20 years old – 10 years = 10 years old.\nEugene is 3 times older than Khloe so he is 10 years old * 3 = <<10*3=30>>30 years old.\nYorick is twice Eugene’s age so he is 30 years old * 2 = <<30*2=60>>60 years old.\nAmilia is a quarter of Yorick’s age so she is 60 years old / 4 = <<60/4=15>>15 years old.\nTricia is a third of Amilia’s age so she is 15 years old / 3 = <<15/3=5>>5 years old.",
+      "final_answer": "5",
+      "variance": 22650936.88888889,
+      "entropy": 0.6365141682948128,
+      "occurrence": {
+        "-10086": 2,
+        "10": 1
+      },
+      "disagreement": 2
+    },
+    {
+      "question": "Q: The P.T.O. decided to provide shirts for the elementary students for track and field day. Each grade was given a different color. 101 Kindergartners wore orange shirts that cost $5.80 each. 113 first graders wore yellow shirts that cost $5 each. 107 second graders wore blue shirts that cost $5.60 each. 108 third graders wore green shirts that cost $5.25 each. How much did the P.T.O. spend on shirts for field day?",
+      "question_idx": 0,
+      "rationale": "A: Let's think step by step.\nThe cost for 101 Kindergarten shirts x $5.80 = $<<101*5.80=585.80>>585.80.\nThe cost for 113 first grade shirts x $5 = $<<113*5=565>>565.\nThe cost for 107 second grade shirts x $5.60 = $<<107*5.60=599.20>>599.20.\nThe cost for 108 third grade shirts x $5.25 = $<<108*5.25=567>>567.\nThe total cost of the shirts was $585.80 + $565 + $599.20 + $567 = $<<585.8+565+599.2+567=2317>>2,317",
+      "final_answer": "2317",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "2319": 3
+      },
+      "disagreement": 1
+    },
+    {
+      "question": "Q: Trent caught 180 tadpoles then let 75% of them go. How many did he keep?",
+      "question_idx": 1,
+      "rationale": "A: Let's think step by step.\nFirst find the number of tadpoles Trent released: 180 tadpoles * .75 = <<180*.75=135>>135 tadpoles\nThen subtract the number he let go from the total number to find the number of tadpoles he keeps: 180 tadpoles - 135 tadpoles = <<180-135=45>>45 tadpoles",
+      "final_answer": "45",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "45": 3
+      },
+      "disagreement": 1
+    },
+    {
+      "question": "Q: A train takes 4 hours to reach a destination at a speed of 50 miles per hour. How long would it take if it traveled at 100 miles per hour instead?",
+      "question_idx": 2,
+      "rationale": "A: Let's think step by step.\nThe distance to the destination is 4 hours * 50 miles/hour = <<4*50=200>>200 miles.\nTraveling at 100 miles per hour, it will take 200 miles / (100 miles/hour) = <<200/(100)=2>>2 hours.",
+      "final_answer": "2",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "2": 3
+      },
+      "disagreement": 1
+    },
+    {
+      "question": "Q: Oliver had $9, then he saved $5 from his allowance and spent $4 on a frisbee and $3 on a puzzle. His friend gives him another $8 as it's his birthday. How much money does Oliver have left?",
+      "question_idx": 4,
+      "rationale": "A: Let's think step by step.\nThe total amount of money saved is $9 + $5 = $<<9+5=14>>14.\nThe total cost of the frisbee and the puzzle is $4 + $3 = $<<4+3=7>>7.\nSo Oliver has $14 - $7 = $<<14-7=7>>7 left.\nHis friend gives him $8, so now he has $7 + $8 = $<<7+8=15>>15.",
+      "final_answer": "15",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "15": 3
+      },
+      "disagreement": 1
+    }
+  ]
+}

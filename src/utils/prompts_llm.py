@@ -9,7 +9,9 @@ import json
 from langchain.prompts import ChatPromptTemplate
 from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate, HumanMessage, AIMessage
 import sys
-
+from transformers import StoppingCriteria, StoppingCriteriaList, AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch 
+from torch import cuda, bfloat16
 
 def from_chatmodelmessages_to_string(messages_prompt):
     return '\n\n'.join([message.content for message in messages_prompt[:-1]]) + '\n\n'  + messages_prompt[-1].prompt.template 
@@ -105,7 +107,7 @@ def create_prompt_template_gpt35(prompt: str, args):
 
     return ChatPromptTemplate.from_messages(messages + [HumanMessagePromptTemplate.from_template(args.suffix.strip())]) 
 
-def create_header_llm(args):
+def create_header_llm():
     openai.api_key = os.getenv("OPENAI_API_KEY")
     headers = {
         "x-api-key": openai.api_key,
@@ -113,7 +115,7 @@ def create_header_llm(args):
     return headers
 
 def initialize_llm(args):
-    headers = create_header_llm(args)
+    headers = create_header_llm()
 
     if args.model_id.startswith("gpt-35"):
         llm = AzureChatOpenAI(
@@ -133,12 +135,66 @@ def initialize_llm(args):
             max_tokens=1024,
             )
         else:
-            llm = HuggingFacePipeline.from_model_id(
-            model_id=args.model_id,
-            model_kwargs={"temperature": args.temperature,
-                        "trust_remote_code": True,
-                        "max_seq_len": 4096}, # max_length
-            )
+            if args.model_id == 'mosaicml/mpt-7b-instruct':
+                device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
+
+                model = AutoModelForCausalLM.from_pretrained(
+                    args.model_id,
+                    trust_remote_code=True,
+                    torch_dtype=bfloat16,
+                    max_seq_len=2048
+                )
+                model.eval()
+                model.to(device)
+
+                tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+                stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
+
+                class StopOnTokens(StoppingCriteria):
+                    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+                        for stop_id in stop_token_ids:
+                            if input_ids[0][-1] == stop_id:
+                                return True
+                        return False
+
+                stopping_criteria = StoppingCriteriaList([StopOnTokens()])
+
+                pipeline_text_generation = pipeline(
+                            model=model, tokenizer=tokenizer,
+                            return_full_text=True,  # langchain expects the full text
+                            task='text-generation',
+                            device=device,
+                            stopping_criteria=stopping_criteria, 
+                            temperature=args.temperature,
+                            max_new_tokens=1024,  
+                        )
+
+            elif args.model_id == 'tiiuae/falcon-40b-instruct':
+                tokenizer = AutoTokenizer.from_pretrained(args.model_id)
+                model = AutoModelForCausalLM.from_pretrained(
+                    args.model_id,
+                    torch_dtype=torch.bfloat16,
+                    trust_remote_code=True,
+                    load_in_8bit=True, # load in 8bit mode to save memory
+                    device_map="auto"
+                )
+
+                pipeline_text_generation = pipeline(
+                    "text-generation",
+                    model=model,
+                    tokenizer=tokenizer,
+                )
+            else:
+                raise NotImplementedError(f"Model {args.model_id} not implemented")
+            
+            llm = HuggingFacePipeline(pipeline=pipeline_text_generation)
+
+                # llm = HuggingFacePipeline.from_model_id(
+                # model_id=args.model_id,
+                # model_kwargs={"temperature": args.temperature,
+                #               "trust_remote_code": True,
+                #               "max_seq_len": 4096}
+                # )
 
     return llm
 

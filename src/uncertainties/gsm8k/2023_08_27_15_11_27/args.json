@@ -2,7 +2,7 @@
     "dataset": "gsm8k",
     "data_path": "../datasets/gsm8k/train.jsonl",
     "random_seed": 1,
-    "dataset_size_limit": 5,
+    "dataset_size_limit": 3,
     "num_trails": 3,
     "temperature": 0.7,
     "model_id": "gpt-35-turbo-0613",
@@ -10,6 +10,6 @@
     "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
     "answers_are_available": true,
     "sort_by": "entropy",
-    "uncertainty_save_dir": "uncertainties/gsm8k/2023_08_27_15_03_27/",
-    "execution_time": "40.75392937660217 seconds"
+    "uncertainty_save_dir": "uncertainties/gsm8k/2023_08_27_15_11_27/",
+    "execution_time": "24.99801254272461 seconds"
 }

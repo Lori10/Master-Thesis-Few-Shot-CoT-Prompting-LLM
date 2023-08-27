@@ -55,7 +55,7 @@ def generate_uncertainty_single_question(args, example):
         except Exception as e:
             print(f'For question {example["question_idx"]}, error message : {e}')
             i -= 1
-
+        
         i += 1
 
     # calculate the variance for the question (only applied to datasets with numerical answer)

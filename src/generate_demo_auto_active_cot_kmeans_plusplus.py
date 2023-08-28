@@ -13,7 +13,7 @@ from utils.load_data import create_dataloader
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.embedding_generation import generate_corpus_embeddings
 from utils.scaler_and_metrics import f1_score, softmax
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 
 def main_auto_active_kmeansplusplus(args, args_dict):
 
@@ -84,8 +84,11 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         
         prompts_list = create_prompts_inference(args)
         assert len(prompts_list) == 1
-        initialize_llmchain(args, prompts_list[0], llm_init=False)   
-        all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False)
+        azure_llm = initialize_llm(args, is_azureopenai=True)
+        azure_llm_chain = initialize_llmchain(azure_llm, prompts_list[0])
+        openai_llm = initialize_llm(args, is_azureopenai=False)
+        openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])  
+        all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
     
     questions_idxs = [uncertainty_record['question_idx'] for uncertainty_record in all_uncertainty_records]
     uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]

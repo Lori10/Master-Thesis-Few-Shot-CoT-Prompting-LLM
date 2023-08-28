@@ -1,8 +1,8 @@
 import load_env_vars
 import argparse
-from utils.prompts_llm import create_prompts_inference, initialize_llm
-from utils.inference_llm import initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm, create_header_llm
 from utils.final_answer_extraction import run_llm_extract_answer
+from langchain.chat_models import ChatOpenAI
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Uncertainty-Estimator")
@@ -75,26 +75,43 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    question = 'Q: James takes 2 Tylenol tablets that are 375 mg each, every 6 hours.  How many mg does he take a day?'
+    #question = 'Q: James takes 2 Tylenol tablets that are 375 mg each, every 6 hours.  How many mg does he take a day?'
 
+    question = "Q: Maria has 4 dimes, 4 quarters, and 7 nickels in her piggy bank. Her mom gives her 5 quarters. How much money, in dollars, does Maria have now?"
+    
     prompts_list = create_prompts_inference(args)
-    initialize_llmchain(args, prompts_list[0], llm_init=False)
+    llm = initialize_llm(args)
+    llm_chain = initialize_llmchain(llm, prompts_list[0])
+    args.prompt_template = prompts_list[0]
+
     num_trails = 5
-    i = 1
-
-    while i<=num_trails:
+    for i in range(num_trails):
+        print(f'INDEX: {i}')
         try:
-            print(f'Index: {i}')
-            response = run_llm_extract_answer(args, question)
-            print(response)
-            print('-'*50)
-
+            if i == 2:
+                raise Exception('error')
+            response = str(i)
+            #response, _ = run_llm_extract_answer(args, llm_chain, question)
+                    
         except Exception as e:
-            print(f'Error message : {e}')
-            i -= 1
+            print(f'For question {question}, Error Message: {e}')
 
-        i += 1
+            response = 'NEW RESPONSE'
+            # llm = ChatOpenAI(
+            #     model='gpt-3.5-turbo-0613',
+            #     engine='gpt-3.5-turbo-0613',
+            #     temperature=args.temperature,
+            #     max_tokens=1024,
+            #     openai_api_key='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'
+            #     )
+            # llm_chain = initialize_llmchain(llm, args.prompt_template)
+            # response, _ = run_llm_extract_answer(args, llm_chain, question)
 
+        if response:
+            print(f'RESPONSE: {response}')
+            print('-'*30)
+        else:
+            print('No response found')
 
     
 

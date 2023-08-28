@@ -7,7 +7,7 @@ import datetime
 import os
 from utils.load_data import create_dataloader
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 import sys
 
 def arg_parser():
@@ -151,13 +151,18 @@ def main():
         args_dict["dir_prompts"] = args.dir_prompts
 
         prompts_list = create_prompts_inference(args)
+
         assert len(prompts_list) == 1
-        initialize_llmchain(args, prompts_list[0], llm_init=False) 
+        azure_llm = initialize_llm(args, is_azureopenai=True)
+        azure_llm_chain = initialize_llmchain(azure_llm, prompts_list[0])
+        openai_llm = initialize_llm(args, is_azureopenai=False)
+        openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])
+
         # print('PROMPT FOR UNCERTAINTY ESTIMATION:')
         # print(from_chatmodelmessages_to_string(args.llm_chain.prompt.messages))
         # print('*' * 50)
 
-        result = generate_uncertainty_all_questions(args, dataloader, True)
+        result = generate_uncertainty_all_questions(args, dataloader, True, azure_llm_chain, openai_llm_chain)
 
     end = time.time()
 

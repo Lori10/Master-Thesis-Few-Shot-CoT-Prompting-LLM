@@ -2,6 +2,7 @@ from utils.final_answer_extraction import run_llm_extract_answer
 import numpy as np
 from scipy.stats import entropy
 from constant_vars import NO_SOLUTION
+from utils.prompts_llm import initialize_llmchain, create_header_llm
 
 
 def sort_uncertainty(args, result):
@@ -13,7 +14,7 @@ def sort_uncertainty(args, result):
         result.sort(key=lambda x:-x['entropy'])
     return result
 
-def generate_uncertainty_single_question(args, example):
+def generate_uncertainty_single_question(args, example, azure_llm_chain, openai_llm_chain):
 
     if args.dataset == "gsm8k":
         # the float is reserved for variance calculation result
@@ -33,10 +34,15 @@ def generate_uncertainty_single_question(args, example):
             uncertainty_record = {'question': example['question'], 'question_idx': example['question_idx'],
                                   'entropy':float, 'occurrence':{}}
 
-    i = 1
-    while i<=args.num_trails:
+    for _ in range(args.num_trials):
         try:
-            pred_ans, _ = run_llm_extract_answer(args, example['question'])
+            pred_ans, _ = run_llm_extract_answer(args, azure_llm_chain, example['question'])
+
+        except Exception as e:
+            print(f'For this question, Error Generated: {e}')
+            pred_ans, _ = run_llm_extract_answer(args, openai_llm_chain, example['question'])
+
+        if pred_ans:  
             print(f'Single Trial Final Answer: {pred_ans}\n')
 
             # check uncertainty
@@ -51,12 +57,10 @@ def generate_uncertainty_single_question(args, example):
                     uncertainty_record['occurrence'][NO_SOLUTION] += 1
                 else:
                     uncertainty_record['occurrence'][NO_SOLUTION] = 1
+
+        else:
+            print(f'No answer found for question: {example["question"]}')
             
-        except Exception as e:
-            print(f'For question {example["question_idx"]}, error message : {e}')
-            i -= 1
-        
-        i += 1
 
     # calculate the variance for the question (only applied to datasets with numerical answer)
     if args.dataset == "gsm8k":
@@ -75,13 +79,13 @@ def generate_uncertainty_single_question(args, example):
     
     return uncertainty_record
 
-def generate_uncertainty_all_questions(args, dataloader, sort):
+def generate_uncertainty_all_questions(args, dataloader, sort, azure_llm_chain, openai_llm_chain):
     result = []
     for example_id, example in enumerate(dataloader):
         print(f'Example ID: {example_id}')
         print(f'Question:\n{example["question"]}\n')
 
-        uncertainty_record = generate_uncertainty_single_question(args, example)
+        uncertainty_record = generate_uncertainty_single_question(args, example, azure_llm_chain, openai_llm_chain)
 
         print(f'Uncertainty Record: {uncertainty_record}')
         result.append(uncertainty_record)

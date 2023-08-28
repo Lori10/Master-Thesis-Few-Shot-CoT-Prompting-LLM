@@ -8,7 +8,7 @@ import datetime
 import pickle
 import time
 from utils.load_data import create_dataloader
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.embedding_generation import generate_corpus_embeddings
 
@@ -178,10 +178,15 @@ def main():
         args_dict["sort_by"] = args.sort_by
         args_dict["temperature"] = args.temperature
         args_dict["dir_prompts"] = args.dir_prompts
-        
+
         prompts_list = create_prompts_inference(args)
         assert len(prompts_list) == 1
-        initialize_llmchain(args, prompts_list[0], llm_init=False) 
+
+        azure_llm = initialize_llm(args, is_azureopenai=True)
+        azure_llm_chain = initialize_llmchain(azure_llm, prompts_list[0])
+
+        openai_llm = initialize_llm(args, is_azureopenai=False)
+        openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])
 
     clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
@@ -228,7 +233,7 @@ def main():
                 filtered_cluster_unsorted_uncertainty_records = [all_uncertainty_records[x] for x in filtered_cluster_question_idxs]
                 filtered_cluster_sorted_uncertainty_records = sort_uncertainty(args, filtered_cluster_unsorted_uncertainty_records)
             else:
-                filtered_cluster_sorted_uncertainty_records = generate_uncertainty_all_questions(args, cluster_examples_filtered, True)
+                filtered_cluster_sorted_uncertainty_records = generate_uncertainty_all_questions(args, cluster_examples_filtered, True, azure_llm_chain, openai_llm_chain)
 
             demos.append(filtered_cluster_sorted_uncertainty_records[0])
             cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_sorted_uncertainty_records

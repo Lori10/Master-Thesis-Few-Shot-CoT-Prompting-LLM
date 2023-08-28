@@ -3,7 +3,7 @@ import json
 import os
 import datetime
 import time
-from utils.prompts_llm import create_prompts_inference, initialize_llmchain
+from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.load_data import create_dataloader
 import load_env_vars
@@ -102,8 +102,13 @@ def main():
     prompts_list = create_prompts_inference(args)
     assert len(prompts_list) == 1
 
-    initialize_llmchain(args, prompts_list[0], llm_init=False)
-    result = generate_uncertainty_all_questions(args, dataloader, False)
+    azure_llm = initialize_llm(args, is_azureopenai=True)
+    azure_llm_chain = initialize_llmchain(azure_llm, prompts_list[0])
+
+    openai_llm = initialize_llm(args, is_azureopenai=False)
+    openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])
+
+    result = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
     end = time.time()
     
     args_dict = {

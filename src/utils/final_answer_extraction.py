@@ -49,9 +49,9 @@ def find_most_frequent(arr, n):
     most_frequent_item, frequency = arr_acounts.most_common(1)[0]
     return frequency, most_frequent_item
 
-def run_llm_extract_answer(args, question):
+def run_llm_extract_answer(args, llm_chain, question):
     """
         Run a LLMChain for given a prompt template and question. Return the final answer and completion
     """
-    response = args.llm_chain.run(question=question)
+    response = llm_chain.run(question=question)
     return answer_extraction(args, response), response

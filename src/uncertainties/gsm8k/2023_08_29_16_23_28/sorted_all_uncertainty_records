@@ -1,0 +1,28 @@
+{
+  "result": [
+    {
+      "question": "Q: The P.T.O. decided to provide shirts for the elementary students for track and field day. Each grade was given a different color. 101 Kindergartners wore orange shirts that cost $5.80 each. 113 first graders wore yellow shirts that cost $5 each. 107 second graders wore blue shirts that cost $5.60 each. 108 third graders wore green shirts that cost $5.25 each. How much did the P.T.O. spend on shirts for field day?",
+      "question_idx": 0,
+      "rationale": "A: Let's think step by step.\nThe cost for 101 Kindergarten shirts x $5.80 = $<<101*5.80=585.80>>585.80.\nThe cost for 113 first grade shirts x $5 = $<<113*5=565>>565.\nThe cost for 107 second grade shirts x $5.60 = $<<107*5.60=599.20>>599.20.\nThe cost for 108 third grade shirts x $5.25 = $<<108*5.25=567>>567.\nThe total cost of the shirts was $585.80 + $565 + $599.20 + $567 = $<<585.8+565+599.2+567=2317>>2,317",
+      "final_answer": "2317",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "2319": 3
+      },
+      "disagreement": 1
+    },
+    {
+      "question": "Q: Trent caught 180 tadpoles then let 75% of them go. How many did he keep?",
+      "question_idx": 1,
+      "rationale": "A: Let's think step by step.\nFirst find the number of tadpoles Trent released: 180 tadpoles * .75 = <<180*.75=135>>135 tadpoles\nThen subtract the number he let go from the total number to find the number of tadpoles he keeps: 180 tadpoles - 135 tadpoles = <<180-135=45>>45 tadpoles",
+      "final_answer": "45",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "45": 3
+      },
+      "disagreement": 1
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import time
 from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.load_data import create_dataloader
-import load_env_vars
+import sys 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Uncertainty-Estimator")
@@ -25,7 +25,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=2, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
@@ -33,7 +33,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=3, help="number of trails to run for each qeestion"
     )
 
     parser.add_argument(
@@ -96,7 +96,7 @@ def main():
     args.args_file = args.uncertainty_save_dir + 'args.json'
 
     dataloader = create_dataloader(args)
-
+    
     start = time.time()
 
     prompts_list = create_prompts_inference(args)
@@ -108,7 +108,9 @@ def main():
     openai_llm = initialize_llm(args, is_azureopenai=False)
     openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])
 
-    result = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
+    
+    result, openai_result = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
+    
     end = time.time()
     
     args_dict = {
@@ -124,11 +126,14 @@ def main():
         'answers_are_available': args.answers_are_available,
         'sort_by': args.sort_by,
         'uncertainty_save_dir': args.uncertainty_save_dir,
-        'execution_time': str(end - start) + ' seconds',
+        'execution_time' :  str(end - start) + ' seconds'
     }
 
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
+        
+    with open(f"{args.uncertainty_save_dir}openai_preds", 'w', encoding="utf-8") as write_f:
+        json.dump(openai_result, write_f, indent=2, ensure_ascii=False)
 
     unsorted_result = {'result': result}
     with open(f"{args.uncertainty_save_dir}unsorted_all_uncertainty_records", 'w', encoding="utf-8") as write_f:

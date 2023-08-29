@@ -1,0 +1,15 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "random_seed": 1,
+    "dataset_size_limit": 2,
+    "num_trails": 3,
+    "temperature": 0.7,
+    "model_id": "gpt-35-turbo-0613",
+    "method": "cot",
+    "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+    "answers_are_available": true,
+    "sort_by": "entropy",
+    "uncertainty_save_dir": "uncertainties/gsm8k/2023_08_29_16_34_22/",
+    "execution_time": "27.27822184562683 seconds"
+}

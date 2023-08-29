@@ -1,0 +1,29 @@
+{
+  "result": [
+    {
+      "question": "Q: Lassie eats half of her bones on Saturday. On Sunday she received 10 more bones. She now has a total of 35 bones. How many bones did she start with before eating them on Saturday?",
+      "question_idx": 516,
+      "rationale": "A: Let's think step by step.\n35 bones at the end - 10 received = <<35-10=25>>25 on Sunday.\nLassie ate half, so multiply by two to find the number of bones at the beginning which is 25 * 2 = <<25*2=50>>50 bones.",
+      "final_answer": "50",
+      "variance": 0.0,
+      "entropy": 0.0,
+      "occurrence": {
+        "50": 3
+      },
+      "disagreement": 1
+    },
+    {
+      "question": "Q: Marly is making soup. He adds 2 quarts of milk and three times as much chicken stock to 1 quart of pureed vegetables. Then he divides the soup into bags that can hold 3 quarts each. How many bags does he need?",
+      "question_idx": 514,
+      "rationale": "A: Let's think step by step.\nFirst triple the amount of milk to find the amount of chicken stock: 2 quarts * 3 = <<2*3=6>>6 quarts\nThen add all three quantities to find the total volume of the soup: 6 quarts + 2 quarts + 1 quart = <<6+2+1=9>>9 quarts\nFinally, divide the number of quarts by the number of quarts per bag to find the number of bags needed: 9 quarts / 3 quarts/bag = <<9/3=3>>3 bags",
+      "final_answer": "3",
+      "variance": 0.22222222222222224,
+      "entropy": 0.6365141682948128,
+      "occurrence": {
+        "3": 2,
+        "2": 1
+      },
+      "disagreement": 2
+    }
+  ]
+}

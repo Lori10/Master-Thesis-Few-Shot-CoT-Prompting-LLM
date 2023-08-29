@@ -34,33 +34,40 @@ def generate_uncertainty_single_question(args, example, azure_llm_chain, openai_
             uncertainty_record = {'question': example['question'], 'question_idx': example['question_idx'],
                                   'entropy':float, 'occurrence':{}}
 
-    for _ in range(args.num_trials):
+    nr_preds_openai = {
+                     'question_idx' : example['question_idx'], 
+                     'nr_preds': 0
+                     }
+    for _ in range(args.num_trails):
         try:
             pred_ans, _ = run_llm_extract_answer(args, azure_llm_chain, example['question'])
 
-        except Exception as e:
-            print(f'For this question, Error Generated: {e}')
-            pred_ans, _ = run_llm_extract_answer(args, openai_llm_chain, example['question'])
+        except Exception as e_azure:
+            print(f'For this question, Error Generated when using AzureChatOpenAI: {e_azure}. Proceeding to ChatOpenAI.')
+            try:
+                pred_ans, _ = run_llm_extract_answer(args, openai_llm_chain, example['question'])
+                nr_preds_openai['nr_preds'] += 1
 
-        if pred_ans:  
-            print(f'Single Trial Final Answer: {pred_ans}\n')
+            except Exception as e_openai:
+                print(f'For this question, Error Generated when using ChatOpenAI: {e_openai}. Stopping the program.')
 
-            # check uncertainty
-            if pred_ans != "":
-                if pred_ans in uncertainty_record['occurrence']:
-                    uncertainty_record['occurrence'][pred_ans] += 1 # increment answer occurrence
-                else:
-                    uncertainty_record['occurrence'][pred_ans] = 1 # first occurence
+                raise Exception(e_openai)
+                
+
+        print(f'Single Trial Final Answer: {pred_ans}\n')
+
+        # check uncertainty
+        if pred_ans != "":
+            if pred_ans in uncertainty_record['occurrence']:
+                uncertainty_record['occurrence'][pred_ans] += 1 # increment answer occurrence
             else:
-                # Handle no solution case
-                if NO_SOLUTION in uncertainty_record['occurrence']:
-                    uncertainty_record['occurrence'][NO_SOLUTION] += 1
-                else:
-                    uncertainty_record['occurrence'][NO_SOLUTION] = 1
-
+                uncertainty_record['occurrence'][pred_ans] = 1 # first occurence
         else:
-            print(f'No answer found for question: {example["question"]}')
-            
+            # Handle no solution case
+            if NO_SOLUTION in uncertainty_record['occurrence']:
+                uncertainty_record['occurrence'][NO_SOLUTION] += 1
+            else:
+                uncertainty_record['occurrence'][NO_SOLUTION] = 1            
 
     # calculate the variance for the question (only applied to datasets with numerical answer)
     if args.dataset == "gsm8k":
@@ -77,21 +84,30 @@ def generate_uncertainty_single_question(args, example, azure_llm_chain, openai_
     # calculate the disagreement for all dataset
     uncertainty_record['disagreement'] = len(uncertainty_record['occurrence'])
     
-    return uncertainty_record
+    return uncertainty_record, nr_preds_openai
 
 def generate_uncertainty_all_questions(args, dataloader, sort, azure_llm_chain, openai_llm_chain):
-    result = []
-    for example_id, example in enumerate(dataloader):
-        print(f'Example ID: {example_id}')
-        print(f'Question:\n{example["question"]}\n')
+    try:
+        result = []
+        nr_answers_openai_list = []
+        for example_id, example in enumerate(dataloader):
+            print(f'Example ID: {example_id}')
+            print(f'Question:\n{example["question"]}\n')
 
-        uncertainty_record = generate_uncertainty_single_question(args, example, azure_llm_chain, openai_llm_chain)
+            uncertainty_record, nr_answer_openai_single_example = generate_uncertainty_single_question(args, example, azure_llm_chain, openai_llm_chain)
 
-        print(f'Uncertainty Record: {uncertainty_record}')
-        result.append(uncertainty_record)
-        print('\n' + '*' * 60 + '\n')
+            if nr_answer_openai_single_example['nr_preds'] > 0:
+                nr_answers_openai_list.append(nr_answer_openai_single_example)
 
-    if sort:
-        return sort_uncertainty(args, result)
-    else:
-        return result
+            print(f'Uncertainty Record: {uncertainty_record}')
+            result.append(uncertainty_record)
+            print('\n' + '*' * 60 + '\n')
+
+        if sort:
+            return sort_uncertainty(args, result)
+        else:
+            return result, nr_answers_openai_list
+            
+    except Exception as e:
+        print(f'Error occured during uncertainty estimation! Error message: {e}')
+        return result, nr_answers_openai_list

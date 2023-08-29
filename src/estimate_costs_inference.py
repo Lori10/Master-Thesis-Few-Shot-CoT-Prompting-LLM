@@ -5,7 +5,6 @@ import os
 from utils.estimate_costs import all_prompts_costs, uncertainty_cost_all_examples, embedding_cost
 from utils.load_data import create_dataloader
 from utils.prompts_llm import build_prefix, create_prompts_inference, build_prompt_template
-import load_env_vars
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")

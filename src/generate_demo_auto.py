@@ -12,31 +12,30 @@ from utils.embedding_generation import generate_corpus_embeddings
 import datetime 
 import pickle
 import time
-import load_env_vars
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
     parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     
     parser.add_argument(
         "--sampling", type=str, default="center", help="whether to sample the cluster center first"
     )
 
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=20, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
     parser.add_argument(
@@ -52,11 +51,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl' , help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl' , help='file to load embeddings from; either None or a path to a file'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()

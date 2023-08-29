@@ -1,0 +1,25 @@
+{
+    "sampling_method": "Auto",
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "max_ra_len": 5,
+    "random_seed": 1,
+    "sampling": "center",
+    "dataset_size_limit": 1000,
+    "nr_demos": 4,
+    "answers_are_available": true,
+    "load_embeddings_file": "embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl",
+    "load_embeddings_args_file": "embeddings/aqua/2023_08_29_22_52_21/args.json",
+    "demos_save_dir": "labeled_demos/auto/2023_08_29_21_17_40/demos/",
+    "plots_dir": "labeled_demos/auto/2023_08_29_21_17_40/plots/",
+    "generate_embeddings_args": {
+        "dataset": "aqua",
+        "data_path": "../datasets/AQuA/train.json",
+        "random_seed": 1,
+        "dataset_size_limit": 1000,
+        "output_dir": "embeddings/aqua/2023_08_29_22_52_21/",
+        "embedding_model_id": "text-embedding-ada-002-v2",
+        "execution_time": "196.15016150474548 seconds"
+    },
+    "execution_time": "1.4106814861297607 seconds"
+}

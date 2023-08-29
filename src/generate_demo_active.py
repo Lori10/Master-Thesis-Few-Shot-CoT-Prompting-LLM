@@ -2,7 +2,6 @@
 import time
 import argparse
 import json
-import load_env_vars
 import datetime 
 import os
 from utils.load_data import create_dataloader
@@ -30,36 +29,36 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--method", type=str, default="standard", choices=["standard", "zero_shot_cot", "cot"], help="method"
+        "--method", type=str, default="cot", choices=["standard", "zero_shot_cot", "cot"], help="method"
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=20, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
+        "--dataset_size_limit", type=int, default=1000, help="whether to limit dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
 
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     
     parser.add_argument(
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help='nr of demonstrations to select'
+        "--nr_demos", type=int, default=8, help='nr of demonstrations to select'
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/sorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
     )
 
     parser.add_argument(

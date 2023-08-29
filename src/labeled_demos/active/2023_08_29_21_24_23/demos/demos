@@ -1,0 +1,132 @@
+{
+    "demo": [
+        {
+            "question": "Q: Tricia is a third of Amilia’s age and Amilia is a quarter of Yorick’s age. Yorick is twice Eugene’s age and Khloe is a third of Eugene’s age. Rupert is 10 years older than Khloe but 2 years younger than Vincent who is 22 years old. How old, in years, is Tricia?",
+            "question_idx": 3,
+            "rationale": "A: Let's think step by step.\nRupert is younger than Vincent by 2 years, so he is 22 years old – 2 years = <<22-2=20>>20 years old.\nKhloe is 10 years younger than Rupert so she is 20 years old – 10 years = 10 years old.\nEugene is 3 times older than Khloe so he is 10 years old * 3 = <<10*3=30>>30 years old.\nYorick is twice Eugene’s age so he is 30 years old * 2 = <<30*2=60>>60 years old.\nAmilia is a quarter of Yorick’s age so she is 60 years old / 4 = <<60/4=15>>15 years old.\nTricia is a third of Amilia’s age so she is 15 years old / 3 = <<15/3=5>>5 years old.",
+            "final_answer": "5",
+            "variance": 16357983.760000002,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "11": 1,
+                "80": 1,
+                "-10086": 1,
+                "4": 1,
+                "5": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Ryan works in an office that has an even number of men and women working there.  Ryan participates in a meeting composed of 4 men and 6 women who are pulled from the office floor.   This reduces the number of women working on the office floor by 20%.  How many people work at Ryan's office?",
+            "question_idx": 53,
+            "rationale": "A: Let's think step by step.\nSince 6 women are 20% of the total number of women working there, that means there are 6*5= <<6*5=30>>30 women working there in total.\nSince there are an even number of women and men working in the office, that means there are 30*2= <<30*2=60>>60 people working there in total, since there are 2 sexes.",
+            "final_answer": "60",
+            "variance": 1421.44,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "36": 1,
+                "10": 1,
+                "120": 1,
+                "32": 1,
+                "60": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Bertha plays tennis. Every ten games, one of her tennis balls wears out. Every five games, she loses a ball. Every four games, she buys a canister of three balls. She started with two balls and gave one to her partner. After twenty games, how many tennis balls does she have?",
+            "question_idx": 93,
+            "rationale": "A: Let's think step by step.\nBertha wears out 20 / 10 = <<20/10=2>>2 tennis balls in 20 games.\nShe loses 20 / 5 = <<20/5=4>>4 tennis balls in 20 games.\nShe buys canisters of 3 * 20 / 4 = <<3*20/4=15>>15 tennis balls in 20 games.\nBertha started with 2 balls and gave 1 away, so she has 2 + 15 - 2 - 4 - 1 = <<2+15-2-4-1=10>>10 tennis balls after twenty games.",
+            "final_answer": "10",
+            "variance": 32.96,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "10": 1,
+                "14": 1,
+                "18": 1,
+                "8": 1,
+                "1": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: The Dow Jones Industrial Average fell 2% today. The Dow ended the day at 8,722. What was the Dow in the morning before the markets opened?",
+            "question_idx": 97,
+            "rationale": "A: Let's think step by step.\nToday the Dow was down 8722 / 98*2 = <<8722/98*2=178>>178.\nSo it started at 8722 + 178 = <<8722+178=8900>>8900.",
+            "final_answer": "8900",
+            "variance": 119.36000000000001,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "8922": 1,
+                "8920": 1,
+                "8900": 1,
+                "8896": 1,
+                "8901": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Seven parrots and some crows are perched on a tree branch. There was a noise and the same number of parrots and crows flew away. If only 2 parrots and 1 crow are left on the tree branch now, how many birds were perched on the branch to begin with?",
+            "question_idx": 163,
+            "rationale": "A: Let's think step by step.\nThe number of parrots that flew away after the noise is 7-2 = <<7-2=5>>5\nThe same number of crows (5) flew away leaving 1 crow so there were 5+1 = <<5+1=6>>6 crows to begin with\nThe total number of crows and parrots was 7+6 = <<7+6=13>>13",
+            "final_answer": "13",
+            "variance": 6.0,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "9": 1,
+                "7": 1,
+                "6": 1,
+                "13": 1,
+                "10": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Patricia is growing her long very long to donate it to a charity that makes wigs for cancer survivors. Her hair is 14 inches long. She needs to donate 23 inches to make a wig. She wants her hair to be 12 inches long after the donation. How much longer does she have to grow her hair?",
+            "question_idx": 223,
+            "rationale": "A: Let's think step by step.\nHer hair needs to be 35 inches long when she cuts it because 23 + 12 = <<23+12=35>>35\nShe needs to grow it 21 more inches because 35 - 14 = <<35-14=21>>21",
+            "final_answer": "21",
+            "variance": 101.2,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "-9": 1,
+                "2": 1,
+                "21": 1,
+                "9": 1,
+                "12": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Jill makes scented candles as a hobby. Her favorite scents are lavender, coconut, and almond, and she uses the same amount of each scent for every candle. This time, she made twice as many lavender candles as coconut candles, along with a batch of almond candles. She ran out of almond scent after making ten candles. If she had one and a half times as much coconut scent as almond scent and used all her coconut scent up too, how many lavender candles did she make?",
+            "question_idx": 236,
+            "rationale": "A: Let's think step by step.\nJill made one and a half times as many coconut candles as almond candles, so she made 10 * 1 1/2 = 15 coconut candles.\nShe made twice as many lavender candles as coconut candles, so she made 2 * 15 = <<2*15=30>>30 lavender candles.",
+            "final_answer": "30",
+            "variance": 103.04,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "6": 1,
+                "10": 1,
+                "2": 1,
+                "30": 1,
+                "20": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A big snowstorm caused a large amount of snow to fall onto Grandpa's farm, and the wind caused the snow to pile up into a drift.  But on the second day, it warmed up enough that half of the snowdrift melted.  The third day, it snowed again, adding another 6 inches of snow onto the snowdrift.  On the fourth day, another 18 inches of snow fell onto the snowdrift.  If the snowdrift was 34 inches deep at the end of the fourth day, how deep in inches was the drift at the end of the first day?",
+            "question_idx": 252,
+            "rationale": "A: Let's think step by step.\nThe third and fourth day contributed 6+18=<<6+18=24>>24 inches to the depth of the snowdrift.\nTherefore, the size of the snowdrift after half was melted on the second day, but before the snowfall on the third and fourth day, was 34-24=<<34-24=10>>10 inches.\nIf the size of the drift on the second day, after half of the snow had melted, was 10 inches, then the depth of the original drift created on day 1 was 2*10=20 inches deep.",
+            "final_answer": "20",
+            "variance": 3955.04,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "184": 1,
+                "18": 1,
+                "41": 1,
+                "34": 1,
+                "20": 1
+            },
+            "disagreement": 5
+        }
+    ]
+}

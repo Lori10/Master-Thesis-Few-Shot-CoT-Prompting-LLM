@@ -1,0 +1,9 @@
+{
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "random_seed": 1,
+    "dataset_size_limit": 1000,
+    "output_dir": "embeddings/aqua/2023_08_29_22_52_21/",
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "execution_time": "196.15016150474548 seconds"
+}

@@ -1,8 +1,0 @@
-{
-    "dataset": "aqua",
-    "data_path": "../datasets/AQuA/train.json",
-    "random_seed": 42,
-    "dataset_size_limit": 20,
-    "output_dir": "embeddings/aqua/2023_08_11_16_27_46/",
-    "execution_time": "5.60657262802124 seconds"
-}

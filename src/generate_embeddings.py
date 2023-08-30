@@ -2,7 +2,6 @@ import numpy as np
 import json
 import argparse
 import os
-import load_env_vars
 import datetime 
 import pickle
 import time
@@ -12,12 +11,12 @@ from utils.embedding_generation import generate_corpus_embeddings
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Embeddings-Generator")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 

@@ -1,6 +1,8 @@
 import argparse
 from utils import *
 from generate_demo_active import predict_llm, create_dataloader, answer_extraction, create_several_input_prompts
+import os
+import json
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="LLM-Data-Labeling")

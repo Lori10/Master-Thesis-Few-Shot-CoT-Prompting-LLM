@@ -10,8 +10,8 @@
     "answers_are_available": true,
     "load_embeddings_file": "embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl",
     "load_embeddings_args_file": "embeddings/gsm8k/2023_08_29_22_56_01/args.json",
-    "demos_save_dir": "labeled_demos/auto/2023_08_29_21_12_50/demos/",
-    "plots_dir": "labeled_demos/auto/2023_08_29_21_12_50/plots/",
+    "demos_save_dir": "labeled_demos/auto/2023_08_30_12_51_21/",
+    "plots_dir": "labeled_demos/auto/2023_08_30_12_51_21/plots/",
     "generate_embeddings_args": {
         "dataset": "gsm8k",
         "data_path": "../datasets/gsm8k/train.jsonl",
@@ -21,5 +21,5 @@
         "embedding_model_id": "text-embedding-ada-002-v2",
         "execution_time": "193.94125485420227 seconds"
     },
-    "execution_time": "1.5545017719268799 seconds"
+    "execution_time": "0.6316971778869629 seconds"
 }

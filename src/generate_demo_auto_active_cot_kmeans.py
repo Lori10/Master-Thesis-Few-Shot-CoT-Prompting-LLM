@@ -3,7 +3,6 @@ import json
 import argparse
 import os
 from constant_vars import *
-import load_env_vars
 import datetime
 import pickle
 import time
@@ -15,12 +14,12 @@ from utils.embedding_generation import generate_corpus_embeddings
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
-        choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
+        "--dataset", type=str, default="aqua",
+        choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -31,17 +30,17 @@ def parse_arguments():
     parser.add_argument(
         "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
 
     parser.add_argument(
-        "--num_trails", type=int, default=4, help="number of trails to run for each qeestion"
+        "--num_trails", type=int, default=5, help="number of trails to run for each qeestion"
     )
 
     parser.add_argument(
         "--method", type=str, default="cot", choices=["standard", "zero_shot_cot", "cot"], help="method"
     )
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=20, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=1000, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -53,7 +52,7 @@ def parse_arguments():
         "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use"
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=3, help='number of demonstrations'
+        "--nr_demos", type=int, default=4, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -62,11 +61,11 @@ def parse_arguments():
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeans CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='uncertainties/gsm8k/2023_08_11_17_27_35/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
     )
     
     parser.add_argument(
@@ -74,11 +73,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/embeddings.pkl', help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_11_15_17_19/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -116,20 +115,16 @@ def main():
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans')
         os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
-        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
     elif not os.path.exists(args.demos_save_dir + '/' + 'auto_active_kmeans'):
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans')
         os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
-        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
     else:
         os.makedirs(args.demos_save_dir + '/' +  'auto_active_kmeans' + '/' + time_string)
         os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos')
-        os.makedirs(args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores')
 
     args.args_file = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'args.json'
-    args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'uncertainty_scores/'
-    args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/' + 'demos/'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeans' + '/' + time_string + '/'
 
     args_dict = {
         "sampling_method": "Auto-Active-KMeans",
@@ -140,7 +135,6 @@ def main():
         "nr_demos": args.nr_demos,
         "demos_save_dir": args.demos_save_dir,
         "answers_are_available": args.answers_are_available,
-        "uncertainty_scores_dir": args.uncertainty_scores_dir,
         "load_uncertainty_file": args.load_uncertainty_file,
         "load_uncertainty_args_file": args.load_uncertainty_args_file,
         "load_embeddings_file": args.load_embeddings_file,
@@ -197,12 +191,13 @@ def main():
         cluster_to_examples[cluster_id].append(example)
     
     cluster_uncertainty_records_dic = {}
+    cluster_nr_examples = []
     demos = []
     for cluster_id in range(args.nr_demos):
         print('\n' + '*' * 50 + '\n')
         print(f'Cluster {cluster_id} has {len(cluster_to_examples[cluster_id])} examples.\n')
         cluster_examples_filtered = []
-        cluster_examples = cluster_to_examples[cluster_id]
+        cluster_examples = cluster_to_examples[cluster_id]    
 
         for example in cluster_examples:
             question_idx = example['question_idx']
@@ -228,6 +223,7 @@ def main():
         
         filtered_cluster_question_idxs = [example['question_idx'] for example in cluster_examples_filtered]
         print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples. These are examples idxs: {filtered_cluster_question_idxs}\n')
+
         if len(cluster_examples_filtered) > 0:
             if args.load_uncertainty_file:
                 filtered_cluster_unsorted_uncertainty_records = [all_uncertainty_records[x] for x in filtered_cluster_question_idxs]
@@ -238,6 +234,14 @@ def main():
             demos.append(filtered_cluster_sorted_uncertainty_records[0])
             cluster_uncertainty_records_dic[f'cluster_{cluster_id}'] = filtered_cluster_sorted_uncertainty_records
             print(f'Highest uncertainty example:\n{filtered_cluster_sorted_uncertainty_records[0]} \n')
+
+            cluster_nr_examples.append({
+            'cluster_id': cluster_id,
+            'nr_total_examples': len(cluster_examples),
+            'nr_filtered_examples': len(cluster_examples_filtered),
+            'selected_example': filtered_cluster_sorted_uncertainty_records[0]
+            }
+            )
         else:
             print(f'After filtering out no examples left for cluster {cluster_id}.\n')
 
@@ -248,11 +252,14 @@ def main():
         json.dump(args_dict, f, indent=4)
 
     demos = {"demo": demos}
-    with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+    with open(args.demos_save_dir + 'demos/demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
 
-    with open(args.uncertainty_scores_dir + 'uncertainties', 'w', encoding="utf-8") as write_f:
+    with open(args.demos_save_dir + 'uncertainties_per_cluster', 'w', encoding="utf-8") as write_f:
         json.dump(cluster_uncertainty_records_dic, write_f, indent=4, ensure_ascii=False)
+
+    with open(args.demos_save_dir + 'cluster_nr_examples.txt', 'w') as f:
+        f.write(json.dumps(cluster_nr_examples, indent=4))
 
     print('Auto-Active-KMeans CoT finished!')
 

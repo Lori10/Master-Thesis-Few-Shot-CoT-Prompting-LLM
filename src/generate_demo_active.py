@@ -12,16 +12,16 @@ import sys
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
     
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use"
     )
 
     parser.add_argument(
@@ -49,16 +49,16 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=8, help='nr of demonstrations to select'
+        "--nr_demos", type=int, default=4, help='nr of demonstrations to select'
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/sorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
     )
 
     parser.add_argument(

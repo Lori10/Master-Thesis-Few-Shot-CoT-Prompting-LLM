@@ -16,12 +16,12 @@ import time
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
-        choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
+        "--dataset", type=str, default="gsm8k",
+        choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -39,7 +39,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
     )
     
     parser.add_argument(
@@ -51,11 +51,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl' , help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -89,7 +89,7 @@ def main():
 
     args.plots_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'plots/'
     args.args_file = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'args.json'
-    args.demos_save_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/' + 'demos/'
+    args.demos_save_dir = args.demos_save_dir + '/' + 'auto' + '/' + time_string + '/'
     
     args_dict = {
         "sampling_method": "Auto",
@@ -143,6 +143,7 @@ def main():
         clustered_idx[cluster_id].append(sentence_id)
 
     demos = []
+    cluster_nr_examples = {}
     for i in range(len(clustered_dists)):
         tmp = list(map(list, zip(range(len(clustered_dists[i])), clustered_dists[i])))
         top_min_dist = sorted(tmp, key=lambda x: x[1], reverse=False)
@@ -150,6 +151,7 @@ def main():
             random.shuffle(top_min_dist)
         
         print(f'Cluster {i} has {len(clustered_dists[i])} elements.\n')
+        cluster_nr_examples[i] = len(clustered_dists[i])
         demo_found=False
         for element in top_min_dist:
             min_idx = element[0]
@@ -192,8 +194,11 @@ def main():
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
+    with open(args.demos_save_dir + 'clusters_nr_examples', 'w', encoding="utf-8") as write_f:
+        json.dump(cluster_nr_examples, write_f, indent=4, ensure_ascii=False)
+
     demos = {"demo": demos}
-    with open(args.demos_save_dir + 'demos', 'w', encoding="utf-8") as write_f:
+    with open(args.demos_save_dir + 'demos/demos', 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
     
 

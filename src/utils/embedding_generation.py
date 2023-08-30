@@ -1,15 +1,19 @@
 import numpy as np
-import openai 
-import os
 from langchain.embeddings import OpenAIEmbeddings
+from env_vars import AZURE_OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_API_TYPE, OPENAI_API_VERSION
 
 def initialize_embedding_model(args):
-    openai.api_key = os.getenv("OPENAI_API_KEY")
     headers = {
-        "x-api-key": openai.api_key,
+        "x-api-key": AZURE_OPENAI_API_KEY,
     }
     encoder = OpenAIEmbeddings(
-        deployment=args.embedding_model_id, headers=headers, chunk_size=1
+        deployment=args.embedding_model_id, 
+        headers=headers, 
+        chunk_size=1, 
+        openai_api_key=AZURE_OPENAI_API_KEY,
+        openai_api_base=OPENAI_API_BASE,
+        openai_api_type=OPENAI_API_TYPE,
+        openai_api_version=OPENAI_API_VERSION
     )
 
     return encoder

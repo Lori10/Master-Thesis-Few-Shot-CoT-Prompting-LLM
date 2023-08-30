@@ -3,10 +3,9 @@ import argparse
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import FAISS
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
-import load_env_vars
 from constant_vars import *
 import datetime
-from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmeansplusplus
+from generate_demo_auto_active_cot_kmeans_plusplus_new import main_auto_active_kmeansplusplus
 import time
 import os
 from utils.load_data import create_dataloader
@@ -35,7 +34,7 @@ def parse_arguments():
         "--normalize_distance_uncertainty", type=bool, default=True, help="whether to normalize the distance uncertainty before applying F1 score"
     )
     
-    parser.add_argument("--random_seed", type=int, default=42, help="random seed")
+    parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
         "--num_trails", type=int, default=3, help="number of trails to run for each question"
     )
@@ -45,11 +44,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
         "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use for uncertainty estimation"
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=20, help="limit the size of training data used to select the demonstrations"
+        "--dataset_size_limit", type=int, default=10, help="limit the size of training data used to select the demonstrations"
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
@@ -76,7 +79,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=5, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=3, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -104,7 +107,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
     )
 
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
@@ -126,20 +129,20 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default=None, help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default=None, help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default=None, help='file to load uncertainties from'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records', help='file to load uncertainties from'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default=None, help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
     )
 
     args = parser.parse_args()
@@ -286,7 +289,9 @@ def main():
         build_prefix(args)
         args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
         args.method = 'cot'
-        args.llm = initialize_llm(args)
+        azure_llm = initialize_llm(args, is_azureopenai=True)
+        openai_llm = initialize_llm(args, is_azureopenai=False)
+
         dic = {'gpt-35': create_prompt_template_gpt35, 
                'others' : create_prompt_template_other_models
                } 
@@ -295,6 +300,7 @@ def main():
         else:
             model_key = 'others'
         
+        is_answer_openai_idxs = []
         for test_question_id, test_example in enumerate(test_dataloader):
             few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
             prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
@@ -304,9 +310,13 @@ def main():
             # print(f'PROMPT TEMPLATE for question {test_question_id}:')
             # print(from_chatmodelmessages_to_string(prompt_template))            
             # print('*' * 60)
+            
+            azure_llm_chain = initialize_llmchain(azure_llm, prompt_template)
+            openai_llm_chain = initialize_llmchain(openai_llm, prompt_template)  
 
-            initialize_llmchain(args, prompt_template, llm_init=False)
-            correct_nr, wrong_list, QA_record_list = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list)
+            correct_nr, wrong_list, QA_record_list, is_answer_openai  = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list, azure_llm_chain, openai_llm_chain)
+            if is_answer_openai:
+                is_answer_openai_idxs.append(test_question_id)
 
             test_q_dic = {
                 'test_question_idx' : test_question_id,
@@ -332,6 +342,9 @@ def main():
         args.output_dir = args.output_dir + '/' + time_string + '/'
         with open(args.output_dir + 'args.json', 'w') as f:
             json.dump(args_dict, f, indent=4)
+
+        with open(args.output_dir + 'answers_openai.txt', 'w') as f:
+            f.write(json.dumps(is_answer_openai_idxs, indent=4))
 
         inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))        
 

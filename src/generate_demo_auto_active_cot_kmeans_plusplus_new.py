@@ -39,8 +39,6 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         args.metadata = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'metadata/'
         args.demos_save_dir = args.demos_save_dir + '/' + 'auto_active_kmeansplusplus' + '/' + time_string + '/' + 'demos/'
 
-    dataloader = create_dataloader(args)
-
     if not args.retrieval:
         args_dict = {
             "sampling_method": "Auto_Active_KMeansPlusPlus",
@@ -66,7 +64,8 @@ def main_auto_active_kmeansplusplus(args, args_dict):
     
     if args.load_uncertainty_file and args.load_uncertainty_args_file:
         with open(args.load_uncertainty_file, 'r', encoding="utf-8") as read_f:
-            all_uncertainty_records = json.load(read_f)['result']
+            #all_uncertainty_records = json.load(read_f)['result']
+            all_uncertainty_records = json.load(read_f)['result'][:args.dataset_size_limit]
 
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
@@ -82,6 +81,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
 
         args.temperature = args.auto_active_kmeansplusplus_temperature
         
+        dataloader = create_dataloader(args)
         prompts_list = create_prompts_inference(args)
         assert len(prompts_list) == 1
         azure_llm = initialize_llm(args, is_azureopenai=True)
@@ -90,12 +90,10 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])  
         all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
     
-    questions_idxs = [uncertainty_record['question_idx'] for uncertainty_record in all_uncertainty_records]
-    uncertainty_list = [uncertainty_record[args.sort_by] for uncertainty_record in all_uncertainty_records]
-    
     if args.load_embeddings_file and args.load_embeddings_args_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
-            corpus_embeddings = pickle.load(read_f)
+            # corpus_embeddings = pickle.load(read_f)
+            corpus_embeddings = pickle.load(read_f)[:args.dataset_size_limit]
 
         with open(args.load_embeddings_args_file, 'r', encoding="utf-8") as f:
             embeddings_args = json.load(f)
@@ -104,23 +102,22 @@ def main_auto_active_kmeansplusplus(args, args_dict):
     else:
         args_dict['embedding_model_id'] = args.embedding_model_id
         corpus_embeddings = generate_corpus_embeddings(args, dataloader)
-        
-    assert len(corpus_embeddings) == len(uncertainty_list) == len(questions_idxs)
+    
+    max_entropy_example = max(all_uncertainty_records, key=lambda x: x[args.sort_by])
+    question_idx_with_max_entropy = max_entropy_example['question_idx']
 
-    uncertainties_series = pd.Series(data=uncertainty_list, index=questions_idxs)
-    first_question_idx = list(uncertainties_series.sort_values(ascending=False).head(1).index)[0]
-    selected_idxs = [first_question_idx]
-    selected_data = [corpus_embeddings[first_question_idx]]
+    selected_idxs = [question_idx_with_max_entropy]
+    selected_data = [corpus_embeddings[question_idx_with_max_entropy]]
     auto_active_kmeansplusplus_info_list = [{'iteration' : 0,
-                     'selected_idx': first_question_idx,
-                     'uncertainty' : uncertainties_series[first_question_idx],
-                     f'highest_uncertainty_{args.sort_by}' : max(uncertainty_list),
+                     'selected_idx': question_idx_with_max_entropy,
+                     'uncertainty' : max_entropy_example[args.sort_by],
+                     f'highest_uncertainty_{args.sort_by}' : max([x[args.sort_by] for x in all_uncertainty_records])
                     }] 
     j = 1
 
-    demos = [dataloader[first_question_idx]]
+    demos = [all_uncertainty_records[question_idx_with_max_entropy]]
     print(f'Iteration: {j}')
-    print(f'All indices: {questions_idxs}')
+    print(f'All indices: {[x["question_idx"] for x in all_uncertainty_records]}')
     print(f'Selected indices: {selected_idxs}')
     while j < args.auto_active_kmeansplusplus_nr_demos:
         if len(selected_data) == 1:
@@ -143,38 +140,41 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         # convert into exponential distances for cosine
         if args.distance_metric == 'cosine':
             D2[D2 > 0.999] = 1
-            not_selected_questions_distances_uncertainties = [(question_idx, np.exp(-distance), uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 1]
-
+            not_selected_examples = [(example, distance) for example, distance in zip(all_uncertainty_records, D2) if distance != 1 and len(example['question'].strip().split()) <= 60 and len(example['rationale'].replace("\n\n", "\n").split("\n")) <= args.max_ra_len and example['final_answer'] != ""]
         elif args.distance_metric == 'euclidean':
             D2[D2 < 0.0001] = 0
-            not_selected_questions_distances_uncertainties = [(question_idx, distance, uncertainty) for question_idx, distance, uncertainty in zip(questions_idxs, D2, uncertainty_list) if distance != 0]
-        
-        not_selected_questions_idxs = [question_idx for question_idx, _, _ in not_selected_questions_distances_uncertainties]
-        not_selected_distances = [distance for _, distance, _ in not_selected_questions_distances_uncertainties]
-        not_selected_uncertainties = [uncertainty for _, _, uncertainty in not_selected_questions_distances_uncertainties]
+            not_selected_examples = [(example, distance) for example, distance in zip(all_uncertainty_records, D2) if distance != 0 and len(example['question'].strip().split()) <= 60 and len(example['rationale'].replace("\n\n", "\n").split("\n")) <= args.max_ra_len and example['final_answer'] != ""]
+
+        not_selected_question_idxs = []
+        not_selected_distances = []
+        not_selected_uncertainties = []
+        for example, distance in not_selected_examples:
+            not_selected_question_idxs.append(example['question_idx'])
+            not_selected_distances.append(distance)
+            not_selected_uncertainties.append(example[args.sort_by])
         
         not_selected_f1_scores, distances, uncertainties = f1_score(not_selected_distances, not_selected_uncertainties, args)
-        print('Length of not selected questions:', len(not_selected_questions_distances_uncertainties))
-        print(f'Not selected indexes: {not_selected_questions_idxs}')
+        print('Length of not selected questions:', len(not_selected_examples))
+        print(f'Not selected indexes: {not_selected_question_idxs}')
         print(f'F1 scores: {not_selected_f1_scores}')
         
         if args.greedy:
             highest_f1_score = max(not_selected_f1_scores)
-            selected_idx = not_selected_questions_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
+            selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
         else:
             probs = softmax(not_selected_f1_scores)
             # print(f'Probs: {probs}')
             # print(f'Sum of probs: {sum(probs)}')
             # print('------------------')
 
-            customDist = stats.rv_discrete(name='custm', values=(not_selected_questions_idxs, probs))
+            customDist = stats.rv_discrete(name='custm', values=(not_selected_question_idxs, probs))
             selected_idx = customDist.rvs(size=1)[0]
 
         selected_idxs.append(selected_idx)
         selected_data.append(corpus_embeddings[selected_idx])
-        demos.append(dataloader[selected_idx])
+        demos.append(all_uncertainty_records[selected_idx])
 
-        index_selected_question = not_selected_questions_idxs.index(selected_idx)
+        index_selected_question = not_selected_question_idxs.index(selected_idx)
         info_dic = {'iteration_nr': j,
                     'selected_index': int(selected_idx),
                     'current_selected_indexes': [int(el) for el in selected_idxs],

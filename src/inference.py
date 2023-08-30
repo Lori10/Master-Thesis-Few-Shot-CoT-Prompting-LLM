@@ -5,10 +5,9 @@ from constant_vars import *
 import datetime
 import os 
 from utils.load_data import create_dataloader
-from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string
+from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string, initialize_llmchain
 from utils.save_results import inference_save_info
 from utils.inference_llm import all_prompts_inference
-import load_env_vars
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
@@ -29,7 +28,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -37,7 +36,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
     )
   
     parser.add_argument(
@@ -90,14 +89,16 @@ def main():
     dataloader = create_dataloader(args)
 
     prompts_list = create_prompts_inference(args)
-    args.llm = initialize_llm(args)
+    
+    azure_llm = initialize_llm(args, is_azureopenai=True)
+    openai_llm = initialize_llm(args, is_azureopenai=False)
 
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     
     start = time.time()
 
-    correct_list, wrong_list, QA_record_list = all_prompts_inference(args, dataloader, prompts_list)
+    correct_list, wrong_list, QA_record_list, is_answer_openai_list = all_prompts_inference(args, dataloader, prompts_list, azure_llm, openai_llm)
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
 
     end = time.time()
@@ -121,6 +122,9 @@ def main():
 
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
+
+    with open(args.output_dir + 'answers_openai.txt', 'w') as f:
+        f.write(json.dumps(is_answer_openai_list, indent=4))
 
     if args.model_id.startswith("gpt-35"):
         prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]

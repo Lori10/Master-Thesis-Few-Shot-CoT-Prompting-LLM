@@ -10,6 +10,7 @@ from utils.load_data import create_dataloader
 from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 from utils.uncertainty_estimation import generate_uncertainty_all_questions, sort_uncertainty
 from utils.embedding_generation import generate_corpus_embeddings
+from utils.filter_simple_examples import filter_examples_with_labels, filter_examples_no_labels
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
@@ -196,30 +197,30 @@ def main():
     for cluster_id in range(args.nr_demos):
         print('\n' + '*' * 50 + '\n')
         print(f'Cluster {cluster_id} has {len(cluster_to_examples[cluster_id])} examples.\n')
-        cluster_examples_filtered = []
+        #cluster_examples_filtered = []
         cluster_examples = cluster_to_examples[cluster_id]    
 
-        for example in cluster_examples:
-            question_idx = example['question_idx']
-            question = example['question']
-            if args.answers_are_available:
-                rationale = example['rationale']
-                final_answer = example['final_answer']
+        if args.answers_are_available:
+            cluster_examples_filtered = filter_examples_with_labels(cluster_examples, 60, args.max_ra_len)
+        else:
+            cluster_examples_filtered = filter_examples_no_labels(cluster_examples, 60)
+                # rationale = example['rationale']
+                # final_answer = example['final_answer']
 
-                if len(question.strip().split()) <= 60 and len(rationale.replace("\n\n", "\n").split("\n")) <= args.max_ra_len and final_answer != "":
-                    rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
-                    rationale = " ".join(rationale.split())
+                # if len(question.strip().split()) <= 60 and len(rationale.replace("\n\n", "\n").split("\n")) <= args.max_ra_len and final_answer != "":
+                #     rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
+                #     rationale = " ".join(rationale.split())
                     
-                    demo_element = {
-                        "question_idx" : question_idx,
-                        "question": question,
-                        "rationale": rationale,
-                        "final_answer": final_answer,
-                        }
-                    cluster_examples_filtered.append(demo_element)
-            else:
-                if len(question.strip().split()) <= 60:        
-                    cluster_examples_filtered.append(example)
+                #     demo_element = {
+                #         "question_idx" : question_idx,
+                #         "question": question,
+                #         "rationale": rationale,
+                #         "final_answer": final_answer,
+                #         }
+                #     cluster_examples_filtered.append(demo_element)
+
+                # if len(question.strip().split()) <= 60:        
+                #     cluster_examples_filtered.append(example)
         
         filtered_cluster_question_idxs = [example['question_idx'] for example in cluster_examples_filtered]
         print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples. These are examples idxs: {filtered_cluster_question_idxs}\n')

@@ -1,0 +1,45 @@
+{
+    "demo": [
+        {
+            "question": "Q: Tricia is a third of Amilia’s age and Amilia is a quarter of Yorick’s age. Yorick is twice Eugene’s age and Khloe is a third of Eugene’s age. Rupert is 10 years older than Khloe but 2 years younger than Vincent who is 22 years old. How old, in years, is Tricia?",
+            "question_idx": 3,
+            "rationale": "A: Let's think step by step.\nRupert is younger than Vincent by 2 years, so he is 22 years old – 2 years = <<22-2=20>>20 years old.\nKhloe is 10 years younger than Rupert so she is 20 years old – 10 years = 10 years old.\nEugene is 3 times older than Khloe so he is 10 years old * 3 = <<10*3=30>>30 years old.\nYorick is twice Eugene’s age so he is 30 years old * 2 = <<30*2=60>>60 years old.\nAmilia is a quarter of Yorick’s age so she is 60 years old / 4 = <<60/4=15>>15 years old.\nTricia is a third of Amilia’s age so she is 15 years old / 3 = <<15/3=5>>5 years old.",
+            "final_answer": "5",
+            "variance": 16357983.760000002,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "11": 1,
+                "80": 1,
+                "-10086": 1,
+                "4": 1,
+                "5": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A group of bedbugs infested an old mattress. Every day, the number of bedbugs would triple. After four days, there were 810 bedbugs burrowing into the mattress. How many bedbugs did the group start with?",
+            "question_idx": 6,
+            "rationale": "A: Let's think step by step.\nOn the third day, there were one-third of the number of bedbugs as the fourth day, so there were 810 / 3 = <<810/3=270>>270 bedbugs.\nOn the second day, there were one-third of the third day’s bedbugs, so there were 270 / 3 = <<270/3=90>>90 bedbugs.\nOn the first day, there were 90 / 3 = <<90/3=30>>30 bedbugs in the group to start with.",
+            "final_answer": "30",
+            "variance": 64.0,
+            "entropy": 0.5004024235381879,
+            "occurrence": {
+                "30": 4,
+                "10": 1
+            },
+            "disagreement": 2
+        },
+        {
+            "question": "Q: Oliver had $9, then he saved $5 from his allowance and spent $4 on a frisbee and $3 on a puzzle. His friend gives him another $8 as it's his birthday. How much money does Oliver have left?",
+            "question_idx": 4,
+            "rationale": "A: Let's think step by step.\nThe total amount of money saved is $9 + $5 = $<<9+5=14>>14.\nThe total cost of the frisbee and the puzzle is $4 + $3 = $<<4+3=7>>7.\nSo Oliver has $14 - $7 = $<<14-7=7>>7 left.\nHis friend gives him $8, so now he has $7 + $8 = $<<7+8=15>>15.",
+            "final_answer": "15",
+            "variance": 0.0,
+            "entropy": 0.0,
+            "occurrence": {
+                "15": 5
+            },
+            "disagreement": 1
+        }
+    ]
+}

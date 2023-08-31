@@ -65,7 +65,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
     if args.load_uncertainty_file and args.load_uncertainty_args_file:
         with open(args.load_uncertainty_file, 'r', encoding="utf-8") as read_f:
             #all_uncertainty_records = json.load(read_f)['result']
-            all_uncertainty_records = json.load(read_f)['result'][:args.dataset_size_limit]
+            all_uncertainty_records = json.load(read_f)['result']
 
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
@@ -90,10 +90,11 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])  
         all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
     
+    
     if args.load_embeddings_file and args.load_embeddings_args_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
             # corpus_embeddings = pickle.load(read_f)
-            corpus_embeddings = pickle.load(read_f)[:args.dataset_size_limit]
+            corpus_embeddings = pickle.load(read_f)
 
         with open(args.load_embeddings_args_file, 'r', encoding="utf-8") as f:
             embeddings_args = json.load(f)
@@ -140,7 +141,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         # convert into exponential distances for cosine
         if args.distance_metric == 'cosine':
             D2[D2 > 0.999] = 1
-            not_selected_examples = [(example, distance) for example, distance in zip(all_uncertainty_records, D2) if distance != 1 and len(example['question'].strip().split()) <= 60 and len(example['rationale'].replace("\n\n", "\n").split("\n")) <= args.max_ra_len and example['final_answer'] != ""]
+            not_selected_examples = [(example, np.exp(-distance)) for example, distance in zip(all_uncertainty_records, D2) if distance != 1 and len(example['question'].strip().split()) <= 60 and len(example['rationale'].replace("\n\n", "\n").split("\n")) <= args.max_ra_len and example['final_answer'] != ""]
         elif args.distance_metric == 'euclidean':
             D2[D2 < 0.0001] = 0
             not_selected_examples = [(example, distance) for example, distance in zip(all_uncertainty_records, D2) if distance != 0 and len(example['question'].strip().split()) <= 60 and len(example['rationale'].replace("\n\n", "\n").split("\n")) <= args.max_ra_len and example['final_answer'] != ""]
@@ -152,8 +153,10 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             not_selected_question_idxs.append(example['question_idx'])
             not_selected_distances.append(distance)
             not_selected_uncertainties.append(example[args.sort_by])
-        
+            
         not_selected_f1_scores, distances, uncertainties = f1_score(not_selected_distances, not_selected_uncertainties, args)
+        
+        #not_selected_f1_scores, distances, uncertainties = f1_score(not_selected_distances, not_selected_uncertainties, args)
         print('Length of not selected questions:', len(not_selected_examples))
         print(f'Not selected indexes: {not_selected_question_idxs}')
         print(f'F1 scores: {not_selected_f1_scores}')
@@ -162,19 +165,29 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             highest_f1_score = max(not_selected_f1_scores)
             selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
         else:
-            probs = softmax(not_selected_f1_scores)
+            sorted_idxs = np.argsort(not_selected_f1_scores)[::-1]
+            top_k = round(args.top_r * len(not_selected_f1_scores))
+            selected_top_k_idxs = sorted_idxs[:top_k]
+            filtered_question_idxs = np.array(not_selected_question_idxs)[selected_top_k_idxs]
+            filtered_f1_scores = np.array(not_selected_f1_scores)[selected_top_k_idxs]
+
+            probs = softmax(filtered_f1_scores)
             # print(f'Probs: {probs}')
             # print(f'Sum of probs: {sum(probs)}')
             # print('------------------')
 
-            customDist = stats.rv_discrete(name='custm', values=(not_selected_question_idxs, probs))
+            customDist = stats.rv_discrete(name='custm', values=(filtered_question_idxs, probs))
             selected_idx = customDist.rvs(size=1)[0]
 
         selected_idxs.append(selected_idx)
         selected_data.append(corpus_embeddings[selected_idx])
         demos.append(all_uncertainty_records[selected_idx])
 
-        index_selected_question = not_selected_question_idxs.index(selected_idx)
+        if args.greedy:
+            index_selected_question = not_selected_question_idxs.index(selected_idx)
+        else:
+            index_selected_question = filtered_question_idxs.tolist().index(selected_idx)
+
         info_dic = {'iteration_nr': j,
                     'selected_index': int(selected_idx),
                     'current_selected_indexes': [int(el) for el in selected_idxs],

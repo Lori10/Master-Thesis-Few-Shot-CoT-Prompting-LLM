@@ -2,11 +2,11 @@
     "sampling_method": "Auto_Active_KMeansPlusPlus",
     "dataset": "gsm8k",
     "data_path": "../datasets/gsm8k/train.jsonl",
-    "dataset_size_limit": 10,
+    "dataset_size_limit": 1000,
     "random_seed": 1,
-    "nr_demos": 3,
+    "nr_demos": 8,
     "answers_are_available": true,
-    "demos_save_dir": "labeled_demos/auto_active_kmeansplusplus/2023_08_30_22_26_09/demos/",
+    "demos_save_dir": "labeled_demos/auto_active_kmeansplusplus/2023_08_31_16_25_38/demos/",
     "load_embeddings_file": "embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl",
     "load_embeddings_args_file": "embeddings/gsm8k/2023_08_29_22_56_01/args.json",
     "load_uncertainty_file": "final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records",
@@ -14,7 +14,7 @@
     "greedy": false,
     "normalize_distance_uncertainty": true,
     "distance_metric": "cosine",
-    "beta": 1.7,
+    "beta": 2,
     "max_ra_len": 5,
     "generate_uncertainty_args": {
         "dataset": "gsm8k",
@@ -40,5 +40,5 @@
         "embedding_model_id": "text-embedding-ada-002-v2",
         "execution_time": "193.94125485420227 seconds"
     },
-    "execution_time": "0.09320831298828125 seconds"
+    "execution_time": "0.43919897079467773 seconds"
 }

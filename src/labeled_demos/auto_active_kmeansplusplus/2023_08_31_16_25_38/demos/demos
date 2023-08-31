@@ -1,0 +1,130 @@
+{
+    "demo": [
+        {
+            "question": "Q: Tricia is a third of Amilia’s age and Amilia is a quarter of Yorick’s age. Yorick is twice Eugene’s age and Khloe is a third of Eugene’s age. Rupert is 10 years older than Khloe but 2 years younger than Vincent who is 22 years old. How old, in years, is Tricia?",
+            "question_idx": 3,
+            "rationale": "A: Let's think step by step.\nRupert is younger than Vincent by 2 years, so he is 22 years old – 2 years = <<22-2=20>>20 years old.\nKhloe is 10 years younger than Rupert so she is 20 years old – 10 years = 10 years old.\nEugene is 3 times older than Khloe so he is 10 years old * 3 = <<10*3=30>>30 years old.\nYorick is twice Eugene’s age so he is 30 years old * 2 = <<30*2=60>>60 years old.\nAmilia is a quarter of Yorick’s age so she is 60 years old / 4 = <<60/4=15>>15 years old.\nTricia is a third of Amilia’s age so she is 15 years old / 3 = <<15/3=5>>5 years old.",
+            "final_answer": "5",
+            "variance": 16357983.760000002,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "11": 1,
+                "80": 1,
+                "-10086": 1,
+                "4": 1,
+                "5": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A soccer team had 24 players prepared for a soccer game. The first half saw 11 players start the game with 2 substitutions made. In the second half, the team made twice as many substitutions as it made in the first half. How many players on the team did not play that day?",
+            "question_idx": 562,
+            "rationale": "A: Let's think step by step.\nWith two substitutions, 11+2 = <<11+2=13>>13 players from the team played the game in the first half.\nIn the second half, the team made twice the number of substitutions it made in the first half, a total of 2*2 = <<2*2=4>>4 substitutions.\nThe total number of players who played the game is 13+4 = <<13+4=17>>17\nIf the soccer team had 24 players prepared for the soccer game, the number of players who did not play the game is 24-17 = <<24-17=7>>7 players.",
+            "final_answer": "7",
+            "variance": 54.0,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "20": 1,
+                "7": 1,
+                "-2": 1,
+                "4": 1,
+                "11": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Seven parrots and some crows are perched on a tree branch. There was a noise and the same number of parrots and crows flew away. If only 2 parrots and 1 crow are left on the tree branch now, how many birds were perched on the branch to begin with?",
+            "question_idx": 163,
+            "rationale": "A: Let's think step by step.\nThe number of parrots that flew away after the noise is 7-2 = <<7-2=5>>5\nThe same number of crows (5) flew away leaving 1 crow so there were 5+1 = <<5+1=6>>6 crows to begin with\nThe total number of crows and parrots was 7+6 = <<7+6=13>>13",
+            "final_answer": "13",
+            "variance": 6.0,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "9": 1,
+                "7": 1,
+                "6": 1,
+                "13": 1,
+                "10": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Samuel is going to the cinema with his brother, Kevin. They both have a total budget of $20 for their outing. Samuel buys his $14 ticket, then spends $6 on drinks and food. Kevin buys his ticket, then spends $2 on drinks. They have both used their entire budget. How much did Kevin spend on food?",
+            "question_idx": 464,
+            "rationale": "A: Let's think step by step.\nWe know Kevin bought a ticket and drinks, and this cost him 14 + 2 = <<14+2=16>>16 dollars.\nSince Kevin spent his entire budget, his food must have cost 20 – 16 = <<20-16=4>>4 dollars.",
+            "final_answer": "4",
+            "variance": 40.64,
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "18": 1,
+                "2": 1,
+                "4": 2,
+                "0": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The Dow Jones Industrial Average fell 2% today. The Dow ended the day at 8,722. What was the Dow in the morning before the markets opened?",
+            "question_idx": 97,
+            "rationale": "A: Let's think step by step.\nToday the Dow was down 8722 / 98*2 = <<8722/98*2=178>>178.\nSo it started at 8722 + 178 = <<8722+178=8900>>8900.",
+            "final_answer": "8900",
+            "variance": 119.36000000000001,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "8922": 1,
+                "8920": 1,
+                "8900": 1,
+                "8896": 1,
+                "8901": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: James wants to build a ladder to climb a very tall tree.  Each rung of the ladder is 18 inches long and they are 6 inches apart.  If he needs to climb 50 feet how many feet of wood will he need for the rungs?",
+            "question_idx": 261,
+            "rationale": "A: Let's think step by step.\nHe needs 12/6=<<12/6=2>>2 rungs per foot\nSo he needs 50*2=<<50*2=100>>100 rungs\nEach rung is 18/12=<<18/12=1.5>>1.5 feet\nSo he needs 1.5*100=<<1.5*100=150>>150 feet",
+            "final_answer": "150",
+            "variance": 14117.76,
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "38": 2,
+                "150": 1,
+                "60": 1,
+                "350": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Ryan works in an office that has an even number of men and women working there.  Ryan participates in a meeting composed of 4 men and 6 women who are pulled from the office floor.   This reduces the number of women working on the office floor by 20%.  How many people work at Ryan's office?",
+            "question_idx": 53,
+            "rationale": "A: Let's think step by step.\nSince 6 women are 20% of the total number of women working there, that means there are 6*5= <<6*5=30>>30 women working there in total.\nSince there are an even number of women and men working in the office, that means there are 30*2= <<30*2=60>>60 people working there in total, since there are 2 sexes.",
+            "final_answer": "60",
+            "variance": 1421.44,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "36": 1,
+                "10": 1,
+                "120": 1,
+                "32": 1,
+                "60": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Bertha plays tennis. Every ten games, one of her tennis balls wears out. Every five games, she loses a ball. Every four games, she buys a canister of three balls. She started with two balls and gave one to her partner. After twenty games, how many tennis balls does she have?",
+            "question_idx": 93,
+            "rationale": "A: Let's think step by step.\nBertha wears out 20 / 10 = <<20/10=2>>2 tennis balls in 20 games.\nShe loses 20 / 5 = <<20/5=4>>4 tennis balls in 20 games.\nShe buys canisters of 3 * 20 / 4 = <<3*20/4=15>>15 tennis balls in 20 games.\nBertha started with 2 balls and gave 1 away, so she has 2 + 15 - 2 - 4 - 1 = <<2+15-2-4-1=10>>10 tennis balls after twenty games.",
+            "final_answer": "10",
+            "variance": 32.96,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "10": 1,
+                "14": 1,
+                "18": 1,
+                "8": 1,
+                "1": 1
+            },
+            "disagreement": 5
+        }
+    ]
+}

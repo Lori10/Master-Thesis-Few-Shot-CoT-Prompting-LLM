@@ -133,6 +133,7 @@ def main():
         "data_path": args.data_path,
         "dataset_size_limit": args.dataset_size_limit,
         "random_seed": args.random_seed,
+        "max_ra_len": args.max_ra_len,
         "nr_demos": args.nr_demos,
         "demos_save_dir": args.demos_save_dir,
         "answers_are_available": args.answers_are_available,
@@ -204,23 +205,6 @@ def main():
             cluster_examples_filtered = filter_examples_with_labels(cluster_examples, 60, args.max_ra_len)
         else:
             cluster_examples_filtered = filter_examples_no_labels(cluster_examples, 60)
-                # rationale = example['rationale']
-                # final_answer = example['final_answer']
-
-                # if len(question.strip().split()) <= 60 and len(rationale.replace("\n\n", "\n").split("\n")) <= args.max_ra_len and final_answer != "":
-                #     rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
-                #     rationale = " ".join(rationale.split())
-                    
-                #     demo_element = {
-                #         "question_idx" : question_idx,
-                #         "question": question,
-                #         "rationale": rationale,
-                #         "final_answer": final_answer,
-                #         }
-                #     cluster_examples_filtered.append(demo_element)
-
-                # if len(question.strip().split()) <= 60:        
-                #     cluster_examples_filtered.append(example)
         
         filtered_cluster_question_idxs = [example['question_idx'] for example in cluster_examples_filtered]
         print(f'After filtering out, Cluster {cluster_id} has {len(cluster_examples_filtered)} examples. These are examples idxs: {filtered_cluster_question_idxs}\n')

@@ -1,0 +1,120 @@
+[
+  {
+    "iteration": 0,
+    "selected_idx": 3,
+    "uncertainty": 1.6094379124341005,
+    "highest_uncertainty_entropy": 1.6094379124341005
+  },
+  {
+    "iteration_nr": 1,
+    "selected_index": 631,
+    "current_selected_indexes": [
+      3,
+      631
+    ],
+    "distance": 0.8213508283315425,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.005175877781613051,
+    "normalized_distance": 0.001684569999961775,
+    "normalized_uncertainty_entropy": 0.010741241807383032
+  },
+  {
+    "iteration_nr": 2,
+    "selected_index": 990,
+    "current_selected_indexes": [
+      3,
+      631,
+      990
+    ],
+    "distance": 0.78399944896361,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004919751155578587,
+    "normalized_distance": 0.0015434119841546492,
+    "normalized_uncertainty_entropy": 0.010857868801694879
+  },
+  {
+    "iteration_nr": 3,
+    "selected_index": 93,
+    "current_selected_indexes": [
+      3,
+      631,
+      990,
+      93
+    ],
+    "distance": 0.7863234642775276,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004926927325804536,
+    "normalized_distance": 0.0015374329561325488,
+    "normalized_uncertainty_entropy": 0.01097705623815762
+  },
+  {
+    "iteration_nr": 4,
+    "selected_index": 562,
+    "current_selected_indexes": [
+      3,
+      631,
+      990,
+      93,
+      562
+    ],
+    "distance": 0.8166817588857569,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004980378246060879,
+    "normalized_distance": 0.001553896773870179,
+    "normalized_uncertainty_entropy": 0.011098889370963781
+  },
+  {
+    "iteration_nr": 5,
+    "selected_index": 628,
+    "current_selected_indexes": [
+      3,
+      631,
+      990,
+      93,
+      562,
+      628
+    ],
+    "distance": 0.8136672915654499,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004987391197178583,
+    "normalized_distance": 0.0015476720551304483,
+    "normalized_uncertainty_entropy": 0.01122345728169303
+  },
+  {
+    "iteration_nr": 6,
+    "selected_index": 53,
+    "current_selected_indexes": [
+      3,
+      631,
+      990,
+      93,
+      562,
+      628,
+      53
+    ],
+    "distance": 0.8079461322589565,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004966295774755996,
+    "normalized_distance": 0.001528140309561817,
+    "normalized_uncertainty_entropy": 0.011350853096532738
+  },
+  {
+    "iteration_nr": 7,
+    "selected_index": 163,
+    "current_selected_indexes": [
+      3,
+      631,
+      990,
+      93,
+      562,
+      628,
+      53,
+      163
+    ],
+    "distance": 0.799894095454145,
+    "uncertainty_entropy": 1.6094379124341005,
+    "f1_score": 0.004952896585274577,
+    "normalized_distance": 0.0015125987622288681,
+    "normalized_uncertainty_entropy": 0.011481174218462203
+  }
+]

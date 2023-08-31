@@ -68,7 +68,7 @@ def single_run_inference(data_loader, args, azure_llm_chain, openai_llm_chain):
     for example_idx, example in enumerate(data_loader):
         correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, azure_llm_chain, openai_llm_chain)
         if is_answer_openai:
-            is_answer_openai_info['is_answer_openai'].append(example_idx)
+            is_answer_openai_info['is_answer_openai'] += 1
 
     return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai_info
 

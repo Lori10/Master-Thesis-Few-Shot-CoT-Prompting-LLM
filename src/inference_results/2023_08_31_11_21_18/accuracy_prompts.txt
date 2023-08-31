@@ -1,0 +1,13 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: Alice is now 10 years older than Bob. If in 6 years Alice will be twice as old as Bob, how old will Alice be in 5 years? Answer Choices: (A) 19 (B) 21 (C) 23 (D) 25 (E) 27\n\nA: The answer is A.\n\nQ: A certain store sold pens for $0.35 each and pencils for $0.25 each. If a customer purchased both pens and pencils from the store for a total of $3.50, what total number of pens and pencils did the customer purchase? Answer Choices: (A) 8 (B) 9 (C) 10 (D) 11 (E) 12\n\nA: The answer is E.\n\nQ: Two numbers are in the ratio of 2:3 . if 4 is added in both numbers the ratio becomes 5:7. Find the difference between numbers. Answer Choices: (A) 8 (B) 6 (C) 4 (D) 2 (E) 10\n\nA: The answer is A.\n\nQ: If x is 50 percent greater than 88, then x = Answer Choices: (A) 68 (B) 132 (C) 86 (D) 105.6 (E) 108\n\nA: The answer is B.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.5236220472440944
+    },
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: The present ages of three persons are in proportions 4:7:9. Seven years ago, the sum of their ages was 79. Find their present ages. Answer Choices: (A) 20, 28 (B) 28, 36 (C) 35, 45 (D) 35, 55 (E) of these\n\nA: The answer is C.\n\nQ: If w is 40 percent less than q, q is 40 percent less than y, and z is 46 percent less than y, then z is greater than w by what percent of w? Answer Choices: (A) 4% (B) 18% (C) 36% (D) 40% (E) 50%\n\nA: The answer is E.\n\nQ: ((-1.9)(0.6) \u2013 (2.6)(1.2))/5.0 = ? Answer Choices: (A) -0.852 (B) 1.0 (C) 1.07 (D) 1.71 (E) 2.71\n\nA: The answer is A.\n\nQ: An elevator starts with 5 pasengers and stops at 8 different floors of the house. Find out the probability of all the 5 passengers alighting at different floors. Answer Choices: (A) 90 / 512 (B) 105 / 512 (C) 15/512 (D) 30/512 (E) 48/512\n\nA: The answer is B.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.531496062992126
+    },
+    {
+        "mean_accuracy": 0.5275590551181102
+    }
+]

@@ -1,0 +1,62 @@
+{
+    "demo": [
+        {
+            "question": "Q: Three friends-whose walking rates are 1 ft./sec., 3ft./sec.,and 6ft./sec. start together walking in the same direction around a circular track that is 420 feet in circumference.After how many minutes are the three of them together again? Answer Choices: (A) 5 mins (B) 10 mins (C) 15 mins (D) 3 mins (E) 7 mins",
+            "question_idx": 364,
+            "rationale": "A: Let's think step by step. The time they take will be what the 1st friend takes to complete one circumference as he is the slowest and that is the point all 3 of them will be together at the end of 7 mins. E",
+            "final_answer": "E",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "-10086": 1,
+                "E": 1,
+                "A": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: The average of 20 numbers is zero. Of them, at the most, how many may be greater than zero? Answer Choices: (A) 0 (B) 1 (C) 10 (D) 19 (E) None of the above",
+            "question_idx": 663,
+            "rationale": "A: Let's think step by step. Average of 20 numbers = 0. ∴ Sum of 20 numbers = (0 × 20) = 0. It is quite possible that 19 of these numbers may be positive and if their sum is a, then 20th number is (–a). Answer D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "B": 1,
+                "A": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If k is an integer and 0.0010101 x 10^k is greater than 100, what is the least possible value of k? Answer Choices: (A) 2 (B) 3 (C) 4 (D) 5 (E) 6",
+            "question_idx": 244,
+            "rationale": "A: Let's think step by step. 0.0010101 * 10^k > 100 We need to move the decimal point to the right 5 places to get 101.01 This is equivalent to multiplying by 10^5. The answer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 1,
+                "D": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Number of ways in which the letters of word PARDENS can be arranged with vowels in alphabetical order, is Answer Choices: (A) 360 (B) 240 (C) 2520 (D) 480 (E) None of these",
+            "question_idx": 937,
+            "rationale": "A: Let's think step by step. Solution Order of vowels of fixed âˆ´ required number of ways are 7!/2!. Answer C",
+            "final_answer": "C",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "C": 1,
+                "A": 1,
+                "D": 1,
+                "B": 1,
+                "E": 1
+            },
+            "disagreement": 5
+        }
+    ]
+}

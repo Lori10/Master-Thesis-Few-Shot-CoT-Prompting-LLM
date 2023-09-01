@@ -4,9 +4,9 @@
     "data_path": "../datasets/AQuA/train.json",
     "dataset_size_limit": 1000,
     "random_seed": 1,
-    "nr_demos": 10,
+    "original_nr_demos": 4,
     "answers_are_available": true,
-    "demos_save_dir": "labeled_demos/auto_active_kmeansplusplus/2023_09_01_09_23_52/demos/",
+    "demos_save_dir": "labeled_demos/auto_active_kmeansplusplus/2023_09_01_15_44_00/demos/",
     "load_embeddings_file": "embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl",
     "load_embeddings_args_file": "embeddings/aqua/2023_08_29_22_52_21/args.json",
     "load_uncertainty_file": "final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records",
@@ -40,5 +40,7 @@
         "embedding_model_id": "text-embedding-ada-002-v2",
         "execution_time": "196.15016150474548 seconds"
     },
-    "execution_time": "0.4057471752166748 seconds"
+    "used_nr_demos": 4,
+    "nr_filtered_examples": 355,
+    "execution_time": "0.20244503021240234 seconds"
 }

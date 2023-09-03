@@ -44,7 +44,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=0, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -67,7 +67,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--top_r", type=int, default=0.02, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
+        "--top_r", type=int, default=0.1, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
     )
     
     parser.add_argument(
@@ -91,7 +91,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--greedy", type=bool, default=False, help='whether to select examples with the highest f1-score or use random-weighted sampling'
+        "--greedy", type=bool, default=True, help='whether to select examples with the highest f1-score or use random-weighted sampling'
     )
 
     parser.add_argument(

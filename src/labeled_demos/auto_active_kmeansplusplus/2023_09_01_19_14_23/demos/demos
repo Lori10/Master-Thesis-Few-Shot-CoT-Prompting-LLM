@@ -1,0 +1,132 @@
+{
+    "demo": [
+        {
+            "question": "Q: Ryan works in an office that has an even number of men and women working there.  Ryan participates in a meeting composed of 4 men and 6 women who are pulled from the office floor.   This reduces the number of women working on the office floor by 20%.  How many people work at Ryan's office?",
+            "question_idx": 53,
+            "rationale": "A: Let's think step by step. Since 6 women are 20% of the total number of women working there, that means there are 6*5= <<6*5=30>>30 women working there in total. Since there are an even number of women and men working in the office, that means there are 30*2= <<30*2=60>>60 people working there in total, since there are 2 sexes.",
+            "final_answer": "60",
+            "variance": 1421.44,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "36": 1,
+                "10": 1,
+                "120": 1,
+                "32": 1,
+                "60": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Patricia is growing her long very long to donate it to a charity that makes wigs for cancer survivors. Her hair is 14 inches long. She needs to donate 23 inches to make a wig. She wants her hair to be 12 inches long after the donation. How much longer does she have to grow her hair?",
+            "question_idx": 223,
+            "rationale": "A: Let's think step by step. Her hair needs to be 35 inches long when she cuts it because 23 + 12 = <<23+12=35>>35 She needs to grow it 21 more inches because 35 - 14 = <<35-14=21>>21",
+            "final_answer": "21",
+            "variance": 101.2,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "-9": 1,
+                "2": 1,
+                "21": 1,
+                "9": 1,
+                "12": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: The Dow Jones Industrial Average fell 2% today. The Dow ended the day at 8,722. What was the Dow in the morning before the markets opened?",
+            "question_idx": 97,
+            "rationale": "A: Let's think step by step. Today the Dow was down 8722 / 98*2 = <<8722/98*2=178>>178. So it started at 8722 + 178 = <<8722+178=8900>>8900.",
+            "final_answer": "8900",
+            "variance": 119.36000000000001,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "8922": 1,
+                "8920": 1,
+                "8900": 1,
+                "8896": 1,
+                "8901": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Carlos and Diego are racing around the block. Carlos runs around the entire block in 3 minutes. Diego runs around half the block in 2.5 minutes and then is tripped by a dog and can't finish. Assuming he kept up the same speed the entire race, what would've been the average time in seconds for the racers?",
+            "question_idx": 990,
+            "rationale": "A: Let's think step by step. If he finished the race, it would've taken 5 minutes because 2.5 x 2 = <<2.5*2=5>>5 Their total time would've been 8 minutes because 3 + 5 = <<3+5=8>>8 The average would've been 4 minutes because 8 / 2 = <<8/2=4>>4 The average time in seconds would've been 240 because 4 x 60 = <<4*60=240>>240",
+            "final_answer": "240",
+            "variance": 8588.4,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "90": 1,
+                "1": 1,
+                "240": 1,
+                "4": 1,
+                "165": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Hazel put up a lemonade stand. She sold half her lemonade to a construction crew. She sold 18 cups to kids on bikes. She gave away half that amount to her friends. Then she drank the last cup of lemonade herself. How many cups of lemonade did Hazel make?",
+            "question_idx": 628,
+            "rationale": "A: Let's think step by step. Hazel sold 18 cups of lemonade to kids on bikes and gave half that amount, or 18 / 2 = <<18/2=9>>9 cups, away to friends. Hazel sold 18 cups + gave away 9 cups + drank 1 cup = <<18+9+1=28>>28 cups. Since Hazel sold half her lemonade to a construction crew, that means the 28 cups she sold to kids on bikes, gave away to friends and drank herself are the other half, so she sold 28 cups to the construction crew. In all, Hazel sold 28 + 28 = <<28+28=56>>56 cups of lemonade.",
+            "final_answer": "56",
+            "variance": 472.96000000000004,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "8": 1,
+                "72": 1,
+                "32": 1,
+                "46": 1,
+                "56": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Michael has two brothers. His oldest brother is 1 year older than twice Michael's age when Michael was a year younger. His younger brother is 5 years old, which is a third of the age of the older brother. What is their combined age?",
+            "question_idx": 631,
+            "rationale": "A: Let's think step by step. The oldest brother is 15 because 3 x 5 = <<3*5=15>>15 Michael is 8 because if 1 + (Michael's age - 1) x 2 = 15 then Michael's age = 8 Their combined age is 28 because 5 + 15 + 8 = <<5+15+8=28>>28",
+            "final_answer": "28",
+            "variance": 29.2,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "14": 1,
+                "28": 1,
+                "29": 1,
+                "21": 1,
+                "23": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Seven parrots and some crows are perched on a tree branch. There was a noise and the same number of parrots and crows flew away. If only 2 parrots and 1 crow are left on the tree branch now, how many birds were perched on the branch to begin with?",
+            "question_idx": 163,
+            "rationale": "A: Let's think step by step. The number of parrots that flew away after the noise is 7-2 = <<7-2=5>>5 The same number of crows (5) flew away leaving 1 crow so there were 5+1 = <<5+1=6>>6 crows to begin with The total number of crows and parrots was 7+6 = <<7+6=13>>13",
+            "final_answer": "13",
+            "variance": 6.0,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "9": 1,
+                "7": 1,
+                "6": 1,
+                "13": 1,
+                "10": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Enrique has 2 132 contracts that he needs to shred.  His paper shredder will only allow him to shred 6 pages at a time.  How many times will he shred 6 units of paper until all of the contracts are shredded?",
+            "question_idx": 586,
+            "rationale": "A: Let's think step by step. He has 2 contracts that are 132 pages each so that's 2*132 = <<2*132=264>>264 pages He can only shred 6 pages at a time so it will take him 264/6 = <<264/6=44>>44 units",
+            "final_answer": "44",
+            "variance": 626172.1599999999,
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "2132": 1,
+                "356": 1,
+                "355": 1,
+                "44": 1,
+                "2": 1
+            },
+            "disagreement": 5
+        }
+    ]
+}

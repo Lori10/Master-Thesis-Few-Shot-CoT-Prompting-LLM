@@ -165,14 +165,6 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             D2[D2 < 0.0001] = 0
             not_selected_examples = [(example, distance, index) for index, (example, distance) in enumerate(zip(filtered_uncertainty_records, D2)) if distance != 0]
 
-        # not_selected_question_idxs = []
-        # not_selected_distances = []
-        # not_selected_uncertainties = []
-        # for example, distance in not_selected_examples:
-        #     not_selected_question_idxs.append(example['question_idx'])
-        #     not_selected_distances.append(distance)
-        #     not_selected_uncertainties.append(example[args.sort_by])
-
         not_selected_question_idxs = []
         not_selected_distances = []
         not_selected_uncertainties = []

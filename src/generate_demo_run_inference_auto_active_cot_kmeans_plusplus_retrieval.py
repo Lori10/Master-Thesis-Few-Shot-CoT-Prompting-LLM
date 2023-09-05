@@ -44,7 +44,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=0, help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=int, default=60, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -83,7 +87,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=4, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=50, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -95,15 +99,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--test_data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
+        "--test_data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
     parser.add_argument(
-        "--test_dataset_size_limit", type=int, default=5, help='the number of examples to use from the test dataset for inference'
+        "--test_dataset_size_limit", type=int, default=0, help='the number of examples to use from the test dataset for inference'
     )
 
     parser.add_argument(
-        "--retrieval_nr_demos", type=int, default=3, help='number of demonstrations'
+        "--retrieval_nr_demos", type=int, default=4, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -111,21 +115,21 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
     )
 
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
     
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_31_15_08_16/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_31_15_08_16/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_08_31_15_08_16/args.json', help="file path of the args from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/args.json', help="file path of the args from the auto-active kmeans++ method"
     )
 
     parser.add_argument(

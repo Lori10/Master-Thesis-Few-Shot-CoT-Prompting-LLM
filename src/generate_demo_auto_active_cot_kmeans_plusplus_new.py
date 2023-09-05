@@ -13,7 +13,7 @@ from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.embedding_generation import generate_corpus_embeddings
 from utils.scaler_and_metrics import f1_score, softmax
 from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
-from utils.filter_simple_examples import filter_examples_with_labels, filter_examples_no_labels
+from utils.filter_simple_examples import filter_examples_with_labels
 import sys 
 
 def main_auto_active_kmeansplusplus(args, args_dict):
@@ -60,6 +60,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             "distance_metric": args.distance_metric,
             "beta": args.beta,
             'max_ra_len': args.max_ra_len,
+            'max_token_len': args.max_token_len,
             'top_r': args.top_r
         }
 
@@ -109,7 +110,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
     
 
     print('Total nr of examples: ', len(all_uncertainty_records))
-    filtered_uncertainty_records = filter_examples_with_labels(all_uncertainty_records)
+    filtered_uncertainty_records = filter_examples_with_labels(all_uncertainty_records, args.max_token_len, args.max_ra_len)
     filtered_idxs = [x['question_idx'] for x in filtered_uncertainty_records]
     print(f'Nr of filtered examples: {len(filtered_uncertainty_records)}. Nr of demos: {args.auto_active_kmeansplusplus_nr_demos}')
     if args.auto_active_kmeansplusplus_nr_demos >= len(all_uncertainty_records):

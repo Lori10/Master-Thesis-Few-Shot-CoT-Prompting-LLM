@@ -91,14 +91,13 @@ def main():
     prompts_list = create_prompts_inference(args)
     
     azure_llm = initialize_llm(args, is_azureopenai=True)
-    openai_llm = initialize_llm(args, is_azureopenai=False)
 
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     
     start = time.time()
 
-    correct_list, wrong_list, QA_record_list, is_answer_openai_list = all_prompts_inference(args, dataloader, prompts_list, azure_llm, openai_llm)
+    correct_list, wrong_list, QA_record_list, is_answer_openai_list = all_prompts_inference(args, dataloader, prompts_list, azure_llm)
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
 
     end = time.time()

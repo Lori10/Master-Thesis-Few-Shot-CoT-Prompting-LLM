@@ -1,4 +1,4 @@
-def filter_examples_with_labels(dataloader, max_token_len=1000000000, max_ra_len=1000000000000000):
+def filter_examples_with_labels(dataloader, max_token_len, max_ra_len):
     filtered_examples = []
     for example in dataloader:
         rationale = example['rationale']

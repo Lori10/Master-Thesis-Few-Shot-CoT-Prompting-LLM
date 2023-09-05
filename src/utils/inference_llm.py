@@ -54,7 +54,7 @@ def single_question_inference(args: object, example, example_idx, correct_count_
     QA_record_single_run.append(QA_record)
     return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_from_openai
 
-def single_run_inference(data_loader, args, azure_llm_chain, openai_llm_chain):
+def single_run_inference(data_loader, args, azure_llm_chain):
     #prompt = from_chatmodelmessages_to_string(azure_llm_chain.prompt.messages) if args.model_id.startswith("gpt-35") else args.azure_llm_chain.prompt.template
     prompt = from_chatmodelmessages_to_string(azure_llm_chain.prompt.messages)
     print(f'PROMPT TEMPLATE:\n{prompt}\n')
@@ -67,22 +67,21 @@ def single_run_inference(data_loader, args, azure_llm_chain, openai_llm_chain):
                              'is_answer_openai': 0}
     
     for example_idx, example in enumerate(data_loader):
-        correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, azure_llm_chain, openai_llm_chain)
+        correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, azure_llm_chain)
         if is_answer_openai:
             is_answer_openai_info['is_answer_openai'] += 1
 
     return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai_info
 
-def all_prompts_inference(args, data_loader, prompts_list, azure_llm, openai_llm):    
+def all_prompts_inference(args, data_loader, prompts_list, azure_llm):    
     all_prompts_correct_count_list = []
     all_prompts_wrong_list = []
     all_prompts_QA_record_list = []
     list_answers_openai = []
     for i in range(len(prompts_list)):
         azure_llm_chain = initialize_llmchain(azure_llm, prompts_list[i])
-        openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[i])  
         
-        correct, wrong, QA_record, is_answer_openai  = single_run_inference(data_loader, args, azure_llm_chain, openai_llm_chain)
+        correct, wrong, QA_record, is_answer_openai  = single_run_inference(data_loader, args, azure_llm_chain)
             
         all_prompts_correct_count_list.append(correct)
         all_prompts_wrong_list.append(wrong)

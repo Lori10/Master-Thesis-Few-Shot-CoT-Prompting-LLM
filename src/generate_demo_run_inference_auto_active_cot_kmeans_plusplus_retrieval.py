@@ -17,12 +17,12 @@ from utils.inference_llm import single_question_inference
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval-Inference")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -44,15 +44,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=100000000000, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_token_len", type=int, default=60, help="maximum number of reasoning chains"
+        "--max_token_len", type=int, default=1000000000000, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use for uncertainty estimation"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use for uncertainty estimation"
     )
     
     parser.add_argument(
@@ -60,6 +60,10 @@ def parse_arguments():
     )
     parser.add_argument(
         "--sort_by", type=str, default='entropy', choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
+    )
+
+    parser.add_argument(
+        "--embedding_model_id", type=str, default="text-embedding-ada-002-v2", help="the id of the embedding model to use"
     )
 
     parser.add_argument(
@@ -99,7 +103,29 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--test_data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from'
+    )
+
+    parser.add_argument(
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
+    )
+
+    # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
+    parser.add_argument(
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records', help='file to load uncertainties from'
+    )
+
+    parser.add_argument(
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
+    )
+
+    # Retrieval Arguments
+    parser.add_argument(
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
+    )
+
+    parser.add_argument(
+        "--test_data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
     parser.add_argument(
@@ -107,51 +133,28 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval_nr_demos", type=int, default=4, help='number of demonstrations'
+        "--retrieval_nr_demos", type=int, default=8, help='number of demonstrations'
     )
 
     parser.add_argument(
         "--output_dir", type=str, default="inference_results", help="output directory"
     )
 
-    parser.add_argument(
-        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
-    )
-
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
     
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_04_13_07_56/args.json', help="file path of the args from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/args.json', help="file path of the args from the auto-active kmeans++ method"
     )
 
-    parser.add_argument(
-        "--embedding_model_id", type=str, default="text-embedding-ada-002-v2", help="the id of the embedding model to use"
-    )
-
-    parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from'
-    )
-
-    parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
-    )
-
-    # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
-    parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records', help='file to load uncertainties from'
-    )
-
-    parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
-    )
+    
 
     args = parser.parse_args()
 
@@ -281,7 +284,7 @@ def main():
         similar_prompt = FewShotPromptTemplate(
             example_selector=example_selector,
             example_prompt=example_prompt,
-            suffix="Split:" + "{question}", 
+            suffix="$%*:" + "{question}", 
             input_variables=["question"],
         )
   
@@ -310,32 +313,38 @@ def main():
         
         is_answer_openai_idxs = []
         for test_question_id, test_example in enumerate(test_dataloader):
-            few_shot_examples = similar_prompt.format(question=test_example['question']).split('Split:')[0]
-            prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
-            prompt_callable = dic[model_key]
-            prompt_template = prompt_callable(prompt, args)
+            try:
+                few_shot_examples = similar_prompt.format(question=test_example['question']).split('$%*:')[0]
+                prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
+                prompt_callable = dic[model_key]
+                prompt_template = prompt_callable(prompt, args)
+                
+                # print(f'PROMPT TEMPLATE for question {test_question_id}:')
+                # print(from_chatmodelmessages_to_string(prompt_template))            
+                # print('*' * 60)
+                
+                azure_llm_chain = initialize_llmchain(azure_llm, prompt_template)
+                openai_llm_chain = initialize_llmchain(openai_llm, prompt_template)  
+                correct_nr, wrong_list, QA_record_list, is_answer_openai  = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list, azure_llm_chain, openai_llm_chain)
             
-            # print(f'PROMPT TEMPLATE for question {test_question_id}:')
-            # print(from_chatmodelmessages_to_string(prompt_template))            
-            # print('*' * 60)
-            
-            azure_llm_chain = initialize_llmchain(azure_llm, prompt_template)
-            openai_llm_chain = initialize_llmchain(openai_llm, prompt_template)  
+                if is_answer_openai:
+                    is_answer_openai_idxs.append(test_question_id)
 
-            correct_nr, wrong_list, QA_record_list, is_answer_openai  = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list, azure_llm_chain, openai_llm_chain)
-            if is_answer_openai:
-                is_answer_openai_idxs.append(test_question_id)
+                test_q_dic = {
+                    'test_question_idx' : test_question_id,
+                    'test_question': test_example['question'],
+                    'formatted_prompt': few_shot_examples
+                }
 
-            test_q_dic = {
-                'test_question_idx' : test_question_id,
-                'test_question': test_example['question'],
-                'formatted_prompt': few_shot_examples
-            }
+                with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
+                    f.write(json.dumps(test_q_dic, indent=2))
 
-            with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
-                f.write(json.dumps(test_q_dic, indent=2))
+            except Exception as e:
+                print(f'Error in question {test_question_id}: {e}')
+                print(f'Corrent nr : {correct_nr}')
+                inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, test_question_id + 1)      
 
-        end = time.time()
+        end = time.time()   
         args_dict["execution_time"] =  str(end - start) + ' seconds'
         
         with open(args.args_file, 'w') as f:
@@ -354,7 +363,7 @@ def main():
         with open(args.output_dir + 'answers_openai.txt', 'w') as f:
             f.write(json.dumps(is_answer_openai_idxs, indent=4))
 
-        inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))        
+        inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))      
 
         print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation finished.')
 

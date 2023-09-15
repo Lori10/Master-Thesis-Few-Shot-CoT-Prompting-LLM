@@ -98,7 +98,6 @@ def single_question_inference_opensource(args, example, example_idx, correct_cou
 
     QA_record = []
 
-    is_answer_from_openai = False
     # enable self-consistency if multipath > 1
     for _ in range(0, args.multipath):
         try:
@@ -137,43 +136,40 @@ def single_question_inference_opensource(args, example, example_idx, correct_cou
         wrong_single_run.append({'question_idx': example_idx, 'pred_final_answer':final_consistent_ans, 'true_final_answer':example['final_answer']})
 
     QA_record_single_run.append(QA_record)
-    return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_from_openai
+    return correct_count_single_run, wrong_single_run, QA_record_single_run
 
 def single_run_inference_opensource(data_loader, args, llm_chain):
-    #prompt = from_chatmodelmessages_to_string(azure_llm_chain.prompt.messages) if args.model_id.startswith("gpt-35") else args.azure_llm_chain.prompt.template
-    prompt = from_chatmodelmessages_to_string(llm_chain.prompt.messages)
-    print(f'PROMPT TEMPLATE:\n{prompt}\n')
+    prompt = from_chatmodelmessages_to_string(llm_chain.prompt.messages) if args.model_id.startswith("gpt-35") else llm_chain.prompt.template
+    print('PROMPT:')
+    print(prompt)
     print('START INFERENCE\n')
     
     correct_count_single_run = 0
     wrong_single_run = [{'prompt' : prompt}]
     QA_record_single_run = [{'prompt': prompt}]
-    is_answer_openai_info = {'prompt': prompt, 
-                             'is_answer_openai': 0}
     
     for example_idx, example in enumerate(data_loader):
-        correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai = single_question_inference_opensource(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, llm_chain)
-        if is_answer_openai:
-            is_answer_openai_info['is_answer_openai'] += 1
+        correct_count_single_run, wrong_single_run, QA_record_single_run = single_question_inference_opensource(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, llm_chain)
+  
 
-    return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai_info
+    return correct_count_single_run, wrong_single_run, QA_record_single_run
 
 def all_prompts_inference_opensource(args, data_loader, prompts_list, llm):    
     all_prompts_correct_count_list = []
     all_prompts_wrong_list = []
     all_prompts_QA_record_list = []
-    list_answers_openai = []
+    
     for i in range(len(prompts_list)):
         llm_chain = initialize_llmchain(llm, prompts_list[i])
         
-        correct, wrong, QA_record, is_answer_openai  = single_run_inference_opensource(data_loader, args, llm_chain)
+        correct, wrong, QA_record = single_run_inference_opensource(data_loader, args, llm_chain)
             
         all_prompts_correct_count_list.append(correct)
         all_prompts_wrong_list.append(wrong)
         all_prompts_QA_record_list.append(QA_record)
-        list_answers_openai.append(is_answer_openai)
+   
         print('-' * 60)
 
     #sys.exit(0)
-    return all_prompts_correct_count_list, all_prompts_wrong_list, all_prompts_QA_record_list, list_answers_openai
+    return all_prompts_correct_count_list, all_prompts_wrong_list, all_prompts_QA_record_list
 

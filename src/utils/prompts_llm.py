@@ -140,15 +140,18 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
                     tokenizer=tokenizer,
                     use_cache=True,
                     device_map="auto",
-                    max_length=296,
+                    max_length=2000,
+		    max_new_tokens=200,
                     do_sample=True,
                     top_k=10,
                     num_return_sequences=1,
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.eos_token_id,
+		    return_full_text=True
             )
 
-            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config}, pipeline_kwargs={ "return_full_text":True})
+            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config},
+                                      pipeline_kwargs={ "return_full_text":True, "max_length": 2000, "max_new_tokens": 200})
         else:
             pass
     else:
@@ -184,7 +187,7 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
                     max_tokens=1024,
                     openai_api_key=OPENAI_API_KEY
                     )
-        return llm
+    return llm
 
 # def initialize_llmchain(args, prompt_template, llm_init=False):
 #     if not llm_init:

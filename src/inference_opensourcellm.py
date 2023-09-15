@@ -8,6 +8,7 @@ from utils.load_data import create_dataloader
 from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string
 from utils.save_results import inference_save_info
 from utils.inference_llm import all_prompts_inference_opensource
+import sys 
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
@@ -91,13 +92,13 @@ def main():
     prompts_list = create_prompts_inference(args)
     
     llm = initialize_llm(args, opensource_llm=True)
-
+    
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     
     start = time.time()
 
-    correct_list, wrong_list, QA_record_list, is_answer_openai_list = all_prompts_inference_opensource(args, dataloader, prompts_list, llm)
+    correct_list, wrong_list, QA_record_list = all_prompts_inference_opensource(args, dataloader, prompts_list, llm)
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
 
     end = time.time()
@@ -122,15 +123,14 @@ def main():
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
-    with open(args.output_dir + 'answers_openai.txt', 'w') as f:
-        f.write(json.dumps(is_answer_openai_list, indent=4))
-
     if args.model_id.startswith("gpt-35"):
         prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
+    else:
+        prompts_list = [prompt_template.template for prompt_template in prompts_list]
 
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
     print('Inference finished!')
-    
+
 
 if __name__ == "__main__":
     main()

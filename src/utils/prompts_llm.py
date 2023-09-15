@@ -12,6 +12,7 @@ from env_vars import *
 from transformers import StoppingCriteria, StoppingCriteriaList, AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch 
 from torch import cuda, bfloat16
+from transformers import BitsAndBytesConfig
 
 def from_chatmodelmessages_to_string(messages_prompt):
     return '\n\n'.join([message.content for message in messages_prompt[:-1]]) + '\n\n'  + messages_prompt[-1].prompt.template 
@@ -114,140 +115,76 @@ def create_header_llm():
     }
     return headers
 
-def initialize_opensource_llm():
-    device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
+def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
+    if opensource_llm:
+        if 'falcon-7b-instruct' in args.model_id:
+            quantization_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_use_double_quant=True,
+                )
 
-    model = AutoModelForCausalLM.from_pretrained(
-        'mosaicml/mpt-7b-instruct',
-        trust_remote_code=True,
-        torch_dtype=bfloat16,
-        max_seq_len=1048
-    )
-    model.eval()
-    model.to(device)
+            model_id = "vilsonrodrigues/falcon-7b-instruct-sharded"
 
-    tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
-    stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
+            model = AutoModelForCausalLM.from_pretrained(
+                    model_id,
+                    device_map="auto",
+                    quantization_config=quantization_config,
+                    )
 
-    class StopOnTokens(StoppingCriteria):
-        def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
-            for stop_id in stop_token_ids:
-                if input_ids[0][-1] == stop_id:
-                    return True
-            return False
-
-    stopping_criteria = StoppingCriteriaList([StopOnTokens()])
-
-    pipeline_text_generation = pipeline(
-                model=model, tokenizer=tokenizer,
-                return_full_text=True,  # langchain expects the full text
-                task='text-generation',
-                device=device,
-                stopping_criteria=stopping_criteria, 
-                temperature=0.0,
-                max_new_tokens=1024,  
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+            pipe = pipeline(
+                    "text-generation",
+                    model=model,
+                    tokenizer=tokenizer,
+                    use_cache=True,
+                    device_map="auto",
+                    max_length=296,
+                    do_sample=True,
+                    top_k=10,
+                    num_return_sequences=1,
+                    eos_token_id=tokenizer.eos_token_id,
+                    pad_token_id=tokenizer.eos_token_id,
             )
 
-    llm = HuggingFacePipeline(pipeline=pipeline_text_generation)
-    return llm
-
-
-def initialize_llm(args, is_azureopenai=True):
-    if is_azureopenai:
-
-        headers = create_header_llm()
-
-        if args.model_id.startswith("gpt-35"):
-            llm = AzureChatOpenAI(
-            deployment_name=args.model_id,
-            model_name=args.model_id,
-            temperature=args.temperature,
-            headers=headers,
-            max_tokens=1024,
-            openai_api_base=OPENAI_API_BASE,
-            openai_api_type=OPENAI_API_TYPE,
-            openai_api_version=OPENAI_API_VERSION,
-            openai_api_key=AZURE_OPENAI_API_KEY
-            )
+            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config}, pipeline_kwargs={ "return_full_text":True})
         else:
-            if args.model_id.startswith('text-davinci'):
-                llm = AzureOpenAI(
+            pass
+    else:
+        if is_azureopenai:
+
+            headers = create_header_llm()
+
+            if args.model_id.startswith("gpt-35"):
+                llm = AzureChatOpenAI(
                 deployment_name=args.model_id,
                 model_name=args.model_id,
                 temperature=args.temperature,
                 headers=headers,
                 max_tokens=1024,
+                openai_api_base=OPENAI_API_BASE,
+                openai_api_type=OPENAI_API_TYPE,
+                openai_api_version=OPENAI_API_VERSION,
+                openai_api_key=AZURE_OPENAI_API_KEY
                 )
             else:
-                pass
-                # if args.model_id == 'mosaicml/mpt-7b-instruct':
-                #     device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
-
-                #     model = AutoModelForCausalLM.from_pretrained(
-                #         args.model_id,
-                #         trust_remote_code=True,
-                #         torch_dtype=bfloat16,
-                #         max_seq_len=2048
-                #     )
-                #     model.eval()
-                #     model.to(device)
-
-                #     tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
-                #     stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
-
-                #     class StopOnTokens(StoppingCriteria):
-                #         def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
-                #             for stop_id in stop_token_ids:
-                #                 if input_ids[0][-1] == stop_id:
-                #                     return True
-                #             return False
-
-                #     stopping_criteria = StoppingCriteriaList([StopOnTokens()])
-
-                #     pipeline_text_generation = pipeline(
-                #                 model=model, tokenizer=tokenizer,
-                #                 return_full_text=True,  # langchain expects the full text
-                #                 task='text-generation',
-                #                 device=device,
-                #                 stopping_criteria=stopping_criteria, 
-                #                 temperature=args.temperature,
-                #                 max_new_tokens=1024,  
-                #             )
-
-                # elif args.model_id == 'tiiuae/falcon-40b-instruct':
-                #     tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-                #     model = AutoModelForCausalLM.from_pretrained(
-                #         args.model_id,
-                #         torch_dtype=torch.bfloat16,
-                #         trust_remote_code=True,
-                #         load_in_8bit=True, # load in 8bit mode to save memory
-                #         device_map="auto"
-                #     )
-
-                #     pipeline_text_generation = pipeline(
-                #         "text-generation",
-                #         model=model,
-                #         tokenizer=tokenizer,
-                #     )
-                # else:
-                #     raise NotImplementedError(f"Model {args.model_id} not implemented")
-                
-                # llm = HuggingFacePipeline(pipeline=pipeline_text_generation)
-
-                        # llm = HuggingFacePipeline.from_model_id(
-                        # model_id=args.model_id,
-                        # model_kwargs={"temperature": args.temperature,
-                        #               "trust_remote_code": True,
-                        #               "max_seq_len": 4096}
-                        # )
-    else:
-        llm = ChatOpenAI(
-                model='gpt-3.5-turbo-0613',
-                temperature=args.temperature,
-                max_tokens=1024,
-                openai_api_key=OPENAI_API_KEY
-                )
-    return llm
+                if args.model_id.startswith('text-davinci'):
+                    llm = AzureOpenAI(
+                    deployment_name=args.model_id,
+                    model_name=args.model_id,
+                    temperature=args.temperature,
+                    headers=headers,
+                    max_tokens=1024,
+                    )
+        else:
+            llm = ChatOpenAI(
+                    model='gpt-3.5-turbo-0613',
+                    temperature=args.temperature,
+                    max_tokens=1024,
+                    openai_api_key=OPENAI_API_KEY
+                    )
+        return llm
 
 # def initialize_llmchain(args, prompt_template, llm_init=False):
 #     if not llm_init:

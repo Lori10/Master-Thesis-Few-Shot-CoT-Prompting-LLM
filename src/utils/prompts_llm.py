@@ -118,19 +118,25 @@ def create_header_llm():
 def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
     if opensource_llm:
         if 'falcon-7b-instruct' in args.model_id:
-            quantization_config = BitsAndBytesConfig(
-                load_in_4bit=True,
-                bnb_4bit_compute_dtype=torch.float16,
-                bnb_4bit_quant_type="nf4",
-                bnb_4bit_use_double_quant=True,
-                )
+            # quantization_config = BitsAndBytesConfig(
+            #     load_in_4bit=True,
+            #     bnb_4bit_compute_dtype=torch.float16,
+            #     bnb_4bit_quant_type="nf4",
+            #     bnb_4bit_use_double_quant=True,
+            #     )
 
-            model_id = "vilsonrodrigues/falcon-7b-instruct-sharded"
+            #model_id = "vilsonrodrigues/falcon-7b-instruct-sharded"
+        
+            # model = AutoModelForCausalLM.from_pretrained(
+            #         model_id,
+            #         device_map="auto",
+            #         quantization_config=quantization_config,
+            #         )
 
+            model_id = "tiiuae/falcon-7b-instruct"
             model = AutoModelForCausalLM.from_pretrained(
                     model_id,
-                    device_map="auto",
-                    quantization_config=quantization_config,
+                    device_map="auto"
                     )
 
             tokenizer = AutoTokenizer.from_pretrained(model_id)
@@ -141,16 +147,18 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
                     use_cache=True,
                     device_map="auto",
                     max_length=2000,
-		    max_new_tokens=200,
+		            max_new_tokens=200,
                     do_sample=True,
                     top_k=10,
                     num_return_sequences=1,
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.eos_token_id,
-		    return_full_text=True
+		            return_full_text=True
             )
+            # llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config},
+            #                           pipeline_kwargs={ "return_full_text":True, "max_length": 2000, "max_new_tokens": 200})
 
-            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config},
+            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id,
                                       pipeline_kwargs={ "return_full_text":True, "max_length": 2000, "max_new_tokens": 200})
         else:
             pass

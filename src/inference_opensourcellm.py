@@ -25,7 +25,7 @@ def arg_parser():
         "--dir_prompts", type=str, default="labeled_demos/random/2023_08_29_22_30_28/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="vilsonrodrigues/falcon-7b-instruct-sharded", choices=["gpt-35-turbo-0613", "text-davinci-003", "vilsonrodrigues/falcon-7b-instruct-sharded"], help="model used for decoding."
+        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "vilsonrodrigues/falcon-7b-instruct-sharded", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -92,7 +92,9 @@ def main():
     prompts_list = create_prompts_inference(args)
     
     llm = initialize_llm(args, opensource_llm=True)
-    
+    print('LLM: ')
+    print(llm)
+
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     

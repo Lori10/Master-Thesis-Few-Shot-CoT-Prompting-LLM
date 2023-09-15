@@ -2,6 +2,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import transformers
 import torch
 from transformers import BitsAndBytesConfig
+from langchain.llms import HuggingFacePipeline
 
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -12,17 +13,16 @@ quantization_config = BitsAndBytesConfig(
 
 model_id = "vilsonrodrigues/falcon-7b-instruct-sharded"
 
-model_4bit = AutoModelForCausalLM.from_pretrained(
-        model_id, 
+model = AutoModelForCausalLM.from_pretrained(
+        model_id,
         device_map="auto",
         quantization_config=quantization_config,
         )
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
-
-pipeline = pipeline(
+pipe = pipeline(
         "text-generation",
-        model=model_4bit,
+        model=model,
         tokenizer=tokenizer,
         use_cache=True,
         device_map="auto",
@@ -34,4 +34,6 @@ pipeline = pipeline(
         pad_token_id=tokenizer.eos_token_id,
 )
 
-print(pipeline("Who is Lionel Messi?"))
+llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config}, pipeline_kwargs={ "return_full_text":True})
+
+print(llm("Who is Lionel Messi?"))

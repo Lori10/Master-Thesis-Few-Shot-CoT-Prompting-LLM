@@ -23,6 +23,7 @@ class StopOnTokens(StoppingCriteria):
                 return True
         return False
 
+tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
 stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
 llm = HuggingFacePipeline.from_model_id(
@@ -43,4 +44,4 @@ llm = HuggingFacePipeline.from_model_id(
     }
 )
 
-print(llm)
+pri

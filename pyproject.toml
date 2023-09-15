@@ -23,10 +23,9 @@ huggingface-hub = "^0.15.1"
 python-dotenv = "^1.0.0"
 accelerate = "^0.22.0"
 einops = "^0.6.1"
-xformers = "^0.0.21"
 seaborn = "^0.12.2"
 torch = "1.13.1"
-einops = "^0.6.1"
+bitsandbytes = "^0.41.1"
 
 [build-system]
 requires = ["poetry-core"]

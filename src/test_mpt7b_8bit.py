@@ -1,17 +1,23 @@
-import torch 
+
+import torch
 from transformers import StoppingCriteria, StoppingCriteriaList, AutoTokenizer, AutoModelForCausalLM, pipeline
 from torch import cuda, bfloat16
 from langchain.llms import HuggingFacePipeline
 from langchain.prompts import PromptTemplate
+import transformers
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline, TextStreamer
+
 
 device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
+model_id = 'Trelis/mpt-7b-instruct-hosted-inference-8bit'
+print(device)
 
 model = AutoModelForCausalLM.from_pretrained(
-    'mosaicml/mpt-7b-instruct',
-    trust_remote_code=True
+    model_id,
+    trust_remote_code=True,
+    load_in_8bit=True
 )
 model.eval()
-model.to(device)
 
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
 stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
@@ -25,22 +31,19 @@ class StopOnTokens(StoppingCriteria):
 
 stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
-llm = HuggingFacePipeline.from_model_id(
-    model_id='mosaicml/mpt-7b-instruct',
-    task="text-generation",
-    model_kwargs={"trust_remote_code": True, 
-                  "torch_dtype": bfloat16,
-                  "max_seq_len": 1048
-                  },
-    pipeline_kwargs={
-        "model": model,
-        "tokenizer": tokenizer,
-        "return_full_text":True,
-        "device": device,
-        "stopping_criteria": stopping_criteria, 
-        "temperature": 0.0,
-        "max_new_tokens": 1024  
-    }
-)
 
-print(llm)
+llm = HuggingFacePipeline.from_model_id(
+                model_id=model_id,
+                task="text-generation",
+                model_kwargs={"trust_remote_code": True,
+                             "max_seq_len": 1048,
+                             "load_in_8bit": True,
+                             "device_map": "auto"
+                           },
+                pipeline_kwargs={
+                      "return_full_text":True,
+                      "stopping_criteria": stopping_criteria,
+                      "temperature": 0.0,
+                     "max_new_tokens": 1024
+    }
+  )

@@ -225,6 +225,7 @@ def main():
             "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
             "distance_metric": args.distance_metric,
             "beta": args.beta,
+            "retrieval": args.retrieval,
             "test_data_path": args.test_data_path,
             "test_dataset_size_limit": args.test_dataset_size_limit,
             "inference_temperature" : args.inference_temperature,

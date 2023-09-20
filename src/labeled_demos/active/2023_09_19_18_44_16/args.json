@@ -1,0 +1,27 @@
+{
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "nr_demos": 4,
+    "uncertainty_metric": "disagreement",
+    "uncertainty_metric_value": 3,
+    "load_uncertainty_file": "final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records",
+    "load_uncertainty_args_file": "final_uncertainties/2023_08_30_00_02_11/args.json",
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/active/2023_09_19_18_44_16/demos/",
+    "uncertainty_scores_dir": "labeled_demos/active/2023_09_19_18_44_16/uncertainty_scores/",
+    "generate_uncertainty_args": {
+        "dataset": "aqua",
+        "data_path": "../datasets/AQuA/train.json",
+        "random_seed": 1,
+        "dataset_size_limit": 1000,
+        "num_trails": 5,
+        "temperature": 0.7,
+        "model_id": "gpt-35-turbo-0613",
+        "method": "cot",
+        "dir_prompts": "uncertainty_estimation_prompts/aqua",
+        "answers_are_available": true,
+        "sort_by": "entropy",
+        "uncertainty_save_dir": "uncertainties/aqua/2023_08_30_00_02_11/",
+        "execution_time": "27040.527054309845 seconds"
+    }
+}

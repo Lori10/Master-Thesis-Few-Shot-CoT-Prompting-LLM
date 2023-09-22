@@ -4,6 +4,8 @@ import numpy as np
 
 def plot_uncertainty_vs_accuracy(uncertainty_scores, accuracy_scores, dataset_name):
     sns.scatterplot(x=accuracy_scores, y=uncertainty_scores)
+    plt.xlabel('Uncertainty/Dissagreement')
+    plt.ylabel('Accuracy')
     plt.savefig(f'plots/uncertainty_vs_accuracy_{dataset_name}.png')
     plt.show()
 

@@ -117,15 +117,13 @@ def create_header_llm():
 
 def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
     if opensource_llm:
-        if 'falcon-7b-instruct' in args.model_id:
+        if args.model_id == 'tiiuae/falcon-7b-instruct':
             # quantization_config = BitsAndBytesConfig(
             #     load_in_4bit=True,
             #     bnb_4bit_compute_dtype=torch.float16,
             #     bnb_4bit_quant_type="nf4",
             #     bnb_4bit_use_double_quant=True,
             #     )
-
-            #model_id = "vilsonrodrigues/falcon-7b-instruct-sharded"
         
             # model = AutoModelForCausalLM.from_pretrained(
             #         model_id,
@@ -133,24 +131,20 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
             #         quantization_config=quantization_config,
             #         )
 
-            model_id = "tiiuae/falcon-7b-instruct"
             model = AutoModelForCausalLM.from_pretrained(
-                    model_id,
+                    args.model_id,
                     device_map="auto"
                     )
 
-            tokenizer = AutoTokenizer.from_pretrained(model_id)
+            tokenizer = AutoTokenizer.from_pretrained(args.model_id)
             pipe = pipeline(
                     "text-generation",
                     model=model,
                     tokenizer=tokenizer,
                     use_cache=True,
                     device_map="auto",
-                    max_length=2000,
-		            max_new_tokens=200,
-                    do_sample=True,
-                    top_k=10,
-                    num_return_sequences=1,
+		            max_new_tokens=1000,
+                    do_sample=False,
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.eos_token_id,
 		            return_full_text=True
@@ -158,10 +152,42 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
             # llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id, model_kwargs={"quantization_config": quantization_config},
             #                           pipeline_kwargs={ "return_full_text":True, "max_length": 2000, "max_new_tokens": 200})
 
-            llm = HuggingFacePipeline(pipeline=pipe, model_id=model_id,
-                                      pipeline_kwargs={ "return_full_text":True, "max_length": 2000, "max_new_tokens": 200})
-        else:
-            pass
+            llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id,
+                                      pipeline_kwargs={ "return_full_text":True, "max_new_tokens": 1000})
+        elif args.model_id == 'mosaicml/mpt-7b-instruct':
+            model = AutoModelForCausalLM.from_pretrained(
+                args.model_id,
+                trust_remote_code=True,
+                torch_dtype=bfloat16,
+                device_map="auto"
+            )
+
+            tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+            stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
+
+            class StopOnTokens(StoppingCriteria):
+                def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+                    for stop_id in stop_token_ids:
+                        if input_ids[0][-1] == stop_id:
+                            return True
+                    return False
+
+            stopping_criteria = StoppingCriteriaList([StopOnTokens()])
+
+            pipeline_text_generation = pipeline(
+                        model=model, 
+                        tokenizer=tokenizer,
+                        return_full_text=True,
+                        task='text-generation',
+                        device_map="auto",
+                        stopping_criteria=stopping_criteria,
+                        do_sample=False,
+                        max_new_tokens=1000,
+                        use_cache=True
+                    )
+
+            llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id,
+                                    pipeline_kwargs={"return_full_text": True, "max_new_tokens": 1000})
     else:
         if is_azureopenai:
 

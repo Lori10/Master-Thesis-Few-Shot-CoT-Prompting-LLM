@@ -1,0 +1,116 @@
+{
+    "demo": [
+        {
+            "question": "Q: A farmer owns a hog that recently gave birth to 6 piglets.  If the farmer raises the piglets until they are fully grown, he can sell the fully grown pig for $300.  Each piglet must grow for at least 12 months before it is large enough to be sold. It costs the farmer $10 per month to feed each animal until it is sold.  If the farmer sells 3 pigs after 12 months, and the remaining 3 pigs after 16 months, how much profit did he earn in total (after deducting the cost of food)?",
+            "question_idx": 280,
+            "rationale": "A: Let's think step by step.\nThe 3 pigs that are sold after 12 months will cost the farmer 12*10*3 = $<<12*10*3=360>>360 in food costs.\nThe 3 pigs that are sold after 16 months will cost the farmer 16*10*3 = $<<16*10*3=480>>480 in food costs.\nThus, the total food cost to raise the 6 piglets was 360 + 480 = $<<360+480=840>>840.\nNext, selling the 6 fully grown pigs will earn the farmer 6*300 = $<<6*300=1800>>1800 in revenue.\nTherefore, the earn the farmer 1800 - 840 = $<<1800-840=960>>960 in profit from these sales.",
+            "final_answer": "960",
+            "variance": 26496.0,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "960": 3,
+                "600": 1,
+                "1080": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Daisy and Rose were enjoying their backyard pool with their dogs.  If there are 24 legs/paws in the pool, how many dogs do Daisy and Rose have?",
+            "question_idx": 725,
+            "rationale": "A: Let's think step by step.\nDaisy and Rose each have 2 legs so between them, they have 2*2 = <<2*2=4>>4 legs\nThere are 24 legs in the pool and 4 belong to Daisy and Rose so there are 24-4 = <<24-4=20>>20 legs in the pool\nDogs have 4 legs and there are 20 legs in the pool so there are 20/4 = 5 dogs in the pool",
+            "final_answer": "5",
+            "variance": 1.6,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "6": 3,
+                "3": 1,
+                "4": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Some friends went hiking for 3.5 hours. They traveled 21 kilometers in that time. Birgit was 4 minutes/km faster than the average time. If Birgit kept the same pace, how many minutes would it take her to go 8 kilometers?",
+            "question_idx": 241,
+            "rationale": "A: Let's think step by step.\nMinutes spent hiking = 3.5*60 = <<3.5*60=210>>210 minutes\nAverage speed = 210 minutes/ 21 km = <<210/21=10>>10 minutes/km\nBirgit is 4 minutes/km faster = 10 - 4 = 6 min/km\nIt would take 6*8 = <<6*8=48>>48 minutes to go 8 km\nBirgit would take 48 minutes to travel 8 kilometers.",
+            "final_answer": "48",
+            "variance": 244.0,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "48": 1,
+                "8": 3,
+                "23": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: To make fried green tomatoes, Thelma cuts each green tomato into 8 slices before cooking them up.  If 20 slices of fried green tomato make a meal for a single person, how many tomatoes will Thelma need to make enough fried green tomatoes to feed a family of 8 for a single meal?",
+            "question_idx": 309,
+            "rationale": "A: Let's think step by step.\nIf 20 slices are sufficient for a meal to feed a single person, then to feed eight Thelma will need 8*20=<<20*8=160>>160 slices of tomato.\nAt 8 slices per tomato, Thelma will need 160/8=<<160/8=20>>20 tomatoes to feed a family of 8.",
+            "final_answer": "20",
+            "variance": 29.439999999999998,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "20": 3,
+                "24": 1,
+                "8": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: In ten years, I'll be twice my brother's age. The sum of our ages will then be 45 years old. How old am I now?",
+            "question_idx": 848,
+            "rationale": "A: Let's think step by step.\nLet X be my age now.\nIn ten years, I'll be X+<<+10=10>>10 years old.\nIn ten years, my brother will be (X+10)*1/2 years old.\nIn ten years, (X+10) + (X+10)*1/2 = 45.\nSo (X+10)*3/2 = 45.\nX+10 = 45 * 2/3 = 30.\nX = 30 - 10 = <<30-10=20>>20 years old.",
+            "final_answer": "20",
+            "variance": 15.759999999999996,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "20": 3,
+                "11": 1,
+                "13": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Giselle had 20 female doves in a birdhouse. After a month, the doves laid 3 eggs each. If 3/4 of the eggs hatched, calculate the total number of doves Giselle has now.",
+            "question_idx": 147,
+            "rationale": "A: Let's think step by step.\nIf Giselle had 20 doves that laid 3 eggs each, the total number of eggs in the birdhouse is 20*3 = <<20*3=60>>60 eggs.\nIf 3/4 of the eggs hatched into birds, their total number is 3/4*60 = <<3/4*60=45>>45\nIn the birdhouse, there are 20 initial doves + 45 new squabs = <<20+45=65>>65 birds",
+            "final_answer": "65",
+            "variance": 1656.0,
+            "entropy": 0.9502705392332347,
+            "occurrence": {
+                "155": 1,
+                "65": 3,
+                "35": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: For his birthday, Geoffrey received clothes and money. His grandmother gave him €20, his aunt €25 and his uncle €30. With what he already had, he now has €125 in his wallet. He goes to a video game store and gets 3 games that cost 35 euros each. How much does he have left after this purchase?",
+            "question_idx": 409,
+            "rationale": "A: Let's think step by step.\nLet’s calculate the total price of video games: 35€ X 3€/game = <<35*3=105>>105€\nNow let’s find out how much money Geoffrey has left by subtracting his spending from his starting amount of cash: 125€ - 105€ = <<125-105=20>>20€",
+            "final_answer": "20",
+            "variance": 3150.0,
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "-55": 1,
+                "95": 2,
+                "20": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Maria wants to paint a picture and needs some tools to do that. She wants to buy a set of brushes for $20 and some canvas for three times more than the brushes. The paint costs Maria $8 per liter, and she needs at least 5 liters. How much money will she earn on the painting if she will be able to sell it for $200?",
+            "question_idx": 294,
+            "rationale": "A: Let's think step by step.\nMaria wants to pay 3 * 20 = $<<3*20=60>>60 for the canvas.\nMaria needs 5 liters of paint, so the cost of it would be 8 * 5 = $<<8*5=40>>40.\nSo in total Maria will earn 200 - 40 - 60 - 20 = $<<200-40-60-20=80>>80 if she will be able to sell the painting at the mentioned price.",
+            "final_answer": "80",
+            "variance": 2944.0,
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "80": 2,
+                "200": 2,
+                "120": 1
+            },
+            "disagreement": 3
+        }
+    ]
+}

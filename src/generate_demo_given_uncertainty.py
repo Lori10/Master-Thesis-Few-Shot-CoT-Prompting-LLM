@@ -53,7 +53,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--uncertainty_metric_value", type=str, default=5, choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
+        "--uncertainty_metric_value", type=str, default=3, choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
 
     parser.add_argument(

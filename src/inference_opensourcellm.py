@@ -14,18 +14,18 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/random/2023_08_29_22_30_28/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/active/2023_08_30_12_28_41/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "vilsonrodrigues/falcon-7b-instruct-sharded", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="vilsonrodrigues/falcon-7b-instruct-sharded", choices=["gpt-35-turbo-0613", "text-davinci-003", "vilsonrodrigues/falcon-7b-instruct-sharded", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -37,7 +37,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=5, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
     )
   
     parser.add_argument(

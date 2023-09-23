@@ -8,7 +8,7 @@ packages = [{include = "chain_of_thought_retrieval_augmented_llm"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
-langchain = "^0.0.208"
+langchain = "^0.0.300"
 fire = "0.5.0"
 paper-qa = "1.6.0"
 wikipedia = "^1.4.0"
@@ -24,8 +24,8 @@ python-dotenv = "^1.0.0"
 accelerate = "^0.22.0"
 einops = "^0.6.1"
 seaborn = "^0.12.2"
-torch = "1.13.1"
 bitsandbytes = "^0.41.1"
+torch = "^1.13.1"
 
 [build-system]
 requires = ["poetry-core"]

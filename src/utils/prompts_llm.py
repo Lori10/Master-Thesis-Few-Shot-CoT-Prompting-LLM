@@ -125,64 +125,81 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
             torch_dtype=torch.bfloat16,
             load_in_8bit=True,
             max_new_tokens=300,
-            temperature=0.0,
-	    vllm_kwargs={"gpu_memory_utilization":1.0}
+            temperature=args.temperature,
+	        vllm_kwargs={"gpu_memory_utilization":1.0}
             )
 
         elif args.model_id == 'tiiuae/falcon-7b-instruct':
-            model = AutoModelForCausalLM.from_pretrained(
-                    args.model_id,
-                    device_map="auto"
-                    )
-
-            tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-            pipe = pipeline(
-                    "text-generation",
-                    model=model,
-                    tokenizer=tokenizer,
-                    use_cache=True,
-                    device_map="auto",
-		            max_new_tokens=1000,
-                    do_sample=False,
-                    eos_token_id=tokenizer.eos_token_id,
-                    pad_token_id=tokenizer.eos_token_id,
-		            return_full_text=True
+            llm = VLLM(model=args.model_id,
+            tensor_parallel_size=1, # number of GPUs available
+            trust_remote_code=True,  # mandatory for hf models
+            torch_dtype=torch.bfloat16,
+            max_new_tokens=300,
+            temperature=args.temperature,
+	        vllm_kwargs={"gpu_memory_utilization":1.0}
             )
+
+            # model = AutoModelForCausalLM.from_pretrained(
+            #         args.model_id,
+            #         device_map="auto"
+            #         )
+
+            # tokenizer = AutoTokenizer.from_pretrained(args.model_id)
+            # pipe = pipeline(
+            #         "text-generation",
+            #         model=model,
+            #         tokenizer=tokenizer,
+            #         use_cache=True,
+            #         device_map="auto",
+		    #         max_new_tokens=1000,
+            #         do_sample=False,
+            #         eos_token_id=tokenizer.eos_token_id,
+            #         pad_token_id=tokenizer.eos_token_id,
+		    #         return_full_text=True
+            # )
             
-            llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
+            # llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
         elif args.model_id == 'mosaicml/mpt-7b-instruct':
-            model = AutoModelForCausalLM.from_pretrained(
-                args.model_id,
-                trust_remote_code=True,
-                torch_dtype=bfloat16,
-                device_map="auto"
+            llm = VLLM(model=args.model_id,
+            tensor_parallel_size=1, # number of GPUs available
+            trust_remote_code=True,  # mandatory for hf models
+            max_new_tokens=300,
+            temperature=args.temperature,
+	        vllm_kwargs={"gpu_memory_utilization":1.0}
             )
 
-            tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
-            stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
+            # model = AutoModelForCausalLM.from_pretrained(
+            #     args.model_id,
+            #     trust_remote_code=True,
+            #     torch_dtype=bfloat16,
+            #     device_map="auto"
+            # )
 
-            class StopOnTokens(StoppingCriteria):
-                def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
-                    for stop_id in stop_token_ids:
-                        if input_ids[0][-1] == stop_id:
-                            return True
-                    return False
+            # tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+            # stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
 
-            stopping_criteria = StoppingCriteriaList([StopOnTokens()])
+            # class StopOnTokens(StoppingCriteria):
+            #     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+            #         for stop_id in stop_token_ids:
+            #             if input_ids[0][-1] == stop_id:
+            #                 return True
+            #         return False
 
-            pipeline_text_generation = pipeline(
-                        model=model, 
-                        tokenizer=tokenizer,
-                        return_full_text=True,
-                        task='text-generation',
-                        device_map="auto",
-                        stopping_criteria=stopping_criteria,
-                        do_sample=False,
-                        max_new_tokens=200,
-                        use_cache=True
-                    )
+            # stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
-            llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id)
+            # pipeline_text_generation = pipeline(
+            #             model=model, 
+            #             tokenizer=tokenizer,
+            #             return_full_text=True,
+            #             task='text-generation',
+            #             device_map="auto",
+            #             stopping_criteria=stopping_criteria,
+            #             do_sample=False,
+            #             max_new_tokens=200,
+            #             use_cache=True
+            #         )
+
+            # llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id)
     else:
         if is_azureopenai:
 

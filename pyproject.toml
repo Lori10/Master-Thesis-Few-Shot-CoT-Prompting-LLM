@@ -39,6 +39,7 @@ nvidia-nccl-cu11 = { version = "2.14.3", platform = 'linux' }
 nvidia-nvtx-cu11 = { version = "11.7.91", platform = 'linux' }
 triton = { version = "2.0.0", platform = 'linux' }
 vllm = "^0.1.7"
+ray = "^2.7.0"
 
 
 

@@ -125,7 +125,8 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
             torch_dtype=torch.bfloat16,
             load_in_8bit=True,
             max_new_tokens=300,
-            temperature=0.0
+            temperature=0.0,
+	    vllm_kwargs={"gpu_memory_utilization":1.0}
             )
 
         elif args.model_id == 'tiiuae/falcon-7b-instruct':

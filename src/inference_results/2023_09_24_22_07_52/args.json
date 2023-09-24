@@ -1,0 +1,14 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 10,
+    "data_path": "../datasets/AQuA/test.json",
+    "random_seed": 1,
+    "model_id": "mosaicml/mpt-7b-instruct",
+    "method": "cot",
+    "output_dir": "inference_results/2023_09_24_22_07_52/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "89.49971294403076 seconds",
+    "dir_prompts": "labeled_demos/auto/2023_08_30_12_49_08/demos"
+}

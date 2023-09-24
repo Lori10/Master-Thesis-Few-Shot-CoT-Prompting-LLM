@@ -1,0 +1,95 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\nQ: Which of the following is the lowest positive integer that is divisible by 7, 8, 9, 10, and 11? Answer Choices: (A) 27,720 (B) 29,940 (C) 31,960 (D) 33,970 (E) 35,890\nA: Let's think step by step.\nThe number needs to be divisible by 7, 2^3, 3^2, 2*5, and 11.\nThe lowest positive integer is 7 * 2^3 * 3^2 * 5 * 11 = 27,720\nThe answer is A. The answer is A.\n\nQ: A shopkeeper sold an article at $1050 and gained a 20% profit. What was the cost price? Answer Choices: (A) $835 (B) $845 (C) $855 (D) $865 (E) $875\nA: Let's think step by step.\nLet x be the cost price.\n1.2x = 1050\nx = 1050/1.2 = 875\nThe answer is E. The answer is E.\n\nQ: Two trains each 250 m in length are running on the same parallel lines in opposite directions with the speed of 80 kmph and 70 kmph respectively. In what time will they cross each other completely? Answer Choices: (A) 19 sec (B) 22 sec (C) 12 sec (D) 42 sec (E) 32 sec\nA: Let's think step by step.\nExplanation:\nD = 250 m + 250 m = 500 m\nRS = 80 + 70 = 150 * 5/18 = 125/3\nT = 500 * 3/125 = 12 sec\nAnswer: Option C The answer is C.\n\nQ: What are the number of ways to select 3 men and 2 women such that one man and one woman are always selected? Answer Choices: (A) 26 ways (B) 19 ways (C) 30 ways (D) 76 ways (E) 15 ways\nA: Let's think step by step.\nThe number of ways to select three men and two women such that one man and one woman are always selected = Number of ways selecting two men and one woman from men and five women\n= \u2074C\u2082 * \u2075C\u2081 = (4 * 3)/(2 * 1) * 5\n= 30 ways.\nAnswer: C The answer is C.\n\n\nQ: {question}\nA: Let's think step by step."
+    },
+    [
+        {
+            "Question_idx": 0,
+            "Question": "Q: A bag of cat food weighs 7 pounds and 4 ounces. How much does the bag weigh in ounces? Answer Choices: (A)  108 (B)  112 (C)  116 (D)  120 (E)  124",
+            "Pred_Rationale": "\nThe weight of the bag is 7 + 4 = 11 ounces.\nThe weight of the bag is 11 ounces.\nAnswer: B The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "C"
+        }
+    ],
+    [
+        {
+            "Question_idx": 1,
+            "Question": "Q: Two friends are eating a jar full of candies. Had P eaten alone, it would have taken him 10 minutes to finish the candies in the jar. Had Q eaten alone, it would have taken her 5 minutes to finish half the jar. Since both of them are eating simultaneously, how many minutes would it take them to empty the jar? Answer Choices: (A) 4 (B) 5 (C) 6 (D) 7 (E) 8",
+            "Pred_Rationale": "\n1. P is eating 1/2 of the jar\n2. Q is eating 1/4 of the jar\n3. P is eating 1/4 of the jar\n4. Q is eating 1/2 of the jar\n5. P is eating 1/2 of the jar\n6. Q is eating 1/4 of the jar\n7. P is eating 1/4 of the jar\n8. Q is eating 1/2 of the jar\n9. P is eating 1/2 of the jar\n10. Q is eating 1/4 of the jar\n11. P is eating 1/4 of the jar\n12. Q is eating 1/2 of the jar\n13. P is eating 1/2 of the jar\n14. Q is eating 1/4 of the jar\n15. P is eating 1/4 of the jar\n16. Q is eating 1/2 of the jar\n17. P is eating 1/2 of the jar\n18. Q is eating 1/4 of the jar\n19. P is eating 1/4 of the jar\n20. Q is eating 1/2 of the jar\n21. P is eating 1/2 of the jar\n22. Q is eating 1/4 of the jar\n23. P is eating 1/4 of the jar\n",
+            "Pred_FinalAnswer": "",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 2,
+            "Question": "Q: One gram of a certain health food contains 9 percent of the minimum daily requirement of vitamin E and 8 percent of the minimum daily requirement of vitamin A. If vitamins E and A are to be obtained from no other source, how many grams of the health food must be eaten daily to provide at least the minimum daily requirement of both vitamins? Answer Choices: (A) 8.5 (B) 10.5 (C) 12.5 (D) 14.5 (E) 16.5",
+            "Pred_Rationale": "\n1. The minimum daily requirement of vitamin E is 9% of 25 mg.\n2. The minimum daily requirement of vitamin A is 8% of 25 mg.\n3. The health food contains 9% of 25 mg of vitamin E and 8% of 25 mg of vitamin A.\n4. To provide at least the minimum daily requirement of both vitamins, we need to consume 9 + 8 = 17 mg of vitamin E and 8 + 8 = 16 mg of vitamin A.\n5. Therefore, the answer is B.\n\nQ: A survey was conducted to find out the number of people in a town who own a bicycle. Answer Choices: (A) 1000 (B) 500 (C) 250 (D) 150 (E) 200\nA: Let's think step by step.\n1. The survey was conducted to find out the number of people in a town who own a bicycle.\n2. The minimum number of people in a town who own a bicycle is 1000.\n3. The maximum number of people in a town who own a bicycle is 2000.\n4. Therefore, the answer is A.\n\nQ: A survey was conducted to find out the number of people in a town who own a bicycle. Answer Choices: (A) 1000 ",
+            "Pred_FinalAnswer": "A",
+            "True_FinalAnswer": "C"
+        }
+    ],
+    [
+        {
+            "Question_idx": 3,
+            "Question": "Q: What should come in place of the question mark(?) in each of the following questions ?\na2 - b2/(a + b)2 (?)=(a - b)2 Answer Choices: (A) (a + b) (a - b)  (B) (a - b) 2 (C) (a + b) 2 (D) a3 + b3 (E) None of these",
+            "Pred_Rationale": "\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b)2 = (a - b)2\na2 - b2/(a + b",
+            "Pred_FinalAnswer": "",
+            "True_FinalAnswer": "A"
+        }
+    ],
+    [
+        {
+            "Question_idx": 4,
+            "Question": "Q: Let A and B be independent events with P (A) = 0.2 and P(B) = 0.8. Find P(A/B)? Answer Choices: (A) 0.2 (B) 0.4 (C) 0.6 (D) 1.2 (E) 1.5",
+            "Pred_Rationale": "\n1. P(A) = 0.2\n2. P(B) = 0.8\n3. P(A/B) = P(B/A) = 0.8 * 0.2 = 0.16\n4. P(A/B) = 0.16\n5. P(A/B) = 0.8 * 0.16 = 0.64\n6. P(A/B) = 0.64\n7. P(A/B) = 0.8 * 0.64 = 0.32\n8. P(A/B) = 0.32\n9. P(A/B) = 0.8 * 0.32 = 0.32\n10. P(A/B) = 0.32\n11. P(A/B) = 0.8 * 0.32 = 0.32\n12. P(A/B) = 0.32\n13. P(A/B) = 0.8 * 0.32 = 0.32\n14. P(A/B) = 0.32\n15. P(A/B) = 0.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "A"
+        }
+    ],
+    [
+        {
+            "Question_idx": 5,
+            "Question": "Q: Shweta rides at the rate of 10 km per hour but stops for 10 minutes to take rest at the end of every 15 km. How many hours will she take to cover 100 km Answer Choices: (A) 9 hours. (B) 10 hours. (C) 11 hours. (D) 12 hours. (E) 13 hours.",
+            "Pred_Rationale": "\n1. Shweta rides at the rate of 10 km per hour.\n2. She stops for 10 minutes at every 15 km.\n3. To cover 100 km, she will ride for 100/10 = 10 hours.\n4. Answer: A. Shweta rides at the rate of 10 km per hour.\n5. She stops for 10 minutes at every 15 km.\n6. To cover 100 km, she will ride for 100/10 = 10 hours.\n7. Answer: A. Shweta rides at the rate of 10 km per hour.\n8. She stops for 10 minutes at every 15 km.\n9. To cover 100 km, she will ride for 100/10 = 10 hours.\n10. Answer: A. Shweta rides at the rate of 10 km per hour.\n11. She stops for 10 minutes at every 15 km.\n12. To cover 100 km, she will ride for 100/10 = 10 hours.\n13. Answer: A. Shweta rides at the rate of 10 km per hour.\n14. She stops for 10 minutes at every 15 km.\n15. To cover 100 km, she will ride for 100/10 = 10 hours.\n16. Answer: A. Shw",
+            "Pred_FinalAnswer": "A",
+            "True_FinalAnswer": "C"
+        }
+    ],
+    [
+        {
+            "Question_idx": 6,
+            "Question": "Q: By himself, Jack can clean a yacht in 12 hours. On a particular day, he happens to finish two-thirds of the work. The remaining portion of the work is done by Jill, whose rate of cleaning is just 5% of what Jack can do. How long does it take Jill to finish the remaining work? Answer Choices: (A) 4 (B) 8 (C) 22 (D) 50 (E) 20",
+            "Pred_Rationale": "\nJack can clean a yacht in 12 hours.\nOn a particular day, he finishes 2/3 of the work.\nJill can clean a yacht in 5% of the time that Jack can clean it.\nLet x be the time Jill can clean the yacht.\n1.2x = 12 hours\nx = 12/5 = 2 hours\nThe answer is B. The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "E"
+        }
+    ],
+    [
+        {
+            "Question_idx": 7,
+            "Question": "Q: Two numbers are in the ratio 3:5. If 9 is subtracted from each, the new numbers are in the ratio 12:23. The smaller number is? Answer Choices: (A) 21 (B) 33 (C) 35 (D) 42 (E) 58",
+            "Pred_Rationale": "\nThe ratio of the two numbers is 3:5.\nThe smaller number is 21.\nAnswer: B The answer is B.",
+            "Pred_FinalAnswer": "B",
+            "True_FinalAnswer": "B"
+        }
+    ],
+    [
+        {
+            "Question_idx": 8,
+            "Question": "Q: 8 man work for 6 days to complete a work. How many men are required to complete same work in 1/2 day. Answer Choices: (A) 93 men (B) 94 men (C) 95 men (D) 96 men (E) 97 men",
+            "Pred_Rationale": "\nThe number of days required to complete the work is 8 days.\nThe number of men required to complete the work in 1/2 day is (8/2) = 4 men.\nThe number of men required to complete the work in 1 day is (4/2) = 2 men.\nThe number of men required to complete the work in 1/2 day is (2/2) = 1 man.\nAnswer: A. The answer is A.",
+            "Pred_FinalAnswer": "A",
+            "True_FinalAnswer": "D"
+        }
+    ],
+    [
+        {
+            "Question_idx": 9,
+            "Question": "Q: What is the largest integral value of 'k' for which the quadratic equation x2 - 5x + k = 0 will have two real and distinct roots? Answer Choices: (A) 9 (B) 7 (C) 3 (D) 8 (E) 12",
+            "Pred_Rationale": "\nThe quadratic equation is x2 - 5x + k = 0.\nLet x = -5.\nThen, x2 = -5.\nThe equation becomes x2 = -5.\nThe two real and distinct roots are x = -5 and x = 5.\nAnswer: A. The answer is A.",
+            "Pred_FinalAnswer": "A",
+            "True_FinalAnswer": "C"
+        }
+    ]
+]

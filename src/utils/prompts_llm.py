@@ -13,6 +13,7 @@ from transformers import StoppingCriteria, StoppingCriteriaList, AutoTokenizer, 
 import torch 
 from torch import cuda, bfloat16
 from transformers import BitsAndBytesConfig
+from langchain.llms import VLLM
 
 def from_chatmodelmessages_to_string(messages_prompt):
     return '\n\n'.join([message.content for message in messages_prompt[:-1]]) + '\n\n'  + messages_prompt[-1].prompt.template 
@@ -117,20 +118,17 @@ def create_header_llm():
 
 def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
     if opensource_llm:
-        if args.model_id == 'tiiuae/falcon-7b-instruct':
-            # quantization_config = BitsAndBytesConfig(
-            #     load_in_4bit=True,
-            #     bnb_4bit_compute_dtype=torch.float16,
-            #     bnb_4bit_quant_type="nf4",
-            #     bnb_4bit_use_double_quant=True,
-            #     )
-        
-            # model = AutoModelForCausalLM.from_pretrained(
-            #         model_id,
-            #         device_map="auto",
-            #         quantization_config=quantization_config,
-            #         )
+        if args.model_id == 'tiiuae/falcon-40b-instruct':
+            llm = VLLM(model=args.model_id,
+            tensor_parallel_size=4, # number of GPUs available
+            trust_remote_code=True,  # mandatory for hf models
+            torch_dtype=torch.bfloat16,
+            load_in_8bit=True,
+            max_new_tokens=300,
+            temperature=0.0
+            )
 
+        elif args.model_id == 'tiiuae/falcon-7b-instruct':
             model = AutoModelForCausalLM.from_pretrained(
                     args.model_id,
                     device_map="auto"
@@ -143,11 +141,11 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
                     tokenizer=tokenizer,
                     use_cache=True,
                     device_map="auto",
-		    max_new_tokens=1000,
+		            max_new_tokens=1000,
                     do_sample=False,
                     eos_token_id=tokenizer.eos_token_id,
                     pad_token_id=tokenizer.eos_token_id,
-		    return_full_text=True
+		            return_full_text=True
             )
             
             llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)

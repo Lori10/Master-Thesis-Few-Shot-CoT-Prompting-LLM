@@ -123,7 +123,7 @@ def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
             tensor_parallel_size=4, # number of GPUs available
             trust_remote_code=True,  # mandatory for hf models
             torch_dtype=torch.bfloat16,
-            load_in_8bit=True,
+            load_in_8bit=args.load_8bit_quantization,
             max_new_tokens=300,
             temperature=args.temperature,
 	        vllm_kwargs={"gpu_memory_utilization":1.0}

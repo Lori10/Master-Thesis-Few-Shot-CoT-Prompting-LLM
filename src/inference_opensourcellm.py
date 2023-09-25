@@ -29,6 +29,10 @@ def arg_parser():
     )
 
     parser.add_argument(
+        "--load_8bit_quantization", type=bool, default=True, help="whether to used 8-bit quantizated model"
+    )
+
+    parser.add_argument(
         "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
@@ -118,6 +122,7 @@ def main():
                 "answers_are_available": args.answers_are_available,
                 "execution_time": str(end - start) + ' seconds',
                 }
+
 
     if args.method in ['cot', 'standard']:
         args_dict["dir_prompts"] = args.dir_prompts

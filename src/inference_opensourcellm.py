@@ -123,6 +123,8 @@ def main():
                 "execution_time": str(end - start) + ' seconds',
                 }
 
+    if args.model_id in ["mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"]:
+        args_dict["load_8bit_quantization"] = args.load_8bit_quantization
 
     if args.method in ['cot', 'standard']:
         args_dict["dir_prompts"] = args.dir_prompts

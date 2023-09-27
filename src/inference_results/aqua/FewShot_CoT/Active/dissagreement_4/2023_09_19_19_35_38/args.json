@@ -5,10 +5,11 @@
     "random_seed": 1,
     "model_id": "gpt-35-turbo-0613",
     "method": "cot",
-    "output_dir": "inference_results/2023_09_19_16_10_52/",
+    "dissagreement": 4,
+    "output_dir": "inference_results/2023_09_19_19_35_38/",
     "temperature": 0.0,
     "multipath": 1,
     "answers_are_available": true,
-    "execution_time": "835.1907637119293 seconds",
-    "dir_prompts": "labeled_demos/active/2023_09_19_16_05_46/demos"
+    "execution_time": "847.6140992641449 seconds",
+    "dir_prompts": "labeled_demos/active/2023_09_19_19_34_33/demos"
 }

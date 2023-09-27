@@ -5,6 +5,7 @@
     "random_seed": 1,
     "model_id": "gpt-35-turbo-0613",
     "method": "cot",
+    "dissagreement": 3,
     "output_dir": "inference_results/2023_09_21_17_58_31/",
     "temperature": 0.0,
     "multipath": 1,

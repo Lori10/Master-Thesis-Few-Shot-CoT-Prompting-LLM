@@ -13,22 +13,27 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
         "--dir_prompts", type=str, default="labeled_demos/active/2023_09_21_17_57_33/demos", help="prompts to use"
     )
+
     parser.add_argument(
-        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-4", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4"], help="model used for decoding."
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--backup_model_id", type=str, default="gpt-3.5-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4"], help="model used for decoding."
+    )
+
+    parser.add_argument(
+        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -90,15 +95,15 @@ def main():
 
     prompts_list = create_prompts_inference(args)
     
-    azure_llm = initialize_llm(args, is_azureopenai=True)
-    openai_llm = initialize_llm(args, is_azureopenai=False)
+    llm = initialize_llm(args, model_id=args.model_id)
+    backup_llm = initialize_llm(args, model_id=args.backup_model_id)
 
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     
     start = time.time()
 
-    correct_list, wrong_list, QA_record_list, is_answer_openai_list = all_prompts_inference(args, dataloader, prompts_list, azure_llm, openai_llm)
+    correct_list, wrong_list, QA_record_list, is_answer_from_backup_llm_list = all_prompts_inference(args, dataloader, prompts_list, llm, backup_llm)
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
 
     end = time.time()
@@ -109,6 +114,7 @@ def main():
                 "data_path": args.data_path,
                 "random_seed": args.random_seed,
                 "model_id": args.model_id,
+                "backup_model_id": args.backup_model_id,
                 "method": args.method,
                 "output_dir": args.output_dir,
                 "temperature": args.temperature,
@@ -124,10 +130,9 @@ def main():
         json.dump(args_dict, f, indent=4)
 
     with open(args.output_dir + 'answers_openai.txt', 'w') as f:
-        f.write(json.dumps(is_answer_openai_list, indent=4))
+        f.write(json.dumps(is_answer_from_backup_llm_list, indent=4))
 
-    if args.model_id.startswith("gpt-35"):
-        prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
+    prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
 
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
     print('Inference finished!')

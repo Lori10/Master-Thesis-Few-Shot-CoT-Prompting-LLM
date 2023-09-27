@@ -23,7 +23,7 @@ def create_prompts_inference(args):
     
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
     if args.method == 'zero_shot_cot':  
-        if args.model_id.startswith("gpt-35"):
+        if args.model_id.startswith("gpt-35") or args.model_id.startswith("gpt-4") or args.model_id.startswith("gpt-3.5"):
             return [create_prompt_template_gpt35(None, args)]
         else:
             return [PromptTemplate(input_variables=["question"], template=args.prefix + args.suffix)]
@@ -34,7 +34,7 @@ def create_prompts_inference(args):
         elif args.method == 'standard':
             prompts_list = create_several_input_prompts(args, cot_flag=False)
 
-        if args.model_id.startswith("gpt-35"):
+        if args.model_id.startswith("gpt-35") or args.model_id.startswith("gpt-4") or args.model_id.startswith("gpt-3.5"):
             prompts_list = [create_prompt_template_gpt35(prompt, args) for prompt in prompts_list]
         else:
             prompts_list = [PromptTemplate(input_variables=["question"], template=prompt) for prompt in prompts_list]
@@ -116,106 +116,122 @@ def create_header_llm():
     }
     return headers
 
-def initialize_llm(args, opensource_llm=False, is_azureopenai=True):
-    if opensource_llm:
-        if args.model_id == 'tiiuae/falcon-40b-instruct':
-            llm = VLLM(model=args.model_id,
-            tensor_parallel_size=4, # number of GPUs available
-            trust_remote_code=True,  # mandatory for hf models
-            torch_dtype=torch.bfloat16,
-            load_in_8bit=True,
-            max_new_tokens=300,
-            temperature=0.0,
-	    vllm_kwargs={"gpu_memory_utilization":1.0}
-            )
+def initialize_llm(args, model_id='gpt-3.5-turbo-0613'):
+    if model_id == 'tiiuae/falcon-40b-instruct':
+        llm = VLLM(model=model_id,
+        tensor_parallel_size=4, # number of GPUs available
+        trust_remote_code=True,  # mandatory for hf models
+        torch_dtype=torch.bfloat16,
+        load_in_8bit=args.load_8bit_quantization,
+        max_new_tokens=300,
+        temperature=args.temperature,
+        vllm_kwargs={"gpu_memory_utilization":1.0}
+        )
 
-        elif args.model_id == 'tiiuae/falcon-7b-instruct':
-            model = AutoModelForCausalLM.from_pretrained(
-                    args.model_id,
-                    device_map="auto"
-                    )
+    elif model_id == 'tiiuae/falcon-7b-instruct':
+        llm = VLLM(model=model_id,
+        tensor_parallel_size=1, # number of GPUs available
+        trust_remote_code=True,  # mandatory for hf models
+        torch_dtype=torch.bfloat16,
+        max_new_tokens=300,
+        temperature=args.temperature,
+        vllm_kwargs={"gpu_memory_utilization":1.0}
+        )
 
-            tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-            pipe = pipeline(
-                    "text-generation",
-                    model=model,
-                    tokenizer=tokenizer,
-                    use_cache=True,
-                    device_map="auto",
-		            max_new_tokens=1000,
-                    do_sample=False,
-                    eos_token_id=tokenizer.eos_token_id,
-                    pad_token_id=tokenizer.eos_token_id,
-		            return_full_text=True
-            )
-            
-            llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
-        elif args.model_id == 'mosaicml/mpt-7b-instruct':
-            model = AutoModelForCausalLM.from_pretrained(
-                args.model_id,
-                trust_remote_code=True,
-                torch_dtype=bfloat16,
-                device_map="auto"
-            )
+        # model = AutoModelForCausalLM.from_pretrained(
+        #         args.model_id,
+        #         device_map="auto"
+        #         )
 
-            tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
-            stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
+        # tokenizer = AutoTokenizer.from_pretrained(args.model_id)
+        # pipe = pipeline(
+        #         "text-generation",
+        #         model=model,
+        #         tokenizer=tokenizer,
+        #         use_cache=True,
+        #         device_map="auto",
+        #         max_new_tokens=1000,
+        #         do_sample=False,
+        #         eos_token_id=tokenizer.eos_token_id,
+        #         pad_token_id=tokenizer.eos_token_id,
+        #         return_full_text=True
+        # )
+        
+        # llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
+    elif model_id == 'mosaicml/mpt-7b-instruct':
+        llm = VLLM(model=model_id,
+        tensor_parallel_size=1, # number of GPUs available
+        trust_remote_code=True,  # mandatory for hf models
+        max_new_tokens=300,
+        temperature=args.temperature,
+        vllm_kwargs={"gpu_memory_utilization":1.0}
+        )
 
-            class StopOnTokens(StoppingCriteria):
-                def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
-                    for stop_id in stop_token_ids:
-                        if input_ids[0][-1] == stop_id:
-                            return True
-                    return False
+        # model = AutoModelForCausalLM.from_pretrained(
+        #     args.model_id,
+        #     trust_remote_code=True,
+        #     torch_dtype=bfloat16,
+        #     device_map="auto"
+        # )
 
-            stopping_criteria = StoppingCriteriaList([StopOnTokens()])
+        # tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+        # stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
 
-            pipeline_text_generation = pipeline(
-                        model=model, 
-                        tokenizer=tokenizer,
-                        return_full_text=True,
-                        task='text-generation',
-                        device_map="auto",
-                        stopping_criteria=stopping_criteria,
-                        do_sample=False,
-                        max_new_tokens=200,
-                        use_cache=True
-                    )
+        # class StopOnTokens(StoppingCriteria):
+        #     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+        #         for stop_id in stop_token_ids:
+        #             if input_ids[0][-1] == stop_id:
+        #                 return True
+        #         return False
 
-            llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id)
-    else:
-        if is_azureopenai:
+        # stopping_criteria = StoppingCriteriaList([StopOnTokens()])
 
-            headers = create_header_llm()
+        # pipeline_text_generation = pipeline(
+        #             model=model, 
+        #             tokenizer=tokenizer,
+        #             return_full_text=True,
+        #             task='text-generation',
+        #             device_map="auto",
+        #             stopping_criteria=stopping_criteria,
+        #             do_sample=False,
+        #             max_new_tokens=200,
+        #             use_cache=True
+        #         )
 
-            if args.model_id.startswith("gpt-35"):
-                llm = AzureChatOpenAI(
-                deployment_name=args.model_id,
-                model_name=args.model_id,
+        # llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id)
+
+    elif model_id.startswith("gpt-35"):
+        headers = create_header_llm()
+
+        llm = AzureChatOpenAI(
+        deployment_name=model_id,
+        model_name=model_id,
+        temperature=args.temperature,
+        headers=headers,
+        max_tokens=1024,
+        openai_api_base=OPENAI_API_BASE,
+        openai_api_type=OPENAI_API_TYPE,
+        openai_api_version=OPENAI_API_VERSION,
+        openai_api_key=AZURE_OPENAI_API_KEY
+        )
+    elif model_id.startswith("gpt-3.5"):
+        llm = ChatOpenAI(
+                model_name='gpt-3.5-turbo-0613',
                 temperature=args.temperature,
-                headers=headers,
                 max_tokens=1024,
-                openai_api_base=OPENAI_API_BASE,
-                openai_api_type=OPENAI_API_TYPE,
-                openai_api_version=OPENAI_API_VERSION,
-                openai_api_key=AZURE_OPENAI_API_KEY
+                openai_api_key=OPENAI_API_KEY
                 )
-            else:
-                if args.model_id.startswith('text-davinci'):
-                    llm = AzureOpenAI(
-                    deployment_name=args.model_id,
-                    model_name=args.model_id,
-                    temperature=args.temperature,
-                    headers=headers,
-                    max_tokens=1024,
-                    )
-        else:
-            llm = ChatOpenAI(
-                    model='gpt-3.5-turbo-0613',
-                    temperature=args.temperature,
-                    max_tokens=1024,
-                    openai_api_key=OPENAI_API_KEY
-                    )
+
+    elif model_id == 'gpt-4':
+        llm = ChatOpenAI(
+                model_name=model_id,
+                temperature=args.temperature,
+                max_tokens=1024,
+                openai_api_key=OPENAI_API_KEY
+            )
+    else:
+        raise NotImplementedError(f'Model {model_id} not supported')
+
     return llm
 
 # def initialize_llmchain(args, prompt_template, llm_init=False):

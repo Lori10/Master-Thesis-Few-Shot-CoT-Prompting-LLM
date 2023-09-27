@@ -14,18 +14,18 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_49_08/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_51_21/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="mosaicml/mpt-7b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="tiiuae/falcon-40b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -41,7 +41,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=10, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
     )
   
     parser.add_argument(
@@ -95,7 +95,7 @@ def main():
 
     prompts_list = create_prompts_inference(args)
     
-    llm = initialize_llm(args, opensource_llm=True)
+    llm = initialize_llm(args, args.model_id)
     print('LLM: ')
     print(llm)
 

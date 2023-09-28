@@ -25,11 +25,7 @@ def arg_parser():
         "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_51_21/demos", help="prompts to use"
     )
     parser.add_argument(
-        "--model_id", type=str, default="tiiuae/falcon-40b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
-    )
-
-    parser.add_argument(
-        "--load_8bit_quantization", type=bool, default=True, help="whether to used 8-bit quantizated model"
+        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(

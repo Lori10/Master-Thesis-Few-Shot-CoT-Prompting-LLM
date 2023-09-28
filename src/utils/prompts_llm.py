@@ -129,7 +129,7 @@ def initialize_llm(args, model_id='gpt-3.5-turbo-0613'):
 
     elif model_id == 'tiiuae/falcon-7b-instruct':
         llm = VLLM(model=model_id,
-        tensor_parallel_size=4, # number of GPUs available
+        tensor_parallel_size=1, # number of GPUs available
         trust_remote_code=True,  # mandatory for hf models
         torch_dtype=torch.bfloat16,
         max_new_tokens=300,

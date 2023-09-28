@@ -1,0 +1,14 @@
+{
+    "dataset": "gsm8k",
+    "dataset_size_limit": 1319,
+    "data_path": "../datasets/gsm8k/test.jsonl",
+    "random_seed": 1,
+    "model_id": "tiiuae/falcon-7b-instruct",
+    "method": "cot",
+    "output_dir": "inference_results/2023_09_28_14_15_59/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "7184.165242433548 seconds",
+    "dir_prompts": "labeled_demos/auto/2023_08_30_12_51_21/demos"
+}

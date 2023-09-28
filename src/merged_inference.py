@@ -5,10 +5,9 @@ from constant_vars import *
 import datetime
 import os 
 from utils.load_data import create_dataloader
-from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string
+from utils.prompts_llm import create_prompts_inference, initialize_llm, from_chatmodelmessages_to_string, initialize_llmchain
 from utils.save_results import inference_save_info
-from utils.inference_llm import all_prompts_inference_opensource
-import sys 
+from utils.inference_llm import all_prompts_inference
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
@@ -22,14 +21,19 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_49_08/demos", help="prompts to use"
-    )
-    parser.add_argument(
-        "--model_id", type=str, default="tiiuae/falcon-7b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding.")
+        "--dir_prompts", type=str, default="labeled_demos/active/2023_09_21_17_57_33/demos", help="prompts to use"
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--model_id", type=str, default="gpt-4", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
+    )
+
+    parser.add_argument(
+        "--backup_model_id", type=str, default="gpt-3.5-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
+    )
+
+    parser.add_argument(
+        "--method", type=str, default="zero_shot_cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -91,16 +95,15 @@ def main():
 
     prompts_list = create_prompts_inference(args)
     
-    llm = initialize_llm(args, args.model_id)
-    print('LLM: ')
-    print(llm)
+    llm = initialize_llm(args, model_id=args.model_id)
+    backup_llm = initialize_llm(args, model_id=args.backup_model_id)
 
     if args.multipath != 1:
         print("Self-consistency Enabled, output each inference result is not available")
     
     start = time.time()
 
-    correct_list, wrong_list, QA_record_list = all_prompts_inference_opensource(args, dataloader, prompts_list, llm)
+    correct_list, wrong_list, QA_record_list, is_answer_from_backup_llm_list = all_prompts_inference(args, dataloader, prompts_list, llm, backup_llm)
     assert len(correct_list) == len(wrong_list) == len(QA_record_list)
 
     end = time.time()
@@ -111,6 +114,7 @@ def main():
                 "data_path": args.data_path,
                 "random_seed": args.random_seed,
                 "model_id": args.model_id,
+                "backup_model_id": args.backup_model_id,
                 "method": args.method,
                 "output_dir": args.output_dir,
                 "temperature": args.temperature,
@@ -125,14 +129,14 @@ def main():
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
-    if args.model_id.startswith("gpt-35"):
-        prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
-    else:
-        prompts_list = [prompt_template.template for prompt_template in prompts_list]
+    with open(args.output_dir + 'answers_openai.txt', 'w') as f:
+        f.write(json.dumps(is_answer_from_backup_llm_list, indent=4))
+
+    prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
 
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
     print('Inference finished!')
-
+    
 
 if __name__ == "__main__":
     main()

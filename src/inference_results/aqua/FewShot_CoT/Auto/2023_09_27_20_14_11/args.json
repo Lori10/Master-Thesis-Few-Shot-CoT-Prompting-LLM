@@ -10,6 +10,5 @@
     "multipath": 1,
     "answers_are_available": true,
     "execution_time": "2541.2586545944214 seconds",
-    "load_8bit_quantization": true,
     "dir_prompts": "labeled_demos/auto/2023_08_30_12_49_08/demos"
 }

@@ -157,47 +157,6 @@ def initialize_llm(args, model_id='gpt-3.5-turbo-0613'):
         # )
         
         # llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
-    elif model_id == 'mosaicml/mpt-7b-instruct':
-        llm = VLLM(model=model_id,
-        tensor_parallel_size=4, # number of GPUs available
-        trust_remote_code=True,  # mandatory for hf models
-        max_new_tokens=300,
-        temperature=args.temperature,
-        vllm_kwargs={"gpu_memory_utilization":1.0}
-        )
-
-        # model = AutoModelForCausalLM.from_pretrained(
-        #     args.model_id,
-        #     trust_remote_code=True,
-        #     torch_dtype=bfloat16,
-        #     device_map="auto"
-        # )
-
-        # tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
-        # stop_token_ids = tokenizer.convert_tokens_to_ids(["<|endoftext|>"])
-
-        # class StopOnTokens(StoppingCriteria):
-        #     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
-        #         for stop_id in stop_token_ids:
-        #             if input_ids[0][-1] == stop_id:
-        #                 return True
-        #         return False
-
-        # stopping_criteria = StoppingCriteriaList([StopOnTokens()])
-
-        # pipeline_text_generation = pipeline(
-        #             model=model, 
-        #             tokenizer=tokenizer,
-        #             return_full_text=True,
-        #             task='text-generation',
-        #             device_map="auto",
-        #             stopping_criteria=stopping_criteria,
-        #             do_sample=False,
-        #             max_new_tokens=200,
-        #             use_cache=True
-        #         )
-
-        # llm = HuggingFacePipeline(pipeline=pipeline_text_generation, model_id=args.model_id)
 
     elif model_id.startswith("gpt-35"):
         headers = create_header_llm()

@@ -14,22 +14,18 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_51_21/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto/2023_08_30_12_49_08/demos", help="prompts to use"
     )
     parser.add_argument(
         "--model_id", type=str, default="tiiuae/falcon-40b-instruct", choices=["gpt-35-turbo-0613", "text-davinci-003", "mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
-    )
-
-    parser.add_argument(
-        "--load_8bit_quantization", type=bool, default=True, help="whether to used 8-bit quantizated model"
     )
 
     parser.add_argument(
@@ -122,9 +118,6 @@ def main():
                 "answers_are_available": args.answers_are_available,
                 "execution_time": str(end - start) + ' seconds',
                 }
-
-    if args.model_id in ["mosaicml/mpt-7b-instruct", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"]:
-        args_dict["load_8bit_quantization"] = args.load_8bit_quantization
 
     if args.method in ['cot', 'standard']:
         args_dict["dir_prompts"] = args.dir_prompts

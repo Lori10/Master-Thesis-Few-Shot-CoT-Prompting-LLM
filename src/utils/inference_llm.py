@@ -62,15 +62,15 @@ def single_run_inference(data_loader, args, llm_chain, backup_llm_chain):
     correct_count_single_run = 0
     wrong_single_run = [{'prompt' : prompt}]
     QA_record_single_run = [{'prompt': prompt}]
-    is_answer_openai_info = {'prompt': prompt, 
-                             'is_answer_openai': 0}
+    is_answer_backup_model_info = {'prompt': prompt, 
+                             'nr_answers_backup_answer': 0}
     
     for example_idx, example in enumerate(data_loader):
-        correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, llm_chain, backup_llm_chain)
-        if is_answer_openai:
-            is_answer_openai_info['is_answer_openai'] += 1
+        correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_backup_model = single_question_inference(args, example, example_idx, correct_count_single_run, wrong_single_run, QA_record_single_run, llm_chain, backup_llm_chain)
+        if is_answer_backup_model:
+            is_answer_backup_model_info['nr_answers_backup_answer'] += 1
 
-    return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_openai_info
+    return correct_count_single_run, wrong_single_run, QA_record_single_run, is_answer_backup_model_info
 
 def all_prompts_inference(args, data_loader, prompts_list, llm, backup_llm):    
     all_prompts_correct_count_list = []
@@ -81,12 +81,12 @@ def all_prompts_inference(args, data_loader, prompts_list, llm, backup_llm):
         llm_chain = initialize_llmchain(llm, prompts_list[i])
         backup_llm_chain = initialize_llmchain(backup_llm, prompts_list[i])
         
-        correct, wrong, QA_record, is_answer_from_backup_llm  = single_run_inference(data_loader, args, llm_chain, backup_llm_chain)
+        correct, wrong, QA_record, nr_answers_from_backup_llm_dict  = single_run_inference(data_loader, args, llm_chain, backup_llm_chain)
             
         all_prompts_correct_count_list.append(correct)
         all_prompts_wrong_list.append(wrong)
         all_prompts_QA_record_list.append(QA_record)
-        list_answers_backup_llm.append(is_answer_from_backup_llm)
+        list_answers_backup_llm.append(nr_answers_from_backup_llm_dict)
         print('-' * 60)
 
     #sys.exit(0)

@@ -16,17 +16,13 @@ import time
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
-    )
-
-    parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     
@@ -39,7 +35,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=float, default=float('inf'), help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_ra_len", type=float, default=float('inf'), help="maximum number of reasoning chains"
     )
     
     parser.add_argument(
@@ -51,11 +55,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -96,6 +100,7 @@ def main():
         "dataset": args.dataset,
         "data_path": args.data_path,
         "max_ra_len": args.max_ra_len,
+        "max_token_len": args.max_token_len,
         "random_seed": args.random_seed,
         "sampling": args.sampling,
         "dataset_size_limit": args.dataset_size_limit,
@@ -163,7 +168,7 @@ def main():
                     nr_reasoning_steps -= 1
 
                 question = question_list[clustered_idx[i][min_idx]] 
-                if len(question.strip().split()) <= 60 \
+                if len(question.strip().split()) <= args.max_token_len \
                     and nr_reasoning_steps <= args.max_ra_len and final_answer != "":
                     demo_element = {
                         "question_idx": clustered_idx[i][min_idx],
@@ -176,7 +181,7 @@ def main():
                     demo_found=True
                     break
             else:
-                if len(question.strip().split()) <= 60:
+                if len(question.strip().split()) <= args.max_ra_len:
                     demo_element = {
                         "question_idx": clustered_idx[i][min_idx],
                         "question": question,               

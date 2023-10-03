@@ -1,0 +1,86 @@
+[
+    {
+        "question_idx": 9,
+        "question": "Q: What is the largest integral value of 'k' for which the quadratic equation x2 - 5x + k = 0 will have two real and distinct roots? Answer Choices: (A) 9 (B) 7 (C) 3 (D) 8 (E) 12"
+    },
+    {
+        "question_idx": 11,
+        "question": "Q: Anna is able to buy 5 more articles for $300 after the price of each article decreased by 15%. What is the new selling price of each article? Answer Choices: (A) $8 (B) $10 (C) $13.6 (D) $22.9 (E) $40"
+    },
+    {
+        "question_idx": 42,
+        "question": "Q: A jeep travels a certain distance taking 6 hours in the forward journey. During the return journey, it increased its speed by 12km/hr and took 4 hours. What is the distance travelled by the jeep? Answer Choices: (A) 126km (B) 144km (C) 127km (D) 228km (E) 128km"
+    },
+    {
+        "question_idx": 54,
+        "question": "Q: A bag contains 11 candy bars: three cost 50 cents each, four cost $1 each and four cost $2\neach. How many ways can 3 candy bars be selected from the 11 candy bars so that the total cost is more than $4? Answer Choices: (A) 8 (B) 28 (C) 46 (D) 66 (E) 70"
+    },
+    {
+        "question_idx": 58,
+        "question": "Q: Machine A puts out a yo-yo every 6 minutes. Machine B puts out a yo-yo every 9 minutes. After how many minutes will they have produced 10 yo-yos? Answer Choices: (A) 24 minutes (B) 32 minutes (C) 36 minutes (D) 64 minutes (E) 72 minutes"
+    },
+    {
+        "question_idx": 75,
+        "question": "Q: A grocer makes a 25% profit on the selling price for each bag of flour it sells. If he sells each bag for $100 and makes $3,000 in profit, how many bags did he sell? Answer Choices: (A) 12 (B) 16 (C) 24 (D) 30 (E) 40"
+    },
+    {
+        "question_idx": 83,
+        "question": "Q: A grocery sells a bag of ice for $1.25, and makes 20% profit. If it sells 500 bags of ice, how much total profit does it make? Answer Choices: (A) 125 (B) 150 (C) 225 (D) 250 (E) 275"
+    },
+    {
+        "question_idx": 89,
+        "question": "Q: A company produces 420 units of a particular computer component every month, at a production cost to the company of $110 per component, and sells all of the components by the end of each month. What is the minimum selling price per component that will guarantee that the yearly profit (revenue from sales minus production costs) will be at least $626,400 ? Answer Choices: (A) 226 (B) 230 (C) 240 (D) 260 (E) 280"
+    },
+    {
+        "question_idx": 105,
+        "question": "Q: The events A and B are independent. The probability that event A occurs is 0.6, and the probability that at least one of the events A or B occurs is 0.96. What is the probability that event B occurs? Answer Choices: (A) 0.5 (B) 0.6 (C) 0.7 (D) 0.8 (E) 0.9"
+    },
+    {
+        "question_idx": 132,
+        "question": "Q: The original price of an item is discounted 22%. A customer buys the item at this discounted price using a $20-off coupon. There is no tax on the item, and this was the only item the customer bought. If the customer paid $1.90 more than half the original price of the item, what was the original price of the item? Answer Choices: (A) $61 (B) $65 (C) $67.40 (D) $70 (E) $78.20"
+    },
+    {
+        "question_idx": 146,
+        "question": "Q: I know a 5 digit number having a property that with a 1 after it, it is three times as large as it would be with a 1 before it.\nWhat is that number? Answer Choices: (A) 42857 (B) 32456 (C) 76523 (D) 24567 (E) 43566"
+    },
+    {
+        "question_idx": 157,
+        "question": "Q: A computer routine was developed to generate two numbers (x,y) the first being a random number between 0 and 100 inclusive, and the second being less than or equal to the square root of the first. Each of the following pair satisfies the routine except Answer Choices: (A) (99,10)  (B) (85,9)  (C) (50,7)  (D) (1,1)  (E) (1,0) "
+    },
+    {
+        "question_idx": 187,
+        "question": "Q: A retailer sold an appliance for 40 percent above cost, which represented a gross profit of $20.00. For what price did the retailer sell the appliance? Answer Choices: (A) $27.30 (B) $51.00 (C) $63.00 (D) $70.00 (E) $91.00"
+    },
+    {
+        "question_idx": 193,
+        "question": "Q: A paper is in a square form whose one side is 20 cm. Two semi circles are drawn on its opposites as diameters. If these semi circles are cut down what is the area of the remaining paper? Answer Choices: (A) 8.75 (B) 8.79 (C) 8.75 (D) 8.71 (E) 8.72"
+    },
+    {
+        "question_idx": 196,
+        "question": "Q: Tires of a certain brand, when purchased new, last for four years. A customer can choose to purchase the new tires at a cost of $180 per tire or can have his current tires repaired at a cost of $40 per tire, a repair that will make the current tires last for one additional year. The average cost per year of the new tires is what percent greater than the cost of repairing the current tires? Answer Choices: (A) 8% (B) 10% (C) 12.5% (D) 16.7% (E) 25%"
+    },
+    {
+        "question_idx": 197,
+        "question": "Q: Three friends Alan, Roger and Peter attempt to answer a question on an exam. Alan randomly guesses the answer, giving him a 1/5 probability of guessing correctly. Roger cheats by looking at the paper of the student in front of him, giving him a 2/3 probability of answering correctly. And Peter dutifully performs the calculations, then marks the answer, giving him a 5/6 probability of a correct answer. What is the probability that the question is answered correctly, but not via cheating? Answer Choices: (A) 1/18 (B) 1/9 (C) 23/90 (D) 5/18 (E) 13/45"
+    },
+    {
+        "question_idx": 217,
+        "question": "Q: If 27 bottles of soda cost A cents, how much will B bottles cost in dollars? Answer Choices: (A) AB/2700 (B) 27/AB (C) AB/270 (D) 2700/AB (E) 100AB/27"
+    },
+    {
+        "question_idx": 228,
+        "question": "Q: At my favorite fruit stand, an orange costs 18 dollars, a pineapple costs 27 dollars, and a grape costs 15 dollars. Using the same logic, can you tell how much a mango costs? Answer Choices: (A) 22 dollars (B) 15 dollars (C) 20 dollars (D) 18 dollars (E) 10 dollars"
+    },
+    {
+        "question_idx": 238,
+        "question": "Q: There are 10 oranges in a basket. Find the no. of ways in which 2 oranges are chosen from the basket? Answer Choices: (A) 45 (B) 90 (C) 120 (D) 150 (E) 180"
+    },
+    {
+        "question_idx": 246,
+        "question": "Q: The original retail price of an appliance was 60 percent more than its wholesale cost. If the appliance was actually sold for 20 percent less than the original retail price, then it was sold for what percent more than its wholesale cost? Answer Choices: (A) 20% (B) 28% (C) 36% (D) 40% (E) 42%"
+    },
+    {
+        "question_idx": 251,
+        "question": "Q: 5 horses are in a race. Mr.Jain selects two of horses at random and bets on them. The probability that he selected the winning horse is Answer Choices: (A) 1/5 (B) 2/5 (C) 3/5 (D) 4/5 (E) 6/5"
+    }
+]

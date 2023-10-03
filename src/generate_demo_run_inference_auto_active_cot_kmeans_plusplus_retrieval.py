@@ -27,7 +27,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "text-davinci-003", "tiiuae/falcon-7b-instruct"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4"], help="model used for decoding."
+    )
+
+    parser.add_argument(
+        "--backup_model_id", type=str, default="gpt-3.5-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -275,6 +279,7 @@ def main():
         )
 
         encoder = initialize_embedding_model(args)
+
         example_selector = SemanticSimilarityExampleSelector.from_examples(
         examples, 
         encoder, 
@@ -285,7 +290,7 @@ def main():
         similar_prompt = FewShotPromptTemplate(
             example_selector=example_selector,
             example_prompt=example_prompt,
-            suffix="$%*:" + "{question}", 
+            suffix="{question}", 
             input_variables=["question"],
         )
   
@@ -301,8 +306,8 @@ def main():
         build_prefix(args)
         args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
         args.method = 'cot'
-        azure_llm = initialize_llm(args, is_azureopenai=True)
-        openai_llm = initialize_llm(args, is_azureopenai=False)
+        llm = initialize_llm(args, model_id=args.model_id)
+        backup_llm = initialize_llm(args, model_id=args.backup_model_id)
 
         dic = {'gpt-35': create_prompt_template_gpt35, 
                'others' : create_prompt_template_other_models
@@ -312,44 +317,51 @@ def main():
         else:
             model_key = 'others'
         
-        is_answer_openai_idxs = []
+        is_answer_from_backupmodel_idxs = []
+        failed_examples = []
         for test_question_id, test_example in enumerate(test_dataloader):
             try:
-                few_shot_examples = similar_prompt.format(question=test_example['question']).split('$%*:')[0]
-                prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
-                prompt_callable = dic[model_key]
-                prompt_template = prompt_callable(prompt, args)
-                
-                # print(f'PROMPT TEMPLATE for question {test_question_id}:')
-                # print(from_chatmodelmessages_to_string(prompt_template))            
-                # print('*' * 60)
-                
-                azure_llm_chain = initialize_llmchain(azure_llm, prompt_template)
-                openai_llm_chain = initialize_llmchain(openai_llm, prompt_template)  
-                correct_nr, wrong_list, QA_record_list, is_answer_openai  = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list, azure_llm_chain, openai_llm_chain)
-            
-                if is_answer_openai:
-                    is_answer_openai_idxs.append(test_question_id)
-
-                test_q_dic = {
-                    'test_question_idx' : test_question_id,
-                    'test_question': test_example['question'],
-                    'formatted_prompt': few_shot_examples
-                }
-
-                with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
-                    f.write(json.dumps(test_q_dic, indent=2))
-
+                formatted_prompt = similar_prompt.format(question=test_example['question'])
             except Exception as e:
-                print(f'Error in question {test_question_id}: {e}')
-                print(f'Corrent nr : {correct_nr}')
-                inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, test_question_id + 1)      
+                print(f'ERROR: {e}')
+                failed_examples.append({'question_idx': test_question_id, 'question': test_example['question']})
+                continue
+                
+            few_shot_examples = formatted_prompt[:formatted_prompt.rindex('Q:')]
+            prompt = args.prefix  + ' Follow the format of the examples below:\n' + few_shot_examples + args.suffix
+            prompt_callable = dic[model_key]
+            prompt_template = prompt_callable(prompt, args)
+            
+            # print(f'PROMPT TEMPLATE for question {test_question_id}:')
+            # print(from_chatmodelmessages_to_string(prompt_template))            
+            # print('*' * 60)
+            
+            llm_chain = initialize_llmchain(llm, prompt_template)
+            backup_llm_chain = initialize_llmchain(backup_llm, prompt_template)  
+            correct_nr, wrong_list, QA_record_list, is_answer_from_backupmodel  = single_question_inference(args, test_example, test_question_id, correct_nr, wrong_list, QA_record_list, llm_chain, backup_llm_chain)
+        
+            if is_answer_from_backupmodel:
+                is_answer_from_backupmodel_idxs.append(test_question_id)
+
+            test_q_dic = {
+                'test_question_idx' : test_question_id,
+                'test_question': test_example['question'],
+                'formatted_prompt': few_shot_examples
+            }
+
+            with open(f'{args.test_questions_prompts_dir}qes_{test_question_id}' , 'w') as f:
+                f.write(json.dumps(test_q_dic, indent=2))
+
+            # except Exception as e:
+            #     print(f'Error in question {test_question_id}: {e}')
+            #     print(f'Corrent nr : {correct_nr}')
+            #     inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, test_question_id + 1)      
+            #     break 
 
         end = time.time()   
-        args_dict["execution_time"] =  str(end - start) + ' seconds'
         
-        with open(args.args_file, 'w') as f:
-            json.dump(args_dict, f, indent=4)
+        args_dict["execution_time"] =  str(end - start) + ' seconds'
+        args_dict["used_test_dataset_size"] = len(test_dataloader) - len(failed_examples)
 
         if not os.path.exists(args.output_dir):
             os.makedirs(args.output_dir)
@@ -361,12 +373,15 @@ def main():
         with open(args.output_dir + 'args.json', 'w') as f:
             json.dump(args_dict, f, indent=4)
 
-        with open(args.output_dir + 'answers_openai.txt', 'w') as f:
-            f.write(json.dumps(is_answer_openai_idxs, indent=4))
+        with open(args.output_dir + 'failed_examples.txt', 'w') as f:
+            f.write(json.dumps(failed_examples, indent=4)) 
 
-        inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader))      
+        with open(args.output_dir + 'answers_backup_model.txt', 'w') as f:
+            f.write(json.dumps(is_answer_from_backupmodel_idxs, indent=4))
 
-        print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation finished.')
+        inference_save_info(args, [correct_nr], [wrong_list], [QA_record_list], None, len(test_dataloader) - len(failed_examples))      
+        
+        print('Auto-Active-KMeansPlusPlus-Retrieval Demo Generation and Inference finished.')
 
     else:
         _, _, = main_auto_active_kmeansplusplus(args, None)

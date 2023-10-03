@@ -31,6 +31,7 @@ def single_question_inference(args, example, example_idx, correct_count_single_r
         QA['True_FinalAnswer'] = example['final_answer']
         QA_record.append(QA)
 
+        print("HERE")
         # output current inference result (only works when self-consistency is not enable)
         if args.multipath == 1:
             print('-' * 20)

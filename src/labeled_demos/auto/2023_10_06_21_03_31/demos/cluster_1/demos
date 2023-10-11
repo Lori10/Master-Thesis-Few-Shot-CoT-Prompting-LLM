@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question_idx": 699,
+            "question": "Q: Bob started out the week with $80. On Monday alone, he spent half the money. On Tuesday, he spent one-fifth of the amount left from Monday. On Wednesday, he spent 3/8ths of the amount left from Tuesday. How much does he have left now?",
+            "rationale": "A: Let's think step by step.\nOn Monday, he spent half of $80 leaving him with $80-(1/2)*$80 = $<<80-(1/2)*80=40>>40\nOn Tuesday, he spent 1/5th of $40 leaving $40-(1/5)*40 = $<<40-(1/5)*40=32>>32\nOn Wednesday, he spent 3/8ths of $32 leaving $32-(3/8)*$32 = $20",
+            "final_answer": "20"
+        },
+        {
+            "question_idx": 765,
+            "question": "Q: Sally earned $1000 at work last month. This month, she received a 10% raise. How much money will she make in total for the two months?",
+            "rationale": "A: Let's think step by step.\nThis month she will earn $1000 * (110/100) = $<<1000*(110/100)=1100>>1100.\nIn total, she will make $1000 + $1100 = $<<1000+1100=2100>>2100.",
+            "final_answer": "2100"
+        },
+        {
+            "question_idx": 279,
+            "question": "Q: Delores has some money. She buys a computer for $400 and a printer for $40. If she has $10 left, how much money, in dollars, did Delores have at first?",
+            "rationale": "A: Let's think step by step.\nThe computer and printer cost 400+40=<<400+40=440>>440 dollars.\nDelores had 440+10=<<440+10=450>>450 dollars at first.",
+            "final_answer": "450"
+        },
+        {
+            "question_idx": 465,
+            "question": "Q: Emma's bank account has $100 in it. Each day of the week, she spends $8. At the end of the week, she goes to the bank and asks for as many $5 bills as her account can give her. She leaves the rest in the account. How many dollars remain in the account?",
+            "rationale": "A: Let's think step by step.\nShe spend $56 because 7 x 8 = <<7*8=56>>56\nShe has $44 left in the bank because 100 - 56 = <<100-56=44>>44\nShe can get 8 five dollar bills because 44 / 5 = <<44/5=8.8>>8.8\nThis is equal to $40 because 8 x 5 = <<8*5=40>>40\nShe has $4 left in the account because 44 - 40 = <<44-40=4>>4",
+            "final_answer": "4"
+        },
+        {
+            "question_idx": 568,
+            "question": "Q: Josie received $50 as a gift. She plans to buy two cassette tapes that cost $9 each and a headphone set that costs $25. How much money will she have left?",
+            "rationale": "A: Let's think step by step.\nThe cassette tapes will cost 2 × 9 = $<<2*9=18>>18.\nShe spends 18 + 25 = $<<18+25=43>>43 in total.\nJosie will have 50 - 43 = $<<50-43=7>>7 left.",
+            "final_answer": "7"
+        },
+        {
+            "question_idx": 897,
+            "question": "Q: Each week Jaime saves $50. Every two weeks she spends $46 of her savings on a nice lunch with her mum. How long will it take her to save $135?",
+            "rationale": "A: Let's think step by step.\nJamie saves 50 * 2 = $<<50*2=100>>100 every two weeks.\nAfter the lunch with her mum, Jamie saves $100 - $46 = $<<100-46=54>>54 every two weeks.\nJamie saves $54 / 2 = $<<54/2=27>>27 per week.\nJamie will need 135 / 27 = <<135/27=5>>5 weeks to save enough.",
+            "final_answer": "5"
+        },
+        {
+            "question_idx": 963,
+            "question": "Q: Michael has $42. Michael gives away half the money to his brother. His brother then buys 3 dollars worth of candy. If his brother has $35 left, how much money, in dollars, did his brother have at first?",
+            "rationale": "A: Let's think step by step.\nMichael gives away 42/2=<<42/2=21>>21 dollars.\nBefore buying candy, his brother has 35+3=<<35+3=38>>38 dollars.\nHis brother had 38-21=<<38-21=17>>17 dollars at first.",
+            "final_answer": "17"
+        },
+        {
+            "question_idx": 4,
+            "question": "Q: Oliver had $9, then he saved $5 from his allowance and spent $4 on a frisbee and $3 on a puzzle. His friend gives him another $8 as it's his birthday. How much money does Oliver have left?",
+            "rationale": "A: Let's think step by step.\nThe total amount of money saved is $9 + $5 = $<<9+5=14>>14.\nThe total cost of the frisbee and the puzzle is $4 + $3 = $<<4+3=7>>7.\nSo Oliver has $14 - $7 = $<<14-7=7>>7 left.\nHis friend gives him $8, so now he has $7 + $8 = $<<7+8=15>>15.",
+            "final_answer": "15"
+        }
+    ]
+}

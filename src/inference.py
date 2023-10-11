@@ -21,7 +21,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto/2023_10_02_10_35_32/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto/2023_10_06_21_03_31/demos/cluster_7", help="prompts to use"
     )
 
     parser.add_argument(

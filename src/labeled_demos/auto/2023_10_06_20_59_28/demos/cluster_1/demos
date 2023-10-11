@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question_idx": 807,
+            "question": "Q: A and B start a business, with A investing the total capital of Rs.50000, on the condition that B pays A interest @ 10% per annum on his half of the capital. A is a working partner and receives Rs.1500 per month from the total profit and any profit remaining is equally shared by both of them. At the end of the year, it was found that the income of A is twice that of B. Find the total profit for the year? Answer Choices: (A) 59028 (B) 59010 (C) 59190 (D) 59000 (E) 92700",
+            "rationale": "A: Let's think step by step.\nInterest received by A from B = 10% of half of Rs.50000 = 10% * 25000 = 2500.\nAmount received by A per annum for being a working partner = 1500 * 12 = Rs.18000.\nLet 'P' be the part of the remaining profit that A receives as his share. Total income of A = (2500 + 18000 + P)\nTotal income of B = only his share from the remaining profit = 'P', as A and B share the remaining profit equally.\nIncome of A = Twice the income of B\n(2500 + 18000 + P) = 2(P)\nP = 20500\nTotal profit = 2P + 18000\n= 2*20500 + 18000 = 59000\nAnswer:D",
+            "final_answer": "D"
+        },
+        {
+            "question_idx": 701,
+            "question": "Q: The percentage profit earned by selling an article for Rs. 1920 is equal to the percentage loss incurred by selling the same article for Rs. 1280. At what price should the article be sold to make 25% profit? Answer Choices: (A) 3000 (B) 1230 (C) 2000 (D) 5600 (E) 3400",
+            "rationale": "A: Let's think step by step.\nC\nC.P. be Rs. x.\nThen, (1920 - x)/x * 100 = (x - 1280)/x * 100\n1920 - x = x - 1280\n2x = 3200 => x = 1600\nRequired S.P. = 125 % of Rs. 1600 = 125/100 * 1600 = Rs. 2000.",
+            "final_answer": "C"
+        },
+        {
+            "question_idx": 772,
+            "question": "Q: A man sells an article at a gain 15%. If he had bought it at 10% less and sold it for 6 less, he would have gained 25%. Find the cost price of the article. Answer Choices: (A) 150 (B) 160 (C) 170 (D) 180 (E) 240",
+            "rationale": "A: Let's think step by step.\nLet the C.P. be 100\nFirst S.P. = 115\nSecond C.P. = 90\nSecond S.P = 125% of 90 = 112.50\nDifference of two selling prices is 115 – 112.50 = 2.50 and C.P. of the article is 100\nBut actual difference is 6.\n∴ C.P. = 100⁄2.50 × 6 = 240.\nAnswer E",
+            "final_answer": "E"
+        },
+        {
+            "question_idx": 971,
+            "question": "Q: C and D started a business by investing Rs.1000/- and Rs.1500/- respectively. Find the D’s share out of a total profit of Rs.500: Answer Choices: (A) 400 (B) 300 (C) 200 (D) 100 (E) 150",
+            "rationale": "A: Let's think step by step.\nC = Rs.1000/-\nD = Rs.1500/-\nC share 2 parts & D share 3 parts\nTotal 5 parts -----> Rs.500/-\n----> 1 part -------> Rs.100/-\nD share = 3 parts -----> Rs.300/-\nD",
+            "final_answer": "D"
+        }
+    ]
+}

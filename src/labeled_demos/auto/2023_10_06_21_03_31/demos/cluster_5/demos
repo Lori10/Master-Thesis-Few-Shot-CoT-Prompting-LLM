@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question_idx": 993,
+            "question": "Q: Amanda needs 12 more marbles to have twice as many marbles as Katrina, and Mabel has 5 times as many marbles as Katrina. If Mabel has 85 marbles, how many more marbles does Mabel have than Amanda?",
+            "rationale": "A: Let's think step by step.\nKatrina has 85/5 = <<85/5=17>>17 marbles.\nTwice as many marbles as Katrina is 17 x 2 = <<17*2=34>>34\nAmanda has 34 -12 = <<34-12=22>>22 marbles.\nMabel has 85 - 22 = <<85-22=63>>63 more marbles than Amanda",
+            "final_answer": "63"
+        },
+        {
+            "question_idx": 144,
+            "question": "Q: Betty has 20 books, and her sister has 1/4 times more books than Betty. What's the total number of books the two have?",
+            "rationale": "A: Let's think step by step.\nBetty's sister has 1/4 * 20 books = <<1/4*20=5>>5 more books.\nThe total number of books Betty's sister has is 20 books + 5 books = <<20+5=25>>25 books\nThe total number of books the two have is 25 books + 20 books = <<25+20=45>>45 books",
+            "final_answer": "45"
+        },
+        {
+            "question_idx": 942,
+            "question": "Q: Josh has 85 marbles. There are three times as many blue marbles as red while the rest are yellow. If there are 14 red marbles, how many yellow marbles are there?",
+            "rationale": "A: Let's think step by step.\nThere are 14 x 3 = <<14*3=42>>42 blue marbles.\nThe total number of blue and red marbles is 42 + 14 = <<42+14=56>>56.\nThere are 85 - 56= <<85-56=29>>29 yellow marbles.",
+            "final_answer": "29"
+        },
+        {
+            "question_idx": 141,
+            "question": "Q: Mary has 26 blue shirts and 36 brown shirts. If she gives away half of her blue shirts and a third of her brown shirts, how many shirts does she have left?",
+            "rationale": "A: Let's think step by step.\nMary gives away 26/2 = <<26/2=13>>13 blue shirts.\nMary gives away 36/3 = <<36/3=12>>12 brown shirts.\nMary has 26-13 = <<26-13=13>>13 blue shirts left.\nMary has 36-12 = <<36-12=24>>24 brown shirts left.\nMary has 13+24 = <<13+24=37>>37 shirts left.",
+            "final_answer": "37"
+        },
+        {
+            "question_idx": 139,
+            "question": "Q: Eric has 20 marbles. He has 12 white marbles, 6 blue marbles, and the rest are green marbles. How many green marbles does Eric have?",
+            "rationale": "A: Let's think step by step.\nEric has a total of 12 + 6 = <<12+6=18>>18 white and blue marbles.\nThus, he has 20 - 18 = <<20-18=2>>2 green marbles.",
+            "final_answer": "2"
+        },
+        {
+            "question_idx": 372,
+            "question": "Q: Sally, Sam, and Steve went to play with their marbles. In the beginning, Sam has twice as many marbles as Steve while Sally has 5 less than Sam. After Sam has given Sally and Steve 3 marbles each, Sam has 8 marbles left. How many marbles does Steve have now?",
+            "rationale": "A: Let's think step by step.\nSam has 8 marbles left after giving 3 marbles/person x 2 people = 6 marbles to Sally and Steve.\nHence, Sam had 8 marbles + 6 marbles = <<8+6=14>>14 marbles in the beginning.\nSam had twice as many marbles as Steve, therefore Steve has 14 marbles / 2 = <<14/2=7>>7 marbles in the beginning.\nSo now, Steve has a total of 7 marbles + 3 marbles = <<7+3=10>>10 marbles after Sam gave him 3 marbles.",
+            "final_answer": "10"
+        },
+        {
+            "question_idx": 694,
+            "question": "Q: Alex has 4 new shirts. Joe has 3 more new shirts than Alex. If Ben has eight more new shirts than Joe, how many new shirts does Ben have?",
+            "rationale": "A: Let's think step by step.\nJoe has 4+3=<<4+3=7>>7 new shirts.\nBen has 8+7=<<8+7=15>>15 new shirts.",
+            "final_answer": "15"
+        },
+        {
+            "question_idx": 166,
+            "question": "Q: Mary and her two friends came up with the idea of collecting marbles each day for their play on weekends. From Monday to Friday, Mary collected twice as many red marbles as Jenny and half the number of blue marbles collected by Anie, who collected 20 more red marbles than Mary and twice the number of blue marbles Jenny collected. If Jenny collected 30 red marbles and 25 blue marbles, what's the total number of blue marbles collected by the friends together?",
+            "rationale": "A: Let's think step by step.\nIf Mary collected twice the number of red marbles collected by Jenny, she got 2*30 = <<2*30=60>>60 red marbles.\nAnie collected 20 more red marbles than Mary, which is 60+20 = 80 red marbles.\nThe total number of red marbles is 60+80+30 = <<60+80+30=170>>170 red marbles.\nIf Anie collected twice the number of blue marbles collected by Jenny, then she got 2*25 = <<2*25=50>>50 blue marbles.\nMary collected half the number of blue marbles collected by Anie, thus 1/2*50 = 25 marbles\nThe total number of blue marbles collected is 50+25+25 = <<50+25+25=100>>100 blue marbles",
+            "final_answer": "100"
+        }
+    ]
+}

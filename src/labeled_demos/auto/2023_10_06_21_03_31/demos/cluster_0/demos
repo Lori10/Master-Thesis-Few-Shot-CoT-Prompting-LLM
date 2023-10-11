@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question_idx": 858,
+            "question": "Q: Mary is trying to count the animals in the petting zoo, but they kept moving around so she double-counts 7 sheep and forgets to count 3 pigs. If Mary thinks there are 60 animals, how many are there really?",
+            "rationale": "A: Let's think step by step.\nFirst subtract the 7 double-counted animals from Mary's total: 60 animals - 7 animals = <<60-7=53>>53 animals\nThen add the animals she missed to find the real total: 53 animals + 3 pigs = <<53+3=56>>56 animals",
+            "final_answer": "56"
+        },
+        {
+            "question_idx": 197,
+            "question": "Q: There are 66 goats at a farm and twice as many chickens. If the number of ducks is half of the total of the goats and chickens, and the number of pigs is a third of the number of ducks, how many more goats are there than pigs?",
+            "rationale": "A: Let's think step by step.\nThere are 66 x 2 = <<66*2=132>>132 chickens\nThere are 66 + 132 = <<66+132=198>>198 goats and chickens\nThere are are 198/2 = <<198/2=99>>99 ducks\nThere are 99/3 = <<99/3=33>>33 pigs\nThere are 66 - 33 = <<66-33=33>>33 more goats than pigs",
+            "final_answer": "33"
+        },
+        {
+            "question_idx": 627,
+            "question": "Q: Three siblings are born 5 years apart, each. If the eldest child is 20 years old now, what's the total of the ages of the three siblings 10 years from now?",
+            "rationale": "A: Let's think step by step.\nTen years from now, the elder child will be 20+10 = <<10+20=30>>30 years old.\nIf the elder child is 20 years old now, the second born is 20-5 = <<20-5=15>>15 years old, 5 years younger than the firstborn.\nThe second-born will be 15+10 = 25 years old ten years from now.\nThe total age of the first and second-born 10 years from now will be 25+30 = <<25+30=55>>55\nThe third-born who is five years younger than the second born is 15-5 = <<15-5=10>>10 years old.\nThe third sibling's age ten years from now will be 10+10 = <<10+10=20>>20 years old.\nThe total age of the three siblings ten years from now will be 55+20 = <<55+20=75>>75 years.",
+            "final_answer": "75"
+        },
+        {
+            "question_idx": 437,
+            "question": "Q: Jeffrey owns a poultry farm with 12 hens. For every 3 hens, there is 1 rooster. Each hen has 5 chicks. How many chickens are there in all?",
+            "rationale": "A: Let's think step by step.\nJeffrey’s poultry farm has 12/3=<<12/3=4>>4 roosters.\nThere are 12*5=<<12*5=60>>60 chicks.\nThus, there are 12+4+60=<<12+4+60=76>>76 chickens on the poultry farm.",
+            "final_answer": "76"
+        },
+        {
+            "question_idx": 962,
+            "question": "Q: Gary buys 4 chickens. After two years, he has 8 times as many chickens as he started with. If each chicken lays 6 eggs a day, how many eggs does Gary currently collect every week?",
+            "rationale": "A: Let's think step by step.\nAfter two years, Gary has 4 * 8 = <<4*8=32>>32 chickens\nGary collects each day 32 chickens * 6 eggs per chicken = <<32*6=192>>192 eggs\nIn a week he collects 192 eggs per day * 7 days per week = <<192*7=1344>>1344 eggs",
+            "final_answer": "1344"
+        },
+        {
+            "question_idx": 679,
+            "question": "Q: Carmen had 28 cats and 18 dogs before she gave 3 of the cats up for adoption. How many more cats than dogs does Carmen have now?",
+            "rationale": "A: Let's think step by step.\nFirst find the number of cats Carmen has left: 28 cats - 3 cats = <<28-3=25>>25 cats\nThen subtract the number of dogs from the number of cats to find the difference: 25 cats - 18 dogs = <<25-18=7>>7 more cats",
+            "final_answer": "7"
+        },
+        {
+            "question_idx": 260,
+            "question": "Q: There are 15 cats in a shelter. One-third were adopted, and were replaced with twice the amount that were adopted. Later on, twice as many dogs showed up as there are cats. How many total animals are there in the shelter?",
+            "rationale": "A: Let's think step by step.\n15/3=<<15/3=5>>5 cats were adopted out of 15\nThere were 15-5 = <<15-5=10>>10 cats left\n5*2=<<5*2=10>>10 more cats were added.\nThis makes 10+10=<<10+10=20>>20 cats in the shelter.\n20*2=<<20*2=40>>40 dogs came into the shelter.\nThere are now 20+40=<<20+40=60>>60 animals in the shelter.",
+            "final_answer": "60"
+        },
+        {
+            "question_idx": 589,
+            "question": "Q: Anthony has 16 pets. This morning he forgot to lock the door and he lost 6 pets. After that 1/5 of his pets died from old age. How many pets does he have left?",
+            "rationale": "A: Let's think step by step.\nAnthony lost 6 pets, so he has 16 - 6 = <<16-6=10>>10 pets left.\nThen 1/5 * 10 = <<1/5*10=2>>2 died from old age.\nSo, Anthony now has 10 - 2 = <<10-2=8>>8 pets.",
+            "final_answer": "8"
+        }
+    ]
+}

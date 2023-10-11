@@ -9,12 +9,12 @@ import time
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
-        choices=["aqua", "gsm8k", "commonsensqa", "addsub", "multiarith", "strategyqa", "svamp", "singleeq", "coin_flip", "last_letters"], help="dataset used for experiment"
+        "--dataset", type=str, default="gsm8k",
+        choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
+        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -23,6 +23,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--method_random_seed", type=int, default=42, help="seed for selecting random samples"
+    )
+    
+    parser.add_argument(
         "--nr_seeds", type=int, default=2, help="nr of different prompts to select"
     )
 
@@ -30,7 +34,7 @@ def parse_arguments():
         "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
     )
 
     parser.add_argument(
@@ -67,6 +71,7 @@ def main():
 
     dataloader = create_dataloader(args)   
 
+    random.seed(args.method_random_seed)
     start = time.time()  
     for i in range(args.nr_seeds):
         selected_examples = random.sample(dataloader, args.nr_demos)
@@ -82,7 +87,8 @@ def main():
         "dataset": args.dataset,
         "data_path": args.data_path,
         "dataset_size_limit": args.dataset_size_limit,
-        "random_seed": args.random_seed,
+        "training_set_random_seed": args.random_seed,
+        "method_random_seed": args.method_random_seed,
         "nr_seeds": args.nr_seeds,
         "nr_demos": args.nr_demos,
         "answers_are_available": args.answers_are_available,

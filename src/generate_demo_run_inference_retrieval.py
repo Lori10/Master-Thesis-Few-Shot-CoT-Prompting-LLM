@@ -193,6 +193,7 @@ def main():
     end = time.time()
 
     args_dict = {
+        'sampling_method': "Retrieval-CoT",
         'dataset': args.dataset,
         'dataset_size_limit': args.dataset_size_limit,
         'model_id': args.model_id,

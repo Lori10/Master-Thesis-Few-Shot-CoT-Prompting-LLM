@@ -1,4 +1,5 @@
 {
+    "sampling_method": "Retrieval-CoT",
     "dataset": "aqua",
     "dataset_size_limit": 254,
     "model_id": "gpt-35-turbo-0613",

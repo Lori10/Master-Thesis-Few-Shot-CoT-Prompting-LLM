@@ -5,7 +5,7 @@ from langchain.vectorstores import FAISS
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 from constant_vars import *
 import datetime
-from generate_demo_auto_active_cot_kmeans_plusplus_new import main_auto_active_kmeansplusplus
+from generate_demo_auto_active_cot_kmeans_plusplus import main_auto_active_kmeansplusplus
 import time
 import os
 from utils.load_data import create_dataloader
@@ -17,12 +17,12 @@ from utils.inference_llm import single_question_inference
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeansPlusPlus-Retrieval-Inference")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -48,15 +48,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=100000000000, help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_token_len", type=int, default=1000000000000, help="maximum number of reasoning chains"
+        "--max_token_len", type=int, default=60, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use for uncertainty estimation"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use for uncertainty estimation"
     )
     
     parser.add_argument(
@@ -95,7 +95,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=50, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=4, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -107,25 +107,25 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeansPlusPlus and Auto-Active-KMeansPlusPlus-Retrieval CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records', help='file to load uncertainties from'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records', help='file to load uncertainties from'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
     )
 
     # Retrieval Arguments
     parser.add_argument(
-        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
     )
 
     parser.add_argument(

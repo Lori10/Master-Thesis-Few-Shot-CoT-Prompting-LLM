@@ -1,0 +1,48 @@
+{
+    "demo": [
+        {
+            "question": "Q: A train 160 m long is running at a speed of 45 km/hr. In what time will it pass a bridge 140 m long? Answer Choices: (A) 40 sec (B) 50 sec (C) 44 sec (D) 24 sec (E) 60 sec",
+            "question_idx": 30,
+            "rationale": "A: Let's think step by step. Speed = 45 * 5/18 = 25/2 m/sec Total distance covered = 160 + 140 = 300 m Required time = 300 * 2/25 = 24 sec Answer:D",
+            "final_answer": "D",
+            "entropy": 0.0,
+            "occurrence": {
+                "D": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question": "Q: Amanda goes to the toy store to buy 1 ball and 3 different board games. If the toy store is stocked with 3 types of balls and 6 types of board games, how many different selections E of the 4 items can Amanda make? Answer Choices: (A) 9 (B) 12 (C) 14 (D) 15 (E) 60",
+            "question_idx": 35,
+            "rationale": "A: Let's think step by step. Amanda goes to the toy store to buy 1 ball and 3 different board games. If the toy store is stocked with 3 types of balls and 6 types of board games, how many different selections of the 4 items can Amanda make? 3! / 1!2! * 6! / 3!3! E=3*20=60 E. 60",
+            "final_answer": "E",
+            "entropy": 0.0,
+            "occurrence": {
+                "E": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question": "Q: Mangala completes a piece of work in 10 days, Raju completes the same work in 40 days. If both of them work together, then the number of days required to complete the work is? Answer Choices: (A) 8 days (B) 10 days (C) 11 days (D) 12 days (E) 14 days",
+            "question_idx": 41,
+            "rationale": "A: Let's think step by step. If A can complete a work in x days and B can complete the same work in y days, then, both of them together can complete the work in x y/ x+ y days. That is, the required No. of days = 10 × 40/50 = 8 days A)",
+            "final_answer": "A",
+            "entropy": 0.0,
+            "occurrence": {
+                "A": 5
+            },
+            "disagreement": 1
+        },
+        {
+            "question": "Q: 40% of a number is more than 20% of 650 by 190. Find the number? Answer Choices: (A) 228 (B) 276 (C) 800 (D) 288 (E) 121",
+            "question_idx": 65,
+            "rationale": "A: Let's think step by step. (40/100) * X – (20/100) * 650 = 190 2/5 X = 320 X = 800 Answer:C",
+            "final_answer": "C",
+            "entropy": 0.0,
+            "occurrence": {
+                "C": 5
+            },
+            "disagreement": 1
+        }
+    ]
+}

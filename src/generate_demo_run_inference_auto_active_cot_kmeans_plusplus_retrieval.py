@@ -48,11 +48,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_token_len", type=int, default=60, help="maximum number of reasoning chains"
+        "--max_token_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -95,7 +95,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=4, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=8, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(

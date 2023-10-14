@@ -1,0 +1,16 @@
+{
+    "sampling_method": "Random",
+    "dataset": "aqua",
+    "data_path": "../datasets/AQuA/train.json",
+    "dataset_size_limit": 1000,
+    "training_set_random_seed": 1,
+    "method_random_seed": 20,
+    "nr_seeds": 2,
+    "nr_demos": 4,
+    "nr_filtered_examples": 355,
+    "max_ra_len": 5,
+    "max_token_len": 60,
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/random/2023_10_13_21_23_27/demos/",
+    "execution_time": "0.0035247802734375 seconds"
+}

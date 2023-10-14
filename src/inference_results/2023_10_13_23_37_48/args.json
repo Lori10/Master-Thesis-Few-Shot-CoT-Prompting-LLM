@@ -6,11 +6,10 @@
     "model_id": "gpt-35-turbo-0613",
     "backup_model_id": "gpt-3.5-turbo-0613",
     "method": "cot",
-    "output_dir": "inference_results/2023_10_03_15_35_14/",
+    "output_dir": "inference_results/2023_10_13_23_37_48/",
     "temperature": 0.0,
     "multipath": 1,
-    "method_random_seed": 42,
     "answers_are_available": true,
-    "execution_time": "1173.916311264038 seconds",
-    "dir_prompts": "labeled_demos/random/2023_10_03_15_31_50/demos"
+    "execution_time": "386.23071217536926 seconds",
+    "dir_prompts": "labeled_demos/auto_active_kmeansplusplus/2023_10_13_23_36_41/demos"
 }

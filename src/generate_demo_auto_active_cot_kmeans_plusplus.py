@@ -120,7 +120,8 @@ def main_auto_active_kmeansplusplus(args, args_dict):
 
     corpus_embeddings = corpus_embeddings[filtered_idxs]
     
-    max_entropy_example = min(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
+    # max_entropy_example = min(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
+    max_entropy_example = max(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
     question_idx_with_max_entropy = filtered_uncertainty_records.index(max_entropy_example)
 
     selected_idxs = [question_idx_with_max_entropy]
@@ -182,11 +183,11 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         print(f'F1 scores: {[round(score, 2) for score in not_selected_f1_scores]}')
         
         if args.greedy:
-            # highest_f1_score = max(not_selected_f1_scores)
-            # selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
+            highest_f1_score = max(not_selected_f1_scores)
+            selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
 
-            lowest_f1_score = min(not_selected_f1_scores)
-            selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == lowest_f1_score)[0][0]]
+            # lowest_f1_score = min(not_selected_f1_scores)
+            # selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == lowest_f1_score)[0][0]]
         else:
             sorted_idxs = np.argsort(not_selected_f1_scores)[::-1]
             top_k = round(args.top_r * len(not_selected_f1_scores))

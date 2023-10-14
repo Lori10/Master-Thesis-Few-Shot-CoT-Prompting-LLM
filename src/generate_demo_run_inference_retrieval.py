@@ -17,11 +17,11 @@ import sys
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Retrieval_CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 

@@ -8,6 +8,7 @@
     "output_dir": "inference_results/2023_08_31_18_51_42/",
     "temperature": 0.0,
     "multipath": 1,
+    "method_random_seed": 1,
     "answers_are_available": true,
     "execution_time": "2224.2397565841675 seconds",
     "dir_prompts": "labeled_demos/random/2023_08_29_22_32_44/demos"

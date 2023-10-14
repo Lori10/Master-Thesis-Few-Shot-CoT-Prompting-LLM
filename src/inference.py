@@ -21,7 +21,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto_active_kmeansplusplus/2023_10_11_22_09_12/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto_active_kmeansplusplus/2023_10_14_00_08_44/demos", help="prompts to use"
     )
 
     parser.add_argument(

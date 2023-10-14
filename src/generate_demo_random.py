@@ -5,16 +5,17 @@ import os
 from utils.load_data import create_dataloader
 import datetime
 import time
+from utils.filter_simple_examples import filter_examples_with_labels
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Random-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k",
+        "--dataset", type=str, default="aqua",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/AQuA/train.json",
         choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
     )
 
@@ -35,6 +36,14 @@ def parse_arguments():
     )
     parser.add_argument(
         "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
+    )
+
+    parser.add_argument(
+        "--max_ra_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -71,10 +80,16 @@ def main():
 
     dataloader = create_dataloader(args)   
 
+    print('Total nr of examples: ', len(dataloader))
+    filtered_dataloader = filter_examples_with_labels(dataloader, args.max_token_len, args.max_ra_len)
+    print(f'Nr of filtered examples: {len(filtered_dataloader)}')
+
     random.seed(args.method_random_seed)
+
     start = time.time()  
     for i in range(args.nr_seeds):
-        selected_examples = random.sample(dataloader, args.nr_demos)
+        print(len(filtered_dataloader))
+        selected_examples = random.sample(filtered_dataloader, args.nr_demos)
         demos = [example for example in selected_examples]
         demos_dic = {"demo": demos}
         with open(args.demos_save_dir + '/demos' + str(i+1), 'w', encoding="utf-8") as write_f:
@@ -91,8 +106,12 @@ def main():
         "method_random_seed": args.method_random_seed,
         "nr_seeds": args.nr_seeds,
         "nr_demos": args.nr_demos,
+        "nr_filtered_examples": len(filtered_dataloader),
+        'max_ra_len': args.max_ra_len,
+        'max_token_len': args.max_token_len,
         "answers_are_available": args.answers_are_available,
         "demos_save_dir": args.demos_save_dir,
+        "method_random_seed": args.method_random_seed,
         "execution_time": str(end - start) + ' seconds',
     }
 

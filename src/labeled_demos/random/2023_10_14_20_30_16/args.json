@@ -1,0 +1,16 @@
+{
+    "sampling_method": "Random",
+    "dataset": "aqua",
+    "data_path": "../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+    "dataset_size_limit": 1000,
+    "training_set_random_seed": 1,
+    "method_random_seed": 42,
+    "nr_seeds": 2,
+    "nr_demos": 4,
+    "nr_filtered_examples": 913,
+    "max_ra_len": Infinity,
+    "max_token_len": Infinity,
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/random/2023_10_14_20_30_16/demos/",
+    "execution_time": "0.0034580230712890625 seconds"
+}

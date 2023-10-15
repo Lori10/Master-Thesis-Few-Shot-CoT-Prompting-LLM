@@ -61,7 +61,7 @@ def create_single_input_prompt(args: object, prompt_filename: str, cot_flag:bool
         for line in json_data:
             x.append(line["question"])
             z.append(line["rationale"])
-            y.append(line["final_answer"]) # use final_answer instead of pred_ans
+            y.append(line["final_answer"]) 
 
     index_list = list(range(len(x)))
     

@@ -1,0 +1,6 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'.\n\nQ: {question}\nA: Let's think step by step.",
+        "nr_answers_backup_answer": 0
+    }
+]

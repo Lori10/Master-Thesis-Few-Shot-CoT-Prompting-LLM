@@ -1,0 +1,14 @@
+{
+    "dataset": "gsm8k",
+    "dataset_size_limit": 1000,
+    "data_path": "../datasets/gsm8k/train.jsonl",
+    "random_seed": 1,
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "zero_shot_cot",
+    "output_dir": "inference_results/2023_10_14_16_21_08/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "1691.2256217002869 seconds"
+}

@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question_idx": 555,
+            "question": "Q: Which of the following is the lowest positive integer that is divisible by 7, 8, 9, 10, and 11? Answer Choices: (A) 27,720 (B) 29,940 (C) 31,960 (D) 33,970 (E) 35,890",
+            "rationale": "A: Let's think step by step. To find the lowest positive integer that is divisible by 7, 8, 9, 10, and 11, we need to find the least common multiple (LCM) of these numbers. First, we can simplify 8 to 2^3 and 9 to 3^2. The prime factorization of each number is: 7 = 7 2^3 = 8 3^2 = 9 10 = 2 x 5 11 = 11 To find the LCM, we need to take the highest power of each prime factor that appears in any of the numbers. The LCM of these numbers is: 7 x 2^3 x 3^2 x 5 x 11 = 27,720 Therefore, the answer is (A) 27,720.",
+            "final_answer": "A"
+        },
+        {
+            "question_idx": 807,
+            "question": "Q: A and B start a business, with A investing the total capital of Rs.50000, on the condition that B pays A interest @ 10% per annum on his half of the capital. A is a working partner and receives Rs.1500 per month from the total profit and any profit remaining is equally shared by both of them. At the end of the year, it was found that the income of A is twice that of B. Find the total profit for the year? Answer Choices: (A) 59028 (B) 59010 (C) 59190 (D) 59000 (E) 92700",
+            "rationale": "A: Let's think step by step. Let's start by finding out how much B invested in the business. A invested Rs. 50000, which is the total capital. Let's assume B invested x. So, the total capital is Rs. 50000 + x. Now, according to the condition, B pays A interest @ 10% per annum on his half of the capital. So, A receives an interest of 10% on (x/2) for a year. A also receives a salary of Rs. 1500 per month from the total profit. So, A's income for the year is: Income of A = (x/2) * 10/100 + 1500 * 12 Now, we are given that A's income is twice that of B. So, we can write: (x/2) * 10/100 + 1500 * 12 = 2 * B's income Simplifying this equation, we get: (x/20) + 18000 = B's income Now, let's find out the total profit for the year. We know that A and B share the profit equally after A's salary is deducted. So, the total profit for the year is: Total profit = 2 * (Income of A - 1500 * 12) Substituting the value of Income of A, we get: Total profit = 2 * [(x/2) * 10/100 + 1500 * 12 - 1500 * 12] Simplifying this equation, we get: Total profit = (x/10) * 2 Total profit = x/5 Now, we need to find the value of x to calculate the total profit. We know that A's income is twice that of B. So, we can write: (x/20) + 18000 = (x/10) Simplifying this equation, we get: x = Rs. 36000 So, B invested Rs. 36000 in the business. Therefore, the total capital is Rs. 86000. Now, we can calculate the total profit for the year: Total profit = (36000/5) Total profit = Rs. 7200 But we need to add A's salary to this profit to get the actual total profit: Actual total profit = 7200 + 1500 * 12 Actual total profit = Rs. 39000 Therefore, the correct answer is (None of the above).",
+            "final_answer": "A"
+        },
+        {
+            "question_idx": 160,
+            "question": "Q: Two trains each 250 m in length are running on the same parallel lines in opposite directions with the speed of 80 kmph and 70 kmph respectively. In what time will they cross each other completely? Answer Choices: (A) 19 sec (B) 22 sec (C) 12 sec (D) 42 sec (E) 32 sec",
+            "rationale": "A: Let's think step by step. First, we need to convert the speeds from kmph to m/s. Speed of first train = 80 kmph = (80 x 1000) / (60 x 60) m/s = 22.22 m/s Speed of second train = 70 kmph = (70 x 1000) / (60 x 60) m/s = 19.44 m/s Now, we need to find the relative speed of the two trains. Relative speed = (Speed of first train + Speed of second train) = (22.22 + 19.44) m/s = 41.66 m/s The total distance to be covered by the two trains to cross each other completely is the sum of their lengths, which is 250 + 250 = 500 m. Now, we can use the formula: Time = Distance / Relative speed Time = 500 / 41.66 Time = 12 sec Therefore, the answer is (C) 12 sec.",
+            "final_answer": "C"
+        },
+        {
+            "question_idx": 21,
+            "question": "Q: What are the number of ways to select 3 men and 2 women such that one man and one woman are always selected? Answer Choices: (A) 26 ways (B) 19 ways (C) 30 ways (D) 76 ways (E) 15 ways",
+            "rationale": "A: Let's think step by step. First, we need to select one man from the available men, which can be done in C(3,1) ways. Then, we need to select one woman from the available women, which can be done in C(2,1) ways. Next, we need to select the remaining 1 man and 1 woman from the remaining pool of men and women. This can be done in C(2,1) * C(1,1) ways. Therefore, the total number of ways to select 3 men and 2 women such that one man and one woman are always selected is: C(3,1) * C(2,1) * C(2,1) * C(1,1) = 3 * 2 * 2 * 1 = 12 ways None of the answer choices match the correct answer of 12 ways.",
+            "final_answer": "C"
+        }
+    ]
+}

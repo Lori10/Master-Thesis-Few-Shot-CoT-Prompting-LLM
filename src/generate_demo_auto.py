@@ -12,6 +12,7 @@ from utils.embedding_generation import generate_corpus_embeddings
 import datetime 
 import pickle
 import time
+import sys 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
@@ -21,8 +22,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/sampled_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     
@@ -108,7 +111,7 @@ def main():
         "answers_are_available": args.answers_are_available,
         "load_embeddings_file": args.load_embeddings_file,
         "load_embeddings_args_file": args.load_embeddings_args_file,
-        "demos_save_dir": args.demos_save_dir,
+        "demos_save_dir": args.demos_save_dir + 'demos',
         "plots_dir": args.plots_dir
     }
 
@@ -160,16 +163,28 @@ def main():
         demo_found=False
         for element in top_min_dist:
             min_idx = element[0]
+            question = question_list[clustered_idx[i][min_idx]] 
             if args.answers_are_available:
                 rationale = rationale_list[clustered_idx[i][min_idx]].strip()
                 final_answer = final_answer_list[clustered_idx[i][min_idx]].strip()
                 nr_reasoning_steps = len(rationale.replace("\n\n", "\n").split("\n"))
+                
+                # print('RATIOALE:')
+                # print(rationale)
+                # print()
+                # print('RATIONALE STEPS:')
+                # print(rationale.replace("\n\n", "\n").split("\n"))
+                # print('-----------------')
+                # continue 
+
                 if args.dataset == 'aqua':
                     nr_reasoning_steps -= 1
 
-                question = question_list[clustered_idx[i][min_idx]] 
                 if len(question.strip().split()) <= args.max_token_len \
                     and nr_reasoning_steps <= args.max_ra_len and final_answer != "":
+                    rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
+                    rationale = " ".join(rationale.split())
+
                     demo_element = {
                         "question_idx": clustered_idx[i][min_idx],
                         "question": question,
@@ -192,7 +207,8 @@ def main():
         
         if not demo_found:
             print(f'No demo found for cluster {i} since no example satisfied the constraints.\n')
-            
+    
+
     end = time.time()
     args_dict["execution_time"] = str(end - start) + ' seconds'
 

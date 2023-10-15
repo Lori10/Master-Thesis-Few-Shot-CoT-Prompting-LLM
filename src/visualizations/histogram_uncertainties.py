@@ -8,6 +8,7 @@ def plot_uncertainty_scores(uncertainty_filepath):
 
     entropy_scores = [record['entropy'] for record in all_uncertainty_records]
     sns.histplot(entropy_scores, bins=10)
+    plt.savefig('entropy_scores.png')
     plt.show()
 
 if __name__ == "__main__":

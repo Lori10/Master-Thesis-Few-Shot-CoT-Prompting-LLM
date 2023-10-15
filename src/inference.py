@@ -17,11 +17,11 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/original/aqua/test.json", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl", "../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto_active_kmeansplusplus/2023_10_14_00_08_44/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/random/2023_10_15_13_11_08/demos", help="prompts to use"
     )
 
     parser.add_argument(

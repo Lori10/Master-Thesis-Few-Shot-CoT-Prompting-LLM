@@ -1,0 +1,106 @@
+{'prompt': 'You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate \'None of the above\'. To generate the answer follow the format of the examples below:\n\nQ: If the selling price is quadrupled,the profit is pentadruple, what is the percentage of profit?? Answer Choices: (A) 50% (B) 100% (C) 150% (D) 200% (E) 250%\n\nA: Let\'s think step by step. Let\'s assume the cost price of the item is $100. If the selling price is quadrupled, the new selling price would be $400. Let\'s say the profit made at the original selling price was $x. If the profit is pentadrupled, the new profit would be $5x. Profit = Selling price - Cost price So, x = Selling price - $100 $5x = $400 - $100 $5x = $300 x = $60 Therefore, the original profit was $60 and the new profit is $300. Percentage increase in profit = (New profit - Original profit) / Original profit * 100 = (300 - 60) / 60 * 100 = 400% So, the answer is (D) 200%. The answer is D.\n\nQ: There are two examinations rooms A and B. If 10 students are sent from A to B, then the number of students in each room is the same. If 20 candidates are sent from B to A, then the number of students in A is double the number of students in B. The number of students in room A is: Answer Choices: (A) 100 (B) 110 (C) 120 (D) 130 (E) 140\n\nA: Let\'s think step by step. Let\'s assume the initial number of students in room A is "x" and in room B is "y". According to the first condition, if 10 students are sent from A to B, then the number of students in each room is the same. So, after the transfer, the number of students in each room will be (x-10) and (y+10). According to the second condition, if 20 candidates are sent from B to A, then the number of students in A is double the number of students in B. So, after the transfer, the number of students in each room will be (x+20) and (y-20/2) = (y-10). Now, we can equate both expressions for the number of students in room B: y+10 = y-10/2 Solving for y, we get: y = 30 Substituting this value in the expression for the number of students in room A, we get: x+20 = 2(y-10) x+20 = 2(30-10) x+20 = 40 x = 20 Therefore, the number of students in room A is 20+20 = 40. None of the above answer choices are correct. The answer is A.\n\nQ: A vendor buys 10 t-shirts at an average price of $14 per t-shirt. He then buys 15 more t-shirts at an average price of $11 per t-shirt. What is the average price D per t-shirt that the vendor paid for these purchases? Answer Choices: (A) $12.20 (B) $12.50 (C) $12.55 (D) $12.70 (E) $13.00\n\nA: Let\'s think step by step. Step 1: Find the total cost of the first purchase of 10 t-shirts. Total cost of 10 t-shirts = 10 x $14 = $140 Step 2: Find the total cost of the second purchase of 15 t-shirts. Total cost of 15 t-shirts = 15 x $11 = $165 Step 3: Find the total cost of both purchases. Total cost of both purchases = $140 + $165 = $305 Step 4: Find the total number of t-shirts purchased. Total number of t-shirts = 10 + 15 = 25 Step 5: Find the average price per t-shirt. Average price per t-shirt = Total cost of both purchases / Total number of t-shirts D = $305 / 25 = $12.20 Therefore, the answer is (A) $12.20. The answer is A.\n\nQ: Let f(x,y) be defined as the remainder when (x–y)! is divided by x. If x=16, what is the maximum value of y for which f(x,y)=0? Answer Choices: (A) 5 (B) 10 (C) 15 (D) 20 (E) 25\n\nA: Let\'s think step by step. First, we need to find the value of (x-y)!. Since x=16, we have (16-y)!. Next, we need to find the remainder when (16-y)! is divided by 16. This means we need to find the largest value of y such that (16-y)! is divisible by 16. We know that 16=2^4, so we need to find the largest power of 2 that divides (16-y)!. We can use the formula for the highest power of a prime p that divides n!, which is given by: ⌊n/p⌋ + ⌊n/p^2⌋ + ⌊n/p^3⌋ + ... where ⌊x⌋ denotes the greatest integer less than or equal to x. In this case, p=2 and n=16-y, so we have: ⌊(16-y)/2⌋ + ⌊(16-y)/4⌋ + ⌊(16-y)/8⌋ + ⌊(16-y)/16⌋ Simplifying this expression, we get: 8 + 4 + 2 + 1 = 15 So the largest power of 2 that divides (16-y)! is 2^15. Therefore, the maximum value of y for which f(x,y)=0 is 15. The answer is (C) 15. The answer is C.\n\nQ: {question}\nA: Let\'s think step by step.'}
+{'question_idx': 2, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 3, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 8, 'pred_final_answer': '', 'true_final_answer': 'D'}
+{'question_idx': 9, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 10, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 11, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'question_idx': 12, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'question_idx': 16, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 19, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 25, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 26, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 28, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 32, 'pred_final_answer': 'B', 'true_final_answer': 'D'}
+{'question_idx': 33, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 35, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 36, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 37, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 39, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 44, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'question_idx': 49, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 55, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 56, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 57, 'pred_final_answer': 'No answer', 'true_final_answer': 'E'}
+{'question_idx': 62, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 64, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 65, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 66, 'pred_final_answer': 'No answer', 'true_final_answer': 'E'}
+{'question_idx': 69, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 72, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 73, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 74, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 76, 'pred_final_answer': 'D', 'true_final_answer': 'A'}
+{'question_idx': 82, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 83, 'pred_final_answer': 'No answer', 'true_final_answer': 'A'}
+{'question_idx': 86, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 87, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 88, 'pred_final_answer': 'D', 'true_final_answer': 'A'}
+{'question_idx': 89, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 91, 'pred_final_answer': 'A', 'true_final_answer': 'E'}
+{'question_idx': 93, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 94, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 95, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 96, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 97, 'pred_final_answer': '', 'true_final_answer': 'B'}
+{'question_idx': 99, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 100, 'pred_final_answer': 'No answer', 'true_final_answer': 'E'}
+{'question_idx': 101, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 103, 'pred_final_answer': '', 'true_final_answer': 'B'}
+{'question_idx': 105, 'pred_final_answer': 'D', 'true_final_answer': 'E'}
+{'question_idx': 109, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 110, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 114, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 118, 'pred_final_answer': 'C', 'true_final_answer': 'E'}
+{'question_idx': 119, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 121, 'pred_final_answer': 'No answer', 'true_final_answer': 'A'}
+{'question_idx': 135, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 136, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'question_idx': 137, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 139, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'question_idx': 142, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 144, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 145, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 146, 'pred_final_answer': 'D', 'true_final_answer': 'A'}
+{'question_idx': 147, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 148, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 152, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 156, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 157, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 161, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 162, 'pred_final_answer': 'C', 'true_final_answer': 'E'}
+{'question_idx': 163, 'pred_final_answer': 'No answer', 'true_final_answer': 'D'}
+{'question_idx': 164, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 165, 'pred_final_answer': '', 'true_final_answer': 'E'}
+{'question_idx': 168, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 169, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 176, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 183, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 184, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'question_idx': 185, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 188, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 190, 'pred_final_answer': '', 'true_final_answer': 'D'}
+{'question_idx': 192, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 193, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 198, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 201, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 202, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 204, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 208, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 221, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 222, 'pred_final_answer': 'A', 'true_final_answer': 'E'}
+{'question_idx': 224, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 225, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 228, 'pred_final_answer': '', 'true_final_answer': 'B'}
+{'question_idx': 231, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 232, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 234, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 239, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'question_idx': 243, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 245, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 247, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 248, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 250, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 251, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 252, 'pred_final_answer': 'D', 'true_final_answer': 'E'}
+{'question_idx': 253, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}

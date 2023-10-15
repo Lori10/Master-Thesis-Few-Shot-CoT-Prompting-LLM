@@ -1,0 +1,6 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve grade school math problems.\n\nQ: {question}\nA: Let's think step by step.",
+        "nr_answers_backup_answer": 2
+    }
+]

@@ -1,0 +1,112 @@
+{'prompt': "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: What Should come in place of the question mark in the following number series ?\nQ. 5 8 10 12 16 (?) Answer Choices: (A) 15 (B) 18 (C) 17 (D) 21 (E) 23\n\nA: Let's think step by step. The difference between 5 and 8 is 3, between 8 and 10 is 2, between 10 and 12 is 2, and between 12 and 16 is 4. So, it seems like the differences are not following a specific pattern. To find the missing number, we can try to look for other patterns. One possible pattern is that the numbers are increasing by 1, then 2, then 2, then 4, and so on. Following this pattern, the next number should increase by 4, making it 16 + 4 = 20. However, this number is not among the answer choices. The closest answer choice is (D) 21, which is an increase of 5 from the previous number. This pattern is also possible, as it would be an increase of 1, then 2, then 2, then 5. Therefore, the answer is (D) 21. The answer is D.\n\nQ: A boat can travel with a speed of 22 km/hr in still water. If the speed of the stream is 5 km/hr, find the time taken by the boat to go 108 km downstream Answer Choices: (A) 5 hours (B) 4 hours (C) 3 hours (D) 2 hours (E) None of these\n\nA: Let's think step by step. The boat's speed in downstream = (speed of boat in still water) + (speed of stream) = 22 + 5 = 27 km/hr. Now, we can use the formula: time = distance / speed. So, the time taken by the boat to go 108 km downstream = 108 / 27 = 4 hours. Therefore, the correct answer is (B) 4 hours. The answer is B.\n\nQ: 5 persons A,B,C,D and E occupy seats in a row at random. What is the probability that A and B sit next to each other ? Answer Choices: (A) 3/5 (B) 2/5 (C) 1/5 (D) 8/5 (E) None of these\n\nA: Let's think step by step. There are 5 people, so there are 5! = 120 ways to arrange them in a row. Now, let's consider A and B as a single entity, AB. Then, there are 4! = 24 ways to arrange the entities AB, C, D, and E in a row. However, within the entity AB, there are 2! = 2 ways to arrange A and B. So, there are 2 x 4! = 48 ways for A and B to sit next to each other. Therefore, the probability of A and B sitting next to each other is 48/120 = 2/5. The correct answer is (B) 2/5. The answer is B.\n\nQ: 12+6=792\n10+2=110\n1+9=9\n2+7=16\n11+4=??\nSolve it? Answer Choices: (A) 100 (B) 120 (C) 190 (D) 160 (E) 154\n\nA: Let's think step by step. In the first equation, 12+6=18. In the second equation, 10+2=12. In the third equation, 1+9=10. In the fourth equation, 2+7=9. To solve the fifth equation, we need to find a pattern in the given equations. We can see that the sum of the two numbers in each equation is multiplied by the second number to get the answer. For example, in the first equation, (12+6) x 6 = 108, which is the answer. Using the same pattern, we can solve the fifth equation: (11+4) x 4 = 60. Therefore, none of the answer choices are correct. The answer is No answer.\n\nQ: {question}\nA: Let's think step by step."}
+{'question_idx': 2, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 5, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 6, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 9, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 10, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 11, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 13, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 16, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 21, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 26, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 32, 'pred_final_answer': 'No answer', 'true_final_answer': 'D'}
+{'question_idx': 33, 'pred_final_answer': '', 'true_final_answer': 'D'}
+{'question_idx': 35, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 36, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 37, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 38, 'pred_final_answer': 'B', 'true_final_answer': 'D'}
+{'question_idx': 40, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 44, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 45, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 47, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 49, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 54, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 56, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 57, 'pred_final_answer': '', 'true_final_answer': 'E'}
+{'question_idx': 60, 'pred_final_answer': '', 'true_final_answer': 'D'}
+{'question_idx': 62, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 64, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 66, 'pred_final_answer': 'C', 'true_final_answer': 'E'}
+{'question_idx': 68, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 69, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 70, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 73, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 75, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 77, 'pred_final_answer': '', 'true_final_answer': 'A'}
+{'question_idx': 85, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 86, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 87, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 89, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 93, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 95, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 96, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 98, 'pred_final_answer': 'D', 'true_final_answer': 'A'}
+{'question_idx': 99, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 109, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 110, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'question_idx': 112, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 114, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 116, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 119, 'pred_final_answer': 'B', 'true_final_answer': 'D'}
+{'question_idx': 120, 'pred_final_answer': 'C', 'true_final_answer': 'E'}
+{'question_idx': 121, 'pred_final_answer': 'D', 'true_final_answer': 'A'}
+{'question_idx': 126, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 128, 'pred_final_answer': 'D', 'true_final_answer': 'B'}
+{'question_idx': 133, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 135, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 136, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 137, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 139, 'pred_final_answer': 'A', 'true_final_answer': 'C'}
+{'question_idx': 142, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 144, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 147, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 148, 'pred_final_answer': 'No answer', 'true_final_answer': 'A'}
+{'question_idx': 152, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 157, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 159, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 160, 'pred_final_answer': 'No answer', 'true_final_answer': 'E'}
+{'question_idx': 161, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 163, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 164, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 165, 'pred_final_answer': 'No answer', 'true_final_answer': 'E'}
+{'question_idx': 168, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 169, 'pred_final_answer': '', 'true_final_answer': 'E'}
+{'question_idx': 172, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 176, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 182, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 184, 'pred_final_answer': 'D', 'true_final_answer': 'C'}
+{'question_idx': 188, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 191, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 192, 'pred_final_answer': 'C', 'true_final_answer': 'E'}
+{'question_idx': 193, 'pred_final_answer': 'No answer', 'true_final_answer': 'C'}
+{'question_idx': 197, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 198, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 199, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 201, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 204, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 206, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 207, 'pred_final_answer': 'C', 'true_final_answer': 'D'}
+{'question_idx': 208, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 214, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 216, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 217, 'pred_final_answer': 'B', 'true_final_answer': 'A'}
+{'question_idx': 221, 'pred_final_answer': 'E', 'true_final_answer': 'D'}
+{'question_idx': 222, 'pred_final_answer': 'A', 'true_final_answer': 'E'}
+{'question_idx': 223, 'pred_final_answer': 'A', 'true_final_answer': 'D'}
+{'question_idx': 225, 'pred_final_answer': 'B', 'true_final_answer': 'D'}
+{'question_idx': 227, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 228, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 231, 'pred_final_answer': 'E', 'true_final_answer': 'A'}
+{'question_idx': 232, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 234, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 235, 'pred_final_answer': 'E', 'true_final_answer': 'C'}
+{'question_idx': 239, 'pred_final_answer': 'B', 'true_final_answer': 'C'}
+{'question_idx': 240, 'pred_final_answer': 'A', 'true_final_answer': 'E'}
+{'question_idx': 243, 'pred_final_answer': '', 'true_final_answer': 'C'}
+{'question_idx': 244, 'pred_final_answer': 'A', 'true_final_answer': 'B'}
+{'question_idx': 245, 'pred_final_answer': 'C', 'true_final_answer': 'B'}
+{'question_idx': 248, 'pred_final_answer': 'C', 'true_final_answer': 'A'}
+{'question_idx': 250, 'pred_final_answer': 'E', 'true_final_answer': 'B'}
+{'question_idx': 251, 'pred_final_answer': 'No answer', 'true_final_answer': 'B'}
+{'question_idx': 252, 'pred_final_answer': 'B', 'true_final_answer': 'E'}
+{'question_idx': 253, 'pred_final_answer': 'E', 'true_final_answer': 'B'}

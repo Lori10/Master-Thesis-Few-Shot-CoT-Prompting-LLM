@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question_idx": 165,
+            "question": "Q: How many numbers from 2 to 8 are exactly divisible by 2? Answer Choices: (A) A) 2 (B) B) 4 (C) C) 5 (D) D) 7 (E) E) 8",
+            "rationale": "A: Let's think step by step. We need to find the numbers from 2 to 8 that are exactly divisible by 2. Divisible by 2 means that the number can be divided by 2 without leaving any remainder. The numbers from 2 to 8 are: 2, 3, 4, 5, 6, 7, 8. Out of these, the numbers that are exactly divisible by 2 are: 2, 4, 6, 8. So, the answer is (B) 4.",
+            "final_answer": "B"
+        },
+        {
+            "question_idx": 477,
+            "question": "Q: Mohit sold an article for Rs. 18000. Had he offered a discount of 10% on the selling price, he would have earned a profit of 8%. What is the cost price of the article? Answer Choices: (A) 15000 (B) 15002 (C) 26879 (D) 26992 (E) 12681",
+            "rationale": "A: Let's think step by step. Let the cost price of the article be x. If Mohit had offered a discount of 10%, the selling price would have been 90% of the original selling price, which is 0.9 * 18000 = 16200. If he had earned a profit of 8%, the cost price would have been (16200/1.08) = 15000. Therefore, the cost price of the article is Rs. 15000. The correct answer is (A) 15000.",
+            "final_answer": "A"
+        },
+        {
+            "question_idx": 669,
+            "question": "Q: A person crosses a 600 m long street in 2 minutes. What is his speed in km per hour? Answer Choices: (A) 12 (B) 24 (C) 18 (D) 42 (E) 64",
+            "rationale": "A: Let's think step by step. First, we need to convert the distance from meters to kilometers. We can do this by dividing 600 by 1000, which gives us 0.6 km. Next, we need to convert the time from minutes to hours. We can do this by dividing 2 by 60, which gives us 0.0333 hours (rounded to four decimal places). Finally, we can calculate the speed by dividing the distance by the time. So, speed = distance/time = 0.6/0.0333 = 18 (rounded to the nearest whole number). Therefore, the correct answer is (C) 18.",
+            "final_answer": "C"
+        },
+        {
+            "question_idx": 21,
+            "question": "Q: What are the number of ways to select 3 men and 2 women such that one man and one woman are always selected? Answer Choices: (A) 26 ways (B) 19 ways (C) 30 ways (D) 76 ways (E) 15 ways",
+            "rationale": "A: Let's think step by step. First, we need to select one man from the available men, which can be done in C(3,1) ways. Then, we need to select one woman from the available women, which can be done in C(2,1) ways. Next, we need to select the remaining 1 man and 1 woman from the remaining pool of men and women. This can be done in C(2,1) * C(1,1) ways. Therefore, the total number of ways to select 3 men and 2 women such that one man and one woman are always selected is: C(3,1) * C(2,1) * C(2,1) * C(1,1) = 3 * 2 * 2 * 1 = 12 ways None of the answer choices match the correct answer of 12 ways.",
+            "final_answer": "C"
+        }
+    ]
+}

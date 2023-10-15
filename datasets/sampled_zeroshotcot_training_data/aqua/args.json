@@ -1,0 +1,14 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 1000,
+    "data_path": "../datasets/AQuA/train.json",
+    "random_seed": 1,
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "zero_shot_cot",
+    "output_dir": "inference_results/2023_10_14_14_15_17/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "2252.852123975754 seconds"
+}

@@ -1,0 +1,32 @@
+{
+    "demo": [
+        {
+            "question_idx": 558,
+            "question": "Q: A certain store sold pens for $0.35 each and pencils for $0.25 each. If a customer purchased both pens and pencils from the store for a total of $3.50, what total number of pens and pencils did the customer purchase? Answer Choices: (A) 8 (B) 9 (C) 10 (D) 11 (E) 12",
+            "rationale": "Let's assume the customer purchased x pens and y pencils. \n\nAccording to the problem, the cost of each pen is $0.35 and the cost of each pencil is $0.25. \n\nSo, the total cost of x pens would be 0.35x and the total cost of y pencils would be 0.25y. \n\nThe problem states that the total cost of the pens and pencils purchased was $3.50. \n\nTherefore, we can write the equation: \n\n0.35x + 0.25y = 3.50 \n\nTo solve for x and y, we need another equation. We can use the fact that the customer purchased a total of x + y items. \n\nSo, the second equation is: \n\nx + y = ? \n\nWe don't know the total number of items purchased, so we'll leave it as a variable. \n\nNow we have two equations: \n\n0.35x + 0.25y = 3.50 \n\nx + y = ? \n\nWe need to solve for x and y. \n\nOne way to do this is to use substitution. \n\nFrom the second equation, we can write: \n\ny = ? - x \n\nSubstitute this into the first equation: \n\n0.35x + 0.25(? - x) = 3.50 \n\nSimplify: \n\n0.35x + 0.25? - 0.25x = 3.50 \n\n0.10x + 0.25? = 3.50 \n\n0.10x = 3.50 - 0.25? \n\nx = (3.50 - 0.25?) / 0.10 \n\nNow we can plug this value of x into the second equation to solve for y: \n\nx + y = ? \n\n(3.50 - 0.25?) / 0.10 + y = ? \n\ny = ? - (3.50 - 0.25?) / 0.10 \n\nWe don't know the value of ?, so we can't solve for x and y exactly. \n\nHowever, we can use the answer choices to check which values of x and y satisfy both equations. \n\nLet's try answer choice (A): x = 8, y = 0 \n\n0.35(8) + 0.25(0) = 2.80 \n\n8 + 0 = 8 \n\nThis doesn't work, since the total number of items purchased is only 8. \n\nLet's try answer choice (B): x = 7, y = 2 \n\n0.35(7) + 0.25(2) = 2.95 \n\n7 + 2 = 9 \n\nThis works! \n\nTherefore, the answer is (B) 9.",
+            "final_answer": "B",
+            "True_FinalAnswer": "E"
+        },
+        {
+            "question_idx": 896,
+            "question": "Q: if a number cube is rolled once and a coin is tossed once. what is the probability that coin will show tails and composite number on on the cube Answer Choices: (A) 1/6 (B) 2/6 (C) 3/6 (D) 4/6 (E) 5/6",
+            "rationale": "First, we need to determine the probability of rolling a composite number on the number cube. The composite numbers on a number cube are 4, 6, and 8. Since there are six equally likely outcomes when rolling a number cube, the probability of rolling a composite number is 3/6 or 1/2.\n\nNext, we need to determine the probability of getting tails on the coin toss. Since there are two equally likely outcomes when tossing a coin, the probability of getting tails is 1/2.\n\nTo find the probability of both events happening, we multiply the probabilities of each event. Therefore, the probability of getting tails and a composite number is:\n\n1/2 x 1/2 = 1/4\n\nTherefore, the correct answer is not listed in the answer choices. The correct answer is None of the above.",
+            "final_answer": "",
+            "True_FinalAnswer": "A"
+        },
+        {
+            "question_idx": 508,
+            "question": "Q: If x is an integer, then x(x - 1)(x - l) must be evenly divisible by three when l is any of the following values EXCEPT Answer Choices: (A) -4 (B) -2 (C) -1 (D) 2 (E) 5",
+            "rationale": "We know that a number is divisible by 3 if and only if the sum of its digits is divisible by 3. In this case, we have a product of three integers: x, x-1, and x-l. \n\nIf we expand the product, we get: \n\nx(x-1)(x-l) = x^3 - (1+l)x^2 + (l+1)x \n\nThe sum of the digits of this expression is: \n\nS = x + x^3 - (1+l)x^2 + (l+1)x \n\nSimplifying, we get: \n\nS = x^3 - lx^2 + lx \n\nWe need to find the values of l that make S divisible by 3. \n\nIf x is divisible by 3, then S is divisible by 3 regardless of the value of l. \n\nIf x is not divisible by 3, then we need to consider the two cases: \n\nCase 1: x ≡ 1 (mod 3) \n\nIn this case, we have: \n\nS ≡ 1 - l + l ≡ 1 (mod 3) \n\nSo S is not divisible by 3 for any value of l. \n\nCase 2: x ≡ 2 (mod 3) \n\nIn this case, we have: \n\nS ≡ 2 - 2l + 2l ≡ 2 (mod 3) \n\nSo S is not divisible by 3 for any value of l. \n\nTherefore, the answer is (D) 2.",
+            "final_answer": "D",
+            "True_FinalAnswer": "B"
+        },
+        {
+            "question_idx": 528,
+            "question": "Q: What is the greatest prime factor of 8^13 - 2^30? Answer Choices: (A) 23 (B) 37 (C) 59 (D) 73 (E) 107",
+            "rationale": "First, we can factor out 2^30 from both terms: \n\n8^13 - 2^30 = 2^30(4^13 - 1)\n\nNext, we can use the difference of squares formula to factor 4^13 - 1: \n\n4^13 - 1 = (2^13 + 1)(2^13 - 1)\n\nNow we have: \n\n8^13 - 2^30 = 2^30(2^13 + 1)(2^13 - 1)\n\nWe can see that 2^13 - 1 is divisible by 2^5 - 1 = 31 (using the difference of powers formula), but 2^13 + 1 is not divisible by any small prime numbers. Therefore, we need to check if 2^13 + 1 is divisible by any larger prime numbers. \n\nWe can use trial division to check if 2^13 + 1 is divisible by 23, 37, 59, 73, or 107. \n\n2^13 + 1 is not divisible by 23 (remainder is 8), \n\n2^13 + 1 is divisible by 37 (remainder is 0), \n\n2^13 + 1 is not divisible by 59 (remainder is 28), \n\n2^13 + 1 is not divisible by 73 (remainder is 8), \n\n2^13 + 1 is not divisible by 107 (remainder is 26). \n\nTherefore, the greatest prime factor of 8^13 - 2^30 is 37. \n\nThe answer is (B) 37.",
+            "final_answer": "B",
+            "True_FinalAnswer": "D"
+        }
+    ]
+}

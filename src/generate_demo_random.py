@@ -15,8 +15,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/sampled_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
 
     parser.add_argument(
@@ -35,15 +37,15 @@ def parse_arguments():
         "--dataset_size_limit", type=int, default=1000, help="whether to limit training dataset size. if 0, the dataset size is unlimited and we use all the samples in the dataset for creating the demonstrations."
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_token_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_token_len", type=int, default=60, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -112,7 +114,7 @@ def main():
         "answers_are_available": args.answers_are_available,
         "demos_save_dir": args.demos_save_dir,
         "method_random_seed": args.method_random_seed,
-        "execution_time": str(end - start) + ' seconds',
+        "execution_time": str(end - start) + ' seconds'
     }
 
     with open(args.args_file, 'w') as f:

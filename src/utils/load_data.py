@@ -33,28 +33,72 @@ def load_data(args: object) -> Tuple[list, list, list]:
         decoder = json.JSONDecoder()
 
         if args.dataset == "gsm8k":
-            with open(args.data_path) as f:
-                lines = f.readlines()
-                for line in lines:
-                    json_res = decoder.raw_decode(line)[0]
-                    questions.append(f"Q: {json_res['question'].strip()}")
-                    rationales.append(f"A: Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
-                    final_answers.append(json_res["answer"].split("#### ")[-1].replace(",", ""))
+            if args.data_path.endswith(".jsonl"):
+                with open(args.data_path) as f:
+                    lines = f.readlines()
+                    for line in lines:
+                        json_res = decoder.raw_decode(line)[0]
+                        questions.append(f"Q: {json_res['question'].strip()}")
+                        rationales.append(f"A: Let's think step by step.\n{json_res['answer'].split('####')[0].strip()}")
+                        final_answers.append(json_res["answer"].split("#### ")[-1].replace(",", ""))
+            elif args.data_path.endswith(".txt"):
+                questions = []
+                rationales = []
+                final_answers = []
+
+                with open(args.data_path, 'r') as f:
+                    data = json.load(f)
+
+                for entry in data[1:]:
+                    for question_data in entry:
+                        question = f'{question_data["Question"]}'
+                        rationale = question_data["Pred_Rationale"]
+                        final_answer = question_data["Pred_FinalAnswer"]
+
+                        questions.append(question)
+                        rationales.append(f'A: Let\'s think step by step.\n{rationale}')
+                        final_answers.append(final_answer)
+
+                else:
+                    raise NotImplementedError
+
 
         elif args.dataset == "aqua":
-            with open(args.data_path) as f:
-                lines = f.readlines()
-                for line in lines:
-                    json_res = decoder.raw_decode(line)[0]
-                    qes = json_res["question"].strip() + " Answer Choices:"
+            if args.data_path.endswith(".json"):
+                with open(args.data_path) as f:
+                    lines = f.readlines()
+                    for line in lines:
+                        json_res = decoder.raw_decode(line)[0]
+                        qes = json_res["question"].strip() + " Answer Choices:"
 
-                    for opt in json_res["options"]:
-                        opt = opt.replace(')', ') ')
-                        qes += f" ({opt}"
+                        for opt in json_res["options"]:
+                            opt = opt.replace(')', ') ')
+                            qes += f" ({opt}"
 
-                    questions.append(f'Q: {qes}')
-                    rationales.append(f"A: Let's think step by step.\n{json_res['rationale']}")
-                    final_answers.append(json_res["correct"])
+                        questions.append(f'Q: {qes}')
+                        rationales.append(f"A: Let's think step by step.\n{json_res['rationale']}")
+                        final_answers.append(json_res["correct"])
+
+            elif args.data_path.endswith(".txt"):
+                questions = []
+                rationales = []
+                final_answers = []
+
+                with open(args.data_path, 'r') as f:
+                    data = json.load(f)
+
+                for entry in data[1:]:
+                    for question_data in entry:
+                        question = f'{question_data["Question"]}'
+                        rationale = question_data["Pred_Rationale"]
+                        final_answer = question_data["Pred_FinalAnswer"]
+
+                        questions.append(question)
+                        rationales.append(f'A: Let\'s think step by step.\n{rationale}')
+                        final_answers.append(final_answer)
+
+            else:
+                raise NotImplementedError
         else:
             raise NotImplementedError
 
@@ -99,7 +143,6 @@ def create_dataloader(args) -> list:
             dataset (list): the list of questions, rationales and final answers
     """
 
-    set_random_seed(args.random_seed)
     dataset = []
     if args.answers_are_available:
 
@@ -112,7 +155,11 @@ def create_dataloader(args) -> list:
         for idx in range(len(questions)):
             dataset.append({"question":questions[idx]})
 
-    random.shuffle(dataset)
+
+    if args.data_path.endswith(".json") or args.data_path.endswith(".jsonl"):
+        set_random_seed(args.random_seed)
+        random.shuffle(dataset)
+        
     # add index to each example
     for idx, example in enumerate(dataset):
         example['question_idx'] = idx

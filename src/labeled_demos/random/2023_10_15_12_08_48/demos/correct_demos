@@ -1,0 +1,32 @@
+{
+    "demo": [
+        {
+            "question_idx": 260,
+            "question": "Q: The difference between a positive proper fraction and its reciprocal is 9/20. The fraction is? Answer Choices: (A) 4/5 (B) 4/7 (C) 5 (D) 5/7 (E) None",
+            "rationale": "A: Let's think step by step. Let the fraction be x/y. \n\nAccording to the problem, \n\nx/y - y/x = 9/20 \n\nMultiplying both sides by xy, we get \n\nx^2 - y^2 = 9xy/20 \n\nSimplifying, \n\n20x^2 - 20y^2 = 9xy \n\n20x^2 - 9xy - 20y^2 = 0 \n\nWe can factor this as \n\n(4x - 5y)(5x + 4y) = 0 \n\nSo either 4x - 5y = 0 or 5x + 4y = 0. \n\nIf 4x - 5y = 0, then x/y = 5/4. \n\nIf 5x + 4y = 0, then x/y = -4/5, but this is not a positive proper fraction. \n\nTherefore, the answer is (A) 4/5.",
+            "final_answer": "A",
+            "True_FinalAnswer": "A"
+        },
+        {
+            "question_idx": 121,
+            "question": "Q: In a certain sequence, the first term is 1, and each successive term is 1 more than the reciprocal of the term that immediately precedes it. What is the fifth term in this sequence? Answer Choices: (A) 13/8 (B) 21/13 (C) 8/5 (D) 5/8 (E) 8/13",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem.\n\nWe are given a sequence where the first term is 1. Let's write down the first few terms of the sequence to see if we can spot a pattern:\n\nFirst term: 1\nSecond term: 1 + 1/1 = 2\nThird term: 1 + 1/2 = 3/2\nFourth term: 1 + 2/3 = 5/3\n\nTo find the fifth term, we need to add 1 to the reciprocal of the fourth term:\n\nFifth term: 1 + 3/5 = 8/5\n\nSo the answer is (C) 8/5.",
+            "final_answer": "C",
+            "True_FinalAnswer": "C"
+        },
+        {
+            "question_idx": 472,
+            "question": "Q: 10% of (50% of $500) is? Answer Choices: (A) $15 (B) $20 (C) $25 (D) $30 (E) $22",
+            "rationale": "A: Let's think step by step. First, we need to find 50% of $500, which is $250. \n\nNext, we need to find 10% of $250. To do this, we can either multiply $250 by 0.1 or divide it by 10. Either way, we get $25. \n\nTherefore, the answer is (C) $25.",
+            "final_answer": "C",
+            "True_FinalAnswer": "C"
+        },
+        {
+            "question_idx": 227,
+            "question": "Q: What is the tenth digit to the right of the decimal point, in the decimal expansion of (1/5)^10 Answer Choices: (A) 0 (B) 2 (C) 4 (D) 6 (E) 8",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem step by step.\n\nFirst, we need to find the decimal expansion of (1/5)^10. We can do this by repeatedly dividing 1 by 5, 10 times:\n\n(1/5)^1 = 0.2\n(1/5)^2 = 0.04\n(1/5)^3 = 0.008\n(1/5)^4 = 0.0016\n(1/5)^5 = 0.00032\n(1/5)^6 = 0.000064\n(1/5)^7 = 0.0000128\n(1/5)^8 = 0.00000256\n(1/5)^9 = 0.000000512\n(1/5)^10 = 0.0000001024\n\nNext, we need to find the tenth digit to the right of the decimal point in this decimal expansion. To do this, we count 10 digits to the right of the decimal point:\n\n0.0000001024\n           ^\n\nThe digit we land on is 4, so the answer is (C) 4.",
+            "final_answer": "C",
+            "True_FinalAnswer": "C"
+        }
+    ]
+}

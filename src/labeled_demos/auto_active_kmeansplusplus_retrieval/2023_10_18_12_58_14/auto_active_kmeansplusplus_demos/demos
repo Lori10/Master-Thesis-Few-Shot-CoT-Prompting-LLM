@@ -1,0 +1,354 @@
+{
+    "demo": [
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "rationale": "A: Let's think step by step. First, we can simplify the second ratio by cross-multiplying to get z(y + x) = (y)(y + x), which simplifies to y^2 = zx. Next, we can substitute this expression for y^2 into the first ratio to get y/(x - z) = (y + x)/z = x/zx^(1/2). Simplifying this expression, we get y = x^(3/2)/(x - z) and z = x^(1/2)/(x - z). Now, we can substitute these expressions for y and z into the ratio y^2 : x : z to get x^(3/2)/(x - z)^2 : x : x^(1/2)/(x - z). Simplifying this expression, we get x^(5/2) : x(x - z)^2 : x^(3/2)(x - z). Cancelling out an x from each term, we get x^(3/2) : (x - z)^2 : x^(1/2). Now, we can substitute the expression for z from earlier (z = x^(1/2)/(x - z)) into this ratio to get x^(3/2) : (x - x^(1/2))^2 : x^(1/2). Simplifying this expression, we get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2). Finally, we can simplify the middle term by expanding the square and combining like terms to get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2) = x^(3/2) : (x^2 - x^(3/2)) : x^(1/2) = x^(1/2) : (x - 1) : 1. Therefore, the answer is (E) none of these, since none of the given answer choices match the ratio x^(1/2) : (x - 1) : 1.",
+            "final_answer": "E",
+            "question_idx": 245,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: Ayesha's father was 38 years of age when she was born while her mother was 36 years old when her brother six years younger to her was born. What is the difference between the ages of her parents? Answer Choices: (A) 2 years (B) 4 years (C) 6 years (D) 7 years (E) 8 years",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. We know that Ayesha's father was 38 years old when she was born. Let's call his age F. We also know that Ayesha's mother was 36 years old when her brother, who is six years younger than Ayesha, was born. Let's call her mother's age M. So, Ayesha's brother's age would be (Ayesha's age - 6). Let's call his age B. Now, we can set up two equations: F = Ayesha's age + 38 M = (Ayesha's age - 6) + 36 Simplifying the second equation, we get: M = Ayesha's age + 30 Now, we can set the two equations equal to each other and solve for Ayesha's age: Ayesha's age + 38 = Ayesha's age + 30 8 = 0 This is not possible, so none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 799,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: The length of a rectangular plot is 20 metres more than its breadth. If the cost of fencing the plot @ Rs. 26.50 per metre is Rs. 7420, what is the length of the plot in metres? Answer Choices: (A) 20 (B) 200 (C) 300 (D) 400 (E) 80",
+            "rationale": "A: Let's think step by step. Let the breadth of the rectangular plot be x metres. Then, the length of the plot is (x+20) metres. The cost of fencing the plot is Rs. 26.50 per metre. Therefore, the total cost of fencing the rectangular plot is: Perimeter of the plot x Cost per metre = (2 x length + 2 x breadth) x 26.50 Substituting the values of length and breadth, we get: (2(x+20) + 2x) x 26.50 = 7420 Simplifying the equation, we get: 6.5x + 530 = 371 6.5x = 371 - 530 6.5x = -159 x = -24.46 Since the breadth cannot be negative, this answer is not possible. Therefore, the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 435,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A driver covers a certain distance by car driving at 60 km/hr and returns back to the starting point riding on a scooter at 10 km/hr. What was the average speed for the whole journey? Answer Choices: (A) 14.2 km/h (B) 17.1 km/h (C) 19.3 km/h (D) 21.7 km/h (E) 23.5 km/h",
+            "rationale": "A: Let's think step by step. Let's assume that the distance covered by the driver is 'd' km. The time taken to cover the distance by car at 60 km/hr is given by: Time taken = Distance/Speed = d/60 The time taken to cover the same distance by scooter at 10 km/hr is given by: Time taken = Distance/Speed = d/10 The total time taken for the whole journey is the sum of the time taken for the onward journey and the time taken for the return journey. Total time taken = d/60 + d/10 = (d + 6d)/60 = 7d/60 The average speed for the whole journey is given by: Average speed = Total distance/Total time taken Total distance = 2d (since the driver covers the same distance twice) Average speed = 2d/(7d/60) = 120/7 km/hr Rounding off to one decimal place, we get the answer as (A) 14.2 km/h.",
+            "final_answer": "A",
+            "question_idx": 579,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A cistern is normally filled in 4 hrs,but takes 2 hrs longer to fill because of a leak on its bottom,if Cistern is full ,how much time citern would empty? Answer Choices: (A) 10 hours (B) 20 hours (C) 30 hours (D) 40 hours (E) 12 hours",
+            "rationale": "A: Let's think step by step. Let's assume that the cistern's capacity is 1 unit (it could be any unit of measurement). If there was no leak, the cistern would be filled in 4 hours. So, the rate of filling would be 1/4 units per hour. But because of the leak, it takes 2 hours longer to fill the cistern. So, the new time taken to fill the cistern is 4 + 2 = 6 hours. Let's assume that the leak can empty the cistern in x hours. Now, we can set up an equation based on the principle that the amount of water filled in the cistern is equal to the amount of water emptied by the leak when the cistern is full. Amount of water filled = Amount of water emptied Rate of filling x Time taken to fill = Rate of emptying x Time taken to empty 1 = (1/4) x 6 + (1/x) x t where t is the time taken to empty the cistern when it is full. Simplifying the equation, we get: 1 = (3/2) + (t/x) (t/x) = 1/2 t = (x/2) So, the time taken to empty the cistern when it is full is half the time taken by the leak to empty it. Since we don't know the time taken by the leak to empty the cistern, we cannot determine the exact answer. Therefore, the answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 481,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: In the parking lot there are 44 vehicles, 24 of them are buses, and the rest are cars. The color of 24 vehicles is red, of which 18 are buses. How many cars can be found in the parking lot which are not colored red? Answer Choices: (A) 11 (B) 12 (C) 13 (D) 14 (E) 15",
+            "rationale": "A: Let's think step by step. Step 1: We know that there are 44 vehicles in total, out of which 24 are buses. Therefore, the number of cars in the parking lot is: 44 - 24 = 20 Step 2: We also know that the color of 24 vehicles is red, out of which 18 are buses. Therefore, the number of cars that are colored red is: 24 - 18 = 6 Step 3: We need to find the number of cars that are not colored red. We know that there are 20 cars in total, out of which 6 are colored red. Therefore, the number of cars that are not colored red is: 20 - 6 = 14 Therefore, the answer is (D) 14.",
+            "final_answer": "D",
+            "question_idx": 695,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: Jamboree and GMAT Club Contest Starts\nQUESTION #20:\nHow many words (with or without meaning) can be formed using all the letters of the word “SELFIE” so that the two E’s are not together? Answer Choices: (A)  660 (B)  600 (C)  500 (D)  300 (E)  240",
+            "rationale": "A: Let's think step by step. First, we need to find the total number of ways to arrange all the letters of the word \"SELFIE\". This can be done using the formula for permutations of n objects taken all at a time, which is n!. In this case, n = 6, so the total number of arrangements is 6! = 720. Next, we need to subtract the number of arrangements where the two E's are together. To do this, we can treat the two E's as a single object and find the number of arrangements of the five objects \"S\", \"L\", \"F\", \"I\", and \"EE\". This can be done using the formula for permutations of n objects taken r at a time, which is nPr = n!/(n-r)!. In this case, n = 5 and r = 5, so the number of arrangements where the two E's are together is 5! = 120. Finally, we can subtract the number of arrangements where the two E's are together from the total number of arrangements to get the number of arrangements where the two E's are not together: 720 - 120 = 600. Therefore, the answer is (B) 600.",
+            "final_answer": "B",
+            "question_idx": 629,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A meal cost $ 37.25 adn there was no tax. If the tip was more than 10 pc but less than 15pc of the price, then the total amount paid should be: Answer Choices: (A) 42-45 (B) 41-43 (C) 39-41 (D) 37-39 (E) 36-37",
+            "rationale": "A: Let's think step by step. The meal cost is $37.25 and there is no tax. Let's assume the tip is x% of the meal cost. So, the total amount paid will be: $37.25 + (x/100)*$37.25 Simplifying this expression: $37.25*(1 + x/100)$ We know that the tip is more than 10% but less than 15% of the price. So, 10% < x < 15% Let's substitute the values of x in the expression we derived above: For x = 10%, the total amount paid will be: $37.25*(1 + 10/100) = $41. For x = 15%, the total amount paid will be: $37.25*(1 + 15/100) = $42.79. Therefore, the total amount paid should be between $41 and $42.79. The closest answer choice is (A) 42-45. So, the correct answer is (A) 42-45.",
+            "final_answer": "A",
+            "question_idx": 963,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A reduction of 25% in the price of oil enables a house wife to obtain 5kgs more for Rs.1300, what is the reduced price for kg? Answer Choices: (A) s.40 (B) s.65 (C) s.49 (D) s.41 (E) s.42",
+            "rationale": "A: Let's think step by step. Let the original price per kg be x. After a 25% reduction, the new price per kg will be 0.75x. Let the original amount of oil purchased be y kg. With the reduction in price, the housewife can now purchase (y+5) kg for Rs.1300. So, we can set up the equation: y*x = (y+5)*(0.75x) Simplifying this equation, we get: 0.25xy = 5*0.75x 0.25y = 3 y = 12 So, the original amount of oil purchased was 12 kg. And the original price per kg was: 1300/12 = Rs.108.33 After a 25% reduction, the new price per kg is: 0.75*108.33 = Rs.81.25 Therefore, the reduced price for kg is option (None of the above).",
+            "final_answer": "A",
+            "question_idx": 786,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Angles AMB and CMD are right angles, ∠AMD is acute, and ∠BMC=y° is acute. What is ∠AMD ? Answer Choices: (A) 90°−y (B) 180°−y (C) 90°+y (D) 2y (E) y",
+            "rationale": "A: Let's think step by step. We know that angles AMB and CMD are right angles, which means they are both equal to 90 degrees. We also know that angle BMC is acute, which means it is less than 90 degrees. Since angles AMB and CMD are both right angles, they add up to 180 degrees. Therefore, angle AMD must be acute since it is less than 180 degrees. Now, let's use the fact that the angles in a triangle add up to 180 degrees. In triangle AMD, we have angles AMD, AMB, and CMD. AMD + AMB + CMD = 180 Substituting in the values we know: AMD + 90 + 90 = 180 Simplifying: AMD + 180 = 180 AMD = 0 This doesn't make sense since we know that angle AMD is acute. Therefore, none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 139,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A jar full of whisky contains 40% alcohol. A part of this whisky is replaced by another containg 19% alcohol and now the percentage of alcohol was found to be 22%. What quantity of whisky is replaced ? Answer Choices: (A) 1/3 (B) 2/3 (C) 2/5 (D) 3/5 (E) 4/5",
+            "rationale": "A: Let's think step by step. Let's assume that the jar initially contains 100 units of whisky. Out of these 100 units, 40 units are alcohol. Let's say x units of whisky are replaced with the new whisky containing 19% alcohol. So, the amount of alcohol in the new mixture will be: 40 - 0.4x (alcohol in the original mixture) + 0.19x (alcohol in the new mixture) The total amount of whisky in the new mixture will be: 100 - x (original amount) + x (new amount) Now, we are given that the percentage of alcohol in the new mixture is 22%. So, we can set up the equation: (40 - 0.4x + 0.19x)/(100) = 0.22 Simplifying this equation, we get: x = 2/5 Therefore, 2/5 of the original amount of whisky is replaced with the new whisky containing 19% alcohol. So, the answer is (C) 2/5.",
+            "final_answer": "C",
+            "question_idx": 409,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: what is summation of [3^k(28Ck)] (summation range 28 to k=0) where 28Ck is the number of ways of choosing k items from 28 items?? Answer Choices: (A) 4^28 (B) 4^27 (C) 4^26 (D) 4^25 (E) 4^24",
+            "rationale": "A: Let's think step by step. We can simplify the expression using the binomial theorem: (1 + 3)^28 = 28C0 * 3^0 + 28C1 * 3^1 + 28C2 * 3^2 + ... + 28C28 * 3^28 Notice that the expression we want to find is the same as the sum of the terms on the right-hand side of the equation above, except that we start the summation at k = 0 instead of k = 28. So we can write: summation of [3^k(28Ck)] (summation range 28 to k=0) = (1 + 3)^28 - 28C0 * 3^0 - 28C1 * 3^1 - 28C2 * 3^2 - ... - 28C27 * 3^27 We can simplify this expression by noticing that: (1 + 3)^28 = 4^28 And: 28C0 * 3^0 = 1 28C1 * 3^1 = 28 * 3 28C2 * 3^2 = 28 * 27 / 2 * 9 ... 28C27 * 3^27 = 28 * 27 * ... * 2 * 3^27 / 2^27 So we have: summation of [3^k(28Ck)] (summation range 28 to k=0) = 4^28 - 1 - 28 * 3 - 28 * 27 / 2 * 9 - ... - 28 * 27 * ... * 2 * 3^27 / 2^27 This expression can be simplified further, but we can already see that the answer is not any of the given options. Therefore, the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 250,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A boat having a length 3 m and breadth 2 m is floating on a lake. The boat sinks by 1.2 cm when a man gets on it. The mass of man is Answer Choices: (A) 72 kg (B) 60 kg (C) 72 kg (D) 96 kg (E) None",
+            "rationale": "A: Let's think step by step. First, we need to find the volume of water displaced by the boat before the man gets on it. Volume of water displaced = length x breadth x height of displacement = 3m x 2m x 0.012m (1.2 cm converted to meters) = 0.072 cubic meters Now, when the man gets on the boat, the boat sinks by 1.2 cm more. So, the new height of displacement is 0.024m (0.012m + 0.012m). Let's assume the density of water is 1000 kg/m^3. The weight of water displaced by the boat before the man gets on it = volume of water displaced x density of water = 0.072m^3 x 1000 kg/m^3 = 72 kg The weight of water displaced by the boat after the man gets on it = (volume of water displaced + additional displacement due to the man) x density of water = (3m x 2m x 0.024m) x 1000 kg/m^3 = 1.44 kg Therefore, the weight of the man = weight of water displaced before the man gets on the boat - weight of water displaced after the man gets on the boat = 72 kg - 1.44 kg = 70.56 kg So, the answer is (E) None of the above.",
+            "final_answer": "E",
+            "question_idx": 428,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: By selling 300 apples a seller gains the selling price of 60 apples. The gain percent of the seller is Answer Choices: (A) 22 (B) 88 (C) 25 (D) 27 (E) 19",
+            "rationale": "A: Let's think step by step. Let's assume that the selling price of one apple is $1. Therefore, the selling price of 300 apples is $300 and the selling price of 60 apples is $60. The seller gains the selling price of 60 apples, which is $60. Profit percent = (Profit/Cost Price) x 100 Here, the profit is $60 and the cost price is the selling price of 240 apples (300-60), which is $240. Profit percent = (60/240) x 100 = 25% Therefore, the correct answer is (C) 25.",
+            "final_answer": "C",
+            "question_idx": 980,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: John has Rs 360 for his expenses. If he exceeds his days by 4 days he must cut down daily expenses by Rs 3. The number of days of John 's tour program is Answer Choices: (A) 10 (B) 15 (C) 20 (D) 24 (E) 27",
+            "rationale": "A: Let's think step by step. Let's assume that John's tour program is for x days. If he sticks to his budget, his daily expenses would be 360/x. If he exceeds his days by 4 days, he would have to cut down his daily expenses by Rs 3. This means his new daily expenses would be (360/(x+4)) - 3. We can set up an equation: 360/x = (360/(x+4)) - 3 Multiplying both sides by x(x+4), we get: 360(x+4) = 360x - 3x(x+4) Simplifying, we get: 1440 = -3x^2 + 48x + 1440 Rearranging, we get: 3x^2 - 48x = 0 Dividing both sides by 3x, we get: x - 16 = 0 Therefore, x = 16. So John's tour program is for 16 days. The answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 262,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: If $10,000 is invested at x percent simple annual interest for n years, which of the following represents the total amount of interest, in dollars, that will be earned by this investment in the n years? Answer Choices: (A) 10,000(x^n)  (B) 10,000(x/100) ^n (C) 10,000n(x/100)  (D) 10,000(1+x/100) ^n (E) 10,000n(1+x/100) ",
+            "rationale": "A: Let's think step by step. The formula for simple interest is: Interest = Principal * Rate * Time In this case, the principal is $10,000, the rate is x percent (which we need to convert to a decimal by dividing by 100), and the time is n years. So, the total amount of interest earned in n years is: Interest = 10,000 * (x/100) * n Simplifying this expression, we get: Interest = 100 * x * n Therefore, the correct answer is (C) 10,000n(x/100).",
+            "final_answer": "C",
+            "question_idx": 902,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: In expressing a length of 102.472 km as nearly as possible with the three significant digits, find the percentage error Answer Choices: (A) 0.38% (B) 0.27% (C) 0.027% (D) 0.038% (E) None of these",
+            "rationale": "A: Let's think step by step. Step 1: Determine the number of significant digits in the given length, which is 6. Step 2: Round off the length to three significant digits, which is 102 km. Step 3: Calculate the absolute error by subtracting the rounded value from the actual value: Absolute error = 102.472 km - 102 km = 0.472 km Step 4: Calculate the percentage error by dividing the absolute error by the actual value and multiplying by 100: Percentage error = (0.472 km / 102.472 km) x 100% = 0.46% None of the answer choices match the calculated percentage error, so the answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 106,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: In 2010, Arman’s birthday was on a Thursday. What day of the week was it 69 days after his birthday? Answer Choices: (A) Thursday (B) Wednesday (C) Saturday (D) Sunday (E) Monday",
+            "rationale": "A: Let's think step by step. Arman's birthday was on a Thursday in 2010. We need to find out what day of the week it was 69 days after his birthday. Since there are 7 days in a week, we can divide 69 by 7 to see how many full weeks have passed. 69 ÷ 7 = 9 with a remainder of 6. This means that 9 full weeks have passed, and we are 6 days into the 10th week. Starting from Thursday, we count 6 days forward to find the answer. Thursday → Friday → Saturday → Sunday → Monday → Tuesday → Wednesday Therefore, the answer is (B) Wednesday.",
+            "final_answer": "B",
+            "question_idx": 354,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Of the 600 residents of Clermontville, 35% watch the television show Island Survival, 40% watch Lovelost Lawyers and 50% watch Medical Emergency. If all residents watch at least one of these three shows and 18% watch exactly 2 of these shows, then how many Clermontville residents B watch all of the shows? Answer Choices: (A)  150 (B)  108 (C)  42 (D)  21 (E)  -21",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of residents who watch at least one of the three shows. 35% + 40% + 50% = 125% This means that some residents are being counted twice or even thrice. To find the actual percentage, we need to subtract the percentage of residents who watch exactly two shows and the percentage of residents who watch all three shows. Step 2: Find the percentage of residents who watch exactly two shows. 125% - 18% = 107% Step 3: Find the percentage of residents who watch all three shows. 107% - 100% = 7% Step 4: Find the total number of residents who watch all three shows. 7% of 600 = 42 Therefore, the answer is (C) 42.",
+            "final_answer": "C",
+            "question_idx": 136,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Carmelo and LeBron participate in a seven-person footrace on the basketball court during All-Star Weekend. If all seven contestants finish (including Charles Barkley) and there are no ties, how many different arrangements of finishes are there in which Carmelo defeats LeBron? Answer Choices: (A)  5040 (B)  2520 (C)  720 (D)  120 (E)  42",
+            "rationale": "A: Let's think step by step. First, we need to choose the positions for Carmelo and LeBron. There are 2 options for the first place, and once that is decided, there is only 1 option for the second place. Next, we need to arrange the remaining 5 people in the remaining 5 positions. There are 5 options for the third place, 4 options for the fourth place, 3 options for the fifth place, 2 options for the sixth place, and 1 option for the seventh place. Therefore, the total number of arrangements in which Carmelo defeats LeBron is 2 x 1 x 5 x 4 x 3 x 2 x 1 = 240. None of the answer choices match our result, so the answer is None of the above.",
+            "final_answer": "B",
+            "question_idx": 59,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: It takes 40 identical printing presses 15 hours to print 500,000 papers. How many hours would it take 30 of these printing presses to print 500,000 papers? Answer Choices: (A) 16 (B) 18 (C) 20 (D) 21 (E) 24",
+            "rationale": "A: Let's think step by step. We know that 40 printing presses can print 500,000 papers in 15 hours. So, we can find the rate of printing of each press by dividing the total number of papers by the total number of hours and the number of presses: Rate of each press = 500,000 / (40 x 15) = 833.33 papers per hour Now, we need to find how many hours it would take 30 printing presses to print 500,000 papers at the same rate. Total time = Total number of papers / (Rate of each press x Number of presses) Total time = 500,000 / (833.33 x 30) Total time = 20 hours Therefore, the answer is (C) 20.",
+            "final_answer": "C",
+            "question_idx": 637,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: If north becomes south-west ant south-west becomes east and all the directions changed in the same manner,then what will be the direction for south-east? Answer Choices: (A) North-West (B) North-East (C) North (D) West (E) none",
+            "rationale": "A: Let's think step by step. If north becomes south-west, then south-west becomes north-east. Similarly, if south-west becomes east, then east becomes south. Therefore, we can conclude that south-east will become west. So, the correct answer is (D) West.",
+            "final_answer": "D",
+            "question_idx": 642,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: At a contest with 2,500 participants, 1/2 of the people are aged 10 to 12. Next year, the number of people aged 10 to 12 will increase by 1/5. After this change, what percentage of the total 2,500 people will the 10- to 12-year-olds represent? Answer Choices: (A) 55% (B) 60% (C) 50% (D) 45% (E) 66%",
+            "rationale": "A: Let's think step by step. Step 1: Find the number of people aged 10 to 12 at the contest. 1/2 of 2,500 = 1,250 people aged 10 to 12. Step 2: Find the number of people aged 10 to 12 after the increase. 1/5 of 1,250 = 250 people increase. 1,250 + 250 = 1,500 people aged 10 to 12 after the increase. Step 3: Find the percentage of people aged 10 to 12 after the increase. 1,500/2,500 x 100% = 60% Therefore, the answer is (B) 60%.",
+            "final_answer": "B",
+            "question_idx": 466,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: Which of the following inequalities has a solution set, when graphed on the number line, is a single line segment of finite length? Answer Choices: (A) 2 <= 3x+4 <= 6 (B) 3 <= 3x+4 <= 6 (C) 5 <= 3x+4 <= 6 (D) 5 <= 3x+4 <= 6 (E) 4 <= 3x+4 <= 6",
+            "rationale": "A: Let's think step by step. First, we need to isolate the variable (x) in the inequality. We can do this by subtracting 4 from all parts of the inequality: (A) 2 <= 3x+4 <= 6 becomes -2 <= 3x <= 2 (B) 3 <= 3x+4 <= 6 becomes -1 <= 3x <= 2 (C) 5 <= 3x+4 <= 6 becomes 1 <= 3x <= 2 (D) 5 <= 3x+4 <= 6 becomes 1 <= 3x <= 2 (E) 4 <= 3x+4 <= 6 becomes 0 <= 3x <= 2 Now we can divide all parts of the inequality by 3: (A) -2/3 <= x <= 2/3 (B) -1/3 <= x <= 2/3 (C) 1/3 <= x <= 2/3 (D) 1/3 <= x <= 2/3 (E) 0 <= x <= 2/3 Option (C) has a solution set that is a single line segment of finite length, from x=1/3 to x=2/3. Therefore, the correct answer is (C).",
+            "final_answer": "C",
+            "question_idx": 721,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A batsman in his 17th innings makes a score of 85 and their by increasing his average by 3. What is his average after the 17thinnings? Answer Choices: (A) 22 (B) 77 (C) 26 (D) 37 (E) 88",
+            "rationale": "A: Let's think step by step. Let the batsman's average before the 17th innings be x. So, the total runs scored by the batsman in his first 16 innings would be 16x. After the 17th innings, the total runs scored by the batsman would be (16x + 85). Now, we know that the batsman's average increased by 3 after the 17th innings. So, we can set up the equation: (16x + 85)/(17) = (x + 3) Solving for x, we get: x = 22 Therefore, the batsman's average after the 17th innings would be: (16x + 85)/(17) = (16*22 + 85)/(17) = 37 So, the correct answer is (D) 37.",
+            "final_answer": "D",
+            "question_idx": 962,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: Let f(x) = x^2 + bx + c. If f(6) = 0 and f(-2) = 0, then b + c = Answer Choices: (A) 18 (B) 15 (C) -16 (D) -21 (E) -24",
+            "rationale": "A: Let's think step by step. We know that f(6) = 0 and f(-2) = 0. This means that when x = 6 and x = -2, the function f(x) equals zero. Using this information, we can set up two equations: (1) 6^2 + 6b + c = 0 (2) (-2)^2 - 2b + c = 0 Simplifying these equations: (1) 36 + 6b + c = 0 (2) 4 - 2b + c = 0 Now we can solve for b + c by adding the two equations together: 40 + 4b = 0 b = -10 Substituting b = -10 into either of the two equations above, we can solve for c: 36 + 6(-10) + c = 0 c = -6 Therefore, b + c = -10 - 6 = -16 The correct answer is (C) -16.",
+            "final_answer": "C",
+            "question_idx": 958,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A train crosses a platform of 120 m in 15 sec, same train crosses another platform of length 180 m in 18 sec. then find the length of the train? Answer Choices: (A) 877m (B) 180m (C) 786m (D) 165m (E) 456m",
+            "rationale": "A: Let's think step by step. Let's assume the length of the train be x meters. In the first case, the train crosses a platform of 120 meters in 15 seconds. Therefore, the total distance covered by the train is (x + 120) meters in 15 seconds. In the second case, the train crosses a platform of 180 meters in 18 seconds. Therefore, the total distance covered by the train is (x + 180) meters in 18 seconds. We know that the speed of the train is constant in both cases. Therefore, we can equate the two distances and solve for x. (x + 120)/15 = (x + 180)/18 Solving this equation, we get x = 456 meters. Therefore, the length of the train is 456 meters. The correct answer is (E) 456m.",
+            "final_answer": "E",
+            "question_idx": 492,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: if integer N has p factors ; how many factors will 5N have ? Answer Choices: (A) p (B) 2p (C) P+1 (D) 2p+1 (E) Cannot be determined",
+            "rationale": "A: Let's think step by step. We know that N has p factors. This means that N can be written as a product of p distinct prime numbers raised to various powers. For example, if N = 12, then N can be written as 2^2 * 3^1, which means that N has (2+1) * (1+1) = 6 factors (2 and 3 can each be raised to 0, 1, or 2). Now, let's consider 5N. 5N can be written as 5 * N, which means that 5N has one more factor than N (since 5 is a prime factor of 5N that wasn't present in N). Therefore, the answer is (C) p+1.",
+            "final_answer": "C",
+            "question_idx": 437,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: In aquarium A there are 2 yellow fish and 2 green ones, in aquarium B there are 3 yellow fish and 4 green ones. An aquarium is chosen at random, what is the probability of picking up a green fish out of aquarium A? Answer Choices: (A) 1/2. (B) 3/5. (C) 1/4. (D) 1/3. (E) 2/3.",
+            "rationale": "A: Let's think step by step. There are two aquariums, A and B. The probability of choosing aquarium A is 1/2 since there are only two options. Now, we need to find the probability of picking a green fish out of aquarium A. In aquarium A, there are a total of 4 fish (2 yellow and 2 green). So, the probability of picking a green fish out of aquarium A is 2/4 or 1/2. Therefore, the correct answer is (A) 1/2.",
+            "final_answer": "A",
+            "question_idx": 711,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: In the formula V = 1/(2r)^2, if r is halved, then V is multiplied by Answer Choices: (A) 2 (B) 8 (C) 1 (D) 1/8 (E) 1/64",
+            "rationale": "A: Let's think step by step. The formula is V = 1/(2r)^2. If r is halved, then the new radius becomes r/2. Substituting this new value of r in the formula, we get: V = 1/(2(r/2))^2 V = 1/(r^2/2^2) V = 1/(r^2/4) V = 4/r^2 So, the new volume is 4/r^2 times the original volume. Therefore, if r is halved, V is multiplied by 4. The correct answer is (A) 2.",
+            "final_answer": "A",
+            "question_idx": 782,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: which one is odd?\n4377\n3954\n9865\n8454\n9831 Answer Choices: (A) 4377 (B) 3954 (C) 9865 (D) 8454 (E) None",
+            "rationale": "A: Let's think step by step. We need to determine which number is odd out of the given options. - 4377: This number ends in 7, which means it is odd. - 3954: This number ends in 4, which means it is even. - 9865: This number ends in 5, which means it is odd. - 8454: This number ends in 4, which means it is even. - 9831: This number ends in 1, which means it is odd. Therefore, the answer is (B) 3954, as it is the only even number among the options.",
+            "final_answer": "B",
+            "question_idx": 787,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: If there are 9 pairs of twins, and a committee will be formed with 3 members. In how many ways this committee formed in a way that no siblings in a group? Answer Choices: (A) 632 (B) 672 (C) 756 (D) 744 (E) 740",
+            "rationale": "A: Let's think step by step. Step 1: We have 18 individuals (9 pairs of twins). Step 2: We need to choose 3 individuals for the committee. Step 3: We cannot choose any siblings in the same group. Step 4: To solve this problem, we can use the principle of inclusion-exclusion. Step 5: First, we calculate the total number of ways to choose 3 individuals from 18, which is 18C3 = 816. Step 6: Next, we calculate the number of ways to choose 3 individuals with at least one pair of siblings in the same group. Step 7: There are 9 ways to choose one pair of siblings and one additional individual from the remaining 16 individuals (9*16 = 144). Step 8: There are 36 ways to choose two pairs of siblings (9C2) and one additional individual from the remaining 15 individuals (15 = 15). Step 9: However, we have counted the case where all three individuals are siblings twice, so we need to subtract this case once. Step 10: There are 9 ways to choose three siblings from the 9 pairs of twins (9C3). Step 11: Therefore, the number of ways to choose 3 individuals with at least one pair of siblings in the same group is 144 + 36 - 9 = 171. Step 12: Finally, we subtract this number from the total number of ways to choose 3 individuals to get the number of ways to choose 3 individuals with no siblings in the same group: 816 - 171 = 645. Step 13: None of the answer choices match our answer, so the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 838,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: At what time between 7 and 8 o’clock will the hands of a clock be in the same straight line but, not together? Answer Choices: (A) 5 min. past 7 (B) 5 2⁄11 min. past 7 (C) 5 3⁄11 min. past 7 (D) 5 5⁄11 min. past 7 (E) None of these",
+            "rationale": "A: Let's think step by step. The hour hand moves 30 degrees in one hour (360 degrees divided by 12 hours) and 0.5 degrees in one minute (30 degrees divided by 60 minutes). The minute hand moves 6 degrees in one minute (360 degrees divided by 60 minutes). Let's assume that x minutes have passed since 7 o'clock. The angle between the hour and minute hand is given by: |0.5x - 30h|, where h is the hour hand position in degrees. At 7 o'clock, the hour hand is at 210 degrees (7 hours times 30 degrees). Substituting this value, we get: |0.5x - 210| - 6x = 0 Solving for x, we get: 0.5x - 210 = 6x or 0.5x - 210 = -6x Solving for x in both cases, we get: x = 252/11 or x = 210/11 The first solution corresponds to 5 7/11 minutes past 7 and the second solution corresponds to 5 2/11 minutes past 7. Therefore, the answer is (B) 5 2/11 min. past 7.",
+            "final_answer": "B",
+            "question_idx": 893,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Rajesh solved 80 per cent of the questions in an examination correctly. If out of 41 questions solved by Rajesh 37 questions are correct and of the remaining questions out of 8 questions 5 questions have been solved by Rajesh correctly then find the total number of questions asked in the examination. Answer Choices: (A) 75 (B) 65 (C) 60 (D) Cannot be determined (E) None of these",
+            "rationale": "A: Let's think step by step. First, we know that Rajesh solved 80% of the questions correctly. This means that he got 37 questions correct out of a total of x questions. We can write this as: 0.8x = 37 Solving for x, we get: x = 46.25 However, we know that the number of questions asked in the examination must be a whole number. Therefore, we can assume that the actual number of questions asked is either 46 or 47. Next, we know that Rajesh solved a total of 41 questions. Of these, 37 were correct and 4 were incorrect. This means that he attempted 8 - 4 = 4 questions in the remaining set of questions. We also know that he got 5 out of these 8 questions correct. Therefore, the total number of questions asked in the examination is: 37 + 4 + 5 = 46 So the answer is (A) 75.",
+            "final_answer": "A",
+            "question_idx": 182,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: The average salary/head of all the workers ina workshop is Rs.850, if the average salary/head of 7technician is Rs.1000 and the average salary/head of the rest is Rs.780, the total no. of workers in the work-shop is ? Answer Choices: (A) 18 (B) 20 (C) 22 (D) 23 (E) 25",
+            "rationale": "A: Let's think step by step. Let the total number of workers in the workshop be x. We know that the average salary/head of all workers is Rs. 850. So, the total salary of all workers = 850x. We also know that the average salary/head of 7 technicians is Rs. 1000. So, the total salary of these 7 technicians = 1000 x 7 = 7000. Now, we can find the total salary of the remaining workers by subtracting the total salary of the technicians from the total salary of all workers: Total salary of remaining workers = 850x - 7000. We also know that the average salary/head of the remaining workers is Rs. 780. So, we can set up an equation: (850x - 7000) / (x - 7) = 780 Solving for x, we get x = 22. Therefore, the total number of workers in the workshop is 22. The answer is (C) 22.",
+            "final_answer": "C",
+            "question_idx": 926,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: There is enough provisions for 2400 women in an army camp for 100 days. If there were 1200 men less, how long will the provision last? Answer Choices: (A) 170 (B) 180 (C) 190 (D) 200 (E) 210",
+            "rationale": "A: Let's think step by step. Given: - Provisions for 2400 women for 100 days - 1200 men less We need to find out how long the provisions will last. Let's assume that each person consumes the same amount of provisions per day. Total provisions = 2400 women x 100 days = 240,000 woman-days Now, if there were 1200 men less, the total number of people in the camp would be 2400 women - 1200 men = 1200 women. So, the provisions need to last for 1200 women for some number of days. Let's call the number of days the provisions will last for 1200 women \"x\". We know that the total amount of provisions is the same, so: 240,000 woman-days = 1200 women x days Solving for \"x\": x = 240,000 woman-days / 1200 women x = 200 days Therefore, the provisions will last for 200 days for 1200 women (or 2400 women and 1200 men). The correct answer is (D) 200.",
+            "final_answer": "D",
+            "question_idx": 640,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: In a family 4 people eat only vegetarian, 3 people eat only non veg., 2 people eat both veg and non veg.. How many people are in the family? Answer Choices: (A) 4 (B) 3 (C) 10 (D) 2 (E) 9",
+            "rationale": "A: Let's think step by step. We know that there are 4 people who eat only vegetarian, 3 people who eat only non-veg, and 2 people who eat both veg and non-veg. If we add up the number of people who eat only vegetarian and the number of people who eat both veg and non-veg, we get a total of 6 people. Similarly, if we add up the number of people who eat only non-veg and the number of people who eat both veg and non-veg, we get a total of 5 people. However, we have counted the 2 people who eat both veg and non-veg twice, so we need to subtract them once to get the total number of people in the family. Therefore, the total number of people in the family is 6 + 5 - 2 = 9. So the answer is (E) 9.",
+            "final_answer": "E",
+            "question_idx": 290,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: If a and b are consecutive integers (b>a), which of the following statements could be false? 1. a^2+b is an even number. 2. ab is even number 3. (a + b) is always an odd number. Answer Choices: (A) II only (B) III only (C) I,II only (D) I only (E) I,III only",
+            "rationale": "A: Let's think step by step. If a and b are consecutive integers, then b = a + 1. 1. a^2 + b = a^2 + (a + 1) = (a^2 + a) + 1. Since a(a+1) is always even, the sum of an even number and 1 is always odd. Therefore, statement 1 is always true. 2. ab = a(a+1) is the product of two consecutive integers. One of them must be even and the other odd. Therefore, the product is always even. Statement 2 is always true. 3. a + b = a + (a+1) = 2a + 1. Since a is an integer, 2a is always even. Therefore, 2a + 1 is always odd. Statement 3 is always true. Therefore, none of the statements could be false. The answer is (E) None of the above.",
+            "final_answer": "E",
+            "question_idx": 476,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: 69 laboratories raise the bacterium, the laboratory have 48 culture dishes on average, which has about 25,075 bacteria each. How many bacteria are there approximately? Answer Choices: (A) 10^7 (B) 10^8 (C) 10^9 (D) 10^10 (E) 10^11",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of culture dishes in all the laboratories. Total number of culture dishes = 69 x 48 = 3312 Step 2: Find the total number of bacteria in all the culture dishes. Total number of bacteria = 3312 x 25,075 = 83,076,000 Step 3: Convert the total number of bacteria into scientific notation. 83,076,000 = 8.3076 x 10^7 Therefore, the answer is (A) 10^7.",
+            "final_answer": "A",
+            "question_idx": 50,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A sports retailer ordered white and yellow tennis balls in equal number but the dispatch clerk of the tennis ball company erred and dispatched 50 extra yellow balls and making ratio of white balls to yellow balls 7/11. How many tennis balls did the retailer order originally. Answer Choices: (A) 17.5 (B) 130 (C) 175 (D) 195 (E) 220",
+            "rationale": "A: Let's think step by step. Let's assume that the retailer originally ordered x number of white and yellow tennis balls each. According to the problem, the dispatch clerk dispatched 50 extra yellow balls. So, the total number of yellow balls became (x + 50) and the number of white balls remained x. Now, the ratio of white balls to yellow balls is given as 7/11. So, we can write the equation: x/(x+50) = 7/11 Cross-multiplying, we get: 11x = 7(x+50) 11x = 7x + 350 4x = 350 x = 87.5 Therefore, the retailer originally ordered 87.5 white and 87.5 yellow tennis balls each. But since we need to find the total number of tennis balls, we add them up: 87.5 + 87.5 + 50 (extra yellow balls) = 225 So, the correct answer is (None of the above) 225.",
+            "final_answer": "B",
+            "question_idx": 467,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: The cost price of a radio is Rs.1390 and it was sold for Rs.890, find the loss %? Answer Choices: (A) 18% (B) 12% (C) 22% (D) 35% (E) 21%",
+            "rationale": "A: Let's think step by step. The cost price of the radio is Rs. 1390 and it was sold for Rs. 890. The loss incurred is the difference between the cost price and the selling price. Loss = Cost Price - Selling Price Loss = Rs. 1390 - Rs. 890 Loss = Rs. 500 To find the loss percentage, we need to calculate the loss as a percentage of the cost price. Loss Percentage = (Loss / Cost Price) x 100 Loss Percentage = (500 / 1390) x 100 Loss Percentage = 36% Therefore, the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 32,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: What is the smallest positive integer x such that 280-x is the cube of a positive integer Answer Choices: (A) 5 (B) 64 (C) 62 (D) 60 (E) 12",
+            "rationale": "A: Let's think step by step. We are given that 280 - x is the cube of a positive integer. Let's call this positive integer y. So, we have: 280 - x = y^3 We want to find the smallest positive integer x that satisfies this equation. Let's try plugging in the answer choices for x and see which one gives us a perfect cube for y. A) If x = 5, then 280 - x = 275. 275 is not a perfect cube, so this is not the answer. B) If x = 64, then 280 - x = 216. 216 is a perfect cube (6^3), so this could be the answer. C) If x = 62, then 280 - x = 218. 218 is not a perfect cube, so this is not the answer. D) If x = 60, then 280 - x = 220. 220 is not a perfect cube, so this is not the answer. E) If x = 12, then 280 - x = 268. 268 is not a perfect cube, so this is not the answer. Therefore, the answer is (B) 64.",
+            "final_answer": "B",
+            "question_idx": 368,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: What annual payment dischargea debit of Rs.12900, due in 4yrs.At 5% rate? Answer Choices: (A) 2300 (B) 2400 (C) 3000 (D) 3500 (E) 3600",
+            "rationale": "A: Let's think step by step. We can use the formula for the present value of an annuity to solve this problem. The formula is: PV = A * (1 - (1 + r)^(-n)) / r where PV is the present value of the annuity, A is the annual payment, r is the interest rate per period, and n is the number of periods. In this case, we know that PV = Rs. 12900, r = 5% per year, and n = 4 years. We want to solve for A. Plugging in the values, we get: 12900 = A * (1 - (1 + 0.05)^(-4)) / 0.05 Simplifying the right-hand side, we get: 12900 = A * (1 - 0.8227) 12900 = A * 0.1773 A = 12900 / 0.1773 A = 72877.5 However, this is the total amount that would discharge the debt in one payment. We want to know the annual payment, so we need to divide by the number of years: Annual payment = 72877.5 / 4 Annual payment = 18219.375 None of the answer choices match this result, so the correct answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 194,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Solution A is 10% salt and Solution B is 80% salt. If you have 30 ounces of solution A and 60 ounces of solution B, in what ratio could you mix Solution A with Solution B to produce 50 ounces of a 50% salt solution? Answer Choices: (A) 6:4 (B) 6:14 (C) 3:4 (D) 4:6 (E) 3:7",
+            "rationale": "A: Let's think step by step. Step 1: Calculate the amount of salt in Solution A and Solution B. - Solution A: 10% of 30 ounces = 3 ounces of salt - Solution B: 80% of 60 ounces = 48 ounces of salt Step 2: Set up an equation to represent the amount of salt in the final mixture. - Let x be the amount of Solution A needed to make 50 ounces of a 50% salt solution. - Then, (50 - x) is the amount of Solution B needed. - The equation is: 0.1x + 0.8(50 - x) = 0.5(50) Step 3: Solve for x. - 0.1x + 40 - 0.8x = 25 - -0.7x = -15 - x = 21.43 Step 4: Calculate the ratio of Solution A to Solution B. - Solution A: 21.43 ounces - Solution B: 50 - 21.43 = 28.57 ounces - Ratio of Solution A to Solution B = 21.43:28.57 = 3:4 Therefore, the correct answer is (C) 3:4.",
+            "final_answer": "C",
+            "question_idx": 630,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: The 30 members of a club decided to play a badminton singles tournament. Every time a member loses a game he is out of the tournament. There are no ties. What is the minimum number of matches that must be played to determine the winner ? Answer Choices: (A) 15 (B) 29 (C) 64 (D) 39 (E) 35",
+            "rationale": "A: Let's think step by step. First, we need to determine how many rounds of matches will be played. Since each match eliminates one player, there will be 29 matches in the first round (30 players divided into 15 matches). After the first round, there will be 15 players left, so there will be 7 matches in the second round (8 players divided into 4 matches) and 4 matches in the third round (4 players divided into 2 matches). Finally, there will be one match in the fourth round to determine the winner. Therefore, the total number of matches played will be 29 + 7 + 4 + 1 = 41. None of the answer choices match our calculation, so the correct answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 684,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: In how many different orders can the people Alice, Benjamin, Charlene, David, Elaine, Frederick, Gale, and Harold be standing on line if each of Alice, Benjamin, Charlene must be on the line before each of Frederick, Gale, and Harold? Answer Choices: (A) 1,008 (B) 1,296 (C) 1,512 (D) 2,016 (E) 2,268",
+            "rationale": "A: Let's think step by step. First, we need to arrange Alice, Benjamin, and Charlene in a line. This can be done in 3! = 6 ways. Next, we need to arrange Frederick, Gale, and Harold in a line. This can also be done in 3! = 6 ways. Now, we have 5 people left to arrange: David, Elaine, and the 3 groups of 3 people (ABC, FGH). We can think of these 5 people as 5 slots that need to be filled. The first slot can be filled by any of the 8 people. The second slot can be filled by any of the remaining 7 people. The third slot can be filled by any of the remaining 6 people. The fourth slot can be filled by any of the remaining 5 people. The fifth slot can be filled by any of the remaining 4 people. Therefore, the total number of ways to arrange all 8 people is: 6 x 6 x 8 x 7 x 6 x 5 x 4 = 1,296 So the answer is (B) 1,296.",
+            "final_answer": "B",
+            "question_idx": 704,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Curious Elva asked her father what he would gift for her nineteenth birthday. Father replied that it would depend on the day of the week and be one of SUNglasses, MONeybag, ..., FRIedcake, and SATchel. Please help Elva find the day of the week on 08-Jan-2029 Answer Choices: (A) Monday (B) Tuesday (C) Thursday (D) Saturday (E) Sunday",
+            "rationale": "A: Let's think step by step. First, we need to find the day of the week for 08-Jan-2029. We can use a calendar or an online tool to do this. Let's assume that 08-Jan-2029 falls on a Monday. Next, we need to determine what gift Elva will receive based on the day of the week. According to her father's statement, if it's Monday, she will receive a MONeybag. Therefore, the answer is (A) Monday.",
+            "final_answer": "A",
+            "question_idx": 52,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Elena’s bread recipe calls for 2 ounces of butter for each 5 cups of flour used. She needs to make 4 times the original recipe. If 12 ounces of butter is used, then how many cups of flour are needed? Answer Choices: (A) 1 (B) 4 (C) 9 (D) 13 (E) 20",
+            "rationale": "A: Let's think step by step. First, we need to find out how much butter is needed for the new recipe. Since Elena needs to make 4 times the original recipe, she will need 4 x 2 = 8 ounces of butter. Next, we can set up a proportion to find out how much flour is needed. We know that for every 2 ounces of butter, 5 cups of flour are used. So, we can write: 2/5 = 8/x where x is the number of cups of flour needed for the new recipe. To solve for x, we can cross-multiply: 2x = 40 x = 20 Therefore, the answer is (E) 20.",
+            "final_answer": "E",
+            "question_idx": 626,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: The value of a machine depreciates at 22% per annum. If its present value is $1,50,000, at what price should it be sold after two years such that a profit of $24,000 is made? Answer Choices: (A) $255260 (B) $435260 (C) $125260 (D) $115260 (E) $155260",
+            "rationale": "A: Let's think step by step. The machine depreciates at 22% per annum, which means its value decreases by 22% every year. After two years, the value of the machine will be: $1,50,000 x (1 - 0.22) x (1 - 0.22) = $1,50,000 x 0.78 x 0.78 = $87,156 To make a profit of $24,000, the machine should be sold for: $87,156 + $24,000 = $1,11,156 Therefore, the correct answer is None of the above, as none of the given options match the calculated value of $1,11,156.",
+            "final_answer": "A",
+            "question_idx": 809,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A camera lens filter kit containing 5 filters sells for $52.50. If the filters are purchased individually, 2 of them are priced at $6.45 each, 2 at $11.05 each, 1 at $15.50. The amount saved by purchasing the kit is what percent of the total price of the 5 filters purchased individually? Answer Choices: (A) 3.76% (B) 4.76% (C) 5.76% (D) 6.76% (E) 7.76%",
+            "rationale": "A: Let's think step by step. The total cost of purchasing the filters individually is: 2 x $6.45 + 2 x $11.05 + $15.50 = $31.50 The cost of purchasing the kit is $52.50. The amount saved by purchasing the kit is: $31.50 - $52.50 = -$21.00 This means that purchasing the kit costs $21.00 more than purchasing the filters individually. To find the percentage of the total price saved by purchasing the kit, we need to divide the amount saved by the total cost of purchasing the filters individually and then multiply by 100: (-$21.00 / $31.50) x 100 = -66.67% This means that purchasing the kit costs 66.67% more than purchasing the filters individually. However, the question asks for the percentage of the total price saved, not the percentage of the total price increased. Therefore, none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 965,
+            "entropy": 0.9502705392332347
+        }
+    ]
+}

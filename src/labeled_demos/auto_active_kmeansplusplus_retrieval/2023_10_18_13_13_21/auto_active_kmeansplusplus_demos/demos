@@ -1,0 +1,354 @@
+{
+    "demo": [
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "rationale": "A: Let's think step by step. First, we can simplify the second ratio by cross-multiplying to get z(y + x) = (y)(y + x), which simplifies to y^2 = zx. Next, we can substitute this expression for y^2 into the first ratio to get y/(x - z) = (y + x)/z = x/zx^(1/2). Simplifying this expression, we get y = x^(3/2)/(x - z) and z = x^(1/2)/(x - z). Now, we can substitute these expressions for y and z into the ratio y^2 : x : z to get x^(3/2)/(x - z)^2 : x : x^(1/2)/(x - z). Simplifying this expression, we get x^(5/2) : x(x - z)^2 : x^(3/2)(x - z). Cancelling out an x from each term, we get x^(3/2) : (x - z)^2 : x^(1/2). Now, we can substitute the expression for z from earlier (z = x^(1/2)/(x - z)) into this ratio to get x^(3/2) : (x - x^(1/2))^2 : x^(1/2). Simplifying this expression, we get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2). Finally, we can simplify the middle term by expanding the square and combining like terms to get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2) = x^(3/2) : (x^2 - x^(3/2)) : x^(1/2) = x^(1/2) : (x - 1) : 1. Therefore, the answer is (E) none of these, since none of the given answer choices match the ratio x^(1/2) : (x - 1) : 1.",
+            "final_answer": "E",
+            "question_idx": 245,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: Curious Elva asked her father what he would gift for her nineteenth birthday. Father replied that it would depend on the day of the week and be one of SUNglasses, MONeybag, ..., FRIedcake, and SATchel. Please help Elva find the day of the week on 08-Jan-2029 Answer Choices: (A) Monday (B) Tuesday (C) Thursday (D) Saturday (E) Sunday",
+            "rationale": "A: Let's think step by step. First, we need to find the day of the week for 08-Jan-2029. We can use a calendar or an online tool to do this. Let's assume that 08-Jan-2029 falls on a Monday. Next, we need to determine what gift Elva will receive based on the day of the week. According to her father's statement, if it's Monday, she will receive a MONeybag. Therefore, the answer is (A) Monday.",
+            "final_answer": "A",
+            "question_idx": 52,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A pump can fill a tank with water in 2 hours. Because of a leak, it took 2 hours to fill the tank. The leak can drain all the water of the tank in: Answer Choices: (A) 4 hours (B) 7 hours (C) 8 hours (D) 14 hours (E) 15 hours",
+            "rationale": "A: Let's think step by step. The pump can fill the tank in 2 hours, so in 1 hour it can fill 1/2 of the tank. Let's assume the leak can drain the entire tank in x hours. In 2 hours, the pump fills the entire tank, but during this time the leak also drains some water. Let's say the leak drains 1/2 of the tank in 2 hours. So, in 2 hours, the pump fills 1/2 of the tank and the leak drains 1/2 of the tank. This means that the net amount of water added to the tank in 2 hours is 0. Therefore, we can set up the equation: 1/2 - 1/x = 0 Solving for x, we get: 1/x = 1/2 x = 2 Therefore, the leak can drain the entire tank in 2 hours. The correct answer is (A) 4 hours. None of the given options match the correct answer.",
+            "final_answer": "A",
+            "question_idx": 803,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: The average price of an antique car increases over the years. If from 1990 to 1996, the price of the car increased by 13% and from 1996 to 2001 it increased by 20%, what is the price of the car in 2001 if the price in 1990 was $11,500? Answer Choices: (A) $15,594. (B) $15,322. (C) $14,786. (D) $14,543. (E) $12,988.",
+            "rationale": "A: Let's think step by step. First, we need to find the price of the car in 1996 after a 13% increase from 1990. Price in 1990 = $11,500 13% increase from 1990 = 0.13 x $11,500 = $1,495 Price in 1996 = $11,500 + $1,495 = $12,995 Next, we need to find the price of the car in 2001 after a 20% increase from 1996. 20% increase from 1996 = 0.20 x $12,995 = $2,599 Price in 2001 = $12,995 + $2,599 = $15,594 Therefore, the answer is (A) $15,594.",
+            "final_answer": "A",
+            "question_idx": 973,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: courtyard 3.78 meters long 5.95 meters wide is to be paved exactly with square tiles, all of the same size. what is the largest size of the tile which could be used for the purpose? Answer Choices: (A) 22 (B) 77 (C) 877 (D) 99 (E) 88",
+            "rationale": "A: Let's think step by step. The area of the courtyard is given by multiplying its length and width: Area = 3.78 x 5.95 = 22.545 square meters Let's assume that each tile has a side length of x meters. Then the number of tiles needed to cover the courtyard can be found by dividing the area of the courtyard by the area of each tile: Number of tiles = Area of courtyard / Area of each tile Number of tiles = 22.545 / x^2 For the largest size of the tile, we want to minimize the number of tiles needed. This means we want to maximize the size of each tile. To maximize the size of each tile, we need to minimize the number of tiles. The number of tiles is minimized when each tile is as large as possible. So, we need to find the largest perfect square that is a factor of 22.545. 22.545 = 3 x 3 x 2.505 The largest perfect square that is a factor of 22.545 is 9. So, the largest size of the tile that could be used is the square root of 9, which is 3 meters. Therefore, the answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 241,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Gautami went to the stationers and bought things worth Rs. 100, out of which 50 paise went on sales tax on taxable purchases. If the tax rate was 5%. then what was the cost of the tax free items? Answer Choices: (A) Rs. 99.50 (B) Rs. 70.50 (C) Rs. 89.50 (D) Rs. 69.50 (E) Rs. 80.50",
+            "rationale": "A: Let's think step by step. The total cost of the items including tax is Rs. 100. Out of this, 50 paise (or Rs. 0.50) went on sales tax. We know that the tax rate is 5%. So, we can set up an equation: 5% of the taxable purchases = Rs. 0.50 To find the cost of tax-free items, we need to subtract the tax amount from the total cost: Cost of tax-free items = Total cost - Tax amount Cost of tax-free items = Rs. 100 - Rs. 0.50 Cost of tax-free items = Rs. 99.50 Therefore, the answer is (A) Rs. 99.50.",
+            "final_answer": "A",
+            "question_idx": 811,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Ayush was born two years after his father's marriage. His mother is five years younger than his father but 22 years older than Ayush who is 10 years old. At what age did the father get married ? Answer Choices: (A) 22years (B) 23years (C) 24years (D) 25years (E) 26years",
+            "rationale": "A: Let's think step by step. Let's assume the father got married at age x. According to the problem, Ayush is currently 10 years old. Therefore, his father's age would be (x + 10) years old. We also know that Ayush's mother is 5 years younger than his father. Therefore, her age would be (x + 10 - 5) = (x + 5) years old. Finally, we know that Ayush's mother is 22 years older than Ayush. Therefore, we can set up the equation: x + 5 = 10 + 22 Simplifying this equation, we get: x = 27 Therefore, the father got married at age 27 - 2 = 25 years old. The correct answer is (D) 25 years.",
+            "final_answer": "D",
+            "question_idx": 73,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: The bus that travels from St. Louis to Chicago and back comes to St. Louis every 3 hours while the bus that travels from St. Louis to Springfield and back comes to St. Louis every 7 hours. If at 01:00 o'clock both bused arrived at St. Louis, at what time will they meet in St. Louis again? Answer Choices: (A) 16:00. (B) 18:00. (C) 20:00. (D) 22:00. (E) 24:00.",
+            "rationale": "A: Let's think step by step. The bus from St. Louis to Chicago arrives every 3 hours, so it will arrive at 04:00, 07:00, 10:00, 13:00, 16:00, 19:00, 22:00, and 01:00 (next day). The bus from St. Louis to Springfield arrives every 7 hours, so it will arrive at 08:00, 15:00, and 22:00. To find the next time they will both arrive at the same time, we need to find the least common multiple (LCM) of 3 and 7. The multiples of 3 are: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99, 102, 105, 108, 111, 114, 117, 120, 123, 126, 129, 132, 135, 138, 141, 144, 147, 150, 153, 156, 159, 162, 165, 168, 171, 174, 177, 180, 183, 186, 189, 192, 195, 198, 201, 204, 207, 210, 213, 216, 219, 222, 225, 228, 231, 234, 237, 240, 243, 246, 249, 252, 255, 258, 261, 264, 267, 270, 273, 276, 279, 282, 285, 288, 291, 294, 297, 300, 303, 306, 309, 312, 315, 318, 321, 324, 327, 330, 333, 336, 339, 342, 345, 348, 351, 354, 357, 360, 363, 366, 369, 372, 375, 378, 381, 384, 387, 390, 393, 396, 399, 402, 405, 408, 411, 414, 417, 420, 423, 426, 429, 432, 435, 438, 441, 444, 447, 450, 453, 456, 459, 462, 465, 468, 471, 474, 477, 480, 483, 486, 489, 492, 495, 498, 501, 504, 507, 510, 513, 516, 519, 522, 525, 528, 531, 534, 537, 540, 543, 546, 549, 552, 555, 558, 561, 564, 567, 570, 573, 576, 579, 582, 585, 588, 591, 594, 597, 600, 603, 606, 609, 612, 615, 618, 621, 624, 627, 630, 633, 636, 639, 642, 645, 648, 651, 654, 657, 660, 663, 666, 669, 672, 675, 678, 681, 684, 687, 690, 693, 696, 699, 702, 705, 708, 711, 714, 717, 720, 723, 726, 729, 732, 735, 738, 741, 744, 747, 750, 753, 756, 759, 762, 765, 768, 771, 774, 777, 780, 783, 786, 789, 792, 795, 798, 801, 804, 807, 810, 813, 816, 819, 822, 825, 828, 831, 834, 837, 840, 843, 846, 849, 852, 855, 858, 861, 864, 867, 870, 873, 876, 879, 882,",
+            "final_answer": "C",
+            "question_idx": 754,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A doctor prescribed 18 cubic centimeters of a certain drug to a patient whose body weight was 120 pounds. If the typical dosage is 4 cubic centimeters per 15 pounds of the body weight, by what percent was the prescribed dosage lesser than the typical dosage? Answer Choices: (A) 8% (B) 9% (C) 11% (D) 12.5% (E) -87.5%",
+            "rationale": "A: Let's think step by step. Step 1: Calculate the typical dosage for a patient weighing 120 pounds. Typical dosage = (4 cubic centimeters / 15 pounds) x 120 pounds = 32 cubic centimeters Step 2: Calculate the difference between the prescribed dosage and the typical dosage. Difference = 32 cubic centimeters - 18 cubic centimeters = 14 cubic centimeters Step 3: Calculate the percentage by which the prescribed dosage is lesser than the typical dosage. Percentage = (Difference / Typical dosage) x 100% Percentage = (14 cubic centimeters / 32 cubic centimeters) x 100% Percentage = 43.75% None of the answer choices match the calculated percentage, so the answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 886,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Jamboree and GMAT Club Contest Starts\nQUESTION #20:\nHow many words (with or without meaning) can be formed using all the letters of the word “SELFIE” so that the two E’s are not together? Answer Choices: (A)  660 (B)  600 (C)  500 (D)  300 (E)  240",
+            "rationale": "A: Let's think step by step. First, we need to find the total number of ways to arrange all the letters of the word \"SELFIE\". This can be done using the formula for permutations of n objects taken all at a time, which is n!. In this case, n = 6, so the total number of arrangements is 6! = 720. Next, we need to subtract the number of arrangements where the two E's are together. To do this, we can treat the two E's as a single object and find the number of arrangements of the five objects \"S\", \"L\", \"F\", \"I\", and \"EE\". This can be done using the formula for permutations of n objects taken r at a time, which is nPr = n!/(n-r)!. In this case, n = 5 and r = 5, so the number of arrangements where the two E's are together is 5! = 120. Finally, we can subtract the number of arrangements where the two E's are together from the total number of arrangements to get the number of arrangements where the two E's are not together: 720 - 120 = 600. Therefore, the answer is (B) 600.",
+            "final_answer": "B",
+            "question_idx": 629,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A fort had provision of food for 150 men for 60 days. After 10 days, 25 men left the fort. The number of days for which the remaining food will last, is: Answer Choices: (A) 29 1/5 (B) 37 1/4 (C) 42 (D) 54 (E) 60",
+            "rationale": "A: Let's think step by step. Step 1: Find the total amount of food available in the fort. The provision of food for 150 men for 60 days means that the fort has food for 150 x 60 = 9000 man-days. Step 2: Find the amount of food consumed in the first 10 days. Since there were 150 men in the fort for the first 10 days, the amount of food consumed in the first 10 days is 150 x 10 = 1500 man-days. Step 3: Find the amount of food remaining after 10 days. The amount of food remaining after 10 days is 9000 - 1500 = 7500 man-days. Step 4: Find the number of men remaining in the fort. After 25 men left the fort, the number of men remaining in the fort is 150 - 25 = 125. Step 5: Find the number of days for which the remaining food will last. Let's assume that the remaining food will last for x days. Since the same amount of food is now available for 125 men, the amount of food required for x days is 125x man-days. We know that this amount of food is equal to the remaining food in the fort, which is 7500 man-days. Therefore, we can write the equation: 125x = 7500 Solving for x, we get: x = 60 Therefore, the remaining food will last for 60 days. Answer: (E) 60",
+            "final_answer": "E",
+            "question_idx": 617,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: A man can row his boat with the stream at 18 km/h and against the stream in 8 km/h. The man's rate is? Answer Choices: (A) 5 kmph (B) 2 kmph (C) 7 kmph (D) 8 kmph (E) 3 kmph",
+            "rationale": "A: Let's think step by step. Let the speed of the stream be x km/h and the speed of the man be y km/h. When the man rows with the stream, his effective speed is (y + x) km/h. When the man rows against the stream, his effective speed is (y - x) km/h. We are given that: (y + x) = 18 km/h (y - x) = 8 km/h Adding the two equations, we get: 2y = 26 km/h y = 13 km/h Therefore, the man's rate is 13 km/h. The answer is not in the given options. Hence, the answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 877,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Primary batteries, unlike secondary batteries, may be: Answer Choices: (A) 2 (B) 7 (C) 6 (D) 8 (E) 9",
+            "rationale": "A: Let's think step by step. The question is asking for a characteristic that primary batteries have that secondary batteries do not have. Option (A) 2 is not a valid answer as it does not provide any information related to the question. Option (B) 7 is also not a valid answer as it does not provide any information related to the question. Option (C) 6 is also not a valid answer as it does not provide any information related to the question. Option (D) 8 is also not a valid answer as it does not provide any information related to the question. Option (E) 9 is also not a valid answer as it does not provide any information related to the question. Therefore, the correct answer is None of the above.",
+            "final_answer": "E",
+            "question_idx": 63,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Salad dressing P is made up of 30% vinegar and 70% oil, and salad dressing Q contains 10% vinegar and 90% oil. If the two dressings are combined to produce a salad dressing that is 12% vinegar, dressing P comprises what percentage of the new dressing? Answer Choices: (A) 50% (B) 40% (C) 30% (D) 20% (E) 10%",
+            "rationale": "A: Let's think step by step. Let's assume that we have 100 ml of the new salad dressing. Let x be the percentage of dressing P in the new dressing. Then, we can write: - The amount of vinegar in dressing P = 30% of x ml - The amount of vinegar in dressing Q = 10% of (100 - x) ml (since the total amount of dressing is 100 ml and we have x ml of dressing P) - The amount of vinegar in the new dressing = 12% of 100 ml = 12 ml Since we are combining the two dressings, the total amount of vinegar in the new dressing is the sum of the amount of vinegar in dressing P and dressing Q. So, we can write: 0.3x + 0.1(100 - x) = 12 Simplifying this equation, we get: 0.2x + 10 = 12 0.2x = 2 x = 10 Therefore, dressing P comprises 10% of the new dressing. The correct answer is (E) 10%.",
+            "final_answer": "E",
+            "question_idx": 173,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Peter has $642,986 in his savings account. What is the least amount of money (in whole number of dollars) that he must add to his account if he wants to split this money evenly among his nine children? Answer Choices: (A) $642,986 (B) $642,987 (C) $642,988 (D) $642,989 (E) $642,990",
+            "rationale": "A: Let's think step by step. Peter wants to split his savings evenly among his nine children. This means he needs to divide his savings by 9 to find out how much each child will get. $642,986 ÷ 9 = $71,443.88 However, we need to add a whole number of dollars to his account, so we need to round up to the nearest dollar. $71,443.88 rounded up to the nearest dollar is $71,444. Therefore, Peter needs to add $71,444 to his savings account to split the money evenly among his nine children. The correct answer is (D) $642,989.",
+            "final_answer": "D",
+            "question_idx": 283,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Elena’s bread recipe calls for 2 ounces of butter for each 5 cups of flour used. She needs to make 4 times the original recipe. If 12 ounces of butter is used, then how many cups of flour are needed? Answer Choices: (A) 1 (B) 4 (C) 9 (D) 13 (E) 20",
+            "rationale": "A: Let's think step by step. First, we need to find out how much butter is needed for the new recipe. Since Elena needs to make 4 times the original recipe, she will need 4 x 2 = 8 ounces of butter. Next, we can set up a proportion to find out how much flour is needed. We know that for every 2 ounces of butter, 5 cups of flour are used. So, we can write: 2/5 = 8/x where x is the number of cups of flour needed for the new recipe. To solve for x, we can cross-multiply: 2x = 40 x = 20 Therefore, the answer is (E) 20.",
+            "final_answer": "E",
+            "question_idx": 626,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: An object thrown directly upward is at a height of h feet after t seconds, where h = -15 (t-2)^2 + 150. At what height, in feet, is the object 2 seconds after it reaches its maximum height? Answer Choices: (A) 72 (B) 90 (C) 124 (D) 132 (E) 140",
+            "rationale": "A: Let's think step by step. First, we need to find the maximum height of the object. We can do this by finding the vertex of the quadratic equation h = -15(t-2)^2 + 150. The vertex of a quadratic equation in the form of h = a(t-b)^2 + c is (b, c). In this case, the vertex is (2, 150). This means that the object reaches its maximum height of 150 feet after 2 seconds. Next, we need to find the height of the object 2 seconds after it reaches its maximum height. We can do this by plugging in t = 4 (2 seconds after it reaches its maximum height) into the equation h = -15(t-2)^2 + 150. h = -15(4-2)^2 + 150 h = -15(2)^2 + 150 h = -60 + 150 h = 90 Therefore, the height of the object 2 seconds after it reaches its maximum height is 90 feet. The correct answer is (B) 90.",
+            "final_answer": "B",
+            "question_idx": 956,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. We know that the average temperature from Monday to Friday is 40. Let's call the sum of the temperatures for those five days \"S\". Then we can write: S/5 = 40 Multiplying both sides by 5, we get: S = 200 We also know that the lowest temperature is 30. Let's call the highest temperature \"H\". Then the range of temperatures is: H - 30 To find the maximum possible range, we need to find the maximum possible value of H. We know that the sum of the temperatures is 200, so: H + 4(40) = 200 Simplifying, we get: H = 40 So the maximum range of temperatures is: 40 - 30 = 10 Therefore, the answer is (A) 20.",
+            "final_answer": "A",
+            "question_idx": 703,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: Of the 600 residents of Clermontville, 35% watch the television show Island Survival, 40% watch Lovelost Lawyers and 50% watch Medical Emergency. If all residents watch at least one of these three shows and 18% watch exactly 2 of these shows, then how many Clermontville residents B watch all of the shows? Answer Choices: (A)  150 (B)  108 (C)  42 (D)  21 (E)  -21",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of residents who watch at least one of the three shows. 35% + 40% + 50% = 125% This means that some residents are being counted twice or even thrice. To find the actual percentage, we need to subtract the percentage of residents who watch exactly two shows and the percentage of residents who watch all three shows. Step 2: Find the percentage of residents who watch exactly two shows. 125% - 18% = 107% Step 3: Find the percentage of residents who watch all three shows. 107% - 100% = 7% Step 4: Find the total number of residents who watch all three shows. 7% of 600 = 42 Therefore, the answer is (C) 42.",
+            "final_answer": "C",
+            "question_idx": 136,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: When sold at a 60% discount, a sweater nets the merchant a 20% profit on the wholesale cost at which he initially purchased the item. By what % is the sweater marked up from wholesale at its normal retail price? Answer Choices: (A) 20% (B) 40% (C) 66.67% (D) 80% (E) 100%",
+            "rationale": "A: Let's think step by step. First, let's assume that the wholesale cost of the sweater is $100. If the merchant sells the sweater at a 60% discount, he sells it for 40% of the original price, which is $40. Now, we know that the merchant makes a 20% profit on the wholesale cost at which he initially purchased the item. So, the cost price for the merchant is $100, and he makes a profit of 20%, which is $20. Therefore, the selling price for the merchant is $120. We can now calculate the markup percentage from the wholesale price to the normal retail price. Markup percentage = (Selling price - Wholesale price) / Wholesale price x 100% Markup percentage = ($120 - $100) / $100 x 100% Markup percentage = 20% Therefore, the correct answer is (A) 20%.",
+            "final_answer": "A",
+            "question_idx": 76,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: The average salary/head of all the workers ina workshop is Rs.850, if the average salary/head of 7technician is Rs.1000 and the average salary/head of the rest is Rs.780, the total no. of workers in the work-shop is ? Answer Choices: (A) 18 (B) 20 (C) 22 (D) 23 (E) 25",
+            "rationale": "A: Let's think step by step. Let the total number of workers in the workshop be x. We know that the average salary/head of all workers is Rs. 850. So, the total salary of all workers = 850x. We also know that the average salary/head of 7 technicians is Rs. 1000. So, the total salary of these 7 technicians = 1000 x 7 = 7000. Now, we can find the total salary of the remaining workers by subtracting the total salary of the technicians from the total salary of all workers: Total salary of remaining workers = 850x - 7000. We also know that the average salary/head of the remaining workers is Rs. 780. So, we can set up an equation: (850x - 7000) / (x - 7) = 780 Solving for x, we get x = 22. Therefore, the total number of workers in the workshop is 22. The answer is (C) 22.",
+            "final_answer": "C",
+            "question_idx": 926,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: 69 laboratories raise the bacterium, the laboratory have 48 culture dishes on average, which has about 25,075 bacteria each. How many bacteria are there approximately? Answer Choices: (A) 10^7 (B) 10^8 (C) 10^9 (D) 10^10 (E) 10^11",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of culture dishes in all the laboratories. Total number of culture dishes = 69 x 48 = 3312 Step 2: Find the total number of bacteria in all the culture dishes. Total number of bacteria = 3312 x 25,075 = 83,076,000 Step 3: Convert the total number of bacteria into scientific notation. 83,076,000 = 8.3076 x 10^7 Therefore, the answer is (A) 10^7.",
+            "final_answer": "A",
+            "question_idx": 50,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Ricky likes to keep a spare tyre in his car every time. On a certain day, he travels 1, 00,000 km and just to make the most of all the tyres, he changes the tyres between his journey such that each tyre runs the same distance.\nWhat is the distance travelled by each tyre? Answer Choices: (A) 20000 (B) 35000 (C) 70000 (D) 60000 (E) 80000",
+            "rationale": "A: Let's think step by step. Sure, let's solve this problem step by step. Let's assume that Ricky has four tyres in total, including the spare tyre. Now, if he wants to make sure that each tyre runs the same distance, he needs to change the tyres after every 25% of the total distance travelled. So, 25% of 1,00,000 km is (25/100) x 1,00,000 = 25,000 km. Therefore, Ricky needs to change his tyres after every 25,000 km to ensure that each tyre runs the same distance. Hence, the distance travelled by each tyre is 25,000 km. Therefore, the correct answer is (A) 20,000. (Note: The answer choices provided in the question are incorrect as none of them match the correct answer.)",
+            "final_answer": "A",
+            "question_idx": 86,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: the perimeter of an equilateral triangle is 45.if one of the side is the side of an isoceles triangle of perimeter 40 then what is the lenght of base of isoceles triangle. Answer Choices: (A) 10 units (B) 20 units (C) 30 units (D) 40 units (E) 15 units",
+            "rationale": "A: Let's think step by step. The perimeter of an equilateral triangle is 45, which means each side is 15 units long. Now, we know that one of the sides of an isosceles triangle is also 15 units long. Let's call the length of the base of the isosceles triangle \"b\". Since the perimeter of the isosceles triangle is 40, we can set up an equation: 15 + 15 + b = 40 Simplifying this equation, we get: 30 + b = 40 Subtracting 30 from both sides, we get: b = 10 Therefore, the length of the base of the isosceles triangle is 10 units. The correct answer is (A) 10 units.",
+            "final_answer": "A",
+            "question_idx": 236,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Angles AMB and CMD are right angles, ∠AMD is acute, and ∠BMC=y° is acute. What is ∠AMD ? Answer Choices: (A) 90°−y (B) 180°−y (C) 90°+y (D) 2y (E) y",
+            "rationale": "A: Let's think step by step. We know that angles AMB and CMD are right angles, which means they are both equal to 90 degrees. We also know that angle BMC is acute, which means it is less than 90 degrees. Since angles AMB and CMD are both right angles, they add up to 180 degrees. Therefore, angle AMD must be acute since it is less than 180 degrees. Now, let's use the fact that the angles in a triangle add up to 180 degrees. In triangle AMD, we have angles AMD, AMB, and CMD. AMD + AMB + CMD = 180 Substituting in the values we know: AMD + 90 + 90 = 180 Simplifying: AMD + 180 = 180 AMD = 0 This doesn't make sense since we know that angle AMD is acute. Therefore, none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 139,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Richard has to paint a mural with seven horizontal stripes. He only has enough paint for four red stripes, four blue stripes, four white stripes. If his patron wants at most two different colors in the mural, how many different ways can he paint the wall? Answer Choices: (A) 210 (B) 350 (C) 700 (D) 2,520 (E) 5,040",
+            "rationale": "A: Let's think step by step. First, we need to consider the case where Richard uses only one color. He can choose any of the three colors, so there are 3 ways to paint the mural with only one color. Next, we need to consider the case where Richard uses two colors. He can choose any two colors out of the three, which can be done in 3C2 = 3 ways. For each choice of colors, he can paint the mural in the following ways: - 2 stripes of one color, 5 stripes of the other color: 4C2 x 4C5 = 6 x 4 = 24 - 3 stripes of one color, 4 stripes of the other color: 4C3 x 4C4 = 4 x 1 = 4 So, there are 3 x (24 + 4) = 84 ways to paint the mural with two colors. Therefore, the total number of ways to paint the mural is 3 + 84 = 87. None of the above answer choices match our answer, so the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 328,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: In the third grade of Windblown School there are 96 students, one third of them failed the math test and 1/6 failed that literature test. At least how many students failed both tests? Answer Choices: (A) 0. (B) 6. (C) 8. (D) 10. (E) 12.",
+            "rationale": "A: Let's think step by step. Step 1: Find the number of students who failed the math test. One third of the 96 students failed the math test, so: 1/3 x 96 = 32 Therefore, 32 students failed the math test. Step 2: Find the number of students who failed the literature test. 1/6 of the 96 students failed the literature test, so: 1/6 x 96 = 16 Therefore, 16 students failed the literature test. Step 3: Find the number of students who failed both tests. We don't know the exact number of students who failed both tests, but we do know that it must be less than or equal to the smaller of the two numbers we just found (i.e. 16). Therefore, the answer is (B) 6, because that is the only option that is less than or equal to 16.",
+            "final_answer": "B",
+            "question_idx": 871,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A copy machine, working at a constant rate, makes 25 copies per minute. A second copy machine, working at a constant rate, makes 55 copies per minute. Working together at their respective rates, how many copies do the two machines make in half an hour ? Answer Choices: (A) 90 (B) 2,400 (C) 4,500 (D) 5,400 (E) 324,000",
+            "rationale": "A: Let's think step by step. First, we need to find the combined rate of the two machines. To do this, we add their individual rates: 25 copies/minute + 55 copies/minute = 80 copies/minute Next, we need to convert half an hour to minutes: 30 minutes Now we can use the formula: rate x time = amount Plugging in the values we have: 80 copies/minute x 30 minutes = 2400 copies Therefore, the answer is (B) 2,400.",
+            "final_answer": "B",
+            "question_idx": 946,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: What annual payment dischargea debit of Rs.12900, due in 4yrs.At 5% rate? Answer Choices: (A) 2300 (B) 2400 (C) 3000 (D) 3500 (E) 3600",
+            "rationale": "A: Let's think step by step. We can use the formula for the present value of an annuity to solve this problem. The formula is: PV = A * (1 - (1 + r)^(-n)) / r where PV is the present value of the annuity, A is the annual payment, r is the interest rate per period, and n is the number of periods. In this case, we know that PV = Rs. 12900, r = 5% per year, and n = 4 years. We want to solve for A. Plugging in the values, we get: 12900 = A * (1 - (1 + 0.05)^(-4)) / 0.05 Simplifying the right-hand side, we get: 12900 = A * (1 - 0.8227) 12900 = A * 0.1773 A = 12900 / 0.1773 A = 72877.5 However, this is the total amount that would discharge the debt in one payment. We want to know the annual payment, so we need to divide by the number of years: Annual payment = 72877.5 / 4 Annual payment = 18219.375 None of the answer choices match this result, so the correct answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 194,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A batsman in his 17th innings makes a score of 85 and their by increasing his average by 3. What is his average after the 17thinnings? Answer Choices: (A) 22 (B) 77 (C) 26 (D) 37 (E) 88",
+            "rationale": "A: Let's think step by step. Let the batsman's average before the 17th innings be x. So, the total runs scored by the batsman in his first 16 innings would be 16x. After the 17th innings, the total runs scored by the batsman would be (16x + 85). Now, we know that the batsman's average increased by 3 after the 17th innings. So, we can set up the equation: (16x + 85)/(17) = (x + 3) Solving for x, we get: x = 22 Therefore, the batsman's average after the 17th innings would be: (16x + 85)/(17) = (16*22 + 85)/(17) = 37 So, the correct answer is (D) 37.",
+            "final_answer": "D",
+            "question_idx": 962,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: A bag of potatoes weighs 36 lbs divided by half of its weight. How much does the bag of potatoes weight? Answer Choices: (A) 20 lb (B) 30 lb (C) 10 lb (D) 15 lb (E) 36 lb",
+            "rationale": "A: Let's think step by step. First, we need to find half of the weight of the bag of potatoes. We can represent this as 1/2x, where x is the weight of the bag of potatoes. Next, we know that the bag of potatoes weighs 36 lbs divided by half of its weight. We can represent this as: 36 = x/(1/2x) To simplify this equation, we can multiply both sides by 2x: 72x = x Now we can solve for x: 72x = x 71x = 0 x = 0 This doesn't make sense, as the weight of the bag of potatoes cannot be 0. Therefore, none of the answer choices are correct. Answer: None of the above.",
+            "final_answer": "No answer",
+            "question_idx": 939,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A camera lens filter kit containing 5 filters sells for $52.50. If the filters are purchased individually, 2 of them are priced at $6.45 each, 2 at $11.05 each, 1 at $15.50. The amount saved by purchasing the kit is what percent of the total price of the 5 filters purchased individually? Answer Choices: (A) 3.76% (B) 4.76% (C) 5.76% (D) 6.76% (E) 7.76%",
+            "rationale": "A: Let's think step by step. The total cost of purchasing the filters individually is: 2 x $6.45 + 2 x $11.05 + $15.50 = $31.50 The cost of purchasing the kit is $52.50. The amount saved by purchasing the kit is: $31.50 - $52.50 = -$21.00 This means that purchasing the kit costs $21.00 more than purchasing the filters individually. To find the percentage of the total price saved by purchasing the kit, we need to divide the amount saved by the total cost of purchasing the filters individually and then multiply by 100: (-$21.00 / $31.50) x 100 = -66.67% This means that purchasing the kit costs 66.67% more than purchasing the filters individually. However, the question asks for the percentage of the total price saved, not the percentage of the total price increased. Therefore, none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 965,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A number is said to be prime saturated if the product of all the different positive prime factors of e is less than the square root of e. What is the greatest two digit prime saturated integer ? Answer Choices: (A) 99 (B) 98 (C) 97 (D) 96 (E) 95",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. First, we need to find all the prime factors of a number. Second, we need to find the product of all the different prime factors. Third, we need to compare this product with the square root of the number. Fourth, we need to repeat this process for all two-digit numbers and find the greatest prime saturated integer. Let's start with the first step. The prime numbers less than or equal to 10 are 2, 3, 5, and 7. Any two-digit number that is not divisible by these primes is not prime saturated. Let's try 98. The prime factors of 98 are 2 and 7. The product of these primes is 14, which is less than the square root of 98 (which is approximately 9.9). Therefore, 98 is prime saturated. Let's try 99. The prime factors of 99 are 3 and 11. The product of these primes is 33, which is greater than the square root of 99 (which is approximately 9.95). Therefore, 99 is not prime saturated. Let's try 97. 97 is a prime number, so its only prime factor is itself. The product of this prime is 97, which is less than the square root of 97 (which is approximately 9.85). Therefore, 97 is prime saturated. Let's try 96. The prime factors of 96 are 2, 3, and 5. The product of these primes is 30, which is less than the square root of 96 (which is approximately 9.8). Therefore, 96 is prime saturated. Let's try 95. The prime factors of 95 are 5 and 19. The product of these primes is 95, which is equal to the square root of 95. Therefore, 95 is not prime saturated. Therefore, the greatest prime saturated two-digit integer is 98, which is option (B).",
+            "final_answer": "B",
+            "question_idx": 606,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: On a certain transatlantic crossing, 40 percent of a ship’s passengers held round-trip tickets and also took their cars abroad the ship. If 50 percent of the passengers with round-trip tickets did not take their cars abroad the ship, what percent of the ship’s passengers held round-trip tickets? Answer Choices: (A) 40% (B) 50% (C) 60% (D) 80% (E) 90%",
+            "rationale": "A: Let's think step by step. Let's assume that there are 100 passengers on the ship. 40% of the passengers held round-trip tickets and took their cars abroad the ship, which means there are 40 passengers who fit this description. Now, we know that 50% of the passengers with round-trip tickets did not take their cars abroad the ship. So, out of the 40 passengers with round-trip tickets, 50% did not take their cars, which means 20 passengers did not take their cars. Therefore, the remaining 20 passengers with round-trip tickets did take their cars abroad the ship. To find the percentage of passengers with round-trip tickets, we divide the total number of passengers (100) into the number of passengers with round-trip tickets (40). 40/100 = 0.4 or 40%. So, the answer is (A) 40%.",
+            "final_answer": "A",
+            "question_idx": 338,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: In a game, a person is declared winner, if he gets 4 consecutive tails in five throws of a coin. What is the probability of A to win if he has got a tail in the first throw? Answer Choices: (A) 1/5 (B) 1/4 (C) 1/8 (D) 1/16 (E) 1/6",
+            "rationale": "A: Let's think step by step. First, we know that A has already gotten a tail in the first throw. Now, in order to win, A needs to get 3 more consecutive tails in the next 4 throws. The probability of getting a tail in any given throw is 1/2 (assuming a fair coin). So, the probability of getting 4 consecutive tails in 5 throws can be calculated as follows: Probability = (1/2) * (1/2) * (1/2) * (1/2) * (1/2) = 1/32 However, we need to take into account that A has already gotten a tail in the first throw. So, we only need to consider the probability of getting 3 consecutive tails in the next 4 throws. Probability = (1/2) * (1/2) * (1/2) * (1/2) = 1/16 Therefore, the probability of A winning if he has already gotten a tail in the first throw is 1/16. The correct answer is (D) 1/16.",
+            "final_answer": "D",
+            "question_idx": 190,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: In expressing a length of 102.472 km as nearly as possible with the three significant digits, find the percentage error Answer Choices: (A) 0.38% (B) 0.27% (C) 0.027% (D) 0.038% (E) None of these",
+            "rationale": "A: Let's think step by step. Step 1: Determine the number of significant digits in the given length, which is 6. Step 2: Round off the length to three significant digits, which is 102 km. Step 3: Calculate the absolute error by subtracting the rounded value from the actual value: Absolute error = 102.472 km - 102 km = 0.472 km Step 4: Calculate the percentage error by dividing the absolute error by the actual value and multiplying by 100: Percentage error = (0.472 km / 102.472 km) x 100% = 0.46% None of the answer choices match the calculated percentage error, so the answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 106,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: If north becomes south-west ant south-west becomes east and all the directions changed in the same manner,then what will be the direction for south-east? Answer Choices: (A) North-West (B) North-East (C) North (D) West (E) none",
+            "rationale": "A: Let's think step by step. If north becomes south-west, then south-west becomes north-east. Similarly, if south-west becomes east, then east becomes south. Therefore, we can conclude that south-east will become west. So, the correct answer is (D) West.",
+            "final_answer": "D",
+            "question_idx": 642,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: In a certain province in France there are 11 cities. If a single road segment connects only two cities, how many road segments are required in order to connect the cities so that each city is connected to all other cities with a single road segment? Answer Choices: (A) 55 (B) 105 (C) 330 (D) 143 (E) 156",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. There are 11 cities in the province. We need to connect each city to all other cities with a single road segment. Let's start with one city. It needs to be connected to 10 other cities. Moving on to the next city, it also needs to be connected to 10 other cities. But we have already connected it to one city, so it needs to be connected to 9 more cities. Similarly, for the third city, it needs to be connected to 8 more cities. We can continue this pattern until we reach the last city, which needs to be connected to only one more city. So, the total number of road segments required would be: 10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 55 Therefore, the answer is (A) 55.",
+            "final_answer": "A",
+            "question_idx": 885,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: A club with a total membership of 25 has formed 3 committees, M, S and R, which have 8, 12 and 5 members respectively. If no members of committee M is on either of the other 2 committees, what is the greatest possible number of members in the club who are on none of the committees? Answer Choices: (A) 5 (B) 7 (C) 8 (D) 10 (E) 12",
+            "rationale": "A: Let's think step by step. First, we need to find the total number of members who are on the committees. M has 8 members, S has 12 members, and R has 5 members. Since no members of M are on either of the other 2 committees, we can subtract the 8 members of M from the total number of committee members: Total committee members = 8 + 12 + 5 - 8 = 17 So, there are 17 members on the committees. To find the greatest possible number of members who are on none of the committees, we need to subtract this number from the total membership of the club: Greatest possible number of members not on committees = 25 - 17 = 8 Therefore, the answer is (C) 8.",
+            "final_answer": "C",
+            "question_idx": 432,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: The C.P of 15 books is equal to the S.P of 18 books. Find his gain% or loss%? Answer Choices: (A) 16 2/3% (B) 16 2/8% (C) 16 7/3% (D) 16 5/3% (E) 16 6/3%",
+            "rationale": "A: Let's think step by step. Given, C.P of 15 books = S.P of 18 books Let the cost price of 1 book be x. Then, the cost price of 15 books = 15x And, the selling price of 18 books = 18x Now, we need to find the gain or loss percentage. Gain or Loss percentage = [(Selling price - Cost price) / Cost price] x 100 Since the selling price is greater than the cost price, there is a gain. Gain percentage = [(18x - 15x) / 15x] x 100 = (3x / 15x) x 100 = 20% Therefore, the answer is not in the given options. The correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 362,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: If $10,000 is invested at x percent simple annual interest for n years, which of the following represents the total amount of interest, in dollars, that will be earned by this investment in the n years? Answer Choices: (A) 10,000(x^n)  (B) 10,000(x/100) ^n (C) 10,000n(x/100)  (D) 10,000(1+x/100) ^n (E) 10,000n(1+x/100) ",
+            "rationale": "A: Let's think step by step. The formula for simple interest is: Interest = Principal * Rate * Time In this case, the principal is $10,000, the rate is x percent (which we need to convert to a decimal by dividing by 100), and the time is n years. So, the total amount of interest earned in n years is: Interest = 10,000 * (x/100) * n Simplifying this expression, we get: Interest = 100 * x * n Therefore, the correct answer is (C) 10,000n(x/100).",
+            "final_answer": "C",
+            "question_idx": 902,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: In what ratio mental A at Rs.68 per kg be mixed with another metal at Rs.96 per kg so that cost of alloy (mixture) is Rs.72 per kg? Answer Choices: (A) 6:1 (B) 4:7 (C) 3:7 (D) 9:5 (E) 9:8",
+            "rationale": "A: Let's think step by step. Let the ratio of mental A to the other metal be x:y. Then, the cost of 1 kg of the alloy is given by: (68x + 96y)/(x+y) = 72 Multiplying both sides by (x+y), we get: 68x + 96y = 72(x+y) Expanding and simplifying, we get: 4x = 3y So, the ratio of mental A to the other metal is 4:3. However, this is not one of the answer choices. We can try simplifying the ratio further by dividing both sides by 3: 4/3 : 1 Multiplying both sides by 3, we get: 4 : 3 So, the ratio of mental A to the other metal is 4:3, which is equivalent to option (None of the above).",
+            "final_answer": "A",
+            "question_idx": 378,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A drink vendor has 60 liters of Maaza, 144 liters of Pepsi and 368 liters of Sprite. He wants to pack them in cans, so that each can contains the same number of liters of a drink, and doesn't want to mix any two drinks in a can. What is the least number of cans required? Answer Choices: (A) 135 (B) 137 (C) 143 (D) 310 (E) 380",
+            "rationale": "A: Let's think step by step. First, we need to find the greatest common divisor (GCD) of 60, 144, and 368 to determine the maximum number of liters that can be packed in a can. The prime factorization of 60 is 2^2 * 3 * 5. The prime factorization of 144 is 2^4 * 3^2. The prime factorization of 368 is 2^4 * 23. The GCD of these three numbers is 12 (2^2 * 3). Therefore, each can can contain a maximum of 12 liters of a drink. To find the least number of cans required, we need to divide each quantity by 12 and round up to the nearest integer. 60/12 = 5 144/12 = 12 368/12 = 31 So we need at least 5 cans of Maaza, 12 cans of Pepsi, and 31 cans of Sprite. The total number of cans required is 5 + 12 + 31 = 48. Therefore, the correct answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 911,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A woman sold 300 oranges at $12.10, some at the rate of 3 for 35 cents and the rest at 7 for 85 cents. How many were sold at the first rate? Answer Choices: (A) 45 (B) 21 (C) 9 (D) 15 (E) 13",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. Let the number of oranges sold at the rate of 3 for 35 cents be x. Then, the number of oranges sold at the rate of 7 for 85 cents would be 300 - x. The total amount earned from selling x oranges at the rate of 3 for 35 cents would be (x/3) * 0.35 dollars. Similarly, the total amount earned from selling (300 - x) oranges at the rate of 7 for 85 cents would be (7/85) * (300 - x) dollars. The total amount earned from selling all 300 oranges would be $12.10. So, we can write the equation: (x/3) * 0.35 + (7/85) * (300 - x) = 12.10 Simplifying this equation, we get: x = 45 Therefore, the number of oranges sold at the rate of 3 for 35 cents is 45. Hence, the answer is (A) 45.",
+            "final_answer": "A",
+            "question_idx": 762,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: Three friends-whose walking rates are 1 ft./sec., 3ft./sec.,and 6ft./sec. start together walking in the same direction around a circular track that is 420 feet in circumference.After how many minutes are the three of them together again? Answer Choices: (A) 5 mins (B) 10 mins (C) 15 mins (D) 3 mins (E) 7 mins",
+            "rationale": "A: Let's think step by step. First, we need to find the time it takes for each friend to complete one full lap around the track. We can use the formula: time = distance / rate For the friend with a walking rate of 1 ft./sec., the time to complete one lap is: time = 420 ft. / 1 ft./sec. = 420 sec. For the friend with a walking rate of 3 ft./sec., the time to complete one lap is: time = 420 ft. / 3 ft./sec. = 140 sec. For the friend with a walking rate of 6 ft./sec., the time to complete one lap is: time = 420 ft. / 6 ft./sec. = 70 sec. Now we need to find the least common multiple (LCM) of these three times, which will give us the time it takes for all three friends to be together again. The LCM of 420 sec., 140 sec., and 70 sec. is 420 sec. Converting 420 sec. to minutes, we get: 420 sec. / 60 sec./min. = 7 min. Therefore, the answer is (E) 7 mins.",
+            "final_answer": "E",
+            "question_idx": 364,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: A and B enter into partnership with capital as 7:9. At the end of 8 months, A withdraws. If they receive the profits in the ratio of 8:9 find how long B's capital was used? Answer Choices: (A) 7 months (B) 3 months (C) 5 months (D) 8 months (E) 10 months",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. Let's assume that A invested 7x and B invested 9x. Since A withdraws after 8 months, he has invested for only 8 months. B's capital was used for the entire duration of the partnership, which we need to find. Let's assume that B's capital was used for y months. Now, we can calculate the ratio of profits that A and B receive: Profit ratio = (7x * 8) : (9x * y) Profit ratio = 56x : 9xy We know that the profit ratio is 8:9, so we can set up an equation: 56x : 9xy = 8 : 9 Cross-multiplying, we get: 504x = 72xy Simplifying, we get: 7x = y Therefore, B's capital was used for 7 months. The answer is (A) 7 months.",
+            "final_answer": "A",
+            "question_idx": 229,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Find the odd man out. 187, 264, 316, 473, 682, 781 Answer Choices: (A) 187 (B) 316 (C) 781 (D) 682 (E) 473",
+            "rationale": "A: Let's think step by step. The numbers seem random, so we need to find a pattern or rule that applies to all except one of the numbers. If we look at the last digit of each number, we can see that they alternate between odd and even: 7, 4, 6, 3, 2, 1. However, this pattern doesn't apply to 316, which ends in an even digit. Therefore, the odd man out is (B) 316.",
+            "final_answer": "B",
+            "question_idx": 968,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Which of the following inequalities has a solution set, when graphed on the number line, is a single line segment of finite length? Answer Choices: (A) 2 <= 3x+4 <= 6 (B) 3 <= 3x+4 <= 6 (C) 5 <= 3x+4 <= 6 (D) 5 <= 3x+4 <= 6 (E) 4 <= 3x+4 <= 6",
+            "rationale": "A: Let's think step by step. First, we need to isolate the variable (x) in the inequality. We can do this by subtracting 4 from all parts of the inequality: (A) 2 <= 3x+4 <= 6 becomes -2 <= 3x <= 2 (B) 3 <= 3x+4 <= 6 becomes -1 <= 3x <= 2 (C) 5 <= 3x+4 <= 6 becomes 1 <= 3x <= 2 (D) 5 <= 3x+4 <= 6 becomes 1 <= 3x <= 2 (E) 4 <= 3x+4 <= 6 becomes 0 <= 3x <= 2 Now we can divide all parts of the inequality by 3: (A) -2/3 <= x <= 2/3 (B) -1/3 <= x <= 2/3 (C) 1/3 <= x <= 2/3 (D) 1/3 <= x <= 2/3 (E) 0 <= x <= 2/3 Option (C) has a solution set that is a single line segment of finite length, from x=1/3 to x=2/3. Therefore, the correct answer is (C).",
+            "final_answer": "C",
+            "question_idx": 721,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Carmelo and LeBron participate in a seven-person footrace on the basketball court during All-Star Weekend. If all seven contestants finish (including Charles Barkley) and there are no ties, how many different arrangements of finishes are there in which Carmelo defeats LeBron? Answer Choices: (A)  5040 (B)  2520 (C)  720 (D)  120 (E)  42",
+            "rationale": "A: Let's think step by step. First, we need to choose the positions for Carmelo and LeBron. There are 2 options for the first place, and once that is decided, there is only 1 option for the second place. Next, we need to arrange the remaining 5 people in the remaining 5 positions. There are 5 options for the third place, 4 options for the fourth place, 3 options for the fifth place, 2 options for the sixth place, and 1 option for the seventh place. Therefore, the total number of arrangements in which Carmelo defeats LeBron is 2 x 1 x 5 x 4 x 3 x 2 x 1 = 240. None of the answer choices match our result, so the answer is None of the above.",
+            "final_answer": "B",
+            "question_idx": 59,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: what is summation of [3^k(28Ck)] (summation range 28 to k=0) where 28Ck is the number of ways of choosing k items from 28 items?? Answer Choices: (A) 4^28 (B) 4^27 (C) 4^26 (D) 4^25 (E) 4^24",
+            "rationale": "A: Let's think step by step. We can simplify the expression using the binomial theorem: (1 + 3)^28 = 28C0 * 3^0 + 28C1 * 3^1 + 28C2 * 3^2 + ... + 28C28 * 3^28 Notice that the expression we want to find is the same as the sum of the terms on the right-hand side of the equation above, except that we start the summation at k = 0 instead of k = 28. So we can write: summation of [3^k(28Ck)] (summation range 28 to k=0) = (1 + 3)^28 - 28C0 * 3^0 - 28C1 * 3^1 - 28C2 * 3^2 - ... - 28C27 * 3^27 We can simplify this expression by noticing that: (1 + 3)^28 = 4^28 And: 28C0 * 3^0 = 1 28C1 * 3^1 = 28 * 3 28C2 * 3^2 = 28 * 27 / 2 * 9 ... 28C27 * 3^27 = 28 * 27 * ... * 2 * 3^27 / 2^27 So we have: summation of [3^k(28Ck)] (summation range 28 to k=0) = 4^28 - 1 - 28 * 3 - 28 * 27 / 2 * 9 - ... - 28 * 27 * ... * 2 * 3^27 / 2^27 This expression can be simplified further, but we can already see that the answer is not any of the given options. Therefore, the correct answer is None of the above.",
+            "final_answer": "C",
+            "question_idx": 250,
+            "entropy": 0.5004024235381879
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+[
+    {
+        "question_idx": 30,
+        "question": "Q: Two numbers are said to be relatively prime if they share no common positive factors other than 1. Set S contains the set of integers from 1 to 1,000, inclusive. What is the probability that a number chosen from S is relatively prime to 1,000? Answer Choices: (A) 5/7 (B) 3/5 (C) 4/7 (D) 2/5 (E) 2/7"
+    },
+    {
+        "question_idx": 54,
+        "question": "Q: A bag contains 11 candy bars: three cost 50 cents each, four cost $1 each and four cost $2\neach. How many ways can 3 candy bars be selected from the 11 candy bars so that the total cost is more than $4? Answer Choices: (A) 8 (B) 28 (C) 46 (D) 66 (E) 70"
+    },
+    {
+        "question_idx": 142,
+        "question": "Q: If the probability that Stock A will increase in value during the next month is 0.56, and the probability that Stock B will increase in value during the next month is 0.74. What is the greatest value for the probability that neither of these two events will occur? Answer Choices: (A) 0.22 (B) 0.26 (C) 0.37 (D) 0.46 (E) 0.63"
+    },
+    {
+        "question_idx": 157,
+        "question": "Q: A computer routine was developed to generate two numbers (x,y) the first being a random number between 0 and 100 inclusive, and the second being less than or equal to the square root of the first. Each of the following pair satisfies the routine except Answer Choices: (A) (99,10)  (B) (85,9)  (C) (50,7)  (D) (1,1)  (E) (1,0) "
+    },
+    {
+        "question_idx": 251,
+        "question": "Q: 5 horses are in a race. Mr.Jain selects two of horses at random and bets on them. The probability that he selected the winning horse is Answer Choices: (A) 1/5 (B) 2/5 (C) 3/5 (D) 4/5 (E) 6/5"
+    }
+]

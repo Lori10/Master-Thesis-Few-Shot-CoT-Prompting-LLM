@@ -77,7 +77,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--beta", type=int, default=0.5, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
+        "--beta", type=int, default=0.1, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
     )
 
     parser.add_argument(
@@ -97,7 +97,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=4, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=450, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -127,11 +127,11 @@ def parse_arguments():
 
     # Retrieval Arguments
     parser.add_argument(
-        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
     )
 
     parser.add_argument(
-        "--test_data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
+        "--test_data_path", type=str, default="../datasets/original/aqua/test.json", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
     parser.add_argument(
@@ -139,7 +139,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval_nr_demos", type=int, default=8, help='number of demonstrations'
+        "--retrieval_nr_demos", type=int, default=4, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -149,15 +149,15 @@ def parse_arguments():
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos
     
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/demos/demos', help="file path of the demonstrations from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_demos_file_path", type=str, default=None, help="file path of the demonstrations from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/metadata/metadata', help="file path of the metadata from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_metadata_file_path", type=str, default=None, help="file path of the metadata from the auto-active kmeans++ method"
     )
 
     parser.add_argument(
-        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default='labeled_demos/auto_active_kmeansplusplus/2023_09_07_19_27_28/args.json', help="file path of the args from the auto-active kmeans++ method"
+        "--load_auto_active_kmeansplusplus_args_file_path", type=str, default=None, help="file path of the args from the auto-active kmeans++ method"
     )
 
     

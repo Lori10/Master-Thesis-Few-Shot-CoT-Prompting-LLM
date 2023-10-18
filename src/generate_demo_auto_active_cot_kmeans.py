@@ -20,8 +20,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
 
     parser.add_argument(
@@ -29,8 +31,13 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=5, help="maximum number of reasoning chains"
+        "--max_token_len", type=float, default=70, help="maximum number of reasoning chains"
     )
+
+    parser.add_argument(
+        "--max_ra_len", type=float, default=15, help="maximum number of reasoning chains"
+    )
+    
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
 
     parser.add_argument(
@@ -133,7 +140,6 @@ def main():
         "data_path": args.data_path,
         "dataset_size_limit": args.dataset_size_limit,
         "random_seed": args.random_seed,
-        "max_ra_len": args.max_ra_len,
         "nr_demos": args.nr_demos,
         "demos_save_dir": args.demos_save_dir,
         "answers_are_available": args.answers_are_available,
@@ -142,6 +148,10 @@ def main():
         "load_embeddings_file": args.load_embeddings_file,
         "load_embeddings_args_file": args.load_embeddings_args_file,
         }
+
+    if 'zeroshotcot' in args.data_path:
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict['max_token_len'] = args.max_token_len
 
     dataloader = create_dataloader(args)
 
@@ -166,6 +176,7 @@ def main():
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
 
+        uncertainty_metric = uncertainty_args['sort_by']
         args_dict['generate_uncertainty_args'] = uncertainty_args
     else:
         args_dict["method"] = args.method
@@ -183,6 +194,18 @@ def main():
 
         openai_llm = initialize_llm(args, is_azureopenai=False)
         openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])
+
+    if 'zeroshotcot' in args.data_path:
+        zeroshot_uncertainty_ranked_data = []
+        for item in all_uncertainty_records:
+            selected_example = dataloader[item['question_idx']]
+            selected_example[uncertainty_metric] = item[uncertainty_metric]
+            zeroshot_uncertainty_ranked_data.append(selected_example)
+
+        #all_uncertainty_records = filter_examples_with_labels(args, zeroshot_uncertainty_ranked_data, args.max_token_len, args.max_ra_len)
+        all_uncertainty_records = zeroshot_uncertainty_ranked_data
+        args_dict['max_token_len'] = args.max_token_len
+        args_dict['max_ra_len'] = args.max_ra_len
 
     clustering_model = KMeans(n_clusters=args.nr_demos, random_state=args.random_seed)
     clustering_model.fit(corpus_embeddings)
@@ -202,7 +225,7 @@ def main():
         cluster_examples = cluster_to_examples[cluster_id]    
 
         if args.answers_are_available:
-            cluster_examples_filtered = filter_examples_with_labels(cluster_examples, 60, args.max_ra_len)
+            cluster_examples_filtered = filter_examples_with_labels(args, cluster_examples, args.max_token_len, args.max_ra_len)
         else:
             cluster_examples_filtered = filter_examples_no_labels(cluster_examples, 60)
         

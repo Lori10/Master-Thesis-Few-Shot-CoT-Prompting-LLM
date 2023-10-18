@@ -1,0 +1,354 @@
+{
+    "demo": [
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "rationale": "A: Let's think step by step. First, we can simplify the second ratio by cross-multiplying to get z(y + x) = (y)(y + x), which simplifies to y^2 = zx. Next, we can substitute this expression for y^2 into the first ratio to get y/(x - z) = (y + x)/z = x/zx^(1/2). Simplifying this expression, we get y = x^(3/2)/(x - z) and z = x^(1/2)/(x - z). Now, we can substitute these expressions for y and z into the ratio y^2 : x : z to get x^(3/2)/(x - z)^2 : x : x^(1/2)/(x - z). Simplifying this expression, we get x^(5/2) : x(x - z)^2 : x^(3/2)(x - z). Cancelling out an x from each term, we get x^(3/2) : (x - z)^2 : x^(1/2). Now, we can substitute the expression for z from earlier (z = x^(1/2)/(x - z)) into this ratio to get x^(3/2) : (x - x^(1/2))^2 : x^(1/2). Simplifying this expression, we get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2). Finally, we can simplify the middle term by expanding the square and combining like terms to get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2) = x^(3/2) : (x^2 - x^(3/2)) : x^(1/2) = x^(1/2) : (x - 1) : 1. Therefore, the answer is (E) none of these, since none of the given answer choices match the ratio x^(1/2) : (x - 1) : 1.",
+            "final_answer": "E",
+            "question_idx": 245,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: How many seconds will a 500 meter long train take to cross a man walking with a speed of 3 km/hr in the direction of the moving train if the speed of the train is 63 km/hr? Answer Choices: (A) 388 (B) 277 (C) 500 (D) 2887 (E) 212",
+            "rationale": "A: Let's think step by step. First, we need to convert the speed of the man from km/hr to m/s, since the speed of the train is given in km/hr and the length of the train is given in meters. Speed of man = 3 km/hr = (3 x 1000) / (60 x 60) m/s = 0.83 m/s Next, we need to find the relative speed between the train and the man. Relative speed = (speed of train) - (speed of man) = (63 x 1000) / (60 x 60) - 0.83 = 17.47 m/s Now, we can use the formula: Time = (distance) / (relative speed) Time = 500 / 17.47 Time = 28.63 seconds Therefore, the answer is not one of the given options. The closest option is (B) 277, but that is not the correct answer. The correct answer is None of the above.",
+            "final_answer": "B",
+            "question_idx": 242,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A man sells a horse for Rs.800 and loses something, if he had sold it for Rs.980, his gain would have been double the former loss. Find the cost price of the horse? Answer Choices: (A) 198 (B) 268 (C) 267 (D) 860 (E) 727",
+            "rationale": "A: Let's think step by step. Let the cost price of the horse be x. Given, selling price of the horse = Rs. 800 Loss = Cost price - Selling price = x - 800 If he had sold it for Rs. 980, his gain would have been double the former loss. Gain = Selling price - Cost price = 980 - x 2(loss) = gain 2(x - 800) = 980 - x 3x = 2580 x = 860 Therefore, the cost price of the horse is Rs. 860. The correct answer is (D) 860.",
+            "final_answer": "D",
+            "question_idx": 293,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Pat, kate and mark charged a total of 198 hours to a certain project . If pat charged twice as much time to the project as kate and 1/3 as much times as mark, how many more hours did mark charge to the project than kate. Answer Choices: (A) 18 (B) 36 (C) 72 (D) 110 (E) 108",
+            "rationale": "A: Let's think step by step. Let's assume that Kate charged x hours to the project. According to the problem, Pat charged twice as much time as Kate, so Pat charged 2x hours. Also, Pat charged 1/3 as much time as Mark, so Mark charged 3 times as much time as Pat, which is 6x hours. Therefore, the total time charged by all three is x + 2x + 6x = 9x. We know that the total time charged is 198 hours, so: 9x = 198 x = 22 So, Kate charged 22 hours, Pat charged 44 hours, and Mark charged 132 hours. The question asks how many more hours Mark charged than Kate, which is: 132 - 22 = 110 Therefore, the answer is (D) 110.",
+            "final_answer": "D",
+            "question_idx": 837,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Of the 600 residents of Clermontville, 35% watch the television show Island Survival, 40% watch Lovelost Lawyers and 50% watch Medical Emergency. If all residents watch at least one of these three shows and 18% watch exactly 2 of these shows, then how many Clermontville residents B watch all of the shows? Answer Choices: (A)  150 (B)  108 (C)  42 (D)  21 (E)  -21",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of residents who watch at least one of the three shows. 35% + 40% + 50% = 125% This means that some residents are being counted twice or even thrice. To find the actual percentage, we need to subtract the percentage of residents who watch exactly two shows and the percentage of residents who watch all three shows. Step 2: Find the percentage of residents who watch exactly two shows. 125% - 18% = 107% Step 3: Find the percentage of residents who watch all three shows. 107% - 100% = 7% Step 4: Find the total number of residents who watch all three shows. 7% of 600 = 42 Therefore, the answer is (C) 42.",
+            "final_answer": "C",
+            "question_idx": 136,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: A batsman in his 17th innings makes a score of 85 and their by increasing his average by 3. What is his average after the 17thinnings? Answer Choices: (A) 22 (B) 77 (C) 26 (D) 37 (E) 88",
+            "rationale": "A: Let's think step by step. Let the batsman's average before the 17th innings be x. So, the total runs scored by the batsman in his first 16 innings would be 16x. After the 17th innings, the total runs scored by the batsman would be (16x + 85). Now, we know that the batsman's average increased by 3 after the 17th innings. So, we can set up the equation: (16x + 85)/(17) = (x + 3) Solving for x, we get: x = 22 Therefore, the batsman's average after the 17th innings would be: (16x + 85)/(17) = (16*22 + 85)/(17) = 37 So, the correct answer is (D) 37.",
+            "final_answer": "D",
+            "question_idx": 962,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: A meal cost $ 37.25 adn there was no tax. If the tip was more than 10 pc but less than 15pc of the price, then the total amount paid should be: Answer Choices: (A) 42-45 (B) 41-43 (C) 39-41 (D) 37-39 (E) 36-37",
+            "rationale": "A: Let's think step by step. The meal cost is $37.25 and there is no tax. Let's assume the tip is x% of the meal cost. So, the total amount paid will be: $37.25 + (x/100)*$37.25 Simplifying this expression: $37.25*(1 + x/100)$ We know that the tip is more than 10% but less than 15% of the price. So, 10% < x < 15% Let's substitute the values of x in the expression we derived above: For x = 10%, the total amount paid will be: $37.25*(1 + 10/100) = $41. For x = 15%, the total amount paid will be: $37.25*(1 + 15/100) = $42.79. Therefore, the total amount paid should be between $41 and $42.79. The closest answer choice is (A) 42-45. So, the correct answer is (A) 42-45.",
+            "final_answer": "A",
+            "question_idx": 963,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: Carmelo and LeBron participate in a seven-person footrace on the basketball court during All-Star Weekend. If all seven contestants finish (including Charles Barkley) and there are no ties, how many different arrangements of finishes are there in which Carmelo defeats LeBron? Answer Choices: (A)  5040 (B)  2520 (C)  720 (D)  120 (E)  42",
+            "rationale": "A: Let's think step by step. First, we need to choose the positions for Carmelo and LeBron. There are 2 options for the first place, and once that is decided, there is only 1 option for the second place. Next, we need to arrange the remaining 5 people in the remaining 5 positions. There are 5 options for the third place, 4 options for the fourth place, 3 options for the fifth place, 2 options for the sixth place, and 1 option for the seventh place. Therefore, the total number of arrangements in which Carmelo defeats LeBron is 2 x 1 x 5 x 4 x 3 x 2 x 1 = 240. None of the answer choices match our result, so the answer is None of the above.",
+            "final_answer": "B",
+            "question_idx": 59,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: Angles AMB and CMD are right angles, ∠AMD is acute, and ∠BMC=y° is acute. What is ∠AMD ? Answer Choices: (A) 90°−y (B) 180°−y (C) 90°+y (D) 2y (E) y",
+            "rationale": "A: Let's think step by step. We know that angles AMB and CMD are right angles, which means they are both equal to 90 degrees. We also know that angle BMC is acute, which means it is less than 90 degrees. Since angles AMB and CMD are both right angles, they add up to 180 degrees. Therefore, angle AMD must be acute since it is less than 180 degrees. Now, let's use the fact that the angles in a triangle add up to 180 degrees. In triangle AMD, we have angles AMD, AMB, and CMD. AMD + AMB + CMD = 180 Substituting in the values we know: AMD + 90 + 90 = 180 Simplifying: AMD + 180 = 180 AMD = 0 This doesn't make sense since we know that angle AMD is acute. Therefore, none of the answer choices are correct.",
+            "final_answer": "No answer",
+            "question_idx": 139,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Some of 45%-intensity red paint is replaced with 25% solution of red paint such that the new paint intensity is 40%. What fraction of the original paint was replaced? Answer Choices: (A) 2/5 (B) 1/4 (C) 1/5 (D) 1/7 (E) 2/3",
+            "rationale": "A: Let's think step by step. Step 1: Let's assume that the original amount of red paint was 100 units. Step 2: Let x be the fraction of the original paint that was replaced with the 25% solution. Step 3: The amount of red paint in the original 100 units is 45 units (45% of 100). Step 4: After x fraction of the original paint is replaced with the 25% solution, the amount of red paint in the remaining (1-x) fraction of the original paint is still 45 units. Step 5: The amount of red paint in the replaced x fraction of the original paint is 0.25x units (25% of x). Step 6: The total amount of red paint in the new mixture is 0.4(100) = 40 units (since the new intensity is 40%). Step 7: Therefore, we can write the equation: 45(1-x) + 0.25x = 40 Step 8: Solving for x, we get x = 1/5. Step 9: Therefore, the fraction of the original paint that was replaced is 1/5. Answer: (C) 1/5.",
+            "final_answer": "C",
+            "question_idx": 696,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: In the third grade of Windblown School there are 96 students, one third of them failed the math test and 1/6 failed that literature test. At least how many students failed both tests? Answer Choices: (A) 0. (B) 6. (C) 8. (D) 10. (E) 12.",
+            "rationale": "A: Let's think step by step. Step 1: Find the number of students who failed the math test. One third of the 96 students failed the math test, so: 1/3 x 96 = 32 Therefore, 32 students failed the math test. Step 2: Find the number of students who failed the literature test. 1/6 of the 96 students failed the literature test, so: 1/6 x 96 = 16 Therefore, 16 students failed the literature test. Step 3: Find the number of students who failed both tests. We don't know the exact number of students who failed both tests, but we do know that it must be less than or equal to the smaller of the two numbers we just found (i.e. 16). Therefore, the answer is (B) 6, because that is the only option that is less than or equal to 16.",
+            "final_answer": "B",
+            "question_idx": 871,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: 69 laboratories raise the bacterium, the laboratory have 48 culture dishes on average, which has about 25,075 bacteria each. How many bacteria are there approximately? Answer Choices: (A) 10^7 (B) 10^8 (C) 10^9 (D) 10^10 (E) 10^11",
+            "rationale": "A: Let's think step by step. Step 1: Find the total number of culture dishes in all the laboratories. Total number of culture dishes = 69 x 48 = 3312 Step 2: Find the total number of bacteria in all the culture dishes. Total number of bacteria = 3312 x 25,075 = 83,076,000 Step 3: Convert the total number of bacteria into scientific notation. 83,076,000 = 8.3076 x 10^7 Therefore, the answer is (A) 10^7.",
+            "final_answer": "A",
+            "question_idx": 50,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: The average price of an antique car increases over the years. If from 1990 to 1996, the price of the car increased by 13% and from 1996 to 2001 it increased by 20%, what is the price of the car in 2001 if the price in 1990 was $11,500? Answer Choices: (A) $15,594. (B) $15,322. (C) $14,786. (D) $14,543. (E) $12,988.",
+            "rationale": "A: Let's think step by step. First, we need to find the price of the car in 1996 after a 13% increase from 1990. Price in 1990 = $11,500 13% increase from 1990 = 0.13 x $11,500 = $1,495 Price in 1996 = $11,500 + $1,495 = $12,995 Next, we need to find the price of the car in 2001 after a 20% increase from 1996. 20% increase from 1996 = 0.20 x $12,995 = $2,599 Price in 2001 = $12,995 + $2,599 = $15,594 Therefore, the answer is (A) $15,594.",
+            "final_answer": "A",
+            "question_idx": 973,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A bag of potatoes weighs 36 lbs divided by half of its weight. How much does the bag of potatoes weight? Answer Choices: (A) 20 lb (B) 30 lb (C) 10 lb (D) 15 lb (E) 36 lb",
+            "rationale": "A: Let's think step by step. First, we need to find half of the weight of the bag of potatoes. We can represent this as 1/2x, where x is the weight of the bag of potatoes. Next, we know that the bag of potatoes weighs 36 lbs divided by half of its weight. We can represent this as: 36 = x/(1/2x) To simplify this equation, we can multiply both sides by 2x: 72x = x Now we can solve for x: 72x = x 71x = 0 x = 0 This doesn't make sense, as the weight of the bag of potatoes cannot be 0. Therefore, none of the answer choices are correct. Answer: None of the above.",
+            "final_answer": "No answer",
+            "question_idx": 939,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: In how many ways can the letters of word CAREER be arranged such that all the vowels as well as all the Consonants always appear together? Answer Choices: (A) 3!*3!*2! (B) 5!*4! (C) 5!*5! (D) 5!*4!*2! (E) 6!*4!",
+            "rationale": "A: Let's think step by step. First, we have to arrange the vowels AEE in 3! ways. Then, we have to arrange the consonants CRRR in 4! ways. Finally, we have to arrange the group of vowels and the group of consonants in 2! ways. Therefore, the total number of ways is 3! * 4! * 2! = 6 * 24 * 2 = 288. So, the correct answer is (A) 3!*3!*2!.",
+            "final_answer": "A",
+            "question_idx": 820,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: For every positive even integer n, the function h(n) is defined to be the product of all the even integers from 4 to n, inclusive. If p is the smallest prime factor of h(100) +4, then p is? Answer Choices: (A) 4 (B) between 10 and 20 (C) between 20 and 30 (D) between 30 and 40 (E) 2",
+            "rationale": "A: Let's think step by step. First, we need to find the value of h(100). We know that h(n) is the product of all even integers from 4 to n, inclusive. So, h(100) is the product of all even integers from 4 to 100, inclusive. We can write this as: h(100) = 4 * 6 * 8 * ... * 100 We can simplify this expression by factoring out 2 from each term: h(100) = 2^50 * (2 * 3 * 4 * ... * 50) Now, we need to find the smallest prime factor of h(100) + 4. We can write this as: h(100) + 4 = 2^50 * (2 * 3 * 4 * ... * 50) + 4 = 2^2 * (2^48 * (2 * 3 * 4 * ... * 50) + 1) Notice that the expression inside the parentheses is odd, since it is the product of odd integers. Therefore, the smallest prime factor of h(100) + 4 must be an odd prime. We can eliminate option (A) since 4 is not a prime number. We can also eliminate options (B), (C), and (D) since they all specify a range of even numbers, and we know that the smallest prime factor of h(100) + 4 must be an odd prime. Therefore, the correct answer is (E) 2.",
+            "final_answer": "E",
+            "question_idx": 490,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Rose is two years older than Bruce who is twice as old as Chris. If the total of the age of Rose, B and Chris be 47 years, then how old is Bruce ? Answer Choices: (A) 18 years (B) 10 years (C) 12 years (D) 13 years (E) 14 years",
+            "rationale": "A: Let's think step by step. Let's start by assigning variables to the ages of Bruce and Chris. Let's say Bruce's age is B and Chris's age is C. According to the problem, Rose is two years older than Bruce, so her age can be represented as B + 2. We also know that Bruce is twice as old as Chris, so we can write: B = 2C Now we can substitute B = 2C into the equation for the total of their ages: (B + 2) + B + C = 47 Simplifying this equation: 2B + C = 45 Substituting B = 2C: 4C + C = 45 5C = 45 C = 9 Now we can find Bruce's age: B = 2C = 2(9) = 18 So the answer is (A) 18 years.",
+            "final_answer": "A",
+            "question_idx": 599,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Two taps can separately fill a cistern 10 minutes and 15 minutes respectively and when the waste pipe is open, they can together fill it in 18 minutes. The waste pipe can empty the full cistern in? Answer Choices: (A) 5 (B) 6 (C) 7 (D) 9 (E) 1",
+            "rationale": "A: Let's think step by step. Let the capacity of the cistern be C. The rate of filling of the first tap is C/10 per minute. The rate of filling of the second tap is C/15 per minute. When both taps are open, their combined rate of filling is C/18 per minute. Let the rate of emptying of the waste pipe be W (in terms of the capacity of the cistern per minute). According to the problem, when all three are open, the net rate of filling is zero (since the waste pipe is emptying the cistern at the same time). So, we can write the equation: C/10 + C/15 - C/18 = W Multiplying through by the LCM of the denominators (which is 90), we get: 9C + 6C - 5C = 90W Simplifying, we get: 10C = 90W Dividing by 10, we get: C = 9W This means that the waste pipe can empty the full cistern in 9 minutes (since it empties 1/9th of the cistern per minute). Therefore, the answer is (D) 9.",
+            "final_answer": "D",
+            "question_idx": 628,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: If money is invested at r percent interest, compounded annually, the amount of the investment will double in approximately 50/r years. If Luke's parents invested $15,500 in a long term bond that pays 12 percent interest compounded annually, what will be the approximate total amount of the investment 12 years later, when Luke is ready for college? Answer Choices: (A) 62,000 (B) 85,500 (C) 95,500 (D) 100,500 (E) 120,000",
+            "rationale": "A: Let's think step by step. First, we need to find out how many times the investment will double in 12 years. Using the formula given in the problem, we can calculate that the investment will double approximately every 4.17 years (50/12). Therefore, the investment will double approximately 2.88 times (12/4.17). Next, we need to calculate the final amount of the investment after 12 years. To do this, we can use the formula for compound interest: A = P(1 + r/n)^(nt) Where: A = final amount P = principal (initial investment) r = annual interest rate (as a decimal) n = number of times interest is compounded per year t = time (in years) Plugging in the given values, we get: A = 15500(1 + 0.12/1)^(1*12) A = 15500(1.12)^12 A ≈ 55,500 Finally, we need to multiply this amount by the number of times the investment doubled: 55,500 * 2.88 ≈ 159,840 Therefore, the approximate total amount of the investment 12 years later is $159,840. None of the answer choices provided match this result.",
+            "final_answer": "A",
+            "question_idx": 899,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: Salad dressing P is made up of 30% vinegar and 70% oil, and salad dressing Q contains 10% vinegar and 90% oil. If the two dressings are combined to produce a salad dressing that is 12% vinegar, dressing P comprises what percentage of the new dressing? Answer Choices: (A) 50% (B) 40% (C) 30% (D) 20% (E) 10%",
+            "rationale": "A: Let's think step by step. Let's assume that we have 100 ml of the new salad dressing. Let x be the percentage of dressing P in the new dressing. Then, we can write: - The amount of vinegar in dressing P = 30% of x ml - The amount of vinegar in dressing Q = 10% of (100 - x) ml (since the total amount of dressing is 100 ml and we have x ml of dressing P) - The amount of vinegar in the new dressing = 12% of 100 ml = 12 ml Since we are combining the two dressings, the total amount of vinegar in the new dressing is the sum of the amount of vinegar in dressing P and dressing Q. So, we can write: 0.3x + 0.1(100 - x) = 12 Simplifying this equation, we get: 0.2x + 10 = 12 0.2x = 2 x = 10 Therefore, dressing P comprises 10% of the new dressing. The correct answer is (E) 10%.",
+            "final_answer": "E",
+            "question_idx": 173,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Primary batteries, unlike secondary batteries, may be: Answer Choices: (A) 2 (B) 7 (C) 6 (D) 8 (E) 9",
+            "rationale": "A: Let's think step by step. The question is asking for a characteristic that primary batteries have that secondary batteries do not have. Option (A) 2 is not a valid answer as it does not provide any information related to the question. Option (B) 7 is also not a valid answer as it does not provide any information related to the question. Option (C) 6 is also not a valid answer as it does not provide any information related to the question. Option (D) 8 is also not a valid answer as it does not provide any information related to the question. Option (E) 9 is also not a valid answer as it does not provide any information related to the question. Therefore, the correct answer is None of the above.",
+            "final_answer": "E",
+            "question_idx": 63,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: 54.327 × 357.2 × 0.0057 is the same as : Answer Choices: (A) 5.4327 × 3.572 × 5.7 (B) 5.4327 × 3.572 × 0.57 (C) 5.4327 × 3.572 × 0.0000057 (D) None of these (E) Cannot be determined",
+            "rationale": "A: Let's think step by step. First, we can multiply 54.327 and 357.2 to get 19416.8104. Then, we can multiply that result by 0.0057 to get 110.8345248. Therefore, the answer is (C) 5.4327 × 3.572 × 0.0000057.",
+            "final_answer": "C",
+            "question_idx": 82,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A copy machine, working at a constant rate, makes 25 copies per minute. A second copy machine, working at a constant rate, makes 55 copies per minute. Working together at their respective rates, how many copies do the two machines make in half an hour ? Answer Choices: (A) 90 (B) 2,400 (C) 4,500 (D) 5,400 (E) 324,000",
+            "rationale": "A: Let's think step by step. First, we need to find the combined rate of the two machines. To do this, we add their individual rates: 25 copies/minute + 55 copies/minute = 80 copies/minute Next, we need to convert half an hour to minutes: 30 minutes Now we can use the formula: rate x time = amount Plugging in the values we have: 80 copies/minute x 30 minutes = 2400 copies Therefore, the answer is (B) 2,400.",
+            "final_answer": "B",
+            "question_idx": 946,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: In a group of ducks and cows, the total number of legs are 26 more than twice the no. of heads. Find the total no.of buffaloes. Answer Choices: (A) 11 (B) 12 (C) 13 (D) 16 (E) 18",
+            "rationale": "A: Let's think step by step. Let's assume there are x ducks and y cows in the group. So, the total number of heads will be x + y. Each duck has 2 legs and each cow has 4 legs. So, the total number of legs will be 2x + 4y. According to the problem, 2(x + y) + 26 = 2x + 4y Simplifying this equation, we get: 2x - 2y = 26 x - y = 13 We need to find the total number of buffaloes, which is not given in the problem. So, we cannot find the answer with the given information. Therefore, the answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 536,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: Find the odd man out. 187, 264, 316, 473, 682, 781 Answer Choices: (A) 187 (B) 316 (C) 781 (D) 682 (E) 473",
+            "rationale": "A: Let's think step by step. The numbers seem random, so we need to find a pattern or rule that applies to all except one of the numbers. If we look at the last digit of each number, we can see that they alternate between odd and even: 7, 4, 6, 3, 2, 1. However, this pattern doesn't apply to 316, which ends in an even digit. Therefore, the odd man out is (B) 316.",
+            "final_answer": "B",
+            "question_idx": 968,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A boat having a length 3 m and breadth 2 m is floating on a lake. The boat sinks by 1.2 cm when a man gets on it. The mass of man is Answer Choices: (A) 72 kg (B) 60 kg (C) 72 kg (D) 96 kg (E) None",
+            "rationale": "A: Let's think step by step. First, we need to find the volume of water displaced by the boat before the man gets on it. Volume of water displaced = length x breadth x height of displacement = 3m x 2m x 0.012m (1.2 cm converted to meters) = 0.072 cubic meters Now, when the man gets on the boat, the boat sinks by 1.2 cm more. So, the new height of displacement is 0.024m (0.012m + 0.012m). Let's assume the density of water is 1000 kg/m^3. The weight of water displaced by the boat before the man gets on it = volume of water displaced x density of water = 0.072m^3 x 1000 kg/m^3 = 72 kg The weight of water displaced by the boat after the man gets on it = (volume of water displaced + additional displacement due to the man) x density of water = (3m x 2m x 0.024m) x 1000 kg/m^3 = 1.44 kg Therefore, the weight of the man = weight of water displaced before the man gets on the boat - weight of water displaced after the man gets on the boat = 72 kg - 1.44 kg = 70.56 kg So, the answer is (E) None of the above.",
+            "final_answer": "E",
+            "question_idx": 428,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: A and B enter into partnership with capital as 7:9. At the end of 8 months, A withdraws. If they receive the profits in the ratio of 8:9 find how long B's capital was used? Answer Choices: (A) 7 months (B) 3 months (C) 5 months (D) 8 months (E) 10 months",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. Let's assume that A invested 7x and B invested 9x. Since A withdraws after 8 months, he has invested for only 8 months. B's capital was used for the entire duration of the partnership, which we need to find. Let's assume that B's capital was used for y months. Now, we can calculate the ratio of profits that A and B receive: Profit ratio = (7x * 8) : (9x * y) Profit ratio = 56x : 9xy We know that the profit ratio is 8:9, so we can set up an equation: 56x : 9xy = 8 : 9 Cross-multiplying, we get: 504x = 72xy Simplifying, we get: 7x = y Therefore, B's capital was used for 7 months. The answer is (A) 7 months.",
+            "final_answer": "A",
+            "question_idx": 229,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: Peter has $642,986 in his savings account. What is the least amount of money (in whole number of dollars) that he must add to his account if he wants to split this money evenly among his nine children? Answer Choices: (A) $642,986 (B) $642,987 (C) $642,988 (D) $642,989 (E) $642,990",
+            "rationale": "A: Let's think step by step. Peter wants to split his savings evenly among his nine children. This means he needs to divide his savings by 9 to find out how much each child will get. $642,986 ÷ 9 = $71,443.88 However, we need to add a whole number of dollars to his account, so we need to round up to the nearest dollar. $71,443.88 rounded up to the nearest dollar is $71,444. Therefore, Peter needs to add $71,444 to his savings account to split the money evenly among his nine children. The correct answer is (D) $642,989.",
+            "final_answer": "D",
+            "question_idx": 283,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: If north becomes south-west ant south-west becomes east and all the directions changed in the same manner,then what will be the direction for south-east? Answer Choices: (A) North-West (B) North-East (C) North (D) West (E) none",
+            "rationale": "A: Let's think step by step. If north becomes south-west, then south-west becomes north-east. Similarly, if south-west becomes east, then east becomes south. Therefore, we can conclude that south-east will become west. So, the correct answer is (D) West.",
+            "final_answer": "D",
+            "question_idx": 642,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: The sides of a rectangular region measured to the nearest centimeter are 8 cm and 5 cm. Out of the following which is the largest possible value of actual area of rectangle ? Answer Choices: (A) 48 (B) 55.25 (C) 52.29 (D) 44 (E) 41.25",
+            "rationale": "A: Let's think step by step. We know that the actual length and width of the rectangle must be somewhere between 7.5 cm and 8.5 cm for the 8 cm measurement, and between 4.5 cm and 5.5 cm for the 5 cm measurement. To find the largest possible area, we want to use the largest possible length and width within these ranges. The largest possible length is 8.5 cm and the largest possible width is 5.5 cm. So, the largest possible area is 8.5 cm x 5.5 cm = 46.75 cm^2. Out of the given answer choices, the closest one to 46.75 is (D) 44. Therefore, the correct answer is (D) 44.",
+            "final_answer": "D",
+            "question_idx": 707,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: At 6'o clock clock ticks 6 times. The time between first and\nlast ticks was 30sec. How much time it takes at 12'o clock. Answer Choices: (A) 60sec (B) 62sec (C) 66sec (D) 64sec (E) 76sec",
+            "rationale": "A: Let's think step by step. At 6'o clock, the clock ticks 6 times, which means that each tick is 1/6th of a full rotation. The time between the first and last ticks is 30 seconds, and there are 5 intervals between the 6 ticks. Therefore, each interval is 30/5 = 6 seconds. At 12'o clock, the clock ticks 12 times, which means that each tick is 1/12th of a full rotation. Using the same logic as before, the time between the first and last ticks at 12'o clock would be 11 intervals of 1/12th of a rotation, which is 11/12ths of a full rotation. So, the time it takes between the first and last ticks at 12'o clock would be (11/12) * 60 seconds = 55 seconds. None of the answer choices match this result, so the answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 391,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: John has Rs 360 for his expenses. If he exceeds his days by 4 days he must cut down daily expenses by Rs 3. The number of days of John 's tour program is Answer Choices: (A) 10 (B) 15 (C) 20 (D) 24 (E) 27",
+            "rationale": "A: Let's think step by step. Let's assume that John's tour program is for x days. If he sticks to his budget, his daily expenses would be 360/x. If he exceeds his days by 4 days, he would have to cut down his daily expenses by Rs 3. This means his new daily expenses would be (360/(x+4)) - 3. We can set up an equation: 360/x = (360/(x+4)) - 3 Multiplying both sides by x(x+4), we get: 360(x+4) = 360x - 3x(x+4) Simplifying, we get: 1440 = -3x^2 + 48x + 1440 Rearranging, we get: 3x^2 - 48x = 0 Dividing both sides by 3x, we get: x - 16 = 0 Therefore, x = 16. So John's tour program is for 16 days. The answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 262,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: In a club with 310 peopl, 138 play tennis, 255 play baseball, and 94 people play both sports. How many people do not pla a sport? Answer Choices: (A) 9 (B) 8 (C) 4 (D) 10 (E) 11",
+            "rationale": "A: Let's think step by step. We know that 138 people play tennis, 255 people play baseball, and 94 people play both sports. To find the number of people who play only tennis, we can subtract the number of people who play both sports from the number of people who play tennis: 138 - 94 = 44 Similarly, to find the number of people who play only baseball, we can subtract the number of people who play both sports from the number of people who play baseball: 255 - 94 = 161 Now, to find the number of people who do not play a sport, we need to subtract the total number of people who play a sport from the total number of people in the club: 310 - (44 + 161 + 94) = 11 Therefore, the answer is (E) 11.",
+            "final_answer": "E",
+            "question_idx": 13,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. We know that the average temperature from Monday to Friday is 40. Let's call the sum of the temperatures for those five days \"S\". Then we can write: S/5 = 40 Multiplying both sides by 5, we get: S = 200 We also know that the lowest temperature is 30. Let's call the highest temperature \"H\". Then the range of temperatures is: H - 30 To find the maximum possible range, we need to find the maximum possible value of H. We know that the sum of the temperatures is 200, so: H + 4(40) = 200 Simplifying, we get: H = 40 So the maximum range of temperatures is: 40 - 30 = 10 Therefore, the answer is (A) 20.",
+            "final_answer": "A",
+            "question_idx": 703,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: In 2010, Arman’s birthday was on a Thursday. What day of the week was it 69 days after his birthday? Answer Choices: (A) Thursday (B) Wednesday (C) Saturday (D) Sunday (E) Monday",
+            "rationale": "A: Let's think step by step. Arman's birthday was on a Thursday in 2010. We need to find out what day of the week it was 69 days after his birthday. Since there are 7 days in a week, we can divide 69 by 7 to see how many full weeks have passed. 69 ÷ 7 = 9 with a remainder of 6. This means that 9 full weeks have passed, and we are 6 days into the 10th week. Starting from Thursday, we count 6 days forward to find the answer. Thursday → Friday → Saturday → Sunday → Monday → Tuesday → Wednesday Therefore, the answer is (B) Wednesday.",
+            "final_answer": "B",
+            "question_idx": 354,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A certain ski shop sells pairs of gloves in 10 different colors. If one pair of each color is dropped in a bag and a store clerk reaches in to draw two individual gloves simultaneously and at random, what is the probability that she draws two gloves of the same color? Answer Choices: (A) 1/144 (B) 1/143 (C) 1/24 (D) 1/23 (E) 1/19",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. There are 10 different colors of gloves, so there are 10 pairs of gloves in total. When the store clerk reaches in to draw two individual gloves simultaneously and at random, there are a total of 20 gloves in the bag. To calculate the probability of drawing two gloves of the same color, we need to first calculate the total number of possible outcomes. The total number of possible outcomes is the number of ways to choose 2 gloves out of 20, which is: 20 choose 2 = (20 * 19) / (2 * 1) = 190 Next, we need to calculate the number of favorable outcomes, which is the number of ways to choose 2 gloves of the same color. There are 10 different colors to choose from, so the number of ways to choose 2 gloves of the same color is: 10 choose 1 = 10 For each color, there are 2 gloves to choose from, so the total number of ways to choose 2 gloves of the same color is: 10 * (2 choose 2) = 10 Therefore, the probability of drawing two gloves of the same color is: 10 / 190 = 1/19 So the correct answer is (E) 1/19.",
+            "final_answer": "E",
+            "question_idx": 416,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: On a certain transatlantic crossing, 40 percent of a ship’s passengers held round-trip tickets and also took their cars abroad the ship. If 50 percent of the passengers with round-trip tickets did not take their cars abroad the ship, what percent of the ship’s passengers held round-trip tickets? Answer Choices: (A) 40% (B) 50% (C) 60% (D) 80% (E) 90%",
+            "rationale": "A: Let's think step by step. Let's assume that there are 100 passengers on the ship. 40% of the passengers held round-trip tickets and took their cars abroad the ship, which means there are 40 passengers who fit this description. Now, we know that 50% of the passengers with round-trip tickets did not take their cars abroad the ship. So, out of the 40 passengers with round-trip tickets, 50% did not take their cars, which means 20 passengers did not take their cars. Therefore, the remaining 20 passengers with round-trip tickets did take their cars abroad the ship. To find the percentage of passengers with round-trip tickets, we divide the total number of passengers (100) into the number of passengers with round-trip tickets (40). 40/100 = 0.4 or 40%. So, the answer is (A) 40%.",
+            "final_answer": "A",
+            "question_idx": 338,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: A reduction of 25% in the price of oil enables a house wife to obtain 5kgs more for Rs.1300, what is the reduced price for kg? Answer Choices: (A) s.40 (B) s.65 (C) s.49 (D) s.41 (E) s.42",
+            "rationale": "A: Let's think step by step. Let the original price per kg be x. After a 25% reduction, the new price per kg will be 0.75x. Let the original amount of oil purchased be y kg. With the reduction in price, the housewife can now purchase (y+5) kg for Rs.1300. So, we can set up the equation: y*x = (y+5)*(0.75x) Simplifying this equation, we get: 0.25xy = 5*0.75x 0.25y = 3 y = 12 So, the original amount of oil purchased was 12 kg. And the original price per kg was: 1300/12 = Rs.108.33 After a 25% reduction, the new price per kg is: 0.75*108.33 = Rs.81.25 Therefore, the reduced price for kg is option (None of the above).",
+            "final_answer": "A",
+            "question_idx": 786,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: If x < 12, then it must be true that... Answer Choices: (A) -x < -12 (B) -x - 2 < 14 (C) -x + 2 < -10 (D) x + 2 < 10 (E) x - 5 < 16",
+            "rationale": "A: Let's think step by step. If x < 12, then we can add the same number to both sides of the inequality to get a new inequality. Let's add 5 to both sides: x + 5 < 17 Now we can check which of the answer choices is true for this inequality: (A) -x < -12: This is not true, because if we multiply both sides by -1, we get x > 12, which contradicts the given condition. (B) -x - 2 < 14: This is not true either, because if we add 2 to both sides, we get -x < 16, which is not necessarily true. (C) -x + 2 < -10: This is also not true, because if we subtract 2 from both sides, we get -x < -12, which is not necessarily true. (D) x + 2 < 10: This is true, because if we subtract 2 from both sides, we get x < 8, which is true if x < 12. (E) x - 5 < 16: This is also true, because if we add 5 to both sides, we get x < 21, which is true if x < 12. Therefore, the correct answer is either (D) or (E).",
+            "final_answer": "E",
+            "question_idx": 137,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: A thief steals at a car at 4.30 p.m. and drives it at 60 km/hr. The theft is discovered at 3 p.m. and the owner sets off in another car at 75 km/hr. When will he overtake the thief? Answer Choices: (A) 1 p.m (B) 3 p.m (C) 4 p.m (D) 5 p.m (E) 7 p.m",
+            "rationale": "A: Let's think step by step. First, we need to find out how much time the thief has been driving before the owner sets off. The theft was discovered at 3 p.m. and the thief stole the car at 4.30 p.m., so the thief has been driving for 1.5 hours. Next, we need to find out how far the thief has traveled in 1.5 hours at 60 km/hr. Distance = Speed x Time, so distance = 60 km/hr x 1.5 hr = 90 km. Now, we can set up an equation to find out when the owner will overtake the thief. Let t be the time it takes for the owner to catch up to the thief. The distance the owner travels is the same as the distance the thief travels plus the 90 km the thief traveled before the owner set off. So: 75t = 90 + 60t Simplifying this equation, we get: 15t = 90 t = 6 So it will take the owner 6 hours to catch up to the thief. If the theft was discovered at 3 p.m., then the owner will catch up to the thief at 9 p.m. Therefore, the correct answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 734,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: In a certain province in France there are 11 cities. If a single road segment connects only two cities, how many road segments are required in order to connect the cities so that each city is connected to all other cities with a single road segment? Answer Choices: (A) 55 (B) 105 (C) 330 (D) 143 (E) 156",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. There are 11 cities in the province. We need to connect each city to all other cities with a single road segment. Let's start with one city. It needs to be connected to 10 other cities. Moving on to the next city, it also needs to be connected to 10 other cities. But we have already connected it to one city, so it needs to be connected to 9 more cities. Similarly, for the third city, it needs to be connected to 8 more cities. We can continue this pattern until we reach the last city, which needs to be connected to only one more city. So, the total number of road segments required would be: 10 + 9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 55 Therefore, the answer is (A) 55.",
+            "final_answer": "A",
+            "question_idx": 885,
+            "entropy": 0.6730116670092565
+        },
+        {
+            "question": "Q: By selling 300 apples a seller gains the selling price of 60 apples. The gain percent of the seller is Answer Choices: (A) 22 (B) 88 (C) 25 (D) 27 (E) 19",
+            "rationale": "A: Let's think step by step. Let's assume that the selling price of one apple is $1. Therefore, the selling price of 300 apples is $300 and the selling price of 60 apples is $60. The seller gains the selling price of 60 apples, which is $60. Profit percent = (Profit/Cost Price) x 100 Here, the profit is $60 and the cost price is the selling price of 240 apples (300-60), which is $240. Profit percent = (60/240) x 100 = 25% Therefore, the correct answer is (C) 25.",
+            "final_answer": "C",
+            "question_idx": 980,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: 56, 63, 59, 11, 57, 6, 11\nWhich of the following numbers is lower than the median but greater than the mean of the set of the numbers in the list? Answer Choices: (A) 21 (B) 32 (C) 49 (D) 56 (E) 58",
+            "rationale": "A: Let's think step by step. First, we need to find the median of the set of numbers. To do this, we need to arrange the numbers in order from least to greatest: 6, 11, 11, 56, 57, 59, 63 The median is the middle number, which is 56. Next, we need to find the mean of the set of numbers: (6 + 11 + 11 + 56 + 57 + 59 + 63) / 7 = 38 So, we are looking for a number that is lower than 56 but greater than 38. Option (B) 32 is lower than both the median and the mean, so it is not the answer. Option (A) 21 is lower than both the median and the mean, so it is not the answer. Option (C) 49 is greater than the mean but also greater than the median, so it is not the answer. Option (D) 56 is equal to the median, so it is not the answer. Option (E) 58 is greater than the median, so it is not the answer. Therefore, the answer is None of the above.",
+            "final_answer": "E",
+            "question_idx": 976,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A tyre has two punctures. The first puncture alone would have made the tyre flat in 9 minutes and the second alone would have done it in 4 minutes. If air leaks out at a constant rate, how long does it take both the punctures together to make it flat ? Answer Choices: (A) 3 1/5min (B) 2 10/13min (C) 3 3/5min (D) 3 4/5min (E) 3 min",
+            "rationale": "A: Let's think step by step. Let's assume that the tyre has a capacity of 36 units of air (LCM of 4 and 9). The first puncture can make the tyre flat in 9 minutes, which means it can make the tyre lose 4 units of air per minute (36/9). Similarly, the second puncture can make the tyre flat in 4 minutes, which means it can make the tyre lose 9 units of air per minute (36/4). Now, let's assume that both punctures are working together. Let's say the time taken for both punctures to make the tyre flat is 't' minutes. So, in 't' minutes, the first puncture would have made the tyre lose 4t units of air and the second puncture would have made the tyre lose 9t units of air. Since both punctures are working together, the total air lost in 't' minutes would be 4t + 9t = 13t. We know that the tyre has a capacity of 36 units of air. So, 13t = 36 t = 36/13 t = 2 10/13 minutes Therefore, the answer is option (B) 2 10/13 minutes.",
+            "final_answer": "B",
+            "question_idx": 731,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: A dog breeder currently has 9 breeding dogs. 6 of the dogs have exactly 1 littermate, and 3 of the dogs have exactly 2 littermates. If 2 dogs are selected at random, what is the probability Q that both selected dogs are NOT littermates? Answer Choices: (A) 1/6 (B) 2/9 (C) 5/6 (D) 7/9 (E) 8/9",
+            "rationale": "A: Let's think step by step. First, we need to find the total number of ways to choose 2 dogs out of 9. This can be done using the combination formula: C(9,2) = 9! / (2! * 7!) = 36 So there are 36 possible pairs of dogs that can be selected. Next, we need to find the number of pairs of dogs that are littermates. For the 6 dogs with exactly 1 littermate, each dog has only one possible littermate, so there are 6 pairs of littermates. For the 3 dogs with exactly 2 littermates, each dog has 2 possible littermates, so there are 3 * 2 = 6 pairs of littermates. So there are a total of 6 + 6 = 12 pairs of littermates. Finally, we can use the formula for probability: Q = (number of pairs that are not littermates) / (total number of pairs) Q = (36 - 12) / 36 = 24 / 36 = 2/3 Therefore, the answer is (B) 2/9.",
+            "final_answer": "B",
+            "question_idx": 738,
+            "entropy": 0.9502705392332347
+        },
+        {
+            "question": "Q: What annual payment dischargea debit of Rs.12900, due in 4yrs.At 5% rate? Answer Choices: (A) 2300 (B) 2400 (C) 3000 (D) 3500 (E) 3600",
+            "rationale": "A: Let's think step by step. We can use the formula for the present value of an annuity to solve this problem. The formula is: PV = A * (1 - (1 + r)^(-n)) / r where PV is the present value of the annuity, A is the annual payment, r is the interest rate per period, and n is the number of periods. In this case, we know that PV = Rs. 12900, r = 5% per year, and n = 4 years. We want to solve for A. Plugging in the values, we get: 12900 = A * (1 - (1 + 0.05)^(-4)) / 0.05 Simplifying the right-hand side, we get: 12900 = A * (1 - 0.8227) 12900 = A * 0.1773 A = 12900 / 0.1773 A = 72877.5 However, this is the total amount that would discharge the debt in one payment. We want to know the annual payment, so we need to divide by the number of years: Annual payment = 72877.5 / 4 Annual payment = 18219.375 None of the answer choices match this result, so the correct answer is None of the above.",
+            "final_answer": "A",
+            "question_idx": 194,
+            "entropy": 1.0549201679861442
+        },
+        {
+            "question": "Q: The average salary/head of all the workers ina workshop is Rs.850, if the average salary/head of 7technician is Rs.1000 and the average salary/head of the rest is Rs.780, the total no. of workers in the work-shop is ? Answer Choices: (A) 18 (B) 20 (C) 22 (D) 23 (E) 25",
+            "rationale": "A: Let's think step by step. Let the total number of workers in the workshop be x. We know that the average salary/head of all workers is Rs. 850. So, the total salary of all workers = 850x. We also know that the average salary/head of 7 technicians is Rs. 1000. So, the total salary of these 7 technicians = 1000 x 7 = 7000. Now, we can find the total salary of the remaining workers by subtracting the total salary of the technicians from the total salary of all workers: Total salary of remaining workers = 850x - 7000. We also know that the average salary/head of the remaining workers is Rs. 780. So, we can set up an equation: (850x - 7000) / (x - 7) = 780 Solving for x, we get x = 22. Therefore, the total number of workers in the workshop is 22. The answer is (C) 22.",
+            "final_answer": "C",
+            "question_idx": 926,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: (8^16)+(16^13)+(4^22) = ? Answer Choices: (A) (4) *(2^29+1)  (B) (6) *(2^48)  (C) (9) *(2^49)  (D) (28) *(2^53)  (E) 2^148",
+            "rationale": "A: Let's think step by step. We can simplify the expression by noticing that all three terms have a common factor of 2^26. So, we can write: (8^16) + (16^13) + (4^22) = (2^3)^16 + (2^4)^13 + (2^2)^22 = 2^(3*16) + 2^(4*13) + 2^(2*22) = 2^48 + 2^52 + 2^44 Now, we can factor out 2^44 from all three terms: (8^16) + (16^13) + (4^22) = 2^44(2^4 + 2^8 + 2^0) Simplifying the expression inside the parentheses, we get: 2^4 + 2^8 + 2^0 = 16 + 256 + 1 = 273 Therefore, the final answer is: (8^16) + (16^13) + (4^22) = 2^44 * 273 = 9 * 2^49 So, the correct answer is (C) 9 * 2^49.",
+            "final_answer": "C",
+            "question_idx": 588,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: There is enough provisions for 2400 women in an army camp for 100 days. If there were 1200 men less, how long will the provision last? Answer Choices: (A) 170 (B) 180 (C) 190 (D) 200 (E) 210",
+            "rationale": "A: Let's think step by step. Given: - Provisions for 2400 women for 100 days - 1200 men less We need to find out how long the provisions will last. Let's assume that each person consumes the same amount of provisions per day. Total provisions = 2400 women x 100 days = 240,000 woman-days Now, if there were 1200 men less, the total number of people in the camp would be 2400 women - 1200 men = 1200 women. So, the provisions need to last for 1200 women for some number of days. Let's call the number of days the provisions will last for 1200 women \"x\". We know that the total amount of provisions is the same, so: 240,000 woman-days = 1200 women x days Solving for \"x\": x = 240,000 woman-days / 1200 women x = 200 days Therefore, the provisions will last for 200 days for 1200 women (or 2400 women and 1200 men). The correct answer is (D) 200.",
+            "final_answer": "D",
+            "question_idx": 640,
+            "entropy": 0.5004024235381879
+        },
+        {
+            "question": "Q: A man can hit the target once in five shots. If he fires four shots in succession, what is the probability that he will hit the target? Answer Choices: (A) 1 (B) 1/625 (C) 181/256 (D) 369/625 (E) 185/625",
+            "rationale": "A: Let's think step by step. The probability of hitting the target in one shot is 1/5. The probability of missing the target in one shot is 4/5. To find the probability of hitting the target in four successive shots, we need to multiply the probability of hitting the target in each shot. So, the probability of hitting the target in four successive shots is (1/5) x (1/5) x (1/5) x (1/5) = 1/625. Therefore, the correct answer is (B) 1/625.",
+            "final_answer": "B",
+            "question_idx": 88,
+            "entropy": 0.9502705392332347
+        }
+    ]
+}

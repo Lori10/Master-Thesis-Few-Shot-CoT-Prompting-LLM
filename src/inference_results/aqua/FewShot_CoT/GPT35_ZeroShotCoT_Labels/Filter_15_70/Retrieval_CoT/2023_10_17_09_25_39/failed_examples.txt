@@ -1,0 +1,10 @@
+[
+    {
+        "question_idx": 30,
+        "question": "Q: Two numbers are said to be relatively prime if they share no common positive factors other than 1. Set S contains the set of integers from 1 to 1,000, inclusive. What is the probability that a number chosen from S is relatively prime to 1,000? Answer Choices: (A) 5/7 (B) 3/5 (C) 4/7 (D) 2/5 (E) 2/7"
+    },
+    {
+        "question_idx": 157,
+        "question": "Q: A computer routine was developed to generate two numbers (x,y) the first being a random number between 0 and 100 inclusive, and the second being less than or equal to the square root of the first. Each of the following pair satisfies the routine except Answer Choices: (A) (99,10)  (B) (85,9)  (C) (50,7)  (D) (1,1)  (E) (1,0) "
+    }
+]

@@ -22,8 +22,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
 
     parser.add_argument(
@@ -48,11 +50,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_ra_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_ra_len", type=int, default=15, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_token_len", type=int, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_token_len", type=int, default=70, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -75,7 +77,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--beta", type=int, default=2, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
+        "--beta", type=int, default=0.5, help="weight for uncertainty. For example beta=2 means uncertainty is twice as important as the distance"
     )
 
     parser.add_argument(
@@ -95,7 +97,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=8, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=4, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(

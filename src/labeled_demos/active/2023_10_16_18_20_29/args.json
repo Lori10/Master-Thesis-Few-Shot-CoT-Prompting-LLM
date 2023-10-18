@@ -1,0 +1,32 @@
+{
+    "sampling_method": "Active",
+    "dataset": "aqua",
+    "data_path": "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+    "dataset_size_limit": 1000,
+    "random_seed": 1,
+    "nr_demos": 4,
+    "demos_save_dir": "labeled_demos/active/2023_10_16_18_20_29/demos/",
+    "answers_are_available": true,
+    "uncertainty_scores_dir": "labeled_demos/active/2023_10_16_18_20_29/uncertainty_scores/",
+    "load_uncertainty_file": "final_uncertainties/2023_08_30_00_02_11/sorted_all_uncertainty_records",
+    "load_uncertainty_args_file": "final_uncertainties/2023_08_30_00_02_11/args.json",
+    "generate_uncertainty_args": {
+        "dataset": "aqua",
+        "data_path": "../datasets/AQuA/train.json",
+        "random_seed": 1,
+        "dataset_size_limit": 1000,
+        "num_trails": 5,
+        "temperature": 0.7,
+        "model_id": "gpt-35-turbo-0613",
+        "method": "cot",
+        "dir_prompts": "uncertainty_estimation_prompts/aqua",
+        "answers_are_available": true,
+        "sort_by": "entropy",
+        "uncertainty_save_dir": "uncertainties/aqua/2023_08_30_00_02_11/",
+        "execution_time": "27040.527054309845 seconds"
+    },
+    "max_token_len": 70,
+    "max_ra_len": 15,
+    "nr_filtered_examples": 696,
+    "execution_time": "0.026678085327148438 seconds"
+}

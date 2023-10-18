@@ -1,0 +1,28 @@
+{
+    "demo": [
+        {
+            "question_idx": 555,
+            "question": "Q: Which of the following is the lowest positive integer that is divisible by 7, 8, 9, 10, and 11? Answer Choices: (A) 27,720 (B) 29,940 (C) 31,960 (D) 33,970 (E) 35,890",
+            "rationale": "A: Let's think step by step. To find the lowest positive integer that is divisible by 7, 8, 9, 10, and 11, we need to find the least common multiple (LCM) of these numbers. First, we can simplify 8 to 2^3 and 9 to 3^2. The prime factorization of each number is: 7 = 7 2^3 = 8 3^2 = 9 10 = 2 x 5 11 = 11 To find the LCM, we need to take the highest power of each prime factor that appears in any of the numbers. The LCM of these numbers is: 7 x 2^3 x 3^2 x 5 x 11 = 27,720 Therefore, the answer is (A) 27,720.",
+            "final_answer": "A"
+        },
+        {
+            "question_idx": 701,
+            "question": "Q: The percentage profit earned by selling an article for Rs. 1920 is equal to the percentage loss incurred by selling the same article for Rs. 1280. At what price should the article be sold to make 25% profit? Answer Choices: (A) 3000 (B) 1230 (C) 2000 (D) 5600 (E) 3400",
+            "rationale": "A: Let's think step by step. Let the cost price of the article be x. Given, percentage profit earned by selling the article for Rs. 1920 = percentage loss incurred by selling the same article for Rs. 1280. Profit% = Loss% Profit% = (C.P - S.P)/C.P * 100 Loss% = (C.P - S.P)/C.P * 100 Therefore, (x - 1920)/x * 100 = (x - 1280)/x * 100 Solving this equation, we get x = 3200. To make a 25% profit, the selling price should be (125/100) * 3200 = Rs. 4000. Hence, the correct answer is (None of the above).",
+            "final_answer": "C"
+        },
+        {
+            "question_idx": 160,
+            "question": "Q: Two trains each 250 m in length are running on the same parallel lines in opposite directions with the speed of 80 kmph and 70 kmph respectively. In what time will they cross each other completely? Answer Choices: (A) 19 sec (B) 22 sec (C) 12 sec (D) 42 sec (E) 32 sec",
+            "rationale": "A: Let's think step by step. First, we need to convert the speeds from kmph to m/s. Speed of first train = 80 kmph = (80 x 1000) / (60 x 60) m/s = 22.22 m/s Speed of second train = 70 kmph = (70 x 1000) / (60 x 60) m/s = 19.44 m/s Now, we need to find the relative speed of the two trains. Relative speed = (Speed of first train + Speed of second train) = (22.22 + 19.44) m/s = 41.66 m/s The total distance to be covered by the two trains to cross each other completely is the sum of their lengths, which is 250 + 250 = 500 m. Now, we can use the formula: Time = Distance / Relative speed Time = 500 / 41.66 Time = 12 sec Therefore, the answer is (C) 12 sec.",
+            "final_answer": "C"
+        },
+        {
+            "question_idx": 21,
+            "question": "Q: What are the number of ways to select 3 men and 2 women such that one man and one woman are always selected? Answer Choices: (A) 26 ways (B) 19 ways (C) 30 ways (D) 76 ways (E) 15 ways",
+            "rationale": "A: Let's think step by step. First, we need to select one man from the available men, which can be done in C(3,1) ways. Then, we need to select one woman from the available women, which can be done in C(2,1) ways. Next, we need to select the remaining 1 man and 1 woman from the remaining pool of men and women. This can be done in C(2,1) * C(1,1) ways. Therefore, the total number of ways to select 3 men and 2 women such that one man and one woman are always selected is: C(3,1) * C(2,1) * C(2,1) * C(1,1) = 3 * 2 * 2 * 1 = 12 ways None of the answer choices match the correct answer of 12 ways.",
+            "final_answer": "C"
+        }
+    ]
+}

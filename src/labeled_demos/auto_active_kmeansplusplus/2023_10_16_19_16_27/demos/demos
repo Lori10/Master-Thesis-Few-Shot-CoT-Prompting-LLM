@@ -1,0 +1,32 @@
+{
+    "demo": [
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "rationale": "A: Let's think step by step. First, we can simplify the second ratio by cross-multiplying to get z(y + x) = (y)(y + x), which simplifies to y^2 = zx. Next, we can substitute this expression for y^2 into the first ratio to get y/(x - z) = (y + x)/z = x/zx^(1/2). Simplifying this expression, we get y = x^(3/2)/(x - z) and z = x^(1/2)/(x - z). Now, we can substitute these expressions for y and z into the ratio y^2 : x : z to get x^(3/2)/(x - z)^2 : x : x^(1/2)/(x - z). Simplifying this expression, we get x^(5/2) : x(x - z)^2 : x^(3/2)(x - z). Cancelling out an x from each term, we get x^(3/2) : (x - z)^2 : x^(1/2). Now, we can substitute the expression for z from earlier (z = x^(1/2)/(x - z)) into this ratio to get x^(3/2) : (x - x^(1/2))^2 : x^(1/2). Simplifying this expression, we get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2). Finally, we can simplify the middle term by expanding the square and combining like terms to get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2) = x^(3/2) : (x^2 - x^(3/2)) : x^(1/2) = x^(1/2) : (x - 1) : 1. Therefore, the answer is (E) none of these, since none of the given answer choices match the ratio x^(1/2) : (x - 1) : 1.",
+            "final_answer": "E",
+            "question_idx": 245,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. We know that the average temperature from Monday to Friday is 40. Let's call the sum of the temperatures for those five days \"S\". Then we can write: S/5 = 40 Multiplying both sides by 5, we get: S = 200 We also know that the lowest temperature is 30. Let's call the highest temperature \"H\". Then the range of temperatures is: H - 30 To find the maximum possible range, we need to find the maximum possible value of H. We know that the sum of the temperatures is 200, so: H + 4(40) = 200 Simplifying, we get: H = 40 So the maximum range of temperatures is: 40 - 30 = 10 Therefore, the answer is (A) 20.",
+            "final_answer": "A",
+            "question_idx": 703,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: Two taps can separately fill a cistern 10 minutes and 15 minutes respectively and when the waste pipe is open, they can together fill it in 18 minutes. The waste pipe can empty the full cistern in? Answer Choices: (A) 5 (B) 6 (C) 7 (D) 9 (E) 1",
+            "rationale": "A: Let's think step by step. Let the capacity of the cistern be C. The rate of filling of the first tap is C/10 per minute. The rate of filling of the second tap is C/15 per minute. When both taps are open, their combined rate of filling is C/18 per minute. Let the rate of emptying of the waste pipe be W (in terms of the capacity of the cistern per minute). According to the problem, when all three are open, the net rate of filling is zero (since the waste pipe is emptying the cistern at the same time). So, we can write the equation: C/10 + C/15 - C/18 = W Multiplying through by the LCM of the denominators (which is 90), we get: 9C + 6C - 5C = 90W Simplifying, we get: 10C = 90W Dividing by 10, we get: C = 9W This means that the waste pipe can empty the full cistern in 9 minutes (since it empties 1/9th of the cistern per minute). Therefore, the answer is (D) 9.",
+            "final_answer": "D",
+            "question_idx": 628,
+            "entropy": 1.3321790402101223
+        },
+        {
+            "question": "Q: If money is invested at r percent interest, compounded annually, the amount of the investment will double in approximately 50/r years. If Luke's parents invested $15,500 in a long term bond that pays 12 percent interest compounded annually, what will be the approximate total amount of the investment 12 years later, when Luke is ready for college? Answer Choices: (A) 62,000 (B) 85,500 (C) 95,500 (D) 100,500 (E) 120,000",
+            "rationale": "A: Let's think step by step. First, we need to find out how many times the investment will double in 12 years. Using the formula given in the problem, we can calculate that the investment will double approximately every 4.17 years (50/12). Therefore, the investment will double approximately 2.88 times (12/4.17). Next, we need to calculate the final amount of the investment after 12 years. To do this, we can use the formula for compound interest: A = P(1 + r/n)^(nt) Where: A = final amount P = principal (initial investment) r = annual interest rate (as a decimal) n = number of times interest is compounded per year t = time (in years) Plugging in the given values, we get: A = 15500(1 + 0.12/1)^(1*12) A = 15500(1.12)^12 A ≈ 55,500 Finally, we need to multiply this amount by the number of times the investment doubled: 55,500 * 2.88 ≈ 159,840 Therefore, the approximate total amount of the investment 12 years later is $159,840. None of the answer choices provided match this result.",
+            "final_answer": "A",
+            "question_idx": 899,
+            "entropy": 1.3321790402101223
+        }
+    ]
+}

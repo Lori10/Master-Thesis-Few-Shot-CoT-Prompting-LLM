@@ -59,8 +59,8 @@ def load_data(args: object) -> Tuple[list, list, list]:
                         rationales.append(f'A: Let\'s think step by step.\n{rationale}')
                         final_answers.append(final_answer)
 
-                else:
-                    raise NotImplementedError
+            else:
+                raise NotImplementedError
 
 
         elif args.dataset == "aqua":

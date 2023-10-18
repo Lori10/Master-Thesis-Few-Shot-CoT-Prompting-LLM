@@ -1,0 +1,26 @@
+{
+    "sampling_method": "Auto",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+    "random_seed": 1,
+    "sampling": "center",
+    "dataset_size_limit": 1000,
+    "nr_demos": 8,
+    "answers_are_available": true,
+    "load_embeddings_file": "embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl",
+    "load_embeddings_args_file": "embeddings/gsm8k/2023_08_29_22_56_01/args.json",
+    "demos_save_dir": "labeled_demos/auto/2023_10_16_21_38_50/demos",
+    "plots_dir": "labeled_demos/auto/2023_10_16_21_38_50/plots/",
+    "max_ra_len": 12,
+    "max_token_len": 86,
+    "generate_embeddings_args": {
+        "dataset": "gsm8k",
+        "data_path": "../datasets/gsm8k/train.jsonl",
+        "random_seed": 1,
+        "dataset_size_limit": 1000,
+        "output_dir": "embeddings/gsm8k/2023_08_29_22_56_01/",
+        "embedding_model_id": "text-embedding-ada-002-v2",
+        "execution_time": "193.94125485420227 seconds"
+    },
+    "execution_time": "0.5452613830566406 seconds"
+}

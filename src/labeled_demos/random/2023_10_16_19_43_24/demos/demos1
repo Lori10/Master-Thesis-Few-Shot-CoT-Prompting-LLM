@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question": "Q: Louie sells Dodge, Hyundai, and Kia vehicles, and his company has 400 vehicles for sale on the store's parking lot.  Half of the vehicles on the lot are Dodge, and there are half as many Hyundai vehicles on the lot as there are Dodge vehicles.  How many Kia vehicles are on the lot?",
+            "rationale": "A: Let's think step by step. First, we know that half of the vehicles on the lot are Dodge. So, we can start by finding half of 400: 400/2 = 200 Therefore, there are 200 Dodge vehicles on the lot. Next, we know that there are half as many Hyundai vehicles on the lot as there are Dodge vehicles. So, we can find half of the number of Dodge vehicles: 200/2 = 100 Therefore, there are 100 Hyundai vehicles on the lot. Finally, we can find the number of Kia vehicles by subtracting the number of Dodge and Hyundai vehicles from the total number of vehicles on the lot: 400 - 200 - 100 = 100 Therefore, there are 100 Kia vehicles on the lot.",
+            "final_answer": "100",
+            "question_idx": 780
+        },
+        {
+            "question": "Q: Eric has 20 marbles. He has 12 white marbles, 6 blue marbles, and the rest are green marbles. How many green marbles does Eric have?",
+            "rationale": "A: Let's think step by step. Eric has a total of 20 marbles. Out of those 20 marbles, he has 12 white marbles and 6 blue marbles. To find out how many green marbles he has, we need to subtract the number of white and blue marbles from the total number of marbles: 20 - 12 - 6 = 2 Therefore, Eric has 2 green marbles.",
+            "final_answer": "2",
+            "question_idx": 139
+        },
+        {
+            "question": "Q: Dante needs half as many cups of flour to bake his chocolate cake as he needs eggs. If he uses 60 eggs in his recipe, calculate the total number of cups of flour and eggs that he uses altogether.",
+            "rationale": "A: Let's think step by step. First, we need to find out how many cups of flour Dante needs. We know that he needs half as many cups of flour as he needs eggs. So, if he needs 60 eggs, he needs half as many cups of flour, which is 60/2 = 30 cups of flour. Next, we need to calculate the total number of cups of flour and eggs that Dante uses altogether. Dante uses 60 eggs and 30 cups of flour, so the total number of cups of flour and eggs that he uses altogether is 60 + 30 = 90. Therefore, Dante uses a total of 90 cups of flour and eggs altogether in his recipe.",
+            "final_answer": "90",
+            "question_idx": 32
+        },
+        {
+            "question": "Q: Miriam currently has 30 marbles, but she used to have more. Miriam gave her brother 60 marbles, gave her sister twice that amount and gave her friend Savanna three times the amount she currently has. How many marbles did Miriam start with?",
+            "rationale": "A: Let's think step by step. First, we know that Miriam gave her brother 60 marbles, so she now has 30 - 60 = -30 marbles. This doesn't make sense, so we know that Miriam must have started with more than 60 marbles. Next, we know that Miriam gave her sister twice the amount she gave her brother, so her sister received 2 * 60 = 120 marbles. We also know that Miriam gave her friend Savanna three times the amount she currently has, so Savanna received 3 * 30 = 90 marbles. In total, Miriam gave away 60 + 120 + 90 = 270 marbles. If Miriam started with x marbles, we can set up the equation: x - 270 = 30 Solving for x, we get: x = 300 Therefore, Miriam started with 300 marbles.",
+            "final_answer": "300",
+            "question_idx": 912
+        },
+        {
+            "question": "Q: Emery's family decides to travel for a weekend trip. They drive the first 100 miles in 1 hour. They stop at a McDonald's and then continue the rest of the journey for 300 miles. What's the total number of hours they traveled?",
+            "rationale": "A: Let's think step by step. First, they drove 100 miles in 1 hour. Then, they stopped at McDonald's, which we don't know how long it took. Finally, they continued the rest of the journey for 300 miles. So, the total distance they traveled is 100 + 300 = 400 miles. We know they drove the first 100 miles in 1 hour, but we don't know how long they stopped at McDonald's. Let's call that time \"x\". Then, they drove the remaining 300 miles. Let's call the time it took to drive that distance \"y\". So, the total time they traveled is: 1 hour (for the first 100 miles) + x (for the time they stopped at McDonald's) + y (for the remaining 300 miles) We don't know x or y, but we do know that the total time they traveled is the sum of those three values. Therefore, the answer is: Total time = 1 + x + y hours.",
+            "final_answer": "1",
+            "question_idx": 333
+        },
+        {
+            "question": "Q: There were 80 cars in a parking lot. At lunchtime, 13 cars left the parking lot but 5 more cars went in than left. How many cars are in the parking lot now?",
+            "rationale": "A: Let's think step by step. First, we know that there were 80 cars in the parking lot. Then, 13 cars left, so we can subtract 13 from 80: 80 - 13 = 67 Now, we know that there are 67 cars in the parking lot. But we also know that 5 more cars went in than left. So we need to add 5 to the current number of cars: 67 + 5 = 72 Therefore, there are 72 cars in the parking lot now.",
+            "final_answer": "72",
+            "question_idx": 297
+        },
+        {
+            "question": "Q: A park has three colors of flowering crepe myrtle trees planted: red, white, and pink. When they bloom, a third of them are pink, but only two are red. Most of them are white. There are 42 crepe myrtle trees in the park. How many have white flowers when they bloom?",
+            "rationale": "A: Let's think step by step. First, we know that a third of the trees are pink. So, we can find the number of pink trees by dividing the total number of trees by 3: 42 ÷ 3 = 14 So, there are 14 pink trees in the park. Next, we know that only two trees are red. So, we can subtract those from the total number of trees to find the number of white trees: 42 - 14 - 2 = 26 Therefore, there are 26 crepe myrtle trees with white flowers when they bloom.",
+            "final_answer": "26",
+            "question_idx": 272
+        },
+        {
+            "question": "Q: Jeremy decides to take Tylenol because of the pain he is experiencing. He decides to take 1000 mg every 6 hours for 2 weeks.  How many pills do they take if they are each 500 mg?",
+            "rationale": "A: Let's think step by step. First, we need to figure out how many hours are in two weeks. There are 7 days in a week, so 2 weeks is 14 days. Next, we need to figure out how many times Jeremy will take Tylenol in 2 weeks. If he takes it every 6 hours, that means he will take it 4 times a day (24 hours divided by 6 hours). So, in 2 weeks, he will take it 4 times a day for 14 days, which is a total of 56 times. Now we need to figure out how many milligrams of Tylenol he will take each time. He is taking 1000 mg each time, so we don't need to do any further calculations. Finally, we need to figure out how many pills he will take. Each pill is 500 mg, so he will need to take 2 pills each time. Therefore, over the course of 2 weeks, he will take 56 times 2 pills, which is a total of 112 pills.",
+            "final_answer": "112",
+            "question_idx": 168
+        }
+    ]
+}

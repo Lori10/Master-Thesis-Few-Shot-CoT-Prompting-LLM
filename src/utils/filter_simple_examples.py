@@ -1,8 +1,13 @@
-def filter_examples_with_labels(dataloader, max_token_len, max_ra_len):
+def filter_examples_with_labels(args, dataloader, max_token_len, max_ra_len):
     filtered_examples = []
     for example in dataloader:
         rationale = example['rationale']
-        if len(example['question'].strip().split()) <= max_token_len and len(rationale.replace("\n\n", "\n").split("\n")) <= max_ra_len and example['final_answer'] != "":
+        nr_reasonings_steps = len(rationale.replace("\n\n", "\n").split("\n"))
+        nr_reasonings_steps -= 1
+        if args.dataset == 'aqua':
+            nr_reasonings_steps -= 1
+
+        if len(example['question'].strip().split()) <= max_token_len and nr_reasonings_steps <= max_ra_len and example['final_answer'] != "":
             rationale = rationale.replace("\n\n", "\n").replace("\n", " ").strip()
             rationale = " ".join(rationale.split())
 

@@ -59,12 +59,12 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             "normalize_distance_uncertainty": args.normalize_distance_uncertainty,
             "distance_metric": args.distance_metric,
             "beta": args.beta,
-            'max_ra_len': args.max_ra_len,
-            'max_token_len': args.max_token_len,
             'top_r': args.top_r
         }
 
         start = time.time()
+
+    dataloader = create_dataloader(args)
     
     if args.load_uncertainty_file and args.load_uncertainty_args_file:
         with open(args.load_uncertainty_file, 'r', encoding="utf-8") as read_f:
@@ -74,6 +74,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
         
+        uncertainty_metric = uncertainty_args['sort_by']
         args_dict['generate_uncertainty_args'] = uncertainty_args
     else:
         args_dict["method"] = args.method
@@ -85,7 +86,6 @@ def main_auto_active_kmeansplusplus(args, args_dict):
 
         args.temperature = args.auto_active_kmeansplusplus_temperature
         
-        dataloader = create_dataloader(args)
         prompts_list = create_prompts_inference(args)
         assert len(prompts_list) == 1
         azure_llm = initialize_llm(args, is_azureopenai=True)
@@ -94,6 +94,17 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         openai_llm_chain = initialize_llmchain(openai_llm, prompts_list[0])  
         all_uncertainty_records = generate_uncertainty_all_questions(args, dataloader, False, azure_llm_chain, openai_llm_chain)
     
+    if 'zeroshotcot' in args.data_path:
+        zeroshot_uncertainty_ranked_data = []
+        for item in all_uncertainty_records:
+            selected_example = dataloader[item['question_idx']]
+            selected_example[uncertainty_metric] = item[uncertainty_metric]
+            zeroshot_uncertainty_ranked_data.append(selected_example)
+
+        all_uncertainty_records = filter_examples_with_labels(args, zeroshot_uncertainty_ranked_data, args.max_token_len, args.max_ra_len)
+        args_dict['max_token_len'] = args.max_token_len
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict["nr_filtered_examples"] = len(all_uncertainty_records)
     
     if args.load_embeddings_file and args.load_embeddings_args_file:
         with open(args.load_embeddings_file, 'rb') as read_f:
@@ -109,20 +120,18 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         corpus_embeddings = generate_corpus_embeddings(args, dataloader)
     
 
-    print('Total nr of examples: ', len(all_uncertainty_records))
-    filtered_uncertainty_records = filter_examples_with_labels(all_uncertainty_records, args.max_token_len, args.max_ra_len)
-    filtered_idxs = [x['question_idx'] for x in filtered_uncertainty_records]
-    print(f'Nr of filtered examples: {len(filtered_uncertainty_records)}. Nr of demos: {args.auto_active_kmeansplusplus_nr_demos}')
+
+    filtered_idxs = [x['question_idx'] for x in all_uncertainty_records]
     if args.auto_active_kmeansplusplus_nr_demos >= len(all_uncertainty_records):
         print('Warning: the number of demos must be lower than the number of filtered examples with labels. Setting the number of demos to the half of number of filtered examples.')
-        args.auto_active_kmeansplusplus_nr_demos = round(len(filtered_uncertainty_records) / 2)
+        args.auto_active_kmeansplusplus_nr_demos = round(len(all_uncertainty_records) / 2)
         print('Procceding with the number of demos: ', args.auto_active_kmeansplusplus_nr_demos)
 
     corpus_embeddings = corpus_embeddings[filtered_idxs]
     
     # max_entropy_example = min(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
-    max_entropy_example = max(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
-    question_idx_with_max_entropy = filtered_uncertainty_records.index(max_entropy_example)
+    max_entropy_example = max(all_uncertainty_records, key=lambda x: x[args.sort_by])
+    question_idx_with_max_entropy = all_uncertainty_records.index(max_entropy_example)
 
     selected_idxs = [question_idx_with_max_entropy]
     selected_data = [corpus_embeddings[question_idx_with_max_entropy]]
@@ -130,17 +139,17 @@ def main_auto_active_kmeansplusplus(args, args_dict):
                      'selected_idx': question_idx_with_max_entropy,
                      'original_selected_idx': max_entropy_example['question_idx'],
                      'uncertainty' : max_entropy_example[args.sort_by],
-                     f'highest_uncertainty_{args.sort_by}' : max([x[args.sort_by] for x in filtered_uncertainty_records])
+                     f'highest_uncertainty_{args.sort_by}' : max([x[args.sort_by] for x in all_uncertainty_records])
                     }] 
     j = 1
 
-    demos = [filtered_uncertainty_records[question_idx_with_max_entropy]]
+    demos = [all_uncertainty_records[question_idx_with_max_entropy]]
     print(f'Iteration: {j}')
-    print(f'All indices: {[idx for idx in range(len(filtered_uncertainty_records))]}')
-    print(f'Original All indices: {[example["question_idx"] for example in filtered_uncertainty_records]}')
-    print(f'Uncertainty Scores: {[round(example[args.sort_by], 2) for example in filtered_uncertainty_records]}')
+    print(f'All indices: {[idx for idx in range(len(all_uncertainty_records))]}')
+    print(f'Original All indices: {[example["question_idx"] for example in all_uncertainty_records]}')
+    print(f'Uncertainty Scores: {[round(example[args.sort_by], 2) for example in all_uncertainty_records]}')
     print(f'Selected indices: {selected_idxs}')
-    print(f'Original Selected indices: {[filtered_uncertainty_records[i]["question_idx"] for i in selected_idxs]}')
+    print(f'Original Selected indices: {[all_uncertainty_records[i]["question_idx"] for i in selected_idxs]}')
     while j < args.auto_active_kmeansplusplus_nr_demos:
         if len(selected_data) == 1:
             D2 = pairwise_distances(corpus_embeddings, selected_data, metric=args.distance_metric, n_jobs=-1).ravel().astype(float)
@@ -162,10 +171,10 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         # convert into exponential distances for cosine
         if args.distance_metric == 'cosine':
             D2[D2 > 0.999] = 1
-            not_selected_examples = [(example, np.exp(-distance), index) for index, (example, distance) in enumerate(zip(filtered_uncertainty_records, D2)) if distance != 1]
+            not_selected_examples = [(example, np.exp(-distance), index) for index, (example, distance) in enumerate(zip(all_uncertainty_records, D2)) if distance != 1]
         elif args.distance_metric == 'euclidean':
             D2[D2 < 0.0001] = 0
-            not_selected_examples = [(example, distance, index) for index, (example, distance) in enumerate(zip(filtered_uncertainty_records, D2)) if distance != 0]
+            not_selected_examples = [(example, distance, index) for index, (example, distance) in enumerate(zip(all_uncertainty_records, D2)) if distance != 0]
 
         not_selected_question_idxs = []
         not_selected_distances = []
@@ -205,7 +214,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
             
         selected_idxs.append(selected_idx)
         selected_data.append(corpus_embeddings[selected_idx])
-        demos.append(filtered_uncertainty_records[selected_idx])
+        demos.append(all_uncertainty_records[selected_idx])
 
         # the code below is needed to store metadata about the selected example
         if args.greedy:
@@ -215,7 +224,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
 
         info_dic = {'iteration_nr': j,
                     'selected_index': int(selected_idx),
-                    'original_selected_index': int(filtered_uncertainty_records[selected_idx]['question_idx']),
+                    'original_selected_index': int(all_uncertainty_records[selected_idx]['question_idx']),
                     'current_selected_indexes': [int(el) for el in selected_idxs],
                     'distance' : float(not_selected_distances[index_selected_question]),
                     f'uncertainty_{args.sort_by}' : float(not_selected_uncertainties[index_selected_question]),
@@ -235,7 +244,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         print('Selected idx: ', selected_idx)
         print(f'Index of selected indices: {index_selected_question}')
         print(f'Selected indices: {selected_idxs}')
-        print(f'Original selected indices: {[filtered_uncertainty_records[i]["question_idx"] for i in selected_idxs]}')
+        print(f'Original selected indices: {[all_uncertainty_records[i]["question_idx"] for i in selected_idxs]}')
         if args.distance_metric == 'cosine':
             print("Number of distances equal to 1: ", len(D2[D2 == 1]))
         else:
@@ -248,7 +257,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         end = time.time()
 
         args_dict['used_nr_demos'] = args.auto_active_kmeansplusplus_nr_demos
-        args_dict['nr_filtered_examples'] = len(filtered_uncertainty_records)
+        args_dict['nr_filtered_examples'] = len(all_uncertainty_records)
         args_dict["execution_time"] = str(end - start) + " seconds"
         
         with open(args.args_file, 'w') as f:

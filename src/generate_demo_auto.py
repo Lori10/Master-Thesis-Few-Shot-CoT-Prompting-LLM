@@ -17,15 +17,15 @@ import sys
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
         choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
-                 "../datasets/sampled_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
-                 "../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     
@@ -38,15 +38,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help="nr of demonstrations to select"
+        "--nr_demos", type=int, default=8, help="nr of demonstrations to select"
     )
 
     parser.add_argument(
-        "--max_token_len", type=float, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_token_len", type=float, default=86, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_ra_len", type=float, default=float('inf'), help="maximum number of reasoning chains"
+        "--max_ra_len", type=float, default=12, help="maximum number of reasoning chains"
     )
     
     parser.add_argument(
@@ -58,11 +58,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from; either None or a path to a file'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()
@@ -102,8 +102,6 @@ def main():
         "sampling_method": "Auto",
         "dataset": args.dataset,
         "data_path": args.data_path,
-        "max_ra_len": args.max_ra_len,
-        "max_token_len": args.max_token_len,
         "random_seed": args.random_seed,
         "sampling": args.sampling,
         "dataset_size_limit": args.dataset_size_limit,
@@ -116,6 +114,11 @@ def main():
     }
 
     dataloader = create_dataloader(args)
+
+    if 'zeroshotcot' in args.data_path:
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict['max_token_len'] = args.max_token_len
+
 
     start = time.time()
     if args.load_embeddings_file and args.load_embeddings_args_file:
@@ -168,14 +171,7 @@ def main():
                 rationale = rationale_list[clustered_idx[i][min_idx]].strip()
                 final_answer = final_answer_list[clustered_idx[i][min_idx]].strip()
                 nr_reasoning_steps = len(rationale.replace("\n\n", "\n").split("\n"))
-                
-                # print('RATIOALE:')
-                # print(rationale)
-                # print()
-                # print('RATIONALE STEPS:')
-                # print(rationale.replace("\n\n", "\n").split("\n"))
-                # print('-----------------')
-                # continue 
+                nr_reasoning_steps -= 1
 
                 if args.dataset == 'aqua':
                     nr_reasoning_steps -= 1
@@ -238,15 +234,6 @@ def main():
     plt.yticks([])
     plt.savefig(args.plots_dir + f'clustering.png', dpi=600)
     plt.close()
-
-    if args.answers_are_available:
-        nr_reasoning_steps = [len(rat.strip().replace("\n\n", "\n").split("\n")) for rat in rationale_list]
-        if args.dataset == "aqua":
-            nr_reasoning_steps = [nr - 1 for nr in nr_reasoning_steps]
-        plt.figure()
-        plt.hist(nr_reasoning_steps, bins=5)
-        plt.savefig(args.plots_dir + f'hist_nrreasoningsteps.png', dpi=600)
-        plt.close()
 
     print('Auto demo generation finished!')
 

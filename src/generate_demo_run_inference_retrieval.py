@@ -13,6 +13,8 @@ from utils.inference_llm import single_question_inference
 import datetime
 import os 
 import sys 
+from langchain.vectorstores import Chroma
+from utils.filter_simple_examples import filter_examples_with_labels
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Retrieval_CoT")
@@ -21,8 +23,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/AQuA/train.json",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
 
     parser.add_argument(
@@ -48,7 +52,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=8, help='nr of demonstrations to select'
+        "--nr_demos", type=int, default=4, help='nr of demonstrations to select'
+    )
+
+    parser.add_argument(
+        "--max_ra_len", type=int, default=15, help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=int, default=70, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -56,7 +68,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--test_data_path", type=str, default="../datasets/gsm8k/test.jsonl", choices=["../datasets/AQuA/test.json", "../datasets/gsm8k/test.jsonl"],  help="dataset to inference"
+        "--test_data_path", type=str, default="../datasets/original/aqua/test.json", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
     parser.add_argument(
@@ -104,13 +116,37 @@ def main():
     current_time = datetime.datetime.now()
     time_string = current_time.strftime("%Y_%m_%d_%H_%M_%S")
 
+    args_dict = {
+        'sampling_method': "Retrieval-CoT",
+        'training_dataset': args.dataset,
+        'traininig_dataset_size_limit': args.dataset_size_limit,
+        'training_data_path': args.data_path,
+        'model_id': args.model_id,
+        'backup_model_id': args.backup_model_id,
+        'method': args.method,
+        'random_seed': args.random_seed,
+        'temperature': args.temperature,
+        'nr_demos': args.nr_demos,
+        'embedding_model_id': args.embedding_model_id,
+        'test_data_path': args.test_data_path,
+        'test_dataset_size_limit': args.test_dataset_size_limit
+    }
+
     train_dataloader = create_dataloader(args)
+
+    if 'zeroshotcot' in args.data_path:
+        train_dataloader = filter_examples_with_labels(args, train_dataloader, args.max_token_len, args.max_ra_len)
+        args_dict["nr_filtered_examples"] = len(train_dataloader)
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict['max_token_len'] = args.max_token_len
 
     start = time.time()
     
     train_examples = [{'question' : example['question'],
                         'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
                         } for example in train_dataloader]
+
+    print(len(train_examples))
     
     example_prompt = PromptTemplate(
     input_variables=["question", "answer"],
@@ -119,14 +155,15 @@ def main():
 
     encoder = initialize_embedding_model(args)
     
+    print("HERE")
     example_selector = SemanticSimilarityExampleSelector.from_examples(
-                    train_examples, 
-                    encoder, 
-                    FAISS, 
-                    k=args.nr_demos
+        train_examples, 
+        encoder, 
+        FAISS, 
+        k=args.nr_demos
     )
 
-
+    print('AFTER SEMANTIC')
     similar_prompt = FewShotPromptTemplate(
         example_selector=example_selector,
         example_prompt=example_prompt,
@@ -137,6 +174,7 @@ def main():
     args.data_path = args.test_data_path
     args.dataset_size_limit = args.test_dataset_size_limit
     test_dataloader = create_dataloader(args)
+    print(len(test_dataloader))
 
     build_prefix(args)
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
@@ -192,22 +230,8 @@ def main():
 
     end = time.time()
 
-    args_dict = {
-        'sampling_method': "Retrieval-CoT",
-        'dataset': args.dataset,
-        'dataset_size_limit': args.dataset_size_limit,
-        'model_id': args.model_id,
-        'backup_model_id': args.backup_model_id,
-        'method': args.method,
-        'random_seed': args.random_seed,
-        'temperature': args.temperature,
-        'nr_demos': args.nr_demos,
-        'embedding_model_id': args.embedding_model_id,
-        'test_data_path': args.test_data_path,
-        'test_dataset_size_limit': args.test_dataset_size_limit,
-        'used_test_dataset_size_limit': len(test_dataloader) - len(failed_examples),
-        "execution_time": str(end - start) + ' seconds',
-    }
+    args_dict['used_test_dataset_size_limit'] = len(test_dataloader) - len(failed_examples)
+    args_dict["execution_time"] = str(end - start) + ' seconds'
 
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)

@@ -8,18 +8,19 @@ from utils.load_data import create_dataloader
 from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 import sys
+from utils.filter_simple_examples import filter_examples_with_labels
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
     parser.add_argument(
-        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
         choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
-                 "../datasets/sampled_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
-                 "../datasets/sampled_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
     
     parser.add_argument(
@@ -51,16 +52,24 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help='nr of demonstrations to select'
+        "--nr_demos", type=int, default=8, help='nr of demonstrations to select'
+    )
+
+    parser.add_argument(
+        "--max_ra_len", type=int, default=12, help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=int, default=86, help="maximum number of reasoning chains"
     )
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/sorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/sorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
@@ -132,6 +141,8 @@ def main():
 
     start = time.time()
 
+    dataloader = create_dataloader(args)
+    
     if args.load_uncertainty_file and args.load_uncertainty_args_file: 
         with open(args.load_uncertainty_file, 'r', encoding="utf-8") as f:
             result = json.load(f)['result']
@@ -139,6 +150,7 @@ def main():
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
 
+        uncertainty_metric = uncertainty_args['sort_by']
         args_dict['generate_uncertainty_args'] = uncertainty_args
 
     else: 
@@ -149,7 +161,6 @@ def main():
         args_dict["temperature"] = args.temperature
         args_dict["dir_prompts"] = args.dir_prompts
 
-        dataloader = create_dataloader(args)
         prompts_list = create_prompts_inference(args)
 
         assert len(prompts_list) == 1
@@ -164,10 +175,26 @@ def main():
 
         result = generate_uncertainty_all_questions(args, dataloader, True, azure_llm_chain, openai_llm_chain)
 
+    # for i in range(2):
+    #     print(dataloader[i])
+    # sys.exit(0)
+
+    if 'zeroshotcot' in args.data_path:
+        zeroshot_uncertainty_ranked_data = []
+        for item in result:
+            selected_example = dataloader[item['question_idx']]
+            selected_example[uncertainty_metric] = item[uncertainty_metric]
+            zeroshot_uncertainty_ranked_data.append(selected_example)
+
+        result = filter_examples_with_labels(args, zeroshot_uncertainty_ranked_data, args.max_token_len, args.max_ra_len)
+        args_dict['max_token_len'] = args.max_token_len
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict["nr_filtered_examples"] = len(result)
+
     end = time.time()
 
     args_dict["execution_time"] = str(end - start) + " seconds"
-    
+
     with open(args.args_file, 'w') as f:
         json.dump(args_dict, f, indent=4)
 
@@ -175,18 +202,14 @@ def main():
     with open(f"{args.demos_save_dir}demos", 'w', encoding="utf-8") as write_f:
         json.dump(demos, write_f, indent=4, ensure_ascii=False)
         
+    # create a list with only the question indices and uncertainties
+    question_idx_uncertainties = []   
+
+    for item in result:
+        question_idx_uncertainties.append({'question_idx': item['question_idx'], uncertainty_metric: item[uncertainty_metric]})
+
     with open(args.uncertainty_scores_dir + 'uncertainties.txt', 'w') as f:
-        try:
-            f.write(json.dumps(result, indent=4))
-        except:
-            for item in result:
-                try:
-                    if args.dataset in ("gsm8k"):
-                        f.write(f"{item}, uncertainty: {len(item[-1])}, variance: {item[1]}\n")
-                    else:
-                        f.write(f"{item}, uncertainty: {len(item[-1])}\n")
-                except:
-                    pass
+        f.write(json.dumps(question_idx_uncertainties, indent=4))
 
     
     print('Active CoT finished!')

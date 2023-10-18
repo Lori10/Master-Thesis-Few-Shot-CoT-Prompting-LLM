@@ -1,0 +1,32 @@
+{
+    "demo": [
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "rationale": "A: Let's think step by step. First, we can simplify the second ratio by cross-multiplying to get z(y + x) = (y)(y + x), which simplifies to y^2 = zx. Next, we can substitute this expression for y^2 into the first ratio to get y/(x - z) = (y + x)/z = x/zx^(1/2). Simplifying this expression, we get y = x^(3/2)/(x - z) and z = x^(1/2)/(x - z). Now, we can substitute these expressions for y and z into the ratio y^2 : x : z to get x^(3/2)/(x - z)^2 : x : x^(1/2)/(x - z). Simplifying this expression, we get x^(5/2) : x(x - z)^2 : x^(3/2)(x - z). Cancelling out an x from each term, we get x^(3/2) : (x - z)^2 : x^(1/2). Now, we can substitute the expression for z from earlier (z = x^(1/2)/(x - z)) into this ratio to get x^(3/2) : (x - x^(1/2))^2 : x^(1/2). Simplifying this expression, we get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2). Finally, we can simplify the middle term by expanding the square and combining like terms to get x^(3/2) : (x^2 - 2x^(3/2) + x) : x^(1/2) = x^(3/2) : (x^2 - x^(3/2)) : x^(1/2) = x^(1/2) : (x - 1) : 1. Therefore, the answer is (E) none of these, since none of the given answer choices match the ratio x^(1/2) : (x - 1) : 1.",
+            "final_answer": "E",
+            "question_idx": 245,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75",
+            "rationale": "A: Let's think step by step. Sure, let's break down the problem. We know that the average temperature from Monday to Friday is 40. Let's call the sum of the temperatures for those five days \"S\". Then we can write: S/5 = 40 Multiplying both sides by 5, we get: S = 200 We also know that the lowest temperature is 30. Let's call the highest temperature \"H\". Then the range of temperatures is: H - 30 To find the maximum possible range, we need to find the maximum possible value of H. We know that the sum of the temperatures is 200, so: H + 4(40) = 200 Simplifying, we get: H = 40 So the maximum range of temperatures is: 40 - 30 = 10 Therefore, the answer is (A) 20.",
+            "final_answer": "A",
+            "question_idx": 703,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: A thief steals at a car at 4.30 p.m. and drives it at 60 km/hr. The theft is discovered at 3 p.m. and the owner sets off in another car at 75 km/hr. When will he overtake the thief? Answer Choices: (A) 1 p.m (B) 3 p.m (C) 4 p.m (D) 5 p.m (E) 7 p.m",
+            "rationale": "A: Let's think step by step. First, we need to find out how much time the thief has been driving before the owner sets off. The theft was discovered at 3 p.m. and the thief stole the car at 4.30 p.m., so the thief has been driving for 1.5 hours. Next, we need to find out how far the thief has traveled in 1.5 hours at 60 km/hr. Distance = Speed x Time, so distance = 60 km/hr x 1.5 hr = 90 km. Now, we can set up an equation to find out when the owner will overtake the thief. Let t be the time it takes for the owner to catch up to the thief. The distance the owner travels is the same as the distance the thief travels plus the 90 km the thief traveled before the owner set off. So: 75t = 90 + 60t Simplifying this equation, we get: 15t = 90 t = 6 So it will take the owner 6 hours to catch up to the thief. If the theft was discovered at 3 p.m., then the owner will catch up to the thief at 9 p.m. Therefore, the correct answer is None of the above.",
+            "final_answer": "D",
+            "question_idx": 734,
+            "entropy": 1.6094379124341005
+        },
+        {
+            "question": "Q: A jar full of whisky contains 40% alcohol. A part of this whisky is replaced by another containg 19% alcohol and now the percentage of alcohol was found to be 22%. What quantity of whisky is replaced ? Answer Choices: (A) 1/3 (B) 2/3 (C) 2/5 (D) 3/5 (E) 4/5",
+            "rationale": "A: Let's think step by step. Let's assume that the jar initially contains 100 units of whisky. Out of these 100 units, 40 units are alcohol. Let's say x units of whisky are replaced with the new whisky containing 19% alcohol. So, the amount of alcohol in the new mixture will be: 40 - 0.4x (alcohol in the original mixture) + 0.19x (alcohol in the new mixture) The total amount of whisky in the new mixture will be: 100 - x (original amount) + x (new amount) Now, we are given that the percentage of alcohol in the new mixture is 22%. So, we can set up the equation: (40 - 0.4x + 0.19x)/(100) = 0.22 Simplifying this equation, we get: x = 2/5 Therefore, 2/5 of the original amount of whisky is replaced with the new whisky containing 19% alcohol. So, the answer is (C) 2/5.",
+            "final_answer": "C",
+            "question_idx": 409,
+            "entropy": 1.6094379124341005
+        }
+    ]
+}

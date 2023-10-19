@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: A can complete a project in 20 days and B can complete the same project in 30 days. If A and B start working on the project together and A quits 15 days before the project is completed, in how many days total will the project be completed? Answer Choices: (A) 18 (B) 21 (C) 24 (D) 27 (E) 30\n\nA: The answer is B.\n\nQ: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these\n\nA: The answer is C.\n\nQ: On Wednesday, Kramer purchases exactly 3 new shirts, 2 new sweaters, and 4 new hats, On the following day and each subsequent day thereafter, Kramer wears one of his new shirts together with one of his new sweaters and one of his new hats. Kramer avoids wearing the exact same combination of shirt, sweater, and hat for as long as possible. On which day is this no longer possible? Answer Choices: (A) Tuesday (B) Wednesday (C) Thursday (D) Friday (E) Sunday\n\nA: The answer is E.\n\nQ: Two goods trains each 680 m long are running in opposite directions on parallel tracks. Their speeds are 45 km/hr and 30 km/hr respectively. Find the time taken by the slower train to pass the driver of the faster one? Answer Choices: (A) 228 (B) 65.28 (C) 48.32 (D) 27 (E) 21.1\n\nA: The answer is B.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.5039370078740157
+    },
+    {
+        "mean_accuracy": 0.5039370078740157
+    }
+]

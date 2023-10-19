@@ -21,7 +21,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/auto_active_kmeans/2023_10_18_12_29_05/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/auto/2023_10_02_10_40_53/demos", help="prompts to use"
     )
 
     parser.add_argument(
@@ -33,7 +33,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--method", type=str, default="standard", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(

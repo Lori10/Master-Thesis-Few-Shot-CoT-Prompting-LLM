@@ -23,7 +23,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        "--data_path", type=str, default="../datasets/original/AQuA/train.json",
         choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
                  "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
                  "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
@@ -38,7 +38,7 @@ def parse_arguments():
     )
     
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["standard", "zero_shot_cot", "cot"], help="method"
+        "--method", type=str, default="standard", choices=["standard", "cot"], help="method"
     )
     
     parser.add_argument(
@@ -142,11 +142,19 @@ def main():
 
     start = time.time()
     
-    train_examples = [{'question' : example['question'],
-                        'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
-                        } for example in train_dataloader]
+    if args.method == "cot":
+        train_examples = [{'question' : example['question'],
+                            'answer': example['rationale'] + f' The answer is {example["final_answer"]}' + '.\n'
+                            } for example in train_dataloader]
 
-    print(len(train_examples))
+    elif args.method == "standard":
+        train_examples = [{'question' : example['question'],
+                            'answer': f'The answer is {example["final_answer"]}' + '.\n'
+                            } for example in train_dataloader]
+
+    else:
+        raise NotImplementedError('Method not implemented')
+
     
     example_prompt = PromptTemplate(
     input_variables=["question", "answer"],
@@ -155,7 +163,6 @@ def main():
 
     encoder = initialize_embedding_model(args)
     
-    print("HERE")
     example_selector = SemanticSimilarityExampleSelector.from_examples(
         train_examples, 
         encoder, 
@@ -163,7 +170,6 @@ def main():
         k=args.nr_demos
     )
 
-    print('AFTER SEMANTIC')
     similar_prompt = FewShotPromptTemplate(
         example_selector=example_selector,
         example_prompt=example_prompt,
@@ -174,7 +180,6 @@ def main():
     args.data_path = args.test_data_path
     args.dataset_size_limit = args.test_dataset_size_limit
     test_dataloader = create_dataloader(args)
-    print(len(test_dataloader))
 
     build_prefix(args)
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."

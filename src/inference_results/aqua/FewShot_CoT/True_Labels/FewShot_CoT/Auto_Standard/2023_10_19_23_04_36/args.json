@@ -1,0 +1,15 @@
+{
+    "dataset": "aqua",
+    "dataset_size_limit": 254,
+    "data_path": "../datasets/original/aqua/test.json",
+    "random_seed": 1,
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "standard",
+    "output_dir": "inference_results/2023_10_19_23_04_36/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "585.0453290939331 seconds",
+    "dir_prompts": "labeled_demos/auto/2023_10_02_10_40_53/demos"
+}

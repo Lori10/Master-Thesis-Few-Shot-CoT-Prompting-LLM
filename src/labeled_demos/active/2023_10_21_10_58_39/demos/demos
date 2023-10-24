@@ -1,0 +1,36 @@
+{
+    "demo": [
+        {
+            "question": "Q: Last year a certain bond price with a face value of 5000 yielded 6% of its face value in interest. If that interest was approx 6.5 of the bond's selling price approx what was the bond's selling price? Answer Choices: (A) 4615 (B) 5325 (C) 5351 (D) 6000 (E) 6154",
+            "rationale": "A: Let's think step by step. First, we need to find out how much interest the bond yielded. We know that the face value of the bond is $5000 and the interest rate is 6%, so the interest earned is: $5000 x 0.06 = $300 Next, we need to use the information given in the problem to find the selling price of the bond. We know that the interest earned is approximately 6.5% of the selling price, so we can set up an equation: $300 = x x 0.065 where x is the selling price of the bond. Solving for x, we get: x = $4615.38 Therefore, the correct answer is (A) 4615.",
+            "final_answer": "A",
+            "question_idx": 800,
+            "entropy": 0.0,
+            "disagreement": 1
+        },
+        {
+            "question": "Q: A boy has nine trousers and 12 shirts. In how many different ways can he select a trouser and a shirt? Answer Choices: (A) 186 ways (B) 177 ways (C) 188 ways (D) 108 ways (E) 189 ways",
+            "rationale": "A: Let's think step by step. The boy can select one trouser out of nine in 9 ways. For each of these 9 ways, he can select one shirt out of 12 in 12 ways. Therefore, the total number of ways he can select a trouser and a shirt is 9 x 12 = 108 ways. Therefore, the correct answer is (D) 108 ways.",
+            "final_answer": "D",
+            "question_idx": 744,
+            "entropy": 0.0,
+            "disagreement": 1
+        },
+        {
+            "question": "Q: There are 6 people in the elevator. Their average weight is 170 lbs. Another person enters the elevator, and increases the average weight to 151 lbs. What is the weight of the 7th person. Answer Choices: (A) 37 (B) 168 (C) 189 (D) 190 (E) 200",
+            "rationale": "A: Let's think step by step. Step 1: Find the total weight of the 6 people in the elevator before the 7th person enters. Total weight of 6 people = 6 x 170 = 1020 lbs Step 2: Find the total weight of all 7 people in the elevator after the 7th person enters. Total weight of 7 people = 7 x 151 = 1057 lbs Step 3: Find the weight of the 7th person by subtracting the total weight of the 6 people from the total weight of all 7 people. Weight of the 7th person = Total weight of 7 people - Total weight of 6 people Weight of the 7th person = 1057 - 1020 Weight of the 7th person = 37 lbs Therefore, the answer is (A) 37.",
+            "final_answer": "A",
+            "question_idx": 898,
+            "entropy": 0.0,
+            "disagreement": 1
+        },
+        {
+            "question": "Q: How many seconds will a train 100 meters long take to cross a bridge 150 meters long if the speed of the train is 36 kmph? Answer Choices: (A) 28 sec (B) 23 sec (C) 24 sec (D) 25 sec (E) 26 sec",
+            "rationale": "A: Let's think step by step. First, we need to convert the speed of the train from kmph to m/s. 36 kmph = 36 * 1000 / 3600 m/s = 10 m/s Next, we need to find the total distance the train will cover while crossing the bridge. Total distance = length of train + length of bridge = 100 + 150 = 250 meters Now, we can use the formula: time = distance / speed time = 250 / 10 = 25 seconds Therefore, the answer is (D) 25 sec.",
+            "final_answer": "D",
+            "question_idx": 597,
+            "entropy": 0.0,
+            "disagreement": 1
+        }
+    ]
+}

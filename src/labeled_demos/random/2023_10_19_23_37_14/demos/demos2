@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question": "Q: Gary has 30 grams of gold that cost $15 per gram. Anna has 50 grams of gold for the cost of $20 per gram. How much is the cost of their gold combined?",
+            "rationale": "A: Let's think step by step.\nThe cost of Gary’s gold is 30 * $15 = $<<30*15=450>>450.\nThe cost of Anna’s gold is 50 * $20 = $<<50*20=1000>>1000.\nThe total cost of their gold is $450 + $1000 = $<<450+1000=1450>>1450.",
+            "final_answer": "1450",
+            "question_idx": 754
+        },
+        {
+            "question": "Q: Next year, there will be twice as many people going to the fair as are going this year, and the number of people who went to the fair last year was 200 less than those going next year. If the number of people going to the fair this year is 600, calculate the number of people at the fair in the three years.",
+            "rationale": "A: Let's think step by step.\nIf there are 600 people at the fair this year, the number going to the fair next year is 2*600 = <<2*600=1200>>1200.\nThe number of people at the fair this year and the ones going next year totals 1200+600 = <<1200+600=1800>>1800\nThe number of people who went to that fair last year was 200 less than those going next year, meaning there were 1200-200 = 1000 people at the fair last year.\nIn the three years, the number of people at the fair will be 1800 of this and next year + 1000 of last year = <<1800+1000=2800>>2800",
+            "final_answer": "2800",
+            "question_idx": 104
+        },
+        {
+            "question": "Q: Tonya has opened a lemonade stand selling lemonade in small, medium, and large cups at $1, $2 and $3 respectively. At the close of business she ended up making $50.  As she went back through her inventory she noticed that she sold $11 worth of small lemonades and $24 worth of medium lemonades. How many cups of large lemonade did Tonya sell?",
+            "rationale": "A: Let's think step by step.\n1. Tonya sold $11 worth of small lemonades and $24 worth of medium lemonades which makes $11 + $24= $<<11+24=35>>35 for small and medium lemonades.\n2. Tonya made a total of $50. If she made $35 selling the two smaller sizes and she sold three sizes in all then $50-$35= $<<50-35=15>>15 worth of large lemonades.\n3. The large lemonades sold for $3 each and Tonya sold $15 worth of large lemonades which means she sold $15/$3=<<15/3=5>>5 large cups of lemonade.",
+            "final_answer": "5",
+            "question_idx": 692
+        },
+        {
+            "question": "Q: Ryan's party was 4 times as huge as Taylor's birthday party. If both parties combined had 240 people, how many people were there at Ryan's party?",
+            "rationale": "A: Let's think step by step.\nTo get the number of people at Taylor's party, we'll assume there were n people at his party.\nThe total number of people at Ryan's party is 4*n, four times the number of attendees at Taylor's party.\nCombined, there were 4n+n = 240 people at both parties.\nThis translates to 5n=240.\nThe total number of people at Taylor's party is n=240/5\nThere were n=<<48=48>>48 people at Taylor's party.\nSince Ryan's party was 4 times as huge as Taylor's party, at Ryan's party, there were 48*4 = <<48*4=192>>192 people.",
+            "final_answer": "192",
+            "question_idx": 758
+        },
+        {
+            "question": "Q: The white rabbit can hop 15 meters in one minute. The brown rabbit hops 12 meters per minute. What is the total distance the two rabbits will hop in 5 minutes?",
+            "rationale": "A: Let's think step by step.\nWhite rabbit + brown rabbit = 15 + 12 = <<15+12=27>>27\n5 minutes * 27 = <<5*27=135>>135 meters\nThe two rabbits will hop 135 meters in 5 minutes.",
+            "final_answer": "135",
+            "question_idx": 913
+        },
+        {
+            "question": "Q: George and Harry want to fill a pool with buckets. George can carry two buckets each round, and Harry can carry three buckets each round. If it takes 110 buckets to fill the pool, how many rounds will it take to fill the pool?",
+            "rationale": "A: Let's think step by step.\nEach round 2+3=5 buckets will be filled.\nIt will take 110/5=<<110/5=22>>22 rounds.",
+            "final_answer": "22",
+            "question_idx": 558
+        },
+        {
+            "question": "Q: Mark is buying asphalt to pave a new section of road. The road will be 2000 feet long and 20 feet wide. Each truckload of asphalt will cover 800 square feet of road. If each truckload costs $75, and there's a 20% sales tax, how much will Mark need to pay for asphalt?",
+            "rationale": "A: Let's think step by step.\nFirst, calculate how many square feet of road Mark needs to cover by multiplying the length by the width: 2000 feet * 20 feet = <<2000*20=40000>>40,000 sq ft\nThen divide the square footage of road by the number of square feet each truckload will cover: 40,000 sq ft / 800 sq ft/truckload = <<40000/800=50>>50 truckloads\nNow multiply the number of truckloads by the cost per truckload: $75/truckload * 50 truckloads = $<<75*50=3750>>3750\nNow calculate the sales tax by multiplying $3750 by 20%: $3750 * .2 = $<<3750*.2=750>>750\nNow add the sales tax to the cost of the asphalt to find the total: $750 + $3750 = $<<750+3750=4500>>4500",
+            "final_answer": "4500",
+            "question_idx": 89
+        },
+        {
+            "question": "Q: Luigi bought four pizzas for $80.  Each pizza was cut into 5 pieces.  How much did each piece of pizza cost, in dollars?",
+            "rationale": "A: Let's think step by step.\n4 pizzas at $80 per pizza is $80/4 = $<<80/4=20>>20 per pizza.\nIf there were 5 pieces per pizza, then each piece was worth $20/5 = $<<20/5=4>>4.",
+            "final_answer": "4",
+            "question_idx": 604
+        }
+    ]
+}

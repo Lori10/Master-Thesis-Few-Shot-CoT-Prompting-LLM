@@ -1,0 +1,13 @@
+{
+    "sampling_method": "Random",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/original/gsm8k/train.jsonl",
+    "dataset_size_limit": 1000,
+    "training_set_random_seed": 1,
+    "method_random_seed": 42,
+    "nr_seeds": 2,
+    "nr_demos": 8,
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/random/2023_10_19_23_37_14/demos/",
+    "execution_time": "0.005974769592285156 seconds"
+}

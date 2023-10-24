@@ -1,0 +1,2101 @@
+{
+    "demo": [
+        {
+            "question": "Q: A can complete a project in 20 days and B can complete the same project in 30 days. If A and B start working on the project together and A quits 15 days before the project is completed, in how many days total will the project be completed? Answer Choices: (A) 18 (B) 21 (C) 24 (D) 27 (E) 30",
+            "question_idx": 119,
+            "rationale": "A: Let's think step by step.\nA's rate is 1/20 of the project per day.\nB's rate is 1/30 of the project per day.\nThe combined rate is 1/12 of the project per day.\nIn the last 15 days, B can do 1/2 of the project.\nThus A and B must complete 1/2 of the project, which takes 6 days.\nThe total number of days is 6 + 15 = 21.\nThe answer is B.",
+            "final_answer": "B",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "A": 1,
+                "E": 1,
+                "D": 1,
+                "C": 1,
+                "B": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A jar full of whisky contains 40% alcohol. A part of this whisky is replaced by another containg 19% alcohol and now the percentage of alcohol was found to be 22%. What quantity of whisky is replaced ? Answer Choices: (A) 1/3 (B) 2/3 (C) 2/5 (D) 3/5 (E) 4/5",
+            "question_idx": 409,
+            "rationale": "A: Let's think step by step.\nLet us assume the total original amount of whiskey = 10 ml ---> 4 ml alcohol and 6 ml non-alcohol.\nLet x ml be the amount removed ---> total alcohol left = 4-0.4x\nNew quantity of whiskey added = x ml out of which 0.19 is the alcohol.\nThus, the final quantity of alcohol = 4-0.4x+0.19x ----> (4-0.21x)/ 10 = 0.26 ---> x = 20/3 ml.\nPer the question, you need to find the x ml removed as a ratio of the initial volume ---> (20/3)/10 = 3/5.\nHence, D is the correct answer.",
+            "final_answer": "D",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "A": 1,
+                "-10086": 1,
+                "B": 1,
+                "C": 1,
+                "D": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Shawn invested one half of his savings in a bond that paid simple interest for 2 years (20% per anum) and received $600 as interest. He invested the remaining in a bond that paid compound interest, interest being compounded annually, for the same 2 years at the same rate of interest and received $655 as interest. What was the value of his total savings before investing in these two bonds? Answer Choices: (A) 3000 (B) 5000 (C) 6000 (D) 8000 (E) 9000",
+            "question_idx": 989,
+            "rationale": "A: Let's think step by step.\nSo, we know that Shawn received 20% of the amount he invested in a year. We also know that in one year Shawn received $300, thud 0.2x = $300 --> x = $1,500.\nSince, he invested equal sums in his 2 bonds, then his total savings before investing was 2*$1,500 = $3,000.\nAnswer: A",
+            "final_answer": "A",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "A": 1,
+                "E": 1,
+                "C": 1,
+                "No answer": 1,
+                "B": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: If the range of the set of numbers {150, 90, 125, 110, 170, 155, x, 100, 140} is 90, which of the following could be x? Answer Choices: (A) 80 (B) 95 (C) 110 (D) 125 (E) 140",
+            "question_idx": 521,
+            "rationale": "A: Let's think step by step.\nThe range of the other 8 numbers is 170-90 = 80, so x must be either the smallest number or the largest number in the set.\nThen x = 170-90 = 80 or x = 90+90 = 180\nThe answer is A.",
+            "final_answer": "A",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "E": 1,
+                "D": 1,
+                "B": 1,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: On Wednesday, Kramer purchases exactly 3 new shirts, 2 new sweaters, and 4 new hats, On the following day and each subsequent day thereafter, Kramer wears one of his new shirts together with one of his new sweaters and one of his new hats. Kramer avoids wearing the exact same combination of shirt, sweater, and hat for as long as possible. On which day is this no longer possible? Answer Choices: (A) Tuesday (B) Wednesday (C) Thursday (D) Friday (E) Sunday",
+            "question_idx": 324,
+            "rationale": "A: Let's think step by step.\nShirt combinations = 3!/1*(3-1)! = 3*2*1/1*2*1 = 3\nSweater combinations = 2!/1*(2-1)! = 2*1/1*1 = 2\nHat combinations = 4!/1!*(4-1)! = 4*3*2*1/1*3*2*1 = 4\nTotal Combinations = Shirt Combos*Sweater Combos*Hat Combos\n3*2*4=24 combinations\n24 / 7 (days of the week) = remainder of 3\nPurchased on Wednesday, 3rd day is Saturday. Next day, which he won't have a new combination for, is Sunday. (E)",
+            "final_answer": "E",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "E": 1,
+                "C": 1,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A farmer is having a total of 20 fruits (apples or oranges). He made two type packets with these fruits. All the fruits are in either apple packets of orange packets. Apple Packets contain 3 apples each and Orange packets contain 2 oranges each.\nIf |apple packets| < 4\nThen How many packets of apples the farmer can have. When number of apple and orange packets are both positive integers above zero. Answer Choices: (A) 2 (B) 3 (C) 4 (D) 7 (E) 6",
+            "question_idx": 662,
+            "rationale": "A: Let's think step by step.\nLet us start by understand the meaning of 4 > |Number of Apples|\n1) when we write |-x| this means the same as |x|.\n2) Mod is very easy concept if you solve mod question by considering as a distance. when a mod is written as |x-(a)| = b, this means the distance from point 'a' (both side left and right of 'a' on number line) is b. |x-(a)| < b means the distance is between the two extreme distance(left and right side of 'a' on number line, considering the max distance is 'b' from 'a' - as per this scenario.....hence the value of 'a' must be between these two extremes. |x-(a)| > b means the distance is greater than the distance of 'b'..i.e the value of a could be anywhere more than 'b'.\nNow come to the question. Let number of apple packets be ‘a’ and number of oranges packets be ‘b’. First its given |a| < 4 ==> |a-0| < 4 ==> the distance from zero is less than 4. So the point ‘a’ will be -3,-2,-1,0,1,2,3 as distance from 0 to these values is less than 4. Number of apple packets is above zero so possible values of ‘a’ left are 1,2,3.\nAs per the given information there are total of 20 fruits and they are in packets (3 per packet for apples and 2 per packets for oranges) so we can write it as follows:\n3a + 2b = 20 ==> b = 10 – (3*a)/2. If b is an integer then ‘a’ must be divisible by 2. If we take only those values of ‘a’ that are divisible by 2 then we are left with 2 only. So there are two packets of apples. If there are two packets of apples then b = 10 – (3*2)/2 ==> b = 7. So we have 7 packets of oranges and 2 packets of apples. So A is the answer. 7 packets (2 orange each) and 2 packets of apples (3 apples each) make 20 fruits in total.",
+            "final_answer": "A",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "C": 1,
+                "-10086": 1,
+                "B": 1,
+                "A": 1,
+                "E": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: A thief steals at a car at 4.30 p.m. and drives it at 60 km/hr. The theft is discovered at 3 p.m. and the owner sets off in another car at 75 km/hr. When will he overtake the thief? Answer Choices: (A) 1 p.m (B) 3 p.m (C) 4 p.m (D) 5 p.m (E) 7 p.m",
+            "question_idx": 734,
+            "rationale": "A: Let's think step by step.\nE\n7 p.m\nSuppose the thief is overtaken x hrs after 4.30 p.m.\nThen, distance covered by the owner in (x - 1/2) hrs.\n60x = 75(x - 1/2) => x = 5/2 hrs.\nSo, the thief is overtaken at 7 p.m.",
+            "final_answer": "E",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "No answer": 1,
+                "-10086": 1,
+                "D": 1,
+                "B": 1,
+                "C": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Number of ways in which the letters of word PARDENS can be arranged with vowels in alphabetical order, is Answer Choices: (A) 360 (B) 240 (C) 2520 (D) 480 (E) None of these",
+            "question_idx": 937,
+            "rationale": "A: Let's think step by step.\nSolution\nOrder of vowels of fixed\nâˆ´ required number of ways are 7!/2!.\nAnswer C",
+            "final_answer": "C",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "C": 1,
+                "A": 1,
+                "D": 1,
+                "B": 1,
+                "E": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75",
+            "question_idx": 703,
+            "rationale": "A: Let's think step by step.\nAverage=40, Sum of temperatures=40*5=200\nAs the min temperature is 30, max would be 200-4*30=80 --> The range=80(max)-30(min)=50\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "E": 1,
+                "-10086": 1,
+                "A": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these",
+            "question_idx": 245,
+            "rationale": "A: Let's think step by step.\nGiven, y/(x - z) = (y + x)/z\nyz = xy + x2- yz - xz .. (1)\nAlso (x/y) = (y/(x - z)) => x2 - xz = y2 .. (2)\nUsing (1) and (2), we get yz = xy - yz + y2\n2yz = xy + y2\n2z = x + y\nOnly option (c) satisfies the equation\nANSWER:C",
+            "final_answer": "C",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "A": 1,
+                "E": 1,
+                "-10086": 1,
+                "C": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Three friends-whose walking rates are 1 ft./sec., 3ft./sec.,and 6ft./sec. start together walking in the same direction around a circular track that is 420 feet in circumference.After how many minutes are the three of them together again? Answer Choices: (A) 5 mins (B) 10 mins (C) 15 mins (D) 3 mins (E) 7 mins",
+            "question_idx": 364,
+            "rationale": "A: Let's think step by step.\nThe time they take will be what the 1st friend takes to complete one circumference as he is the slowest and that is the point all 3 of them will be together at the end of 7 mins.\nE",
+            "final_answer": "E",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "-10086": 1,
+                "E": 1,
+                "A": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: Two goods trains each 680 m long are running in opposite directions on parallel tracks. Their speeds are 45 km/hr and 30 km/hr respectively. Find the time taken by the slower train to pass the driver of the faster one? Answer Choices: (A) 228 (B) 65.28 (C) 48.32 (D) 27 (E) 21.1",
+            "question_idx": 356,
+            "rationale": "A: Let's think step by step.\nRelative speed = 45 + 30 = 75 km/hr.\n75 * 5/18 = 125/6 m/sec.\nDistance covered = 680 + 680 = 1360 m.\nRequired time = 1360 * 6/125 = 65.28 sec.\nAnswer:B",
+            "final_answer": "B",
+            "entropy": 1.6094379124341005,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "-10086": 1,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 5
+        },
+        {
+            "question": "Q: courtyard 3.78 meters long 5.95 meters wide is to be paved exactly with square tiles, all of the same size. what is the largest size of the tile which could be used for the purpose? Answer Choices: (A) 22 (B) 77 (C) 877 (D) 99 (E) 88",
+            "question_idx": 241,
+            "rationale": "A: Let's think step by step.\n3.78 meters =378 cm = 2 × 3 × 3 × 3 × 7\n5.25 meters=525 cm = 5 × 5 × 3 × 7\nHence common factors are 3 and 7\nHence LCM = 3 × 7 = 21\nHence largest size of square tiles that can be paved exactly with square tiles is 77 cm.\nAnswer:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "No answer": 1,
+                "-10086": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The average salary/head of all the workers ina workshop is Rs.850, if the average salary/head of 7technician is Rs.1000 and the average salary/head of the rest is Rs.780, the total no. of workers in the work-shop is ? Answer Choices: (A) 18 (B) 20 (C) 22 (D) 23 (E) 25",
+            "question_idx": 926,
+            "rationale": "A: Let's think step by step.\nLet the total number of workers be y.\nSo sum of salary for all workers = sum of salary of 7 technician + sum of salary for other y -7 workers.\n7 x 1000 + 780(y -7) = 850 y\n⇒ 7000 + 780y - 5460 = 850y\n⇒ 70y = 1540\n∴ y = 22\nSo total number of workers = 22\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "B": 1,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Of the 600 residents of Clermontville, 35% watch the television show Island Survival, 40% watch Lovelost Lawyers and 50% watch Medical Emergency. If all residents watch at least one of these three shows and 18% watch exactly 2 of these shows, then how many Clermontville residents B watch all of the shows? Answer Choices: (A)  150 (B)  108 (C)  42 (D)  21 (E)  -21",
+            "question_idx": 136,
+            "rationale": "A: Let's think step by step.\nOA is D.\n100= A+B+C-AB-AC-BC+ABC, which is the same as the following formula\n100= A+B+C+(-AB-AC-BC+ABC+ABC+ABC)-2ABC.\nThe term between parantheses value 18% so the equation to resolve is\n100=35+40+50-18-2ABC\ntherefore the value of ABC is 3.5% of 600,B is 21. D is the correct answer",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "A": 1,
+                "C": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Ayesha's father was 38 years of age when she was born while her mother was 36 years old when her brother six years younger to her was born. What is the difference between the ages of her parents? Answer Choices: (A) 2 years (B) 4 years (C) 6 years (D) 7 years (E) 8 years",
+            "question_idx": 799,
+            "rationale": "A: Let's think step by step.\nMother's age when Ayesha's brother was born = 36 years.\nFather's age when Ayesha's brother was born = (38 + 6) years = 44 years.\nRequired difference = (44 - 36) years = 8 years.\nAnswer: Option E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "E": 2,
+                "B": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: There were 36,000 hardback copies of a certain novel sold before the paperback version was issued. From the time the first paperback copy was sold until the last copy of the novel was sold 9 times as many paperback copies as hardback copies were sold. If a total of 440,000 copies of the novel were sold in all, how many paperback copies were sold? Answer Choices: (A) 45,000 (B) 360,000 (C) 364,500 (D) 363,600 (E) 396,900",
+            "question_idx": 584,
+            "rationale": "A: Let's think step by step.\nSay x was the # of hardback copies sold from the time the first paperback copy was sold.\nThen the total # of paperback copies sold was 9x;\nHence the total # of copies sold was (hardback)+(paperback)=(36+x)+(9x)=440--> x=40.4.\nSo, the total # of paperback copies sold was 9x=9*40.4=363.6 or 363,600.\nAnswer: D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "E": 1,
+                "D": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Nails and screws are manufactured at a uniform weight per nail and a uniform weight per screw. If the total weight of one screw and one nail is half that of 6 screws and one nail, then the total weight of 3 screws, and 3 nails is how many times that of 5 screws and 1 nails? Answer Choices: (A) a. 4 (B) b. 5/2 (C) c. 2 (D) d. 3/2 (E) e. 5/4",
+            "question_idx": 643,
+            "rationale": "A: Let's think step by step.\nlet the weight of nail be n and that of screw be s..\nso s+w=1/2 * (6s+1n)...\nor 1n = 4s..\nlets see the weight of 3 s and 3n= 3s+3*4s=15s..\nand weight of 5s and 1n= 5s+1*5s=10s..\nratio= 15s/10s=15/10=3/2\nD",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "C": 1,
+                "D": 2,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A boat having a length 3 m and breadth 2 m is floating on a lake. The boat sinks by 1.2 cm when a man gets on it. The mass of man is Answer Choices: (A) 72 kg (B) 60 kg (C) 72 kg (D) 96 kg (E) None",
+            "question_idx": 428,
+            "rationale": "A: Let's think step by step.\nSolution\nVolume of water displaced\t= (3 x 2 x 0.012)m3\n= 0.072 m3.\nMass of man\t=Volume of water displaced ×Density of water\n= (0.072×1000) kg\n= 72 kg.\nAnswer A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "B": 2,
+                "-10086": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A dishonest dealer professes to sell goods at the cost price but uses a false weight and gains 25%. Find his false weight age? Answer Choices: (A) 228 (B) 267 (C) 800 (D) 297 (E) 127",
+            "question_idx": 221,
+            "rationale": "A: Let's think step by step.\n25 = E/(1000 - E) * 100\n1000 - E = 4E\n1000 = 5E => E = 200\n1000 - 200 = 800\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 2,
+                "-10086": 1,
+                "B": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A farm is made up of brown and white goats. the number of male brown goats is 35% less than the total number of brown goats. The total number of female goats is 20 times more than the number of female brown goats. If the total population of male goats is half the population of the female goats, what percentage of male goats are brown? Answer Choices: (A) 30.1 (B) 20.5 (C) 15.2 (D) 10.2 (E) 28.6",
+            "question_idx": 970,
+            "rationale": "A: Let's think step by step.\nSince we are dealing in percentage let us pick 100 as the number of brown male goats.\nThat means that the total number of brown goats is= 135 (number of male brown goats is 35% less than the total number of brown goats),\ntherefore the number of brown female goats is 35.\nThe total number of female goats is 15x the number of brown female goats= 35*20=700 female goats.\nMale goats total population is half the population of the female goats = 700/2=350\nTherefore percentage of male horses goats that are brown= 100/350*100=28.6\nCorrect option is E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "A": 1,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a class of 30 students, 5 students did not borrow any books from the library, 12 students each borrowed 1 book, 8 students each borrowed 2 books, and the rest of the students each borrowed at least 3 books. If the average (arithmetic mean) number of books borrowed per student was 2, what is the maximum number of books that any single student could have borrowed ? Answer Choices: (A) 5 (B) 8 (C) 15 (D) 18 (E) 20",
+            "question_idx": 226,
+            "rationale": "A: Let's think step by step.\nThe average number of books per student was 2means that total of 2*30=60 books were borrowed;\n5+12+8=25 students borrowed total of 5*0+12*1+8*2=28 books;\nSo 60-28=32 books are left to distribute among 30-25=5 students, these 5 arethe rest who borrowed at least 3 books;\nTomaximizethe number of books one student from above 5 could have borrowed we shouldminimizethe number of books other 4 students from 5 could have borrowed. Minimum these 4 students could have borrowed is 3 books per student, so total number of books they could have borrowed is 4*3=12 books. So the 5th student could have borrowed is 32-12=20 books.\nAnswer: E.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "C": 1,
+                "D": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: When Robert discontinued his retainer-ship contract with a Pvt Company, management held his fees Rs. 15000/- for one month. Earlier Robert had completed a work worth fees of 7280/- from company, which was still not paid. But Robert forgot that. After one month Robert asked his fees and accountant gives Rs.18500/- to him. What is the incentive amount given to Robert? Answer Choices: (A) A) 9500 (B) B) 12500 (C) C) 10780 (D) D) 10500 (E) E) 8600",
+            "question_idx": 564,
+            "rationale": "A: Let's think step by step.\nTotal fees = Rs.15000/-\nEarlier fees not paid = 7280/-\nBalance Salary = 15000-7280= 7720\nPaid amount = 18500/-\nIncentive amount = 18500-7720 = 10780/-\nAnswer is C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "A": 1,
+                "B": 2,
+                "No answer": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: When sold at a 60% discount, a sweater nets the merchant a 35% profit on the wholesale cost at which he initially purchased the item. By what % is the sweater marked up from wholesale at its normal retail price? Answer Choices: (A) 20% (B) 40% (C) 50% (D) 70.38% (E) 100%",
+            "question_idx": 392,
+            "rationale": "A: Let's think step by step.\nwe should be careful about what are we measuring % on/what is the base..\nlet the Marked up price =100..\nSelling price= 100-60%of 100=40..\nprofit= 35%..\ntherefore the wholesale purchase cost= x.... 1.35x=40\nor x=29.62...\nmarked price was 100 so ...\nso answer is 70.38%..\nD",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "E": 2,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: the perimeter of an equilateral triangle is 45.if one of the side is the side of an isoceles triangle of perimeter 40 then what is the lenght of base of isoceles triangle. Answer Choices: (A) 10 units (B) 20 units (C) 30 units (D) 40 units (E) 15 units",
+            "question_idx": 236,
+            "rationale": "A: Let's think step by step.\nbase of isoceles triangle is 40-15-15= 10 units.\nANSWER:A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "E": 1,
+                "-10086": 1,
+                "No answer": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A will states that the estate would be divided among six sons with the remainder donated to charity. One stipulation in the will is that no one among the sons can receive an amount within 12% of another's amount. If one of the beneficiaries received $30,000, what is the smallest possible range between the highest and lowest amounts (rounded to the nearest dollar) among the six sons? Answer Choices: (A) $4096 (B) $14043 (C) $7892 (D) $17736 (E) $15336",
+            "question_idx": 806,
+            "rationale": "A: Let's think step by step.\n1st - 30,000.\n2nd - 0.88*30,000 = 26,400\n3rd - 0.88*26,400 = 23,232\n4th - 0.88*23,232 = 20,444.16\n5th - 0.88*20,444.16 = ~17,990.86\n6th - 0.88*17,990.86 = ~15,831.96\nRange = 30,000 - 15,831 = 14,168\nAnswer: B.",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "A": 1,
+                "B": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two taps can separately fill a cistern 10 minutes and 15 minutes respectively and when the waste pipe is open, they can together fill it in 18 minutes. The waste pipe can empty the full cistern in? Answer Choices: (A) 5 (B) 6 (C) 7 (D) 9 (E) 1",
+            "question_idx": 628,
+            "rationale": "A: Let's think step by step.\n1/10 + 1/15 - 1/x = 1/18\nx = 9\nAnswer: D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "A": 1,
+                "B": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The captain of a cricket team of 11 members is 26 years old and the wicket keeper is 3 years older. If the ages of these two are excluded, the average age of the remaining players is one year less than the average age of the whole team. Find out the average age of the team. Answer Choices: (A) 20 (B) 21 (C) 22 (D) 23 (E) 25",
+            "question_idx": 833,
+            "rationale": "A: Let's think step by step.\nNumber of members in the team = 11\nLet the average age of of the team = x\n=> (Sum of ages of all 11 members)/11=x\n=> Sum of the ages of all 11 members = 11x\nAge of the captain = 26\nAge of the wicket keeper = 26 + 3 = 29\nSum of the ages of 9 members of the team excluding captain and wicket keeper\n=11x−26−29=11x−55\nAverage age of 9 members of the team excluding captain and wicket keeper\n=(11x−55)/9\nGiven that (11x−55)/9=(x−1)\n⇒11x−55=9(x−1)\n⇒11x−55=9x−9\n⇒2x=46\n⇒x=46/2\n=23 years\nAnswer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "E": 1,
+                "-10086": 1,
+                "C": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a game, a person is declared winner, if he gets 4 consecutive tails in five throws of a coin. What is the probability of A to win if he has got a tail in the first throw? Answer Choices: (A) 1/5 (B) 1/4 (C) 1/8 (D) 1/16 (E) 1/6",
+            "question_idx": 190,
+            "rationale": "A: Let's think step by step.\nFirst throw = Tails\nFor a person to win, the next 3 throws must be tails and the 5th throw can be heads or tails. i.e. TTTTH or TTTTT\nSo the person can win in 2 ways if the first throw is Tails.\nTotal number of outcomes for the next 4 throws = 2^4 = 16\nProbability = 2/16 = 1/8\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "C": 1,
+                "A": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: When 2/3 of the garments in the shipment were inspected, 18 of the garments passed inspection and the remaining 2 garments failed. How many of the uninspected garments must pass inspection in order that 70 percent of the garments in the shipment pass? Answer Choices: (A) 10 (B) 3 (C) 8 (D) 7 (E) 5",
+            "question_idx": 72,
+            "rationale": "A: Let's think step by step.\nB = 9\n2/3x= 20\nx=30\nfor 90% approval we need 21 garments approved.\nalready approved = 18\nwe need 3 more.\nAnswer : B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "-10086": 1,
+                "C": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If 10^(v-1)< 0.000125 <10^v, what is the value of an integer v? Answer Choices: (A) -4 (B) -3 (C) -2 (D) 3 (E) 4",
+            "question_idx": 690,
+            "rationale": "A: Let's think step by step.\n-> Multiply 10^6- > (10^6){10^(v-1)}<125<(10^6)(10^v) -> 125 is bigger than 100\n-> (10^6)(10^(v-1))=100 -> 10^(6+v-1)=10^2, v+5=2 -> v=-3\nThus, the answer is B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "D": 1,
+                "A": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A dog is tied to a tree by a long nylon cord. If the dog runs from the due North side of the tree to the due South side of the tree with the cord extended to its full length at all items, and the dog ran approximately 30 feet, what was the approximate length of the nylon cord, in feet? Answer Choices: (A) 30 (B) 25 (C) 15 (D) 10 (E) 5",
+            "question_idx": 532,
+            "rationale": "A: Let's think step by step.\nBecause the cord was extended to its full length at all items, the dog ran along a semi-circular path, from north to south.\nThe circumference of a full circle is 2*pi*r, but since we only care about the length of half the circle, the semi-circle path is pi*r.\npi*r = 30. Round pi = 3, then r = 10.\nChord is about 10 feet long\nANSWER:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "A": 2,
+                "-10086": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Certain number of worms are placed in a container. The number of worms increases by three times every day and the container is completely filled with worms in 12 days. On what day, the worms were\n1/3rd of the container ? Answer Choices: (A) 9 days (B) 3 days (C) 4 days (D) 11 days (E) 14 days",
+            "question_idx": 188,
+            "rationale": "A: Let's think step by step.\nAs every day the worms increases by 3 times\n1/3 × 3 = 1 [full]\nTherefore on 11th day\nOption D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "C": 1,
+                "D": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Kim finds a 2-meter tree branch and marks it off in thirds and fifths. She then breaks the branch along all the markings and removes one piece of every distinct length. What fraction of the original branch remains? Answer Choices: (A) 3/5 (B) 2/5 (C) 7/5 (D) 1/2 (E) 8/15",
+            "question_idx": 945,
+            "rationale": "A: Let's think step by step.\n3 pieces of 1/5 length and two piece each of 1/15 and 2/15 lengths. removing one piece each from pieces of each kind of lengths the all that will remain will be\n2 pieces of 1/5 i.e 2/5, 1 piece of 1/15, and 1 piece of 2/15\nWhich gives us 2/5 + 1/15 + 2/15 -----> 3/5\nAnswer is A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "D": 2,
+                "A": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A certain store sold pens for $0.35 each and pencils for $0.25 each. If a customer purchased both pens and pencils from the store for a total of $3.50, what total number of pens and pencils did the customer purchase? Answer Choices: (A) 8 (B) 9 (C) 10 (D) 11 (E) 12",
+            "question_idx": 558,
+            "rationale": "A: Let's think step by step.\nAnswer: Algebraically, the question looks like this: 2.5 = 0.35x + 0.25y There are six possible numbers of pens that fit that requirement:\n1 pen: $0.35\n2 pens: $0.70\n3 pens: $1.05\n4 pens: $1.40\n5 pens: $1.75 balance can fetch 7 pencils for $0.25 each. That's 5 pens and 7 pencils for a total of 12 pens and pencils. Choice (E) is correct.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "C": 2,
+                "D": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In the formula V = 1/(2r)^2, if r is halved, then V is multiplied by Answer Choices: (A) 2 (B) 8 (C) 1 (D) 1/8 (E) 1/64",
+            "question_idx": 782,
+            "rationale": "A: Let's think step by step.\nSay r=2 => V1 = 1/16\nwhen r=1; V2 = 1/4\nV2 = 2*V1.\nAnswer=A=2",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "B": 1,
+                "C": 1,
+                "A": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The “length of integer x” refers to the number of prime factors, not necessarily distinct, that x has. (If x = 60, the length of x would be 4 because 60 = 2 × 2 × 3 × 5.) What is the greatest possible length of integer z if z < 1,000? Answer Choices: (A) 13 (B) 10 (C) 9 (D) 7 (E) 6",
+            "question_idx": 145,
+            "rationale": "A: Let's think step by step.\nTo maximize the length of z, we should minimize its prime base. The smallest prime is 2 and since 2^9 = 512 <1,000, then the greatest possible length of integer z is 9.\nThe answer is C.",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 1,
+                "A": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Richard has to paint a mural with seven horizontal stripes. He only has enough paint for four red stripes, four blue stripes, four white stripes. If his patron wants at most two different colors in the mural, how many different ways can he paint the wall? Answer Choices: (A) 210 (B) 350 (C) 700 (D) 2,520 (E) 5,040",
+            "question_idx": 328,
+            "rationale": "A: Let's think step by step.\nNumber of ways to choose 2 colors among 3 - 3c2\nNumber of ways that the chosen colors can be painted for 7 horizontal stripes - 2 (either (4,3) or (3,4))\nNow the order,\nthe number of ways in which a particular color among the 2 chosen colors can be painted for 4 stripes is - 7c4\n[Note: We don't need to calculate the ways for the remaining 3 stripes as they are obvious and already counted under this]\nTotal number of combinations - 3c2 * 2* 7c4 = 210\nA",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "C": 1,
+                "B": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A group of 55 adults and 70 children go for trekking. If there is meal for either 70 adults or 90 children and if 28 adults have their meal, find the total number of children that can be catered with the remaining food. Answer Choices: (A) 42 (B) 54 (C) 90 (D) 70 (E) 80",
+            "question_idx": 726,
+            "rationale": "A: Let's think step by step.\nExplanation:\nAs there is meal for 70 adults and 28 have their meal, the meal left can be catered to 42 adults.\nNow, 70 adults = 90 children\n7 adults = 9 children\nTherefore, 42 adults = 54 children\nHence, the meal can be catered to 54 children\nANSWER B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "-10086": 2,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A mixture of 85 kg contains milk and water in the ratio 27 : 7. How much more water is to be added to get a new mixture containing milk and water in the ratio 3:1? Answer Choices: (A) 5 kg (B) 6.5 kg (C) 7.5 kg (D) 8 kg (E) 9 kg",
+            "question_idx": 234,
+            "rationale": "A: Let's think step by step.\nMilk in 85 kg of mix = 85* (27/34) = 135/2 kg.\nWater in it = 85-135/2 = 35/2 kg.\nLet x kg of water be added to it.\nThen, (135/2)/(35/2 + x) = 3/1; 135/(35 +2x) = 3/1;\n105 + 6x = 135 ; 6x = 30; x = 5\nThe quantity of water to be added = 5 kg\nANSWER:A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "A": 2,
+                "C": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A report consists of 20 sheets each of 55 lines and each such line consist of 65 characters. This report is retyped into sheets each of 65 lines such that each line consists of 70 characters. The percentage reduction in number of sheets is closest to Answer Choices: (A) 20 (B) 5 (C) 30 (D) 35 (E) 67",
+            "question_idx": 17,
+            "rationale": "A: Let's think step by step.\nExplanation :\nTotal no of characters= 20 * 55 * 65.\nFrom the problem it is clear that 20 * 55 * 65 = x * 65 * 70.\nwe get x= 15.6 ∼ 16 because these are sheets.\ntherefore 4 less sheets.\nHencde, there is 20% decrease in number of sheets.\nAnswer : A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "E": 1,
+                "-10086": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A club with a total membership of 25 has formed 3 committees, M, S and R, which have 8, 12 and 5 members respectively. If no members of committee M is on either of the other 2 committees, what is the greatest possible number of members in the club who are on none of the committees? Answer Choices: (A) 5 (B) 7 (C) 8 (D) 10 (E) 12",
+            "question_idx": 432,
+            "rationale": "A: Let's think step by step.\nAs no member of committee M is on either of the other 2 committees then 25-M=25-8=17 people are on committee S, committee R or on none of the committee. We want to maximize the last group: members in the club who are on none of the committees\nGeneral rule for such kind of problems:\nto maximize one quantity, minimize the others;\nto minimize one quantity, maximize the others.\nSo we should minimize total # of people who are on committee S and committee R. Now if ALL 5 people who are the members of committee R are also the members of committee S (if R is subset of S) then total # members of committee S and committee R would be minimized and equal to 12. Which means that 17-12=5 is the greatest possible number of members in the club who are on none of the committees.\nAnswer: A.",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "A": 1,
+                "-10086": 2,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A closed cylindrical tank contains 36 pie cubic feet of water and its filled to half its capacity. When the tank is placed upright on its circular base on level ground, the height of water in the tank is 4 feet. When the tank is placed on its side on level ground, what is the height, in feet, of the surface of the water above the ground? Answer Choices: (A) 0 feet (B) 1 feet (C) 2 feet (D) 3 feet (E) 4 feet",
+            "question_idx": 758,
+            "rationale": "A: Let's think step by step.\n36 pie cubic feet of water and its filled to half tank's capacity...\nvolume of tank = 72 Pie cubic feet\nheight of tank = 4*2 = 8 feet ( since tank is placed upright on its circular base on level ground, the height of water in the tank is 4 feet.)\n72 pie = pie * r2*8\nr2=9\nr = 3 feet\nANSWER:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "C": 2,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A paint crew gets a rush order to paint 80 houses in a new development. They paint the first y houses at a rate of x houses per week. Realizing that they'll be late at this rate, they bring in some more painters and paint the rest of the houses at the rate of 1.25x houses per week. The total time C it takes them to paint all the houses under this scenario is what fraction of the time it would have taken if they had painted all the houses at their original rate of x houses per week? Answer Choices: (A)  0.8(80 – y)  (B)  0.8 + 0.0025y (C)  80/y – 1.25 (D)  80/1.25y (E)  80 – 0.25y",
+            "question_idx": 31,
+            "rationale": "A: Let's think step by step.\nThis may be a case of bad numberpicking but it worked for me.\n80 houses. Let's say that y=40 houses are painted at the rate x=10 houses per week <=> 1/10 week per house. 40*1/10 = 4 houses per week will be painted at this rate.\n80-y = 80-40 = 40 houses are to be painted at the faster rate. X*1,25=12,5 houses per week <=> 1/12,5 weeks per house * 40 houses = 40/12,5 = 80/25 = 320/100 = 3,2 weeks.\nWhich means finishing all houses at normal rate C=> 2*4 = 8 weeks. Faster rate = 4+3,2 = 7,2 weeks.\n7,2/8 = 9/10 = 0,9. Insert y=40 in equations and it is clear that only (B) gives us 0,9.",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "B": 1,
+                "C": 2,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: you need to pict any number from 1, 3,5,7,9,11,13 and 15 to make below equation true.\n()+()+()=30\ncan you solve it? Answer Choices: (A) 7+15+9 (B) 6+15+9 (C) 6+14+9 (D) 6+15+8 (E) 8+15+9",
+            "question_idx": 815,
+            "rationale": "A: Let's think step by step.\nCorrect Answer : B\n3x+15+9=30\n3x =3*2*1 =6\ntherefore :- 6+15+9= 30",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "No answer": 1,
+                "D": 1,
+                "-10086": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In the xy-coordinate plane, the graph of y = -x^2 + 9 intersects line L at (p,4) and (t,-7). What is the least possible value of the slope of line L? Answer Choices: (A) 6 (B) 2 (C) -2 (D) -6 (E) -5.5",
+            "question_idx": 918,
+            "rationale": "A: Let's think step by step.\nWe need to find out the value of p and L to get to the slope.\nLine L and Graph y intersect at point (p,5). hence, x= p and Y=5 should sactisfy the graph. soliving\n5 = -p2 +9\np2 = 4\np = + or - 2\nsimillarly point (t,-7) should satisfy the equation. hence x=t and Y=-7.\n-7 = -t2+9\nt = +or - 4\nconsidering p = -2 and t =4, the least slope is (-7-4)/(4-2) = -5.5\nIMO option E is correct answer.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "-10086": 1,
+                "E": 1,
+                "C": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The average expenditure of a labourer for 6 months was 75 and he fell into debt. In the next 4 months by reducing his monthly expenses to 60 he not only cleared off his debt but also saved 30. His monthly income i Answer Choices: (A) 70 (B) 72 (C) 75 (D) 78 (E) 80",
+            "question_idx": 860,
+            "rationale": "A: Let's think step by step.\nIncome of 6 months = (6 × 75) – debt\n= 450 – debt\nIncome of the man for next 4 months\n= 4 × 60 + debt + 30\n= 270 + debt\n∴ Income of 10 months = 720\nAverage monthly income = 720 ÷ 10 = 72\nAnswer B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "E": 1,
+                "D": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Eleven bags are bought for Rs.1000 and sold at 10 for Rs.1500. What is the gain or loss in percentage? Answer Choices: (A) 10% (B) 21% (C) 26% (D) 20% (E) None of these",
+            "question_idx": 698,
+            "rationale": "A: Let's think step by step.\nExplanation:\nAs selling price is Rs.1500 for 10 bags, each bag is sold at Rs.150.\nHence, the profit is Rs.100 after selling 10 bags plus the selling price of 1 bag = 100 + 150 = Rs.260.\n%profit = 260/1000 *100\n= 26%\nANSWER C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "B": 1,
+                "-10086": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a division sum, the divisor is ten times the quotient and five times the remainder. If the remainder is 20, the dividend is: Answer Choices: (A) 1000 (B) 1200 (C) 1020 (D) 100 (E) 120",
+            "question_idx": 503,
+            "rationale": "A: Let's think step by step.\nDivisor = (5 * 20) = 100\n= 10 * Quotient = Divisor\n=> Quotient = 100/10 = 10\nDividend = (Divisor * Quotient) + Remainder\nDividend = (100* 10) + 20 = 1020.\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "B": 1,
+                "-10086": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: There are 720 male and female participants in a meeting. Half the female participants and one-quarterof the male participants are Democrats. One-third of all the participants are Democrats. How many of the Democrats are female? Answer Choices: (A) 75 (B) 100 (C) 120 (D) 175 (E) 225",
+            "question_idx": 355,
+            "rationale": "A: Let's think step by step.\nLet m be the number of male participants and f be the number of female articipants in the meeting. Thetotal number of participants is given as 720.\nHence, we have m+f= 720\nNow, we have that half the female participants and one-quarter of the male participants are Democrats.\nLet d equal the number of the Democrats.\nThen we have the equation f/2 + m/4 =d\nNow, we have that one-third of the total participants are Democrats. Hence, we have the equation\nd = 720/3 = 240\nSolving the three equations yields the solution\nf = 240,m= 480, and d= 240.\nThe number of female democratic participants equals half the female participants equals\n240/2 = 120.\nANSWER:C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "C": 2,
+                "No answer": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: E is the set of the first n positive odd numbers, where n is a positive integer. Given that n > k, where k is also a positive integer, x is the maximum value of the sum of k distinct members of E, and y is the minimum value of the sum of k distinct members of E, what is x + y? Answer Choices: (A)  kn (B)  kn + k^2 (C)  kn + 2k^2 (D)  2kn – k^2 (E)  2kn",
+            "question_idx": 691,
+            "rationale": "A: Let's think step by step.\nProbably the easiest way to solve this question would be to assume some values for n and k.\nSay n=3, so E, the set of the first n positive odd numbers would be: E={1, 3, 5};\nSay k=1, so E, the maximum value of the sum of K distinct members of Z would simply be 5. Similarly, Y, the minimum value of the sum of K distinct members of E would simply be 1.\nX+Y=5+1=6.\nNow, substitute n=3 and k=1 in the options provided to see which one yields 6. Only asnwer choice E fits: 2kn=2*3*1=6.\nAnswer: E.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "E": 1,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Q is as much younger than R as he is older than T. If the sum of the ages of R and T is 50 years. What is definitely the difference between R and Q's age? Answer Choices: (A) 50 (B) 99 (C) 88 (D) 77 (E) 23",
+            "question_idx": 425,
+            "rationale": "A: Let's think step by step.\nR - Q = R - T\nQ = T.\nAlso R + T = 50; R + Q = 50\nSo, (R - Q) cannot be determined.\nAnswer:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "-10086": 1,
+                "No answer": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If the LCM of 9, 7, 2, and q is 504, which of the following could be q? Answer Choices: (A) 7 (B) 8 (C) 6 (D) 9 (E) 5",
+            "question_idx": 869,
+            "rationale": "A: Let's think step by step.\nUsing elimination method, eliminate the option to arrive at 8\nif x is replaced by 8 and the LCM is calculated you arrive at 504\nB",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "C": 2,
+                "E": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Abby and Bobby type at constant rates of 80 words per minute and 60 words per minute, respectively. Bobby begins typing before Abby and has typed 600 words when Abby begins typing at 1:30 pm. If they continue typing at their respective rates, at what time will Abby have typed exactly 400 more words than Bobby? Answer Choices: (A) 1:40 PM (B) 1:50 PM (C) 2:00 PM (D) 2:10 PM (E) 2:20 PM",
+            "question_idx": 268,
+            "rationale": "A: Let's think step by step.\nSay time needed for Abby to type 200 more words than Bobby is t. In that time she would type 80t words and Bobby would type 60t words.\nNow, total words typed by Bobby would be 600+60t and we want that number to be 200 less than 80t: 600+60t=80t-400 --> t=50.\n1:30 PM + 50 minutes = 2:20 PM.\nAnswer: E.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "C": 1,
+                "A": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The price of a T.V. set worth Rs. 30000 is to be paid in 20 installments of Rs. 1000 each. If the rate of interest be 6% per annum, and the first installment be paid at the time of purchase, then the value of the last installment covering the interest as well will be? Answer Choices: (A) 22678 (B) 26699 (C) 29000 (D) 19000 (E) 26711",
+            "question_idx": 42,
+            "rationale": "A: Let's think step by step.\nMoney paid in cash = Rs. 1000\nBalance payment = (30000 - 1000) = Rs. 29000\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "A": 1,
+                "E": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Large, medium and small ships are used to bring water. 4 large ships carry as much water as 7 small ships; 3 medium ships carry as much water as 2 large ships and 1 small ship. If 15 large, 7 medium and 14 small ships, each made 36 journeys to bring a certain quantity of water, then in how many journeys will 12 large, 14 medium and 21 small ships bring the same quantity of water? Answer Choices: (A) 29 (B) 30 (C) 20 (D) 50 (E) 55",
+            "question_idx": 417,
+            "rationale": "A: Let's think step by step.\nExplanation :\nHere, Large, Medium and Small ships are denoted by the symbol L, M and S.\nNow, according to the question,\n4L = 7S. ------(i)\n3M = 2L + S. ------(ii)\nUsing above equations, the ratios of the capacity of the Large, Medium and Small ships are :-\n7: 6 : 4.\nLet, the number of journeys required be x. Since, quantity of water remains the same, so :-\n=((15×7+7×6+14×4)36) = x (12×7+14×6+21×4).\n=>((15×7+7×6+14×4)36) / (12×7+14×6+21×4)= x\n=>x=7308/252\n=>x=29.\nAnswer : A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "B": 1,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If x < 12, then it must be true that... Answer Choices: (A) -x < -12 (B) -x - 2 < 14 (C) -x + 2 < -10 (D) x + 2 < 10 (E) x - 5 < 16",
+            "question_idx": 137,
+            "rationale": "A: Let's think step by step.\nA. -x < -12 --> x>12. Not true.\nB. -x - 2 < 14 --> x>-16. Not true, consider x=-20.\nC. -x + 2 < -10 --> x>12. Not true.\nD. x + 2 < 10 --> x<8. Not true, consider x=10.\nE. x - 5 < 16 --> x<21. Since given that x<12, then x is for sure less than 13. Thus this statement must be true.\nAnswer: E.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "C": 1,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A wire in the form of a circle of radius 3.5 m is bent in the form of a rectangule, whose length and breadth are in the ratio of 6 : 5. What is the area of the rectangle? Answer Choices: (A) 70 cm2 (B) 30 cm2 (C) 66 cm2 (D) 55 cm2 (E) 54 cm2",
+            "question_idx": 269,
+            "rationale": "A: Let's think step by step.\nThe circumference of the circle is equal to the permeter of the rectangle.\nLet l = 6x and b = 5x 2(6x + 5x) = 2 * 22/7 * 3.5\n=> x = 1\nTherefore l = 6 cm and b = 5 cm Area of the rectangle = 6 * 5 = 30 cm2\nAnswer: B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "B": 2,
+                "A": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A box contains five bulbs out of which 3 are defective. If four bulbs are chosen at random, find the probability that atleast one bulb is good. Answer Choices: (A) 39/10 (B) 29/10 (C) 19/10 (D) 9/10 (E) 125/128",
+            "question_idx": 117,
+            "rationale": "A: Let's think step by step.\nRequired probability\n= 1 - 1/10\n= 9/10\nAnswer: D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "C": 2,
+                "E": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: John has Rs 360 for his expenses. If he exceeds his days by 4 days he must cut down daily expenses by Rs 3. The number of days of John 's tour program is Answer Choices: (A) 10 (B) 15 (C) 20 (D) 24 (E) 27",
+            "question_idx": 262,
+            "rationale": "A: Let's think step by step.\nLet John under takes a tour of x\ndays.\nThen, expenses for each day = 360x\n360x+4=360x−3\nx=20\nand −24\nHence, x\n= 20 days.\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "C": 2,
+                "No answer": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Five drainage pipes, each draining water from a pool at the same constant rate, together can drain a certain pool in 12 days. How many additional pipes, each draining water at the same constant rate, will be needed to drain the pool in 6 days? Answer Choices: (A)  5 (B)  9 (C)  10 (D)  12 (E)  15",
+            "question_idx": 518,
+            "rationale": "A: Let's think step by step.\nThis is an inverse proportional problem......\n5 pipes in 12 days; So for 6 days, it will be = 12 x 5 / 6 = 10\nSo, 10-5 = 5\nAnswer A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "-10086": 1,
+                "B": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a watch, the minute hand crosses the hour hand for the third time exactly after every 3 hrs., 18 min., 15 seconds of watch time. What is the time gained or lost by this watch in one day? Answer Choices: (A) 14 min. 10 seconds lost (B) 13 min. 50 seconds lost (C) 13 min. 20 seconds gained (D) 14 min. 40 seconds gained (E) None of these",
+            "question_idx": 749,
+            "rationale": "A: Let's think step by step.\nIn a watch than is running correct the minute hand should cross the hour hand once in every 65 + 5⁄11 min.\nSo they should ideally cross 3 times once in\n3×(720/11)−2060/11min=196.36minutes\nBut in the watch under consideration, they meet after every 3 hr,18 min and 15 seconds,\ni.e, (3 × 60 + 18 + 15⁄60) = 793⁄4 min.\nThus, our watch is actually losing time (as it is slower than the normal watch). Hence when our watch elapsed\n(1440×196.36/198.25)=1426.27.\nHence the amount of time lost by our watch in one day = (1440 - 1426.27) = 13.73 i.e. 13 min and 50s (approx).\nAnswer B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "E": 1,
+                "A": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: y = 248 - 198x\nWhich of the following values of x gives the greatest value of y in the equation above? Answer Choices: (A)  200 (B)  100 (C)  0.5 (D)  -5 (E)  4",
+            "question_idx": 407,
+            "rationale": "A: Let's think step by step.\nClearly, the negative value of x will result in maximum value of y.\nDon't even look at the rest of the answer choices as only one negative value is being present.\nAnswer is D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "D": 2,
+                "C": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If w = 9/25, c = 15/32, and m + w + c = 1, which of the following gives the values of m, w, and c in increasing order? Answer Choices: (A) c, m, w (B) c, w, m (C) m, w, c (D) w, c, m (E) w, m, c",
+            "question_idx": 972,
+            "rationale": "A: Let's think step by step.\nAnswer C - m, w, c\nw ~ 1/3\nc ~ 1/2\nand m+w+c = 1 hence m ~ 1/6\nHence increasing order would be m -> w -> c\nAnswer C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "A": 1,
+                "E": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: 108 Ã— 108 + 92 Ã— 92 = ? Answer Choices: (A) 20120 (B) 11500 (C) 20128 (D) 20660 (E) 20228",
+            "question_idx": 486,
+            "rationale": "A: Let's think step by step.\nExplanation :\n(a + b)2 + (a âˆ’ b)2 = 2(a2 + b2)\n(Reference : Basic Algebraic Formulas)\n1082 + 922 = (100 + 8)2 + (100 âˆ’ 8)2 = 2(1002 + 82) = 2(10000 + 64) = 20128. Answer : Option C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "-10086": 1,
+                "A": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: n a 1000m race, if A gives B a start of 40m, A wing by 19sec. But if A gives B start of 30sec, B wins by 40m.\nFind the time taken by B to run 5000m race? Answer Choices: (A) 300 (B) 400 (C) 500 (D) 600 (E) 750",
+            "question_idx": 448,
+            "rationale": "A: Let's think step by step.\nthen 960/B -1000/A = 19 => 24/B - 25/A = 19/40\nand 1000/B - 960/A = 30 => 25/B - 24/A = 30/40\nsolving equation A speed =8 and B=20/3\nfor 1000m b will take 5000/20/3= 750 sec\n#\nE",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 2,
+                "D": 1,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Ratio of the ages of Mahesh and Nilesh is 5:x. Mahesh is 18 years younger to Ramesh. After nine years Ramesh will be 47 years old. If the difference between the ages of Mahesh and Nilesh is same as the age of Ramesh, what is the value of x? Answer Choices: (A) 14.5 (B) 14.1 (C) 14.2 (D) 14.8 (E) 14.5",
+            "question_idx": 289,
+            "rationale": "A: Let's think step by step.\nLet the present ages of Mahesh, Nilesh and Ramesh be M, N and R respectively.\nM/N = 5/x --- (1)\nM = R - 18 --- (2)\nR + 9 = 47 --- (3)\nM - N = R --- (4)\n(3) => R = 47 - 9 = 38 years\n(2) => M = 38 - 18 = 20 years\n(1) => 20/N = 5/x => N = 4x\n(4) => 4x - 20 = 38\n=> 4x = 58 => x = 14.5\nAnswer:E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "A": 2,
+                "D": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The average of 20 numbers is zero. Of them, at the most, how many may be greater than zero? Answer Choices: (A) 0 (B) 1 (C) 10 (D) 19 (E) None of the above",
+            "question_idx": 663,
+            "rationale": "A: Let's think step by step.\nAverage of 20 numbers = 0.\n∴ Sum of 20 numbers = (0 × 20) = 0.\nIt is quite possible that 19 of these numbers may be positive and if their sum is a, then 20th number is (–a).\nAnswer D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "B": 1,
+                "A": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: the government was giving out 10500 after 6 years of living in the United States and 15500 after 12 years of living in the United Sates. how much is the interest per year. Answer Choices: (A) 12% (B) 20% (C) 15% (D) 10% (E) 5%",
+            "question_idx": 218,
+            "rationale": "A: Let's think step by step.\nfor 6 years = (15500 - 10500) = 5000.\nfor 12 years = (5000x6)/6= 5000\nPrincipal = (10500 - 5000) = 5500.\nHence, rate = (100 x 5000)/(5500x6)\t% = 15% ANSWER :C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "A": 1,
+                "D": 1,
+                "No answer": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: What is the smallest positive integer x such that 280-x is the cube of a positive integer Answer Choices: (A) 5 (B) 64 (C) 62 (D) 60 (E) 12",
+            "question_idx": 368,
+            "rationale": "A: Let's think step by step.\nGiven 280-x is a perfect cube\nso we will take 216= 6*6*6\n280-x = 216\nx =280-216 = 64\ncorrect option is B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "B": 2,
+                "C": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A person has to cover the fixed distance through his horses. There are five horses in the cart. They ran at the full potential for the 24 hours continuously at constant speed and then two of the horses ran away to some other direction. So he reached the destination 48 hours behind the schedule. If the five horses would have run 50 miles more, then the person would have been only 24 hours late. Find the distance of the destination. Answer Choices: (A) 200/3 (B) 400/3 (C) 500/3 (D) 600/8 (E) 800/3",
+            "question_idx": 334,
+            "rationale": "A: Let's think step by step.\nSuppose his actual speed is 'v' with 5 horses,\nIf he travelled that 50 miles with 5 horses the time taken wud b 50/v, which equals time taken with 3/5th speed minus 24hrs\n50/v = 50/(3v/5) - 24;\nso, v = 25/18;\nNow, suppose after 1st 24 hrs he takes 't' hrs toreach his destination, then\nvt = (3v/5)(t + 48);\nvt = (3v/5)(t+48)\nt = 72\ntotal time = 72+24 = 96\ndistance = 400/3\nANSWER:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "B": 1,
+                "-10086": 1,
+                "A": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Rahul can do a work in 3 days while Rajesh can do the same work in 2days. Both of them finish the work together and get $250. What is the share of Rahul? Answer Choices: (A) $50 (B) $40 (C) $60 (D) $100 (E) $90",
+            "question_idx": 443,
+            "rationale": "A: Let's think step by step.\nRahul's wages: Rajesh's wages = 1/3 : 1/2 = 2:3\nRahul's share = 250*2/5 = $100\nAnswer is D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "E": 1,
+                "A": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Rahim bought 65 books for Rs.1150 from one shop and 50 books for Rs.920 from another. What is the average price he paid per book ? Answer Choices: (A) 11 (B) 18 (C) 99 (D) 787 (E) 12",
+            "question_idx": 670,
+            "rationale": "A: Let's think step by step.\nAverage price per book = (1150 + 920) / (65 + 50)\n= 2070 / 115\n= Rs.18\nAnswer:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "A": 1,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Four different books (A, B, C and D) are to be arranged on a shelf. Books A and B are to be arranged first and second starting from the right of the shelf. The number of different orders in which books C and D may be arranged is Answer Choices: (A) 16! (B) 12! (C) 8! (D) 11! (E) 2!",
+            "question_idx": 478,
+            "rationale": "A: Let's think step by step.\nSolution\nSince books A and B are arranged first and second, only books C and D will change order. Therefore it an arrangement problem involving 2 items and the number of different order is given by\n2!\nAnswer E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "E": 1,
+                "D": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A deer is standing 60 meters in from the west end of a tunnel. The deer sees a train approaching from the west at a constant speed ten times the speed the deer can run. The deer reacts by running toward the train and clears the exit when the train is 15 meters from the tunnel. If the deer ran in the opposite direction it would barely escape out the eastern entrance just as the train came out of the eastern entrance. How long is the tunnel in meters? Answer Choices: (A) 125 (B) 135 (C) 145 (D) 155 (E) 165",
+            "question_idx": 685,
+            "rationale": "A: Let's think step by step.\nLet x be the length of the tunnel.\nWhen the deer runs 60 meters west, the train goes 600 meters to a point 15 meters from the west entrance of the tunnel.\nWhen the deer runs east, the deer runs x-60 meters while the train goes x + 600 + 15 meters.\nx + 600 + 15 = 10(x-60)\n9x = 1215\nx = 135 meters\nThe answer is B.",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "B": 1,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: You have a bag of 9 letters: 3 Xs, 3 Ys and 3 Zs. You are given a box divided into 3 rows and 3 columns for a total of 9 areas. How many Q different ways can you place one letter into each area such that there are no rows or columns with 2 or more of the same letter? Answer Choices: (A) 5 (B) 6 (C) 9 (D) 12 (E) 18",
+            "question_idx": 563,
+            "rationale": "A: Let's think step by step.\nConsider one particular arrangement of the first row: XYZ, then we can construct only two boxes with so that no rows or columns have 2 or more of the same letter:\nXYZ\nYZX\nZXY\nAnd:\nXYZ\nZXY\nYZX\nNow, the first row itself can be arranged in 3!=6 ways (since there are three distinct letter), hence the total number of boxes possible Q is 2*6=12.\nAnswer: D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "-10086": 2,
+                "B": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Excluding stoppages, the speed of a bus is 54 kmph and including stoppages, it is 45 kmph. For how many minutes does the bus stop per hour? Answer Choices: (A) 15 mins (B) 20 mins (C) 10 mins (D) 25 mins (E) 30 mins",
+            "question_idx": 957,
+            "rationale": "A: Let's think step by step.\nspeed of the bus excluding stoppages = 54 kmph\nspeed of the bus including stoppages = 45 kmph\nLoss in speed when including stoppages = 54 - 45 = 9kmph\n=> In 1 hour, bus covers 9 km less due to stoppages\nHence, time that the bus stop per hour = time taken to cover 9 km\n=distance/speed=9/54 hour=1/6 hour = 60/6 min=10 min\nAnswer is C.",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "-10086": 2,
+                "C": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Pat, kate and mark charged a total of 198 hours to a certain project . If pat charged twice as much time to the project as kate and 1/3 as much times as mark, how many more hours did mark charge to the project than kate. Answer Choices: (A) 18 (B) 36 (C) 72 (D) 110 (E) 108",
+            "question_idx": 837,
+            "rationale": "A: Let's think step by step.\nLet Kate charge for x hours,\nthen Pat charged for 2x and Mat - for 6x.\nSo, 2x+6x+x = 198 -total hours charged for,\nx= 22.\nMat charged 6x-x or 5x for more hours than kate, or for 110 hours .\nD is correct",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 2,
+                "A": 1,
+                "C": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two mechanics were working on your car. One can complete the given job in 5 hours, but the new guy takes eight hours. They worked together for the first two hours, but then the first guy left to help another mechanic on a different job. How long will it take the new guy to finish your car? Answer Choices: (A) 7/4 (B) 4/3 (C) 14/5 (D) 10/3 (E) 17/5",
+            "question_idx": 694,
+            "rationale": "A: Let's think step by step.\nRate(1)=1/5\nRate(2)=1/8\nCombined = 13/40\nWork done in 2 days=13/20\nWork left = 7/20\nRate * Time = Work left\n1/8 * Time = 7/20\nTime=14/5\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "D": 1,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If y exceeds x by 30%, then x is less than y by? Answer Choices: (A) 1/7% (B) 1/9% (C) 1/11% (D) 1/13% (E) 1/17%",
+            "question_idx": 527,
+            "rationale": "A: Let's think step by step.\nX=100\ty=130\n130------30\n100-------? => 23 1/13%\nAnswer:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "E": 1,
+                "D": 1,
+                "-10086": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: From a group of boys and girls, 15 girls leave. They are then left 2 boys for each girl. After this, 54 boys leave. There are then 5 girls for each boy. Find the number of girls in the beginning Answer Choices: (A) 20 (B) 10 (C) 30 (D) 50 (E) 45",
+            "question_idx": 423,
+            "rationale": "A: Let's think step by step.\nAssume the number of boys at present = x\nThen, the number of girls at present = 5x\nBefore the boys left, the number of boys were (x+54) and number of girls were 5x\nHence, 2(5x) = x + 54\n=> 10x = x + 54\n=> x = 6\nNumber of girls in the beginning = (5x + 15) = (5×6 + 15) = 45\nAnswer is E.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "E": 2,
+                "D": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a certain country ½ of 5 = 3. Assuming the same proportion, what would be the value of 1/3 of 10 ? Answer Choices: (A) 3 (B) 4 (C) 8 (D) 7 (E) 9",
+            "question_idx": 728,
+            "rationale": "A: Let's think step by step.\nB\n4",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "B": 1,
+                "E": 1,
+                "-10086": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A man bets on no. 16 on a roulette wheel 14 times and losses each time. On the 15th span he does a quick calculation and finds out that the no. 12 had appeared twice in the 14 spans and is therefore, unable to decide whether to bet on 16 or 12 in the 15th span. Which will give him the best chance and what are the odds of winning on the bet that he takes? Answer Choices: (A) Either ;30:1 (B) Either ;35:1 (C) 12;7:1 (D) 12;72:1 (E) 16;22:14",
+            "question_idx": 590,
+            "rationale": "A: Let's think step by step.\nEach of the span is an independent event and the outcome of the 15th span will not depend on the outcome of the earlier spans.\nEither ;35:1\nB)",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "No answer": 1,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: How many two-element subsets of <1, 2,3,4,5,6,7,8,9> are there that do not contain the pair of elements 2 and 4? Answer Choices: (A) 21 (B) 22 (C) 24 (D) 35 (E) 36",
+            "question_idx": 345,
+            "rationale": "A: Let's think step by step.\n9C2 - 1 = 35 Answer is D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 1,
+                "-10086": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A man sells a horse for Rs.800 and loses something, if he had sold it for Rs.980, his gain would have been double the former loss. Find the cost price of the horse? Answer Choices: (A) 198 (B) 268 (C) 267 (D) 860 (E) 727",
+            "question_idx": 293,
+            "rationale": "A: Let's think step by step.\nCP = SP + 1CP = SP - g\n800 + x = 980 - 2x\n3x = 180 => x = 60\nCP = 800 + 60 = 860\nAnswer: D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "C": 2,
+                "D": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: (ab)x−2=(ba)x−7. What is the value of x ? Answer Choices: (A) 1.5 (B) 4.5 (C) 7.5 (D) 9.5 (E) 8.7",
+            "question_idx": 607,
+            "rationale": "A: Let's think step by step.\nExplanation:\n(a/b)x−2=(b/a)x−7⇒(a/b)x−2=(a/b)−(x−7)⇒x−2=−(x−7)⇒x−2=−x+7⇒x−2=−x+7⇒2x=9⇒x=92=4.5\nOption B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "-10086": 2,
+                "E": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If the difference of two numbers is 3 and the difference of their square is 39, then the larger number is: Answer Choices: (A) 8 (B) 9 (C) 12 (D) 14 (E) 13",
+            "question_idx": 279,
+            "rationale": "A: Let's think step by step.\nLet the numbers be x and y\nThen x2-y2=39\nAnd x-y=3\nWe get x+y=13\nSolving x-y=3, x+y=13\nX=8, y=5\nLarger number 8\nANSWER A 8",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "-10086": 1,
+                "No answer": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: By selling 300 apples a seller gains the selling price of 60 apples. The gain percent of the seller is Answer Choices: (A) 22 (B) 88 (C) 25 (D) 27 (E) 19",
+            "question_idx": 980,
+            "rationale": "A: Let's think step by step.\nExplanation:\nWe know that SP − CP = Profit\n⇒300SP - 300CP = 60SP\n⇒240SP = 300CP\n⇒ SPCP=300240SPCP=300240 = 5454\nLet SP = 5, and CP = 4\nSo profit percentage = 14×100=25%\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "No answer": 1,
+                "C": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Let f(x,y) be defined as the remainder when (x–y)! is divided by x. If x=16, what is the maximum value of y for which f(x,y)=0? Answer Choices: (A) 5 (B) 10 (C) 15 (D) 20 (E) 25",
+            "question_idx": 158,
+            "rationale": "A: Let's think step by step.\nThe question is finding y such that (16-y)! is a multiple of 16. That means we need to have 2^4 in (16-y)!\n6! is the smallest factorial number with 2^4 as a factor.\n16-y = 6\ny = 10\nThe answer is B.",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "B": 2,
+                "C": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If x is an integer, then x(x - 1)(x - l) must be evenly divisible by three when l is any of the following values EXCEPT Answer Choices: (A) -4 (B) -2 (C) -1 (D) 2 (E) 5",
+            "question_idx": 508,
+            "rationale": "A: Let's think step by step.\nif we put l=-1 we get:\nX(x-1)(X+1) rearrange:(x-1)X(X+1)\nso it looks like a sequenc,\nif we assume that X =2 and put number from the answer then we get:\n(x – 1)x(x – l)\nl=5 =1.2.-3\nl=2 =1.2.0\nl=-1 =1.2.3\nl=-4 =1.2.6\nbut when we put\nl=-2 =1.2.4 not satisfied\nso,answer is B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "E": 2,
+                "B": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: what is the smallest number should be added to 5377 so that the sum is completely divisible by 7? Answer Choices: (A) 5 (B) 4 (C) 6 (D) 2 (E) 1",
+            "question_idx": 48,
+            "rationale": "A: Let's think step by step.\nSolution: Divide 5377 with 7 we get remainder as 1. so, add 6 to the given number so that it will divisible by 7.\nAnswer C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "D": 1,
+                "-10086": 2,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A boy is travelling from his home to school at 4 km/hr and reached 7 min late. Next day he traveled at 8 km/hr and reached 8 min early. Distance between home and school? Answer Choices: (A) 2km (B) 3km (C) 4km (D) 5km (E) 6km",
+            "question_idx": 591,
+            "rationale": "A: Let's think step by step.\nLet the distance be x\nT1 = x/4 hr\nT2 = x/8hr\nDifference in time = 7+8 = 15 =1/4hr\nx/4-x/8= 1/4\nx/8=1/4\nx =2 km\nAnswer is A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "B": 1,
+                "A": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The area of the square formed on the diagonal of a rectangle as its side is 108 1/3 % more than the area of the rectangle. If the perimeter of the rectangle is 28 units, find the difference between the sides of the rectangle? Answer Choices: (A) 6m (B) 9m (C) 5m (D) 2m (E) 3m",
+            "question_idx": 905,
+            "rationale": "A: Let's think step by step.\nLet the sides of the rectangle be l and b respectively.\nFrom the given data,\n(√l2 + b2) = (1 + 108 1/3 %)lb\n=> l2 + b2 = (1 + 325/3 * 1/100)lb\n= (1 + 13/12)lb\n= 25/12 lb\n=> (l2 + b2)/lb = 25/12\n12(l2 + b2) = 25lb\nAdding 24lb on both sides\n12l2 + 12b2 + 24lb = 49lb\n12(l2 + b2 + 2lb) = 49lb\nbut 2(l + b) = 28 => l + b = 14\n12(l + b)2 = 49lb\n=> 12(14)2 = 49lb\n=> lb = 48\nSince l + b = 14, l = 8 and b = 6\nl - b = 8 - 6 =2m.\nAnswer:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "E": 1,
+                "-10086": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: What is the greatest prime factor of 8^13 - 2^30? Answer Choices: (A) 23 (B) 37 (C) 59 (D) 73 (E) 107",
+            "question_idx": 528,
+            "rationale": "A: Let's think step by step.\n8^13 - 2^30\n=(2^3)^13 - 2^30\n= 2^39 - 2^30\n= 2^30 (2^9 -1)\n= 2^30 * (512-1)\n= 2^30 * 511\n= 2^30 * 7 * 73\nThe greatest prime factor is 73.\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "D": 2,
+                "E": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If the number 52,1n9, where n represents the tens digit, is a multiple of 3, then the value of n could be which of the following? Answer Choices: (A) 6 (B) 5 (C) 3 (D) 1 (E) 0",
+            "question_idx": 94,
+            "rationale": "A: Let's think step by step.\nMaybe you are misreading the question but it is saying that 52,1n9 is a multiple of 3 and not necessarily n is a multiple of 3.\nThe sum of the digits 5 + 2 + 1 + n + 9 must be a multiple of 3\n17 + n must be a multiple of 3\nsubstituting the numbers n must = 1\nANSWER:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "B": 1,
+                "No answer": 1,
+                "D": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Sam and Nik start from A and B respectively at the same time and travel towards each other at constant speeds along the same route. Sam meets Nik at point C on the road which is 600m away from starting point A and 400m away from point B. The speed of Sam is 50 m/m(meter/minute). How much time did Sam take to cover the distance between A and B? Answer Choices: (A) 10 minutes (B) 15 minutes (C) 20 minutes (D) 22 minutes (E) 17 minutes",
+            "question_idx": 306,
+            "rationale": "A: Let's think step by step.\ntotal distance from A to B-\nA - C = 600m, B - C = 400m;\ntherefore A-B = 1000m;\nVs=50 m/m;\ntherefore,\nt = 1000/50 = 20 minutes.\noption C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "B": 2,
+                "C": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: It takes 8 high school students, working at identical constant individual rates, 10 hours to paint a certain house. At what time will the house be fully painted if 8 students start painting at 9:00 am and one student, working at the same rate, is added per hour starting at 5:00 pm? Answer Choices: (A) 6:06 pm (B) 6:12 pm (C) 6:24 pm (D) 6:42 pm (E) 6:56 pm",
+            "question_idx": 592,
+            "rationale": "A: Let's think step by step.\nEach student paints at a rate of 1/80 of the house per hour.\nIn 8 hours, the 8 students can paint 64/80 of the house.\nFrom 5 pm to 6 pm, 9 students paint another 9/80 for a total of 73/80.\n10 students can paint the remaining 7/80 of the house in 7/10 of an hour = 42 minutes.\nThe house is completed at 6:42 pm.\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "C": 1,
+                "E": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Given a bag with 2 red balls and 3 yellow balls, you randomly select one of them, in order. If the second ball you take is yellow, what is the probability that the first one was also yellow? Answer Choices: (A) 1/2 (B) 1/5 (C) 3/4 (D) 1/3 (E) 3/5",
+            "question_idx": 529,
+            "rationale": "A: Let's think step by step.\nThis is a conditional probability question. Basically we are told that out of 2 balls picked one is yellow and are asked to find the probability of the other one also to be yellow.\nSo, possible options for this other ball would be: W, W, B, B (as one yellow is already picked)\nSo the probability for that ball to be yellow too is 2/4=1/2.\nOption A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "A": 1,
+                "B": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Which of the following is the product of two integers whose sum is 18? Answer Choices: (A)  -42 (B)  -28 (C)  12 (D)  26 (E)  32",
+            "question_idx": 287,
+            "rationale": "A: Let's think step by step.\nI solved this Question like this,\nLet the two integers are x,y\nx+y=18 (Given)\nxy=? (Needed)\ninstead of solving this algebraically, Test the Answer choices\nE. 32\nDo the factorization : (1,32)----> There sum is not 18--eliminate\n(2,16)---->There sum is 18 Bingo!!!!\nSo, my answer is E...\nAs the answer is in E, it took me very less time to answer the question. but i think this method is be simple and efficient.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "A": 2,
+                "E": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The sum of two numbers is 45. Sum of their quotient and reciprocal is 2.05, Find the product of the numbers. Answer Choices: (A) 339 (B) 500 (C) 288 (D) 277 (E) 112",
+            "question_idx": 780,
+            "rationale": "A: Let's think step by step.\nSol: Let a, b be the numbers.\na + b = 45\nab+baab+ba = 2.05\n⇒a2+b2ab⇒a2+b2ab = 2.05\n⇒(a+b)2−2abab=2.05⇒(a+b)2−2abab=2.05\n⇒(a+b)2⇒(a+b)2 = 2.05ab + 2ab = 4.05ab\n⇒⇒ ab = 4524.054524.05 = 500\nAnswer:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 2,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: By selling 45 lemons for Rs 40, a man loses 20 %. How many should he sell for Rs 24 to gain 20 % in the transaction ? Answer Choices: (A) 33 (B) 18 (C) 99 (D) 27 (E) 36",
+            "question_idx": 741,
+            "rationale": "A: Let's think step by step.\nExplanation:\nLet S.P. of 45 lemons be Rs. x.\nThen, 80 : 40 = 120 : x or x = = 60\nFor Rs.60, lemons sold = 45\nFor Rs.24, lemons sold == 18.\nAnswer: B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "B": 1,
+                "A": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Which of these expressions has the greatest value? Answer Choices: (A) 1532672/1532676 (B) 1423765/1423769 (C) 1215672/1205679 (D) 1823561/1823566 (E) 1237842/1788545",
+            "question_idx": 722,
+            "rationale": "A: Let's think step by step.\nUsing elimination method on options\n1215672/1205679 = 1.00828827574...\nANSWER:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "A": 1,
+                "C": 2,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If p is the sum of x consecutive positive integers. q is the sum of y consecutive positive integers. For which of the following values of x and y is it impossible that p = q? Answer Choices: (A) x = 2 and y = 6 (B) x = 3 and y = 6 (C) x = 7 and y = 9 (D) x = 10 and y = 7 (E) x = 10 and y = 4",
+            "question_idx": 337,
+            "rationale": "A: Let's think step by step.\nI approached this in a different way, although may be longer but it's certainly more intuitive\nIt is impossible that p = q if one of them is necessarily even while the other is necessarily odd\nfor two consecutive integers the sum is necessarily odd\nfor six consecutive integers the sum is necessarily odd (sum of 3two consecutive integers which are all odd)\nThus A is incorrect.\nThe sum of 3 consecutive integers can be even or odd (an odd integer from the first 2 + an additional integer which can be even or odd). Thus B is incorrect. You can do a similar approach for C and D (it follows that the sum of a specified odd number of consecutive integers can be odd or even).\nLeaving us with E to be the only not-wrong answer. To confirm, you can easily deduce that the sum of 4 consecutive integers (sum of 2 odd integers) is necessarily even while the sum of 10 consecutive integers (sum of 5 odd integers) is necessarily odd. Thus E is the right answer.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 2,
+                "C": 1,
+                "D": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two men, 3 women working full time and 3 part times can complete a job in 20 days. Four men and 9 women working full time can complete the same job in 10 days. Find the ratio of the times taken by a woman (full-timer) and a part timer to complete the job. Answer Choices: (A) 1:2 (B) 2:1 (C) 1:3 (D) 3:1 (E) 1:4",
+            "question_idx": 141,
+            "rationale": "A: Let's think step by step.\nlet X=single man one day work\ny=single woman one day work\nso single woman's part tym work will be y/2\nso 1st equation is,\n2x+3y+3(y/2)=1/20 (as they are completing in 20 days)\n2nd equation wil be,\n4x+9y=1/10 (as they are completing in 10 days)\nsolving both equations we will get,\ny=1/90 (this is the single woman's full timer 1 day work)\nso now taking the ratio of full-timer and a part timer we will get\n90:45=2:1\nANSWER:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "A": 1,
+                "-10086": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If P and Q are positive integers related by the equation P = 10Q - 5, what is the remainder when P is divided by 5? Answer Choices: (A) 0 (B) 1 (C) 2 (D) 3 (E) 4",
+            "question_idx": 737,
+            "rationale": "A: Let's think step by step.\nThis question asks what IS...(the answer), so we know that the answer will be definite. As such, we can TEST VALUES to quickly get the solution.\nWe're told that P and Q are POSITIVE INTEGERS and P = 10Q - 5. We're asked for the REMAINDER when P is divided by 5.\nIF....\nQ = 1\nP = 5\n5/5 = 1 remainder 0\nFinal Answer:\nA",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "-10086": 1,
+                "E": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: 56: 65 :: 68 :? Answer Choices: (A) 49 (B) 84 (C) 86 (D) 64 (E) 56",
+            "question_idx": 605,
+            "rationale": "A: Let's think step by step.\nAns 86\nReverse of 68\nANSWER:C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "C": 2,
+                "A": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If k is an integer and 0.0010101 x 10^k is greater than 100, what is the least possible value of k? Answer Choices: (A) 2 (B) 3 (C) 4 (D) 5 (E) 6",
+            "question_idx": 244,
+            "rationale": "A: Let's think step by step.\n0.0010101 * 10^k > 100\nWe need to move the decimal point to the right 5 places to get 101.01\nThis is equivalent to multiplying by 10^5.\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 1,
+                "D": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The value of (0.2×0.2+0.01) (0.1×0.1+0.02)-1 is equal to Answer Choices: (A) 5/3 (B) 9/5 (C) 41/4 (D) 41/12 (E) None",
+            "question_idx": 999,
+            "rationale": "A: Let's think step by step.\nSolution\nGiven expression\t(0.2×0.2+0.01)/ (0.1×0.1×+0.02)\n= 0.04+0.01/0.01+0.02\n= 0.05 / 0.03\n= 5 / 3.\nAnswer A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "A": 2,
+                "E": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If (x^2 + 1)y=8, which of the following is not a possible value for y? Answer Choices: (A) 8/2 (B) 2/5 (C) 18/3 (D) 3 (E) 17/2",
+            "question_idx": 842,
+            "rationale": "A: Let's think step by step.\nIts simple\nequation is (x^2 +1)y = 8 ===> x^2 = (8/y) - 1 . As , in LHS, it is x^2 the value has to be positive or zero in RHS.\nHence, (8/y) - 1>= 0 ===> y =< 8. Now only option E has greater value of 'y' than 8.\nThus, correct ans is E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "-10086": 1,
+                "C": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: 45 liters of mixture is created by mixing Liquid A and Liquid B in the ratio 3:2. How much more Liquid B must be added to make the ratio 9:11? Answer Choices: (A) 9 Litres (B) 10 Litres (C) 12 Litres (D) 15 Lt (E) 16 Litres",
+            "question_idx": 360,
+            "rationale": "A: Let's think step by step.\nIn current ratio A = (3/5) * 45 = 27\nB is 18\nSuppose \"b\" amount of b is added\nnew ratio = 27/(b+18) = 9/11\n=> b+18 = 33\n=> b = 15\nSo, answer will be D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "E": 1,
+                "D": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: The sides of a rectangular region measured to the nearest centimeter are 8 cm and 5 cm. Out of the following which is the largest possible value of actual area of rectangle ? Answer Choices: (A) 48 (B) 55.25 (C) 52.29 (D) 44 (E) 41.25",
+            "question_idx": 707,
+            "rationale": "A: Let's think step by step.\nacan be anywhere between 7.5 and 8.4 andbcan be anywhere between 4.5 and 5.4.\nHence max area can be 8.4*5.4 eq 45.36.\nlargest value which is near to 45.36 is 44.\nHence D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "D": 1,
+                "C": 1,
+                "-10086": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A train moves fast a telegraph post and a bridge 264 m long in 8 sec and 40 sec respectively. What is the speed of the train? Answer Choices: (A) 89 (B) 29.7 (C) 56 (D) 79.2 (E) 67",
+            "question_idx": 465,
+            "rationale": "A: Let's think step by step.\nLet the length of the train be x m and its speed be y m/sec.\nThen, x/y = 8 => x = 8y\n(x + 264)/40 = y\ny = 8.25 Speed = 8.25 m/sec = 8.25 * 18/5 = 29.7 km/hr.\nAnswer: Option B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "E": 1,
+                "A": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: One half of a two digit number exceeds its one third by 6. What is the sum of the digits of the number? Answer Choices: (A) 3 (B) 5 (C) 7 (D) 9 (E) 11",
+            "question_idx": 27,
+            "rationale": "A: Let's think step by step.\nx/2 – x/3 = 6 => x =6\n3 + 6 = 9\nANSWER:D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 1,
+                "C": 2,
+                "A": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A shopkeeper marks up the price of his goods by 20% and gives a discount of 10% to the customer. He also uses a 900g weight instead of 1Kg weight. Find his profit percentage. Answer Choices: (A) 8% (B) 12% (C) 20% (D) 30% (E) None of these",
+            "question_idx": 550,
+            "rationale": "A: Let's think step by step.\nLet the C.P of 1000g of goods be Rs 1,000\nMarket price = Rs 1,200\nSelling price = Rs 1,200 x 0.9 = Rs 1,080 (after discount of 10% )\nIf Rs 1080 is the selling price of 900g of goods ( as he cheats of 10 % while selling )\nC.P of 900g = Rs 900\nProfit = Rs 180\nTherefore, Profit % = (180/900 ) x 100 = 20 %\nANSWER:C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "A": 2,
+                "-10086": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: (8^16)+(16^13)+(4^22) = ? Answer Choices: (A) (4) *(2^29+1)  (B) (6) *(2^48)  (C) (9) *(2^49)  (D) (28) *(2^53)  (E) 2^148",
+            "question_idx": 588,
+            "rationale": "A: Let's think step by step.\nI think you are assuming that (X^Y) + (X^Z) is = (X^Y+Z) which is not true, as it only applies to multiplication. Rather it would have to be (X^Y)(X^Z) = (X^YZ)\nSo when you simplify down to 2^48 + 2^52 + 2^48 you cannot just add exponents.\nHere's how my brain works with this one,\nStep 1: Recognize a common base.\n(8^16) + (16^13) + (4^24) = ((2^2)^16) + ((2^4)^13) + ((2^2)^24) = (2^48) + (2^52) + (2^48)\nStep 2: Recognize the factor and pull out of the equation.\n= (2^48)(1 + (2^4) + 1)\n= (2^48)(1 + 16 + 1)\n= (2^48)(18)\nStep 3: Recognize this is not an answer and adapt.\n(2^48)(18) = (2^48)(2)(9) = (28)*(2^53)\nAnswer is D.",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "A": 2,
+                "D": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Which of the following number will completely divide (49^15)-1? Answer Choices: (A) 8 is the number (B) 6 (C) 22 (D) 12 (E) 14",
+            "question_idx": 816,
+            "rationale": "A: Let's think step by step.\nx^n - 1 will be divisible by x+1 only when n is even.\n49^15 - 1 = (7^2)^15 - 1 = 7^30 - 1 which is divisible by 7+1 i.e. 8\nAnswer is A",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 2,
+                "A": 1,
+                "B": 1,
+                "E": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If money is invested at r percent interest, compounded annually, the amount of the investment will double in approximately 50/r years. If Luke's parents invested $15,500 in a long term bond that pays 12 percent interest compounded annually, what will be the approximate total amount of the investment 12 years later, when Luke is ready for college? Answer Choices: (A) 62,000 (B) 85,500 (C) 95,500 (D) 100,500 (E) 120,000",
+            "question_idx": 899,
+            "rationale": "A: Let's think step by step.\nAnswer equals E in 48 years. I thought by 50th year it would reach 120,000. Options should have been separated more widely for clarity.",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "D": 1,
+                "C": 2,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If x is an odd integer and y = 3x + 2, which of the following CANNOT be a divisor of y? Answer Choices: (A) 23 (B) 5 (C) 14 (D) 17 (E) 11",
+            "question_idx": 699,
+            "rationale": "A: Let's think step by step.\nx takes odd values as 1,3,5,7.,\ny=3x+2\nx is an odd term so 3x must be an odd term when it adds with 2 so it must be a odd integer\n14 didn't follows this condition ans is C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "A": 1,
+                "E": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: How many positive even integers less than 100 contain digits 3 or 7? Answer Choices: (A) 16 (B) 17 (C) 18 (D) 10 (E) 20",
+            "question_idx": 168,
+            "rationale": "A: Let's think step by step.\nTwo digit numbers:\n3 at tens place: 30,32,34,36,38\n7 at tens place: 70,72,74,76,78\nIf 3 and 7 is at units place, the number cant be even\nTotal:5+5= 10\nAnswer D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "-10086": 1,
+                "A": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: 12+6=792\n10+2=110\n1+9=9\n2+7=16\n11+4=??\nSolve it? Answer Choices: (A) 100 (B) 120 (C) 190 (D) 160 (E) 154",
+            "question_idx": 760,
+            "rationale": "A: Let's think step by step.\nx+y=x[y+(x-1)]=x^2+xy-x\n12+6=12[6+(12-1)]=792\n10+2=10[2+(10-1)]=110\n1+9=1[9+(1-1)]=9\n2+7=2[7+(2-1)]=16\n11+4=11[4+(11-1)]=154\nAnswer :E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 2,
+                "No answer": 1,
+                "-10086": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: If the sum of a number and its square is 182, what is the number? Answer Choices: (A) 15 (B) 26 (C) 28 (D) 91 (E) None of these",
+            "question_idx": 585,
+            "rationale": "A: Let's think step by step.\nLet the number = x\nThen, x2 + x = 182\nor, x2 + x – 182 = 0\nor, x + 14x – 13x – 182 = 0\nor, x(x + 14) – 13(x + 14) = 0\nor, (x – 13)(x + 14) = 0\nor, x = 13 (negative value is neglected)\nAnswer E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "-10086": 1,
+                "A": 2,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A train 300 m long is running at the speed of 30 km / hr. Find the time taken by it to pass a man standing near the railway line in seconds Answer Choices: (A) 15 sec (B) 16 sec (C) 17 sec (D) 18 sec (E) 19 sec",
+            "question_idx": 170,
+            "rationale": "A: Let's think step by step.\nExplanation:\nSpeed of the train = (60 x 5/18m / sec = 50/3 m/ sec.\nDistance moved in passing the standing man = 300 m.\nRequired time taken = 300/(50/3) = (300 Ã—(3/50)) sec =6 sec\nAnswer: Option D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "No answer": 1,
+                "D": 1,
+                "A": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two trains of equal lengths take 10 sec and 15 sec respectively to cross a telegraph post. If the length of each train be 120 m, in what time will they cross other travelling in opposite direction? Answer Choices: (A) 10 (B) 12 (C) 13 (D) 14 (E) 15",
+            "question_idx": 233,
+            "rationale": "A: Let's think step by step.\nSpeed of the first train = 120/10 = 12 m/sec.\nSpeed of the second train = 120/5 = 8 m/sec.\nRelative speed = 12 + 8 = 20 m/sec.\nRequired time = (120 + 120)/20 = 12 sec.\nAnswer: Option B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "B": 1,
+                "A": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: How many positive integers less than 5,000 are evenly divisible by neither 17 nor 21? Answer Choices: (A) 4,514 (B) 4,480 (C) 4,521 (D) 4,428 (E) 4,349",
+            "question_idx": 87,
+            "rationale": "A: Let's think step by step.\nintegers less than 5000 divisible by 17 5000/17 =333.something , so 333\nintegers less than 5000 divisible by 21 5000/21 = 238.## , so 238\nwe have double counted some, so take LCM of 17 and 21 =105 and divide by 5000, we get 47. so all numbers divisible by 17 and 21 = 333 +238 -47 =524\nnow subtract that from 4999. 4999- 524 = 4480 answer B.",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "D": 1,
+                "C": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: P works 25% more efficiently than Q and Q works 50% more efficiently than R. To complete a certain project, P alone takes 50 days less than Q alone. If, in this project P alone works for 60 days and then Q alone works for 150 days, in how many days can R alone complete the remaining work? Answer Choices: (A) 50 days (B) 75 days (C) 120 days (D) 150 days (E) 80 days",
+            "question_idx": 988,
+            "rationale": "A: Let's think step by step.\nP works 25% more efficiently than Q: Something that takes Q 5 days, takes P 4 days\nQ works 50% more efficiently than R: Something that takes R 7.5 days, takes Q 5 days\nP alone takes 50 days less than Q: For every 4 days P works, Q has to work an extra day. Hence P alone can do it in 200 days and Q alone in 250 days and hence R alone in 400 days\nP works for 60 days--> 60/200 work done => 30%\nQ works for 150 days--> 150/250 work done => 60%\n30% work left ... R alone will take 30% * 400 = 120 days\nAnswer is (C)",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 1,
+                "-10086": 1,
+                "A": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: 15 men take 20 days of 8 hours each to do a piece of work. How many days of 6 hours each would 21 women take to do the same. If 3 women do as much work as 2 men? Answer Choices: (A) 27.57 (B) 28.57 (C) 29.57 (D) 30.57 (E) 32",
+            "question_idx": 830,
+            "rationale": "A: Let's think step by step.\n3W = 2M\n15M ------ 20 * 8 hours\n21 W ------ x * 6 hours\n14 M ------ x * 6\n15 * 20 * 8 = 14 * x * 6\nx = 28.57\nANSWER:B",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "-10086": 2,
+                "B": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A train 440 meters long is running with a speed of 50 kmph. The time taken by it to cross a tunnel 180 meters long is? Answer Choices: (A) 40.33 sec (B) 41.33 sec (C) 42.33 sec (D) 40 sec (E) 44.64 sec",
+            "question_idx": 817,
+            "rationale": "A: Let's think step by step.\nD = 440 + 180 =620\nS = 50 * 5/18 = 13.88889 mps\nT = 620/13.88889 = 44.64\nE",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "-10086": 2,
+                "A": 1,
+                "E": 1,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two trains are running at 40 km/h and 20 km/h respectively in the same direction. Fast train completely passes a man sitting in the slower train in 5 seconds. What is the length of the fast train? Answer Choices: (A) 23 m (B) 23 2⁄9 m (C) 27 m (D) 27 7⁄9 m (E) None of these",
+            "question_idx": 836,
+            "rationale": "A: Let's think step by step.\nRelative speed = (40 – 20) km/h\n= (20 × 5⁄18) m/sec = (50⁄9) m/sec\nLength of faster train\n= (50⁄9 × 5) m = 250⁄9m = 277⁄9 m\nAnswer D",
+            "final_answer": "D",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 1,
+                "C": 1,
+                "D": 1,
+                "-10086": 2
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: One fill pipe A is 3 times faster than second fill pipe B and takes 10 minutes less time to fill a cistern than B takes. Find when the cistern will be full if fill pipe B is only opened. Answer Choices: (A) 20 min (B) 18 min (C) 15 min (D) 10 min (E) None of these",
+            "question_idx": 543,
+            "rationale": "A: Let's think step by step.\nLet B can fill the cistern in x min. Then,\nthen A can fill the cistern in x⁄3 min\nGiven x - x⁄3 = 10 ⇒ x = 15 min\nAnswer C",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "A": 1,
+                "C": 1,
+                "E": 2,
+                "D": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two trains 110 m and 160 m long run at the speed of 60 km/hr and 40 km/hr respectively in opposite directions on parallel tracks. The time which they take to cross each other is? Answer Choices: (A) 10.9 (B) 10.7 (C) 10.3 (D) 10.8 (E) 9.72",
+            "question_idx": 252,
+            "rationale": "A: Let's think step by step.\nRelative speed = 60 + 40 = 100 km/hr.\n= 100 * 5/18 = 250/9 m/sec.\nDistance covered in crossing each other = 110 + 160 = 270 m.\nRequired time = 270 * 9/250 = 243/25 = 9.72 sec.\n'Answer: E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 2,
+                "B": 1,
+                "No answer": 1,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a division sum, the divisor is ten times the quotient and five times the remainder. If the remainder is 38, the dividend is: Answer Choices: (A) 3648 (B) 3642 (C) 3636 (D) 3644 (E) 3864",
+            "question_idx": 199,
+            "rationale": "A: Let's think step by step.\nDivisor = (5 * 38) = 190\n= 10 * Quotient = Divisor\n=> Quotient = 190/10 = 19\nDividend = (Divisor * Quotient) + Remainder\nDividend = (190 * 19) + 38 = 3648.\nA",
+            "final_answer": "A",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "D": 1,
+                "A": 2,
+                "No answer": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a division sum, the divisor is ten times the quotient and five times the remainder. If the remainder is 46, the dividend is: Answer Choices: (A) 5330 (B) 5336 (C) 5343 (D) 5345 (E) 5350",
+            "question_idx": 37,
+            "rationale": "A: Let's think step by step.\nDivisor = (5 * 46) = 230\n= 10 * Quotient = Divisor\n=> Quotient = 230/10 = 23\nDividend = (Divisor * Quotient) + Remainder\nDividend = (230 * 23) + 46 = 5336.\nB",
+            "final_answer": "B",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "B": 2,
+                "D": 1,
+                "-10086": 1,
+                "C": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: Two goods trains each 1250 m long are running in opposite directions on parallel tracks. Their speeds are 45 km/hr and 30 km/hr respectively. Find the time taken by the slower train to pass the driver of the faster one? Answer Choices: (A) 228 (B) 278 (C) 48 (D) 27 (E) 120",
+            "question_idx": 923,
+            "rationale": "A: Let's think step by step.\nRelative speed = 45 + 30 = 75 km/hr.\n75 * 5/18 = 125/6 m/sec.\nDistance covered = 1250 + 1250 = 2500 m.\nRequired time = 2500 * 6/125 = 120 sec.\nAnswer:E",
+            "final_answer": "E",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "B": 1,
+                "E": 2,
+                "-10086": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: In a division sum, the divisor is ten times the quotient and five times the remainder. If the remainder is 56, the dividend is: Answer Choices: (A) 5324 (B) 6334 (C) 7896 (D) 8356 (E) 8400",
+            "question_idx": 463,
+            "rationale": "A: Let's think step by step.\nDivisor = (5 * 56) = 280\n= 10 * Quotient = Divisor\n=> Quotient = 280/10 = 28\nDividend = (Divisor * Quotient) + Remainder\nDividend = (280 * 28) + 56 = 7896.\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "C": 1,
+                "E": 1,
+                "D": 2,
+                "No answer": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: When sold at a 60% discount, a sweater nets the merchant a 20% profit on the wholesale cost at which he initially purchased the item. By what % is the sweater marked up from wholesale at its normal retail price? Answer Choices: (A) 20% (B) 40% (C) 66.67% (D) 80% (E) 100%",
+            "question_idx": 76,
+            "rationale": "A: Let's think step by step.\nwe should be careful about what are we measuring % on/what is the base..\nlet the Marked up price =100..\nSelling price= 100-60%of 100=40..\nprofit= 20%..\ntherefore the wholesale purchase cost= x.... 1.2x=40\nor x=33.33...\nmarked price was 100 so ...\nso answer is 66.67%..\nC",
+            "final_answer": "C",
+            "entropy": 1.3321790402101223,
+            "occurrence": {
+                "E": 2,
+                "A": 1,
+                "-10086": 1,
+                "B": 1
+            },
+            "disagreement": 4
+        },
+        {
+            "question": "Q: A certain car dealership sells economy cars, luxury cars, and sport utility vehicles. The ratio of economy to luxury cars is 3:1. The ratio of economy cars to sport utility vehicles is 4:3. What is the ratio of luxury cars to sport utility vehicles? Answer Choices: (A) 9:8 (B) 8:9 (C) 4:9 (D) 2:3 (E) 1:2",
+            "question_idx": 135,
+            "rationale": "A: Let's think step by step.\nThe ratio of economy to luxury cars is 3:1 --> E:L = 3:1 = 12:4.\nThe ratio of economy cars to sport utility vehicles is 4:3 --> E:S = 4:3 = 12:9.\nThus, L:S = 4:9.\nAnswer: C.",
+            "final_answer": "C",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "C": 2,
+                "B": 1,
+                "-10086": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: A doctor prescribed 18 cubic centimeters of a certain drug to a patient whose body weight was 120 pounds. If the typical dosage is 4 cubic centimeters per 15 pounds of the body weight, by what percent was the prescribed dosage lesser than the typical dosage? Answer Choices: (A) 8% (B) 9% (C) 11% (D) 12.5% (E) -87.5%",
+            "question_idx": 886,
+            "rationale": "A: Let's think step by step.\nTypical dosage per 15 pound of the body weight = 4 c.c\nTypical dosage per 120 pound of the body weight = 4 *(120/15)\n= 4 * 8\n= 32 c.c\nDosage prescribed by doctor for 120 pound patient = 18 c.c\n% prescribed dosage greater than the typical dosage = (18-32/16) *100%\n=(-14/16) *100%\n= -87..5%\nAnswer E",
+            "final_answer": "E",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "-10086": 2,
+                "B": 1,
+                "E": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: In a certain town, the ratio of NY Yankees fans to NY Mets fans is 2:1, and the ratio of NY Mets fans to Boston Red Sox fans is 3:7. If there are 320 baseball fans in the town, each of whom is a fan of exactly one of those three teams, how many NY Mets fans are there in this town? Answer Choices: (A) 48 (B) 52 (C) 56 (D) 60 (E) 64",
+            "question_idx": 276,
+            "rationale": "A: Let's think step by step.\nThe ratio of Yankees:Mets:Red Sox = 6:3:7\nThe Mets fans are 3/16 of the population.\n(3/16)*320 = 60\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "E": 2,
+                "B": 2,
+                "D": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: A bag of potatoes weighs 36 lbs divided by half of its weight. How much does the bag of potatoes weight? Answer Choices: (A) 20 lb (B) 30 lb (C) 10 lb (D) 15 lb (E) 36 lb",
+            "question_idx": 939,
+            "rationale": "A: Let's think step by step.\nSol.\n36÷3 = 12.\nAnswer : E",
+            "final_answer": "E",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "A": 1,
+                "-10086": 2,
+                "No answer": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: On a certain transatlantic crossing, 40 percent of a ship’s passengers held round-trip tickets and also took their cars abroad the ship. If 50 percent of the passengers with round-trip tickets did not take their cars abroad the ship, what percent of the ship’s passengers held round-trip tickets? Answer Choices: (A) 40% (B) 50% (C) 60% (D) 80% (E) 90%",
+            "question_idx": 338,
+            "rationale": "A: Let's think step by step.\nLet T be the total number of passengers.\nLet x be the number of people with round trip tickets.\n0.4T had round trip tickets and took their cars.\n0.5x had round trip tickets and took their cars.\n0.5x = 0.4T\nx = 0.8T\nThe answer is D.",
+            "final_answer": "D",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "C": 2,
+                "-10086": 1,
+                "A": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: An alchemist discovered that the formula expressing the correct proportions needed to turn ordinary metal into gold is G = 3/2M + 15, where G is the number of gold bars and M is the number of metal bars. If a metal bar weighs twice as much as a gold bar, how many metal bars will yield an equal weight of gold Answer Choices: (A) a.\tA - 10 (B) b.\tB - 15 (C) c.\tC – 22.5 (D) d.\tD – 40 (E) e.\tE – 67.5",
+            "question_idx": 181,
+            "rationale": "A: Let's think step by step.\nA --- 30/2 + 15 = 30 --- CORRECT\nB --- 45/2 + 15 = not an integer --- wrong\nC --- 22.5(3/2) + 15 = not an integer --- wrong\nD --- 120/2+15 = 75 --- wrong\nThis is one of those problems that will probably be easiest to solve by plugging in numbers. The algebra is do-able, but it's not worth the effort (in my opinion). I was able to solve it in under 30 seconds total with this method.\nA",
+            "final_answer": "A",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "A": 2,
+                "E": 1,
+                "No answer": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Kiran has 85 currency notes in all, some of which were of Rs. 100 denomination and the\nremaining of Rs. 50 denomination. The total amount of all these currency notes was Rs.\n5000. How much amount did she have in the denomination of Rs. 50?\nA. B. C. None of these D.\nAnswer: Option B\nExplanation: Answer Choices: (A) 1900 (B) 3500 (C) 4000 (D) 2000 (E) 2500",
+            "question_idx": 309,
+            "rationale": "A: Let's think step by step.\nLet the number of 50 – rupee notes be x.\nThen, the number of 100-rupee notes = (85 – x)\n50x + 100(85 – x) = 5000\nx + 2 (85 – x) = 100 = x=70\nSo, required amount = Rs. (50 x 70) = Rs. 3500 ANSWER :B",
+            "final_answer": "B",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "E": 1,
+                "-10086": 2,
+                "B": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: In a garden, there are 10 rows and 17 columns of mango trees. The distance between the two trees is 2 metres and a distance of one metre is left from all sides of the boundary of the garden. The length of the garden is Answer Choices: (A) 20 m (B) 22 m (C) 34 m (D) 26 m (E) 28 m",
+            "question_idx": 777,
+            "rationale": "A: Let's think step by step.\nExplanation:\nEach row contains 17 plants.\nThere are 15 gapes between the two corner trees (16 x 2) metres and 1 metre on each side is left.\nTherefore Length = (32 + 2) m = 34 m.\nAnswer: C",
+            "final_answer": "C",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "B": 1,
+                "A": 2,
+                "-10086": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Primary batteries, unlike secondary batteries, may be: Answer Choices: (A) 2 (B) 7 (C) 6 (D) 8 (E) 9",
+            "question_idx": 63,
+            "rationale": "A: Let's think step by step.\nExplanation:\nPrimary batteries (disposable batteries), which are designed to be used once and discarded when they are exhausted.\nSecondary batteries (rechargeable batteries), which are designed to be recharged and used multiple times.\nAnswer: Option B",
+            "final_answer": "B",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "-10086": 2,
+                "C": 2,
+                "A": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: A reduction of 25% in the price of oil enables a house wife to obtain 5kgs more for Rs.1300, what is the reduced price for kg? Answer Choices: (A) s.40 (B) s.65 (C) s.49 (D) s.41 (E) s.42",
+            "question_idx": 786,
+            "rationale": "A: Let's think step by step.\n1300*(25/100) = 325 ---- 5\n? ---- 1\n=> Rs.65\nAnswer: B",
+            "final_answer": "B",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "C": 2,
+                "A": 2,
+                "-10086": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: On a certain scale of intensity, each increment of 10 in magnitude represents a tenfold increase in intensity. On this scale, an intensity corresponding to a magnitude of 160 is how many times an intensity corresponding to a magnitude of 125? Answer Choices: (A) 40 (B) 100 (C) 400 (D) 1000 (E) 10 000",
+            "question_idx": 919,
+            "rationale": "A: Let's think step by step.\nIncrease of 40 in magnitude corresponds to 10^4 increase in intensity:\nIf intensity for 125 is x then for 135 it'll be 10*x, for 145 it'll be 10*10*x=10^2*x, for 155 it'll be 10*10*10*x=10^3*x and for 160 it'll be 10*10*10*10*x=10^3*x.\nAnswer: D.",
+            "final_answer": "D",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "-10086": 2,
+                "E": 2,
+                "D": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: The average weight of a class is x pounds. When a new student weighing 100 pounds joins the class, the average decreases by 1 pound. In a few months the student’s weight increases to 110 pounds and the average weight of the class becomes x + 4 pounds. None of the other students’ weights changed. What is the value of x? Answer Choices: (A) 85 (B) 86 (C) 88 (D) 90 (E) 92",
+            "question_idx": 473,
+            "rationale": "A: Let's think step by step.\nWhen the student weighs 80 pounds the average weight is x - 1 pounds;\nWhen the student weighs 110 pounds the average weight is x + 4 pounds.\nSo, the increase in total weight of 110 - 80 = 30 pounds corresponds to the increase in average weight of (x + 4) - (x - 1) =5 pounds, which means that there are 30/5 = 6 students (including the new one). So, initially there were 5 student.\nTotal weight = 5x + 80 = 6(x-1) --> x = 92 pounds.\nAnswer: E.",
+            "final_answer": "E",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "-10086": 2,
+                "A": 2,
+                "E": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: The ratio of male to female in a class is 3:4. the career preference of the students in the class are to be represented in a circle graph. If the area of the graph allocated to each career preference is to be proportional to the number of students who have that career preference, how many degrees of the circle should be used to represent a career that is preferred by one third of the males and two-third of the females in the class? Answer Choices: (A) a) 160 degree (B) b)  168 degree (C) c) 264 degree (D) d) 192 degree (E) e) 204 degree",
+            "question_idx": 888,
+            "rationale": "A: Let's think step by step.\nlet the common ratio be x.. so M=3x and F=4x and Total=7x\n1/3 of M= 3x/3 and 2/3 of F= 8x/3\nTotal preferring that carrer = x+8x/3=11x/3\nNow 5x= 360, so x=360/5=72..\nso x*8/3= 72*11/3=192\nC",
+            "final_answer": "C",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "A": 1,
+                "-10086": 2,
+                "D": 2
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: Paul's income is 40% less than Rex's income, Quentin's income is 20% less than Paul's income, and Sam's income is 40% less than Paul's income. If Rex gave 40% of his income to Sam and 60% of his income to Quentin, Quentin's new income would be what fraction of Sam's new income? Answer Choices: (A) \t11/12 (B) \t13/17 (C) \t13/19 (D) \t12/19 (E) \t27/19",
+            "question_idx": 636,
+            "rationale": "A: Let's think step by step.\nMAKE R = 10\nP = 0.6R = 6\nQ = 0.8P = 4.8\nS= 0.6P = 3.6\nFOR THAT WE GET S = 7.6\nAND Q 10.8\nSO 10.8/7.6 = 2.7/ 1.9\nAns:E",
+            "final_answer": "E",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "E": 2,
+                "D": 2,
+                "-10086": 1
+            },
+            "disagreement": 3
+        },
+        {
+            "question": "Q: In the third grade of Windblown School there are 96 students, one third of them failed the math test and 1/6 failed that literature test. At least how many students failed both tests? Answer Choices: (A) 0. (B) 6. (C) 8. (D) 10. (E) 12.",
+            "question_idx": 871,
+            "rationale": "A: Let's think step by step.\nTotal = 96\nfailed in math = 96/3=32\nfailed in literature=108/6=16\nthe least failed in both can be 0\nwhile max can be 16\nAnswer A",
+            "final_answer": "A",
+            "entropy": 1.0549201679861442,
+            "occurrence": {
+                "A": 2,
+                "-10086": 2,
+                "B": 1
+            },
+            "disagreement": 3
+        }
+    ]
+}

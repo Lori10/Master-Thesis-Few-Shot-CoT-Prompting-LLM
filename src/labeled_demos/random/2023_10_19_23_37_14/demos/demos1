@@ -1,0 +1,52 @@
+{
+    "demo": [
+        {
+            "question": "Q: Francine drives 140km to work each day. If she does not go to work 3 days every week, find the total distance she drives to work for 4 weeks in kilometers.",
+            "rationale": "A: Let's think step by step.\nThere are 7 days in a week, so if he doesn't go to work for 3 days, he goes 7-3 = <<7-3=4>>4 days every week\nHe travels 140km each day for a weekly total of 140*4 = <<140*4=560>>560km\nIn 4 weeks he will travel a total of 4*560 = <<4*560=2240>>2240km",
+            "final_answer": "2240",
+            "question_idx": 654
+        },
+        {
+            "question": "Q: A zoo has 8 parrots. It 3 times the number of snakes than parrots and 2 times the number of monkeys than snakes. The number of elephants is half the number of parrots and snakes added up, and there are 3 fewer zebras than elephants. What is the difference in number between the zebras and the monkeys?",
+            "rationale": "A: Let's think step by step.\nThe zoo has 8 x 3 = <<8*3=24>>24 snakes.\nIt has 24 x 2 = <<24*2=48>>48 monkeys.\nThe number of parrots and snakes added up is 8 + 24 = <<8+24=32>>32\nThere are 32/2 = <<32/2=16>>16 elephants.\nThere are 16 - 3 = <<16-3=13>>13 zebras.\nThe difference between zebras and monkeys is 48 - 13 = <<48-13=35>>35",
+            "final_answer": "35",
+            "question_idx": 114
+        },
+        {
+            "question": "Q: Mr. Maximilian is a dairy animal farmer and has 140 cows on his farm. Forty percent of the cows on his farm have a red spot, 25 percent of the cows without a red spot have a blue spot and the remaining cows do not have any spot. How many cows on the farm have no spot?",
+            "rationale": "A: Let's think step by step.\nIf Mr. Maximilian has 140 cows and 40% of them have red spots, then 40/100*140 = <<140*40/100=56>>56 cows have red spots.\nThe number of cows with no red spot is 140-56 = <<140-56=84>>84 cows.\nOut of the 84 cows without a red spot, 25% of them have a blue spot, a total of 25/100*84 = <<25/100*84=21>>21 cows.\nThe number of cows without any spot is 84-21 =<<84-21=63>>63 animals.",
+            "final_answer": "63",
+            "question_idx": 25
+        },
+        {
+            "question": "Q: Debbie works at a post office packing boxes to mail. Each large box takes 4 feet of packing tape to seal, each medium box takes 2 feet of packing tape to seal, and each small box takes 1 foot of packing tape to seal. Each box also takes 1 foot of packing tape to stick the address label on. Debbie packed two large boxes, eight medium boxes, and five small boxes this afternoon. How much tape did she use?",
+            "rationale": "A: Let's think step by step.\nDebbie used 4 * 2 = <<4*2=8>>8 feet of tape for the large boxes.\nShe used 2 * 8 = <<2*8=16>>16 feet of tape for the medium boxes.\nShe used 1 * 5 = <<1*5=5>>5 feet of tape for the small boxes.\nThere were 2 + 8 + 5 = <<2+8+5=15>>15 boxes in all.\nShe used 1 * 15 = <<1*15=15>>15 feet of tape for the address labels.\nThus, she used 8 + 16 + 5 + 15 = <<8+16+5+15=44>>44 feet of tape in all.",
+            "final_answer": "44",
+            "question_idx": 759
+        },
+        {
+            "question": "Q: Tricia ordered three dozen eggs. She will use 1/4 of them for making crepes, and 2/3 of the remaining for making cupcakes. How many eggs are left to make sunny-side-up eggs for breakfast?",
+            "rationale": "A: Let's think step by step.\nSince a dozen is equal to 12, then 3 dozen eggs are equal to 12 x 3 = <<3*12=36>>36 eggs.\nTricia will use 36 x 1/4 = <<36*1/4=9>>9 eggs for making crepes.\nSo there are 36 - 9 = <<36-9=27>>27 eggs left.\n27 x 2/3 = <<27*2/3=18>>18 eggs will be used for making cupcakes.\nThus, there are only 27 - 18 = <<27-18=9>>9 eggs left to make sunny-side-up eggs for breakfast.",
+            "final_answer": "9",
+            "question_idx": 281
+        },
+        {
+            "question": "Q: An apple tree has three times as many apples as the number of plums on a plum tree. If Damien picks 3/5 of the fruits from the trees, calculate the total number of plums and apples remaining on the tree if there were 180 apples on the apple tree before Damien picked any of the fruits.",
+            "rationale": "A: Let's think step by step.\nInitially, the were 180//3= <<180//3=60>>60 plums on the plum tree.\nWhen Damien picked 3/5 of the apples from the apple tree, he picked 3/5*180 = <<3/5*180=108>>108 apples\nThe number of apples remaining on the apple tree is 180-108= <<180-108=72>>72\nThe number of plums that Damien picked from the plum tree is 3/5*60 = <<3/5*60=36>>36\nThe number of plums remaining on the plum tree is 60-36 = <<60-36=24>>24\nThe total number of fruits remaining on the trees is 72 apples+24 plums = <<72+24=96>>96",
+            "final_answer": "96",
+            "question_idx": 250
+        },
+        {
+            "question": "Q: Peggy fell off her bike and skinned her knees.  She needed two bandages on her left knee and three bandages on her right knee.  If the box of bandages had 8 less than two dozen bandages before Peggy skinned her knees, how many bandages were left in the box after Peggy finished putting bandages on her knees?",
+            "rationale": "A: Let's think step by step.\nTwo dozen is 12*2=<<12*2=24>>24.\nEight less than two dozen bandages is 24-8=<<24-8=16>>16 bandages.\nShe needed two bandages on her left knee and three bandages on her right knee for a total of 2+3=<<2+3=5>>5 bandages.\nTherefore, after Peggy finished putting bandages on her knees there were 16-5=<<16-5=11>>11 bandages remaining in the box.",
+            "final_answer": "11",
+            "question_idx": 228
+        },
+        {
+            "question": "Q: Junior has 16 rabbits. On Monday, he bought 6 toys for his rabbits. On Wednesday, he bought twice as many toys as he did Monday. On Friday, he bought four times as many toys as he did on Monday, and on the next day he bought half as many toys as he did on Wednesday. If he split all the toys evenly between the rabbits, how many toys would each rabbit have?",
+            "rationale": "A: Let's think step by step.\nOn Wednesday, Junior bought 6*2 = <<6*2=12>>12 toys.\nOn Friday, Junior bought 6*4 = <<6*4=24>>24 toys.\nOn Saturday he bought 12/2 = <<12/2=6>>6 toys.\nIn total, Junior bought 6+12+24+6 = <<6+12+24+6=48>>48 toys.\nEach rabbit would have 48/16 = <<48/16=3>>3 toys.",
+            "final_answer": "3",
+            "question_idx": 142
+        }
+    ]
+}

@@ -8,6 +8,7 @@ from utils.uncertainty_estimation import generate_uncertainty_all_questions
 from utils.prompts_llm import create_prompts_inference, initialize_llmchain, initialize_llm
 import sys
 import random
+from utils.filter_simple_examples import filter_examples_with_labels
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Active_CoT")
@@ -16,10 +17,12 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gsm8k/train.jsonl",
-        choices=["../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset used for experiment"
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+        choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
+                 "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+                 "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
     )
-    
+
     parser.add_argument(
         "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
@@ -53,7 +56,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--uncertainty_metric_value", type=str, default=3, choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
+        "--uncertainty_metric_value", type=str, default=1, choices=['disagreement', 'variance', 'entropy'], help="sort the final result by given option"
     )
 
     parser.add_argument(
@@ -62,11 +65,19 @@ def arg_parser():
 
     # use the sorted uncertainty file to select the demonstrations for Active CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/sorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
         "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
+    )
+
+    parser.add_argument(
+        "--max_ra_len", type=int, default=12, help="maximum number of reasoning chains"
+    )
+
+    parser.add_argument(
+        "--max_token_len", type=int, default=86, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
@@ -125,6 +136,8 @@ def main():
     args.uncertainty_scores_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'uncertainty_scores/'
     args.demos_save_dir = args.demos_save_dir + '/' + 'active' + '/' + time_string + '/' + 'demos/'
 
+    dataloader = create_dataloader(args)
+
     args_dict = {
         'dataset': args.dataset,
         'data_path': args.data_path,
@@ -145,6 +158,7 @@ def main():
         with open(args.load_uncertainty_args_file, 'r', encoding="utf-8") as f:
             uncertainty_args = json.load(f)
 
+        uncertainty_metric = uncertainty_args['sort_by']
         args_dict['generate_uncertainty_args'] = uncertainty_args
 
     else: 
@@ -155,7 +169,6 @@ def main():
         args_dict["temperature"] = args.temperature
         args_dict["dir_prompts"] = args.dir_prompts
         
-        dataloader = create_dataloader(args)
         prompts_list = create_prompts_inference(args)
 
         assert len(prompts_list) == 1
@@ -169,6 +182,21 @@ def main():
         # print('*' * 50)
 
         result = generate_uncertainty_all_questions(args, dataloader, True, azure_llm_chain, openai_llm_chain)
+
+
+    if 'zeroshotcot' in args.data_path:
+        zeroshot_uncertainty_ranked_data = []
+        for item in result:
+            selected_example = dataloader[item['question_idx']]
+            selected_example[uncertainty_metric] = item[uncertainty_metric]
+            selected_example[args.uncertainty_metric] = item[args.uncertainty_metric]
+            zeroshot_uncertainty_ranked_data.append(selected_example)
+
+        result = filter_examples_with_labels(args, zeroshot_uncertainty_ranked_data, args.max_token_len, args.max_ra_len)
+        args_dict['max_token_len'] = args.max_token_len
+        args_dict['max_ra_len'] = args.max_ra_len
+        args_dict["nr_filtered_examples"] = len(result)
+
 
     random.seed(args.random_seed)
     random.shuffle(result)

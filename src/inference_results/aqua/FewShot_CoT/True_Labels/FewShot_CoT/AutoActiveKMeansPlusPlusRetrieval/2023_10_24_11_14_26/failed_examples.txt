@@ -1,0 +1,26 @@
+[
+    {
+        "question_idx": 9,
+        "question": "Q: What is the largest integral value of 'k' for which the quadratic equation x2 - 5x + k = 0 will have two real and distinct roots? Answer Choices: (A) 9 (B) 7 (C) 3 (D) 8 (E) 12"
+    },
+    {
+        "question_idx": 58,
+        "question": "Q: Machine A puts out a yo-yo every 6 minutes. Machine B puts out a yo-yo every 9 minutes. After how many minutes will they have produced 10 yo-yos? Answer Choices: (A) 24 minutes (B) 32 minutes (C) 36 minutes (D) 64 minutes (E) 72 minutes"
+    },
+    {
+        "question_idx": 70,
+        "question": "Q: x men working x hours per day can do x units of a work in x days. How much work can be completed by y men working y hours per day in y days? Answer Choices: (A) x2/y2 units (B) y3/x2 units (C) x3/y2 units (D) y2/x2 units (E) None of these"
+    },
+    {
+        "question_idx": 128,
+        "question": "Q: Points A, B, C, D lie in this order on the circumference of a circle. Minor arc AC is 160\u00b0, and minor arc BD is 150\u00b0. If B bisects minor arc AC, then what is the measure of minor arc AD? Answer Choices: (A) 80\u00b0 (B) 130\u00b0 (C) 140\u00b0 (D) 160\u00b0 (E) 220\u00b0"
+    },
+    {
+        "question_idx": 157,
+        "question": "Q: A computer routine was developed to generate two numbers (x,y) the first being a random number between 0 and 100 inclusive, and the second being less than or equal to the square root of the first. Each of the following pair satisfies the routine except Answer Choices: (A) (99,10)  (B) (85,9)  (C) (50,7)  (D) (1,1)  (E) (1,0) "
+    },
+    {
+        "question_idx": 230,
+        "question": "Q: The sum of k consecutive integers is 51. If the least integer is -50, then k = Answer Choices: (A) 40 (B) 62 (C) 82 (D) 92 (E) 102"
+    }
+]

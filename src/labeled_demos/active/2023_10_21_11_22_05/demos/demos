@@ -1,0 +1,36 @@
+{
+    "demo": [
+        {
+            "question": "Q: A man can row upstream at 10kmph and downstream at 24 kmph. The speed of the stream is Answer Choices: (A) 2.5 km/hr (B) 4.2 km/hr (C) 7 km/hr (D) 10.5 km/hr (E) None",
+            "rationale": "A: Let's think step by step. Let the speed of the boat be 'b' and the speed of the stream be 's'. When the man rows upstream, his effective speed is (b - s) and when he rows downstream, his effective speed is (b + s). We are given that the man can row upstream at 10 kmph and downstream at 24 kmph. So, we have two equations: b - s = 10 b + s = 24 Adding these equations, we get: 2b = 34 b = 17 Substituting this value of b in either of the equations, we get: s = 24 - 17 = 7 Therefore, the speed of the stream is 7 km/hr. Hence, the correct answer is (C) 7 km/hr.",
+            "final_answer": "C",
+            "question_idx": 284,
+            "entropy": 0.9502705392332347,
+            "disagreement": 3
+        },
+        {
+            "question": "Q: How many keystrokes are needed to type numbers from 1 to 1000? Answer Choices: (A) 3001 (B) 2893 (C) 2704 (D) 2890 (E) None of these",
+            "rationale": "A: Let's think step by step. To type numbers from 1 to 9, we need 9 keystrokes (1, 2, 3, 4, 5, 6, 7, 8, 9). To type numbers from 10 to 99, we need 180 keystrokes (10-19: 10, 11, 12, 13, 14, 15, 16, 17, 18, 19; 20-29: 20, 21, 22, 23, 24, 25, 26, 27, 28, 29; and so on up to 90-99). To type numbers from 100 to 999, we need 2700 keystrokes (100-199: 100, 101, 102, 103, 104, 105, 106, 107, 108, 109; 110-119: 110, 111, 112, 113, 114, 115, 116, 117, 118, 119; and so on up to 990-999). Finally, we need 1 keystroke for the number 1000. Adding these up, we get 9 + 180 + 2700 + 1 = 2890 keystrokes. Therefore, the answer is (D) 2890.",
+            "final_answer": "D",
+            "question_idx": 387,
+            "entropy": 0.9502705392332347,
+            "disagreement": 3
+        },
+        {
+            "question": "Q: How much time will it take for an amount of Rs. 450 to yield Rs. 81 as interest at 4.5 % per annum of simple interest ? Answer Choices: (A) 3.5 years (B) 4 years (C) 4.5 years (D) 5 years (E) None",
+            "rationale": "A: Let's think step by step. We know that Simple Interest (SI) = (P * R * T) / 100, where P is the principal amount, R is the rate of interest and T is the time period. Here, P = Rs. 450, SI = Rs. 81 and R = 4.5% Substituting the values in the formula, we get: 81 = (450 * 4.5 * T) / 100 Simplifying this equation, we get: T = (81 * 100) / (450 * 4.5) T = 4 years Therefore, the answer is (B) 4 years.",
+            "final_answer": "B",
+            "question_idx": 105,
+            "entropy": 0.9502705392332347,
+            "disagreement": 3
+        },
+        {
+            "question": "Q: If north becomes south-west ant south-west becomes east and all the directions changed in the same manner,then what will be the direction for south-east? Answer Choices: (A) North-West (B) North-East (C) North (D) West (E) none",
+            "rationale": "A: Let's think step by step. If north becomes south-west, then south-west becomes north-east. Similarly, if south-west becomes east, then east becomes south. Therefore, we can conclude that south-east will become west. So, the correct answer is (D) West.",
+            "final_answer": "D",
+            "question_idx": 642,
+            "entropy": 0.9502705392332347,
+            "disagreement": 3
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+    "nr_demos": 8,
+    "uncertainty_metric": "disagreement",
+    "uncertainty_metric_value": 1,
+    "load_uncertainty_file": "final_uncertainties/2023_08_29_14_44_47/sorted_all_uncertainty_records",
+    "load_uncertainty_args_file": "final_uncertainties/2023_08_29_14_44_47/args.json",
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/active/2023_10_21_14_57_47/demos/",
+    "uncertainty_scores_dir": "labeled_demos/active/2023_10_21_14_57_47/uncertainty_scores/",
+    "generate_uncertainty_args": {
+        "dataset": "gsm8k",
+        "data_path": "../datasets/gsm8k/train.jsonl",
+        "random_seed": 1,
+        "dataset_size_limit": 1000,
+        "num_trails": 5,
+        "temperature": 0.7,
+        "model_id": "gpt-35-turbo-0613",
+        "method": "cot",
+        "dir_prompts": "uncertainty_estimation_prompts/gsm8k",
+        "answers_are_available": true,
+        "sort_by": "entropy",
+        "uncertainty_save_dir": "uncertainties/gsm8k/2023_08_29_14_44_47/",
+        "execution_time": "19673.61033821106 seconds"
+    },
+    "max_token_len": 86,
+    "max_ra_len": 12,
+    "nr_filtered_examples": 830
+}

@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: Which of the following is the lowest positive integer that is divisible by 7, 8, 9, 10, and 11? Answer Choices: (A) 27,720 (B) 29,940 (C) 31,960 (D) 33,970 (E) 35,890\n\nA: The answer is A.\n\nQ: The percentage profit earned by selling an article for Rs. 1920 is equal to the percentage loss incurred by selling the same article for Rs. 1280. At what price should the article be sold to make 25% profit? Answer Choices: (A) 3000 (B) 1230 (C) 2000 (D) 5600 (E) 3400\n\nA: The answer is C.\n\nQ: Two trains each 250 m in length are running on the same parallel lines in opposite directions with the speed of 80 kmph and 70 kmph respectively. In what time will they cross each other completely? Answer Choices: (A) 19 sec (B) 22 sec (C) 12 sec (D) 42 sec (E) 32 sec\n\nA: The answer is C.\n\nQ: What are the number of ways to select 3 men and 2 women such that one man and one woman are always selected? Answer Choices: (A) 26 ways (B) 19 ways (C) 30 ways (D) 76 ways (E) 15 ways\n\nA: The answer is C.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.515748031496063
+    },
+    {
+        "mean_accuracy": 0.515748031496063
+    }
+]

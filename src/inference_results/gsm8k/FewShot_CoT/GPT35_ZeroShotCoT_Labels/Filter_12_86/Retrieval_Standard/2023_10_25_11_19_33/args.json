@@ -1,0 +1,20 @@
+{
+    "sampling_method": "Retrieval-CoT",
+    "training_dataset": "gsm8k",
+    "traininig_dataset_size_limit": 1000,
+    "training_data_path": "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "standard",
+    "random_seed": 1,
+    "temperature": 0.0,
+    "nr_demos": 8,
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "test_data_path": "../datasets/original/gsm8k/test.jsonl",
+    "test_dataset_size_limit": 0,
+    "nr_filtered_examples": 830,
+    "max_ra_len": 12,
+    "max_token_len": 86,
+    "used_test_dataset_size_limit": 1319,
+    "execution_time": "3234.0842576026917 seconds"
+}

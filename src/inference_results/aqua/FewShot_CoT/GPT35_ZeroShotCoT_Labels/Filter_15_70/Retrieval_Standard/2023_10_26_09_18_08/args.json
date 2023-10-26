@@ -1,0 +1,20 @@
+{
+    "sampling_method": "Retrieval-CoT",
+    "training_dataset": "aqua",
+    "traininig_dataset_size_limit": 1000,
+    "training_data_path": "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "standard",
+    "random_seed": 1,
+    "temperature": 0.0,
+    "nr_demos": 4,
+    "embedding_model_id": "text-embedding-ada-002-v2",
+    "test_data_path": "../datasets/original/aqua/test.json",
+    "test_dataset_size_limit": 0,
+    "nr_filtered_examples": 696,
+    "max_ra_len": 15,
+    "max_token_len": 70,
+    "used_test_dataset_size_limit": 253,
+    "execution_time": "777.8941404819489 seconds"
+}

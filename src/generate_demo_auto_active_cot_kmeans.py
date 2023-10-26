@@ -15,12 +15,12 @@ from utils.filter_simple_examples import filter_examples_with_labels, filter_exa
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Auto-Active-CoT-KMeans")
     parser.add_argument(
-        "--dataset", type=str, default="aqua",
+        "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt",
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
         choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
                  "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
                  "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"
@@ -31,11 +31,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--max_token_len", type=float, default=70, help="maximum number of reasoning chains"
+        "--max_token_len", type=float, default=86, help="maximum number of reasoning chains"
     )
 
     parser.add_argument(
-        "--max_ra_len", type=float, default=15, help="maximum number of reasoning chains"
+        "--max_ra_len", type=float, default=12, help="maximum number of reasoning chains"
     )
     
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
@@ -57,10 +57,10 @@ def parse_arguments():
         "--temperature", type=float, default=0.7, help="temperature for llm decoding"
     )
     parser.add_argument(
-        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/aqua", help="prompts to use"
+        "--dir_prompts", type=str, default="uncertainty_estimation_prompts/gsm8k", help="prompts to use"
     )
     parser.add_argument(
-        "--nr_demos", type=int, default=4, help='number of demonstrations'
+        "--nr_demos", type=int, default=8, help='number of demonstrations'
     )
 
     parser.add_argument(
@@ -69,11 +69,11 @@ def parse_arguments():
 
     # use the unsorted uncertainty file to select the demonstrations for Auto-Active-KMeans CoT
     parser.add_argument(
-        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
+        "--load_uncertainty_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/unsorted_all_uncertainty_records', help='nr of demonstrations to select'
     )
 
     parser.add_argument(
-        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_30_00_02_11/args.json', help='nr of demonstrations to select'
+        "--load_uncertainty_args_file", type=str, default='final_uncertainties/2023_08_29_14_44_47/args.json', help='nr of demonstrations to select'
     )
     
     parser.add_argument(
@@ -81,11 +81,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--load_embeddings_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/embeddings.pkl', help='file to load embeddings from'
+        "--load_embeddings_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/embeddings.pkl', help='file to load embeddings from'
     )
 
     parser.add_argument(
-        "--load_embeddings_args_file", type=str, default='embeddings/aqua/2023_08_29_22_52_21/args.json', help='file to load embeddings from; either None or a path to a file'
+        "--load_embeddings_args_file", type=str, default='embeddings/gsm8k/2023_08_29_22_56_01/args.json', help='file to load embeddings from; either None or a path to a file'
     )
 
     args = parser.parse_args()

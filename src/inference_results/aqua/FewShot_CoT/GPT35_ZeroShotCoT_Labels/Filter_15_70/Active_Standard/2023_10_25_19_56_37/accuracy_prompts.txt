@@ -1,0 +1,9 @@
+[
+    {
+        "prompt": "You are an expert at arithmetic reasoning and are willing to solve algebraic word problems. Select the correct answer from the given options. If none of the options are correct, generate 'None of the above'. To generate the answer follow the format of the examples below:\n\nQ: If y/(x - z) = (y + x)/z = x/y then find x : y : z ? Answer Choices: (A) 1 : 2 : 3 (B) 3 : 2 : 1 (C) 4 : 2 : 3 (D) 2 : 4 : 7 (E) none of these\n\nA: The answer is E.\n\nQ: Three friends-whose walking rates are 1 ft./sec., 3ft./sec.,and 6ft./sec. start together walking in the same direction around a circular track that is 420 feet in circumference.After how many minutes are the three of them together again? Answer Choices: (A) 5 mins (B) 10 mins (C) 15 mins (D) 3 mins (E) 7 mins\n\nA: The answer is E.\n\nQ: A jar full of whisky contains 40% alcohol. A part of this whisky is replaced by another containg 19% alcohol and now the percentage of alcohol was found to be 22%. What quantity of whisky is replaced ? Answer Choices: (A) 1/3 (B) 2/3 (C) 2/5 (D) 3/5 (E) 4/5\n\nA: The answer is C.\n\nQ: The average of temperatures at noontime from Monday to Friday is 40; the lowest one is 30, what is the possible maximum range of the temperatures? Answer Choices: (A) 20 (B) 25 (C) 50 (D) 45 (E) 75\n\nA: The answer is A.\n\nQ: {question}\nA: Let's think step by step.",
+        "accuracy": 0.5196850393700787
+    },
+    {
+        "mean_accuracy": 0.5196850393700787
+    }
+]

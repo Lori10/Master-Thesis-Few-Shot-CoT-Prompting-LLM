@@ -13,15 +13,15 @@ def arg_parser():
     parser = argparse.ArgumentParser(description="CoT")
     parser.add_argument("--random_seed", type=int, default=1, help="random seed")
     parser.add_argument(
-        "--dataset", type=str, default="gsm8k", choices=["gsm8k", "aqua"], help="dataset to inference"
+        "--dataset", type=str, default="aqua", choices=["gsm8k", "aqua"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/original/gsm8k/test.jsonl", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl", "../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset to inference"
+        "--data_path", type=str, default="../datasets/original/aqua/test.json", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl", "../datasets/gsm8k/train.jsonl", "../datasets/AQuA/train.json"], help="dataset to inference"
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/active/2023_10_21_14_57_47/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/active/2023_10_16_18_20_29/demos", help="prompts to use"
     )
 
     parser.add_argument(
@@ -33,7 +33,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--method", type=str, default="standard", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(

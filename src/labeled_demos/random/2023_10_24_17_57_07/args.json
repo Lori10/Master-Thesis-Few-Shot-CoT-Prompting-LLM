@@ -1,0 +1,16 @@
+{
+    "sampling_method": "Random",
+    "dataset": "gsm8k",
+    "data_path": "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
+    "dataset_size_limit": 1000,
+    "training_set_random_seed": 1,
+    "method_random_seed": 42,
+    "nr_seeds": 2,
+    "nr_demos": 8,
+    "answers_are_available": true,
+    "demos_save_dir": "labeled_demos/random/2023_10_24_17_57_07/demos/",
+    "nr_filtered_examples": 830,
+    "max_ra_len": 12,
+    "max_token_len": 86,
+    "execution_time": "0.002001047134399414 seconds"
+}

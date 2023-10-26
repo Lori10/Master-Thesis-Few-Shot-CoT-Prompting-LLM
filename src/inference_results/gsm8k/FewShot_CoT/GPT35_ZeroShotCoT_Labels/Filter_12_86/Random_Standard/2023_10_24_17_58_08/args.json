@@ -1,0 +1,15 @@
+{
+    "dataset": "gsm8k",
+    "dataset_size_limit": 1319,
+    "data_path": "../datasets/original/gsm8k/test.jsonl",
+    "random_seed": 1,
+    "model_id": "gpt-35-turbo-0613",
+    "backup_model_id": "gpt-3.5-turbo-0613",
+    "method": "standard",
+    "output_dir": "inference_results/2023_10_24_17_58_08/",
+    "temperature": 0.0,
+    "multipath": 1,
+    "answers_are_available": true,
+    "execution_time": "4676.748700141907 seconds",
+    "dir_prompts": "labeled_demos/random/2023_10_24_17_57_07/demos"
+}

@@ -15,7 +15,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path", type=str, default="../datasets/original/gsm8k/train.jsonl",
+        "--data_path", type=str, default="../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
         choices=["../datasets/original/gsm8k/train.jsonl", "../datasets/original/AQuA/train.json",
                  "../datasets/gpt35_zeroshotcot_training_data/gsm8k/QA_record_prompt1.txt",
                  "../datasets/gpt35_zeroshotcot_training_data/aqua/QA_record_prompt1.txt"], help="dataset used for experiment"

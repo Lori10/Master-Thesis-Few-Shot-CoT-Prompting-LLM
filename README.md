@@ -40,7 +40,7 @@ For a quick start, you can directly run the `inference.py` script on the test da
 
 ## Generating Demos/Prompts with Different Prompting Methods
 
-Each of the following python file is dedicated to a particular prompting method and generates the desired demos or prompts. 
+1. **Demo Generation**: Each of the following python file is dedicated to a particular prompting method and generates the desired demos or prompts. 
 To create in-context demos using specific prompting methods, you can use the following Python files:
 
 - For Random-CoT: `generate_random.py`
@@ -48,10 +48,13 @@ To create in-context demos using specific prompting methods, you can use the fol
 - For Diverse-CoT: `generate_diverse.py`
 - For Retrieval-CoT: `generate_demo_run_inference_retrieval.py`
 - For Diverse-Active-KMeans-CoT: `generate_demo_diverse_active_cot_kmeans_plusplus.py`
-- For Diverse-Active-KMeansPlusPlus-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
-- For Diverse-Active-KMeansPlusPlus-Retrieval-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
+- For Diverse-Active-KMeansPlusPlus-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval.py`
+- For Diverse-Active-KMeansPlusPlus-Retrieval-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval.py`
 
-To run the Diverse-Active-KMeansPlusPlus-CoT method, use the generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval.py file and set the retrieval argument to False. When setting retrieval to True, you run the prompting method for Diverse-Active-KMeansPlusPlus-Retrieval-CoT, as this adds the retrieval stage after running the Diverse-Active-KMeansPlusPlus-CoT method.
+To run the Diverse-Active-KMeansPlusPlus-CoT method, use the "generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval.py" file and set the retrieval argument to False. When setting retrieval to True, you run the prompting method for Diverse-Active-KMeansPlusPlus-Retrieval-CoT, as this adds the retrieval stage after running the Diverse-Active-KMeansPlusPlus-CoT method.
+
+2. **Inference**: After generating demos, you can run the Language Model (LLM) on inference using the generated demos by the prompting method. Only for Retrieval-CoT, the demo generation and inference are integrated into the same file, "generate_demo_run_inference_retrieval.py," as the prompt is different for each test question.
+This integrated approach is specifically designed for Retrieval-CoT, where the prompts vary for each test question
 
 
 

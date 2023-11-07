@@ -44,6 +44,12 @@ To create in-context demonstrations using specific prompting methods, you can us
 
 - For Random-CoT: `generate_random.py`
 - For Active-CoT: `generate_active.py`
+- For Diverse-CoT: `generate_diverse.py`
+- For Retrieval-CoT: `generate_demo_run_inference_retrieval.py`
+- For Diverse-Active-KMeans-CoT: `generate_demo_diverse_active_cot_kmeans_plusplus.py`
+- For Diverse-Active-KMeansPlusPlus-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
+- For Diverse-Active-KMeansPlusPlus-Retrieval-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
+
 
 Each Python file is dedicated to a particular prompting method and will assist you in generating the desired demos or prompts.
 

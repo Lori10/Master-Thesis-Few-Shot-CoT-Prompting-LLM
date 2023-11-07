@@ -1,4 +1,4 @@
-# Master-Thesis
+# Few-shot prompting with LLMs
 
 ## Inference with proposed prompts
 

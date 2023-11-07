@@ -27,5 +27,7 @@ If you haven't already, make sure to install Poetry by running the following com
    ```bash
    pip install poetry
 
-Then, use `poetry install` to install the dependencies that are already defined in pyproject.toml file or  `poetry config virtualenvs.in-project true`
+Then, use `poetry install` to install the dependencies that are already defined in pyproject.toml file.
 
+```bash
+   poetry install

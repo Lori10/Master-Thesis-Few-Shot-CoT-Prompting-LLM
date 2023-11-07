@@ -137,27 +137,6 @@ def initialize_llm(args, model_id='gpt-3.5-turbo-0613'):
         vllm_kwargs={"gpu_memory_utilization":1.0}
         )
 
-        # model = AutoModelForCausalLM.from_pretrained(
-        #         args.model_id,
-        #         device_map="auto"
-        #         )
-
-        # tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-        # pipe = pipeline(
-        #         "text-generation",
-        #         model=model,
-        #         tokenizer=tokenizer,
-        #         use_cache=True,
-        #         device_map="auto",
-        #         max_new_tokens=1000,
-        #         do_sample=False,
-        #         eos_token_id=tokenizer.eos_token_id,
-        #         pad_token_id=tokenizer.eos_token_id,
-        #         return_full_text=True
-        # )
-        
-        # llm = HuggingFacePipeline(pipeline=pipe, model_id=args.model_id)
-
     elif model_id.startswith("gpt-35"):
         headers = create_header_llm()
 
@@ -191,12 +170,6 @@ def initialize_llm(args, model_id='gpt-3.5-turbo-0613'):
         raise NotImplementedError(f'Model {model_id} not supported')
 
     return llm
-
-# def initialize_llmchain(args, prompt_template, llm_init=False):
-#     if not llm_init:
-#         args.llm = initialize_llm(args)
-
-#     args.llm_chain = LLMChain(prompt=prompt_template, llm=args.llm, verbose=False)
 
 def initialize_llmchain(llm, prompt_template):
     return LLMChain(prompt=prompt_template, llm=llm, verbose=False)

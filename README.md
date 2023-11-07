@@ -27,6 +27,7 @@ In my thesis, I use the Azure OpenAI model accessible through the UPTIMIZE GPT A
 
 ## Inference with proposed prompts
 
-For a quick start, you can directly run inference script with my provided prompts (proposed in the thesis).
+For a quick start, you can directly run inference.py script on test dataset with my provided prompts (proposed in the thesis).
 
-For inference, run python `inference.py --dataset="gsm8k" --model="code-davinci-002" --method="active_cot" --qes_limit=10 --prompt_path="./inference_prompts/gsm8k_k=10" --random_seed=42 --multipath=1 --temperature=0.7 --api_time_interval=2`.
+```bash
+python `inference.py --dataset="gsm8k" --data_path="../datasets/original/gsm8k/test.jsonl" --dir_prompts="labeled_demos/random/2023_08_29_22_30_28/demos" --model_id="gpt-3.5-turbo-0613" --random_seed=1 --method="cot" --temperature=0.0 --output_dir="inference_results" --dataset_size_limit=0`.

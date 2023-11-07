@@ -21,13 +21,14 @@ To get started quickly, follow these steps:
    ```bash
    git clone https://github.com/Lori10/Master-Thesis-Few-Shot-CoT-Prompting-LLM.git
 
-2. **Install Poetry Environment**:
+2. **Install Poetry**:
 If you haven't already, make sure to install Poetry by running the following command. Poetry is used to manage dependencies and create a virtual environment for your project.
 
    ```bash
    pip install poetry
 
-Then, use `poetry install` to install the dependencies that are already defined in pyproject.toml file.
+3. **Install Poetry Environment**:
+Install the dependencies that are already defined in pyproject.toml file.
 
 ```bash
    poetry install

@@ -40,7 +40,8 @@ For a quick start, you can directly run the `inference.py` script on the test da
 
 ## Generating Demos/Prompts with Different Prompting Methods
 
-To create in-context demonstrations using specific prompting methods, you can use the following Python files:
+Each of the following python file is dedicated to a particular prompting method and generates the desired demos or prompts. 
+To create in-context demos using specific prompting methods, you can use the following Python files:
 
 - For Random-CoT: `generate_random.py`
 - For Active-CoT: `generate_active.py`
@@ -50,6 +51,7 @@ To create in-context demonstrations using specific prompting methods, you can us
 - For Diverse-Active-KMeansPlusPlus-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
 - For Diverse-Active-KMeansPlusPlus-Retrieval-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
 
+To run the Diverse-Active-KMeansPlusPlus-CoT method, use the generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval.py file and set the retrieval argument to False. When setting retrieval to True, you run the prompting method for Diverse-Active-KMeansPlusPlus-Retrieval-CoT, as this adds the retrieval stage after running the Diverse-Active-KMeansPlusPlus-CoT method.
 
-Each Python file is dedicated to a particular prompting method and will assist you in generating the desired demos or prompts.
+
 

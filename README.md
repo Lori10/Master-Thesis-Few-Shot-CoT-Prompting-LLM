@@ -1,17 +1,5 @@
 # Few-shot prompting with LLMs
 
-## Inference with proposed prompts
-
-For a quick start, you can directly run inference script with my provided prompts (proposed in the thesis).
-
-For inference, run python `inference.py --dataset="gsm8k" --model="code-davinci-002" --method="active_cot" --qes_limit=10 --prompt_path="./inference_prompts/gsm8k_k=10" --random_seed=42 --multipath=1 --temperature=0.7 --api_time_interval=2`.
-
-# Project Name
-
-## Inference with Proposed Prompts
-
-Welcome to the [Your Project Name] repository! This guide will walk you through running inference with the provided prompts from the thesis.
-
 ## Setup
 
 To get started quickly, follow these steps:
@@ -36,3 +24,9 @@ Install the dependencies that are already defined in pyproject.toml file.
 4. **Set environment variables**:
 In my thesis, I use the Azure OpenAI model accessible through the UPTIMIZE GPT API, provided by Merck KGaA, acting as a proxy for the Azure OpenAI API. To configure your environment for using the OpenAI model in LangChain, copy the .env.template file to your project root directory, rename it as .env, edit the newly created .env file and add your OPENAI_API_KEY as an environment variable.
 
+
+## Inference with proposed prompts
+
+For a quick start, you can directly run inference script with my provided prompts (proposed in the thesis).
+
+For inference, run python `inference.py --dataset="gsm8k" --model="code-davinci-002" --method="active_cot" --qes_limit=10 --prompt_path="./inference_prompts/gsm8k_k=10" --random_seed=42 --multipath=1 --temperature=0.7 --api_time_interval=2`.

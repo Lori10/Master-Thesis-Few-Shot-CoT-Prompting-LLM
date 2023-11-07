@@ -1,6 +1,10 @@
 # Few-shot prompting with LLMs
 
+## Python version requirement
+The pyproject.toml file specifies that Python versions from 3.9 to 3.9.6, as well as Python versions from 3.9.7 up to, but not including, 4.0 are allowed.
+
 ## Setup
+
 
 To get started quickly, follow these steps:
 
@@ -25,8 +29,27 @@ Install the dependencies that are already defined in pyproject.toml file.
 In my thesis, I use the Azure OpenAI model accessible through the UPTIMIZE GPT API, provided by Merck KGaA, acting as a proxy for the Azure OpenAI API. To configure your environment for using the OpenAI model in LangChain, copy the .env.template file to your project root directory, rename it as .env, edit the newly created .env file and add your OPENAI_API_KEY as an environment variable.
 
 
-## Inference with proposed prompts
+## Inference with Proposed Prompts/Demos
 
-For a quick start, you can directly run inference script with my provided prompts (proposed in the thesis).
+For a quick start, you can directly run the `inference.py` script on the test dataset using the prompts and demos provided in the thesis.
 
-For inference, run python `inference.py --dataset="gsm8k" --model="code-davinci-002" --method="active_cot" --qes_limit=10 --prompt_path="./inference_prompts/gsm8k_k=10" --random_seed=42 --multipath=1 --temperature=0.7 --api_time_interval=2`.
+1. **Get demos**: In the `labeled_demos` directory, you can explore prompts and demos generated using various prompting methods, such as Random-CoT, Diverse-CoT, Active-CoT, etc., as mentioned in the thesis. Each method has its own subdirectory. Within these subdirectories, you will find directories named with the date and time when the demos/prompts were generated. This organization is useful as different hyperparameters were used at each time
+
+   ```bash
+   python inference.py --dataset="gsm8k" --data_path="../datasets/original/gsm8k/test.jsonl" --dir_prompts="labeled_demos/random/2023_08_29_22_30_28/demos" --model_id="gpt-3.5-turbo-0613" --random_seed=1 --method="cot" --temperature=0.0 --output_dir="inference_results" --dataset_size_limit=0
+
+## Generating Demos/Prompts with Different Prompting Methods
+
+To create in-context demonstrations using specific prompting methods, you can use the following Python files:
+
+- For Random-CoT: `generate_random.py`
+- For Active-CoT: `generate_active.py`
+- For Diverse-CoT: `generate_diverse.py`
+- For Retrieval-CoT: `generate_demo_run_inference_retrieval.py`
+- For Diverse-Active-KMeans-CoT: `generate_demo_diverse_active_cot_kmeans_plusplus.py`
+- For Diverse-Active-KMeansPlusPlus-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
+- For Diverse-Active-KMeansPlusPlus-Retrieval-CoT: `generate_demo_run_inference_diverse_active_cot_kmeans_plusplus_retrieval`
+
+
+Each Python file is dedicated to a particular prompting method and will assist you in generating the desired demos or prompts.
+

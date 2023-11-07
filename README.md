@@ -16,10 +16,10 @@ Welcome to the [Your Project Name] repository! This guide will walk you through 
 
 To get started quickly, follow these steps:
 
-1. **Clone the Repository**: If you haven't already, clone this GitHub repository to your local machine.
+1. **Clone the Repository**: If you haven't already, clone this GitHub repository to your local machine and navigate to the cloned directory.
 
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
+   git clone https://github.com/Lori10/Master-Thesis-Few-Shot-CoT-Prompting-LLM.git
 
 2. **Install Poetry Environment**:
 If you haven't already, make sure to install Poetry by running the following command. Poetry is used to manage dependencies and create a virtual environment for your project.

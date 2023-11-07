@@ -41,7 +41,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=4, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
     )
   
     parser.add_argument(

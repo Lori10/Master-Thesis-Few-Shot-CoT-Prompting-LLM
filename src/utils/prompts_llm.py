@@ -24,7 +24,7 @@ def create_prompts_inference(args):
     args.suffix = "\nQ: " + "{question}" + "\nA: Let's think step by step."
     if args.method == 'zero_shot_cot':  
         if args.model_id.startswith("gpt-35") or args.model_id.startswith("gpt-4") or args.model_id.startswith("gpt-3.5"):
-            return [create_prompt_template_gpt35(None, args)]
+            return [create_prompttemplate_chatmodel(None, args)]
         else:
             return [PromptTemplate(input_variables=["question"], template=args.prefix + args.suffix)]
     else:
@@ -35,7 +35,7 @@ def create_prompts_inference(args):
             prompts_list = create_several_input_prompts(args, cot_flag=False)
 
         if args.model_id.startswith("gpt-35") or args.model_id.startswith("gpt-4") or args.model_id.startswith("gpt-3.5"):
-            prompts_list = [create_prompt_template_gpt35(prompt, args) for prompt in prompts_list]
+            prompts_list = [create_prompttemplate_chatmodel(prompt, args) for prompt in prompts_list]
         else:
             prompts_list = [PromptTemplate(input_variables=["question"], template=prompt) for prompt in prompts_list]
     
@@ -92,7 +92,7 @@ def create_several_input_prompts(args: object, cot_flag:bool) -> list:
 def create_prompt_template_other_models(prompt, _):
     return PromptTemplate(input_variables=["question"], template=prompt)
 
-def create_prompt_template_gpt35(prompt: str, args):
+def create_prompttemplate_chatmodel(prompt: str, args):
     messages = [SystemMessage(content=(args.prefix.strip()))]
     if args.method in ['cot', 'standard']:
         start = prompt.find('Q: ')

@@ -21,11 +21,11 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--dir_prompts", type=str, default="labeled_demos/active/2023_10_16_18_20_29/demos", help="prompts to use"
+        "--dir_prompts", type=str, default="labeled_demos/active/2023_10_29_11_01_36/demos", help="prompts to use"
     )
 
     parser.add_argument(
-        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4"], help="model used for decoding."
+        "--model_id", type=str, default="gpt-35-turbo-0613", choices=["gpt-35-turbo-0613", "gpt-3.5-turbo-0613", "gpt-4", "tiiuae/falcon-7b-instruct", "tiiuae/falcon-40b-instruct"], help="model used for decoding."
     )
 
     parser.add_argument(
@@ -33,7 +33,7 @@ def arg_parser():
     )
 
     parser.add_argument(
-        "--method", type=str, default="standard", choices=["zero_shot_cot", "standard", "cot"], help="method"
+        "--method", type=str, default="cot", choices=["zero_shot_cot", "standard", "cot"], help="method"
     )
 
     parser.add_argument(
@@ -41,7 +41,7 @@ def arg_parser():
     )
     
     parser.add_argument(
-        "--dataset_size_limit", type=int, default=0, help="size of dataset to inference"
+        "--dataset_size_limit", type=int, default=4, help="size of dataset to inference"
     )
   
     parser.add_argument(
@@ -132,7 +132,11 @@ def main():
     with open(args.output_dir + 'answers_openai.txt', 'w') as f:
         f.write(json.dumps(is_answer_from_backup_llm_list, indent=4))
 
-    prompts_list = [from_chatmodelmessages_to_string(prompt_messages.messages) for prompt_messages in prompts_list]
+
+    if args.model_id.startswith("gpt-35") or args.model_id.startswith("gpt-4") or args.model_id.startswith("gpt-3.5"):        
+        prompts_list = [from_chatmodelmessages_to_string(prompt.messages) for prompt in prompts_list]
+    else:
+        prompts_list = [prompt.template for prompt in prompts_list]
 
     inference_save_info(args, correct_list, wrong_list, QA_record_list, prompts_list, len(dataloader))
     print('Inference finished!')

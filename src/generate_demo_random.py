@@ -26,7 +26,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--method_random_seed", type=int, default=42, help="seed for selecting random samples"
+        "--method_random_seed", type=int, default=1, help="seed for selecting random samples"
     )
     
     parser.add_argument(

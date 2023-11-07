@@ -97,7 +97,7 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--auto_active_kmeansplusplus_nr_demos", type=int, default=8, help='the number of examples to use for auto-active labeling'
+        "--auto_active_kmeansplusplus_nr_demos", type=int, default=215, help='the number of examples to use for auto-active labeling'
     )
 
     parser.add_argument(
@@ -127,11 +127,11 @@ def parse_arguments():
 
     # Retrieval Arguments
     parser.add_argument(
-        "--retrieval", type=bool, default=False, help='whether to use retrieval to generate the prompt'
+        "--retrieval", type=bool, default=True, help='whether to use retrieval to generate the prompt'
     )
 
     parser.add_argument(
-        "--test_data_path", type=str, default="../datasets/original/aqua/test.json", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl"],  help="dataset to inference"
+        "--test_data_path", type=str, default="../datasets/original/gsm8k/test.jsonl", choices=["../datasets/original/aqua/test.json", "../datasets/original/gsm8k/test.jsonl"],  help="dataset to inference"
     )
 
     parser.add_argument(
@@ -139,11 +139,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--retrieval_nr_demos", type=int, default=4, help='number of demonstrations'
+        "--retrieval_nr_demos", type=int, default=8, help='number of demonstrations'
     )
 
     parser.add_argument(
         "--output_dir", type=str, default="inference_results", help="output directory"
+    )
+
+    parser.add_argument(
+        "--max_f1_score", type=bool, default=False, help='whether to select examples with the highest f1-score or use random-weighted sampling'
     )
 
     # labeled_demos/auto_active_kmeansplusplus/2023_08_12_20_09_07/demos/demos

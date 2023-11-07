@@ -14,7 +14,7 @@ import pickle
 import time
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Auto-CoT")
+    parser = argparse.ArgumentParser(description="Diverse-CoT-One-Cluster-Generation")
     parser.add_argument(
         "--dataset", type=str, default="gsm8k",
         choices=["aqua", "gsm8k"], help="dataset used for experiment"

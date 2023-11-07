@@ -43,7 +43,7 @@ def main_auto_active_kmeansplusplus(args, args_dict):
 
     if not args.retrieval:
         args_dict = {
-            "sampling_method": "Auto_Active_KMeansPlusPlus",
+            "sampling_method": "Diverse_Active_KMeansPlusPlus",
             "dataset": args.dataset,
             "data_path": args.data_path,
             "dataset_size_limit": args.dataset_size_limit,
@@ -130,15 +130,20 @@ def main_auto_active_kmeansplusplus(args, args_dict):
     corpus_embeddings = corpus_embeddings[filtered_idxs]
     
     # max_entropy_example = min(filtered_uncertainty_records, key=lambda x: x[args.sort_by])
-    max_entropy_example = max(all_uncertainty_records, key=lambda x: x[args.sort_by])
-    question_idx_with_max_entropy = all_uncertainty_records.index(max_entropy_example)
+
+    if args.max_f1_score:
+        first_selected_example = max(all_uncertainty_records, key=lambda x: x[args.sort_by])
+    else:
+        first_selected_example = min(all_uncertainty_records, key=lambda x: x[args.sort_by])
+
+    question_idx_with_max_entropy = all_uncertainty_records.index(first_selected_example)
 
     selected_idxs = [question_idx_with_max_entropy]
     selected_data = [corpus_embeddings[question_idx_with_max_entropy]]
     auto_active_kmeansplusplus_info_list = [{'iteration' : 0,
                      'selected_idx': question_idx_with_max_entropy,
-                     'original_selected_idx': max_entropy_example['question_idx'],
-                     'uncertainty' : max_entropy_example[args.sort_by],
+                     'original_selected_idx': first_selected_example['question_idx'],
+                     'uncertainty' : first_selected_example[args.sort_by],
                      f'highest_uncertainty_{args.sort_by}' : max([x[args.sort_by] for x in all_uncertainty_records])
                     }] 
     j = 1
@@ -192,8 +197,12 @@ def main_auto_active_kmeansplusplus(args, args_dict):
         print(f'F1 scores: {[round(score, 2) for score in not_selected_f1_scores]}')
         
         if args.greedy:
-            highest_f1_score = max(not_selected_f1_scores)
-            selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == highest_f1_score)[0][0]]
+            if args.max_f1_score:
+                selected_f1_score = max(not_selected_f1_scores)
+            else:
+                selected_f1_score = min(not_selected_f1_scores)
+
+            selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == selected_f1_score)[0][0]]
 
             # lowest_f1_score = min(not_selected_f1_scores)
             # selected_idx = not_selected_question_idxs[np.where(not_selected_f1_scores == lowest_f1_score)[0][0]]

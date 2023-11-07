@@ -12,7 +12,7 @@ For inference, run python `inference.py --dataset="gsm8k" --model="code-davinci-
 
 Welcome to the [Your Project Name] repository! This guide will walk you through running inference with the provided prompts from the thesis.
 
-## Quick Start
+## Setup
 
 To get started quickly, follow these steps:
 

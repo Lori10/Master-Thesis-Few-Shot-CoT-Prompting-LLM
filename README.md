@@ -20,13 +20,13 @@ If you haven't already, make sure to install Poetry by running the following com
    pip install poetry
 
 3. **Install Poetry Environment**:
-Install the dependencies that are already defined in pyproject.toml file.
+Create poetry environment and install the dependencies that are already defined in pyproject.toml file.
 
    ```bash
    poetry install
 
 4. **Set environment variables**:
-In my thesis, I use the Azure OpenAI model accessible through the UPTIMIZE GPT API, provided by Merck KGaA, acting as a proxy for the Azure OpenAI API. To configure your environment for using the OpenAI model in LangChain, copy the .env.template file to your project root directory, rename it as .env, edit the newly created .env file and add your OPENAI_API_KEY as an environment variable.
+In my thesis, I use the AzureOpenAI model in langchain, which is accessible through the UPTIMIZE GPT API, provided by Merck KGaA, acting as a proxy for the Azure OpenAI API. To configure your environment for using the OpenAI model in langchain instead of AzureOpenAI, copy the .env.template file to your project root directory, rename it as .env, edit the newly created .env file and add your OPENAI_API_KEY as an environment variable.
 
 
 ## Inference with Proposed Prompts/Demos

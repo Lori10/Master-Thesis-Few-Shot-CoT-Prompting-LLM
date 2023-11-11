@@ -3,8 +3,12 @@
 ## Python version requirement
 The pyproject.toml file specifies that Python versions from 3.9 to 3.9.6, as well as Python versions from 3.9.7 up to, but not including, 4.0 are allowed.
 
-## Setup
+## Reproduce results
+When trying to reproduce the results from this work, keep in mind that 
+* OpenAI models are non-deterministic, meaning that identical inputs can yield different outputs. Setting temperature to 0 will make the outputs mostly deterministic, but a small amount of variability may remain. This information is sourced from the OpenAI website.
+* Use and estimated uncertainties that are exported into a JSON file to prevent varied uncertainty scores, as using a temperature of 0.7 might yield different outcomes, as well the exported question embeddings.
 
+## Setup
 
 To get started quickly, follow these steps:
 

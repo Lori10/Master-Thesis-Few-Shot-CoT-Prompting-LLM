@@ -5,7 +5,7 @@ The pyproject.toml file specifies that Python versions from 3.9 to 3.9.6, as wel
 
 ## Reproduce results
 When trying to reproduce the results from this work, keep in mind that 
-* OpenAI models are non-deterministic, meaning that identical inputs can yield different outputs. Setting temperature to 0 will make the outputs mostly deterministic, but a small amount of variability may remain. This information is sourced from the OpenAI website.
+* OpenAI models are non-deterministic, meaning that identical inputs can yield different outputs. Setting temperature to 0 will make the outputs mostly deterministic, but a small amount of variability may remain due to GPU floating point math (Source: https://community.openai.com/t/run-same-query-many-times-different-results/140588)
 * Use the estimated uncertainties that are exported into a JSON file to prevent varied uncertainty scores, as using a temperature of 0.7 might yield different outcomes, as well the exported question embeddings.
 
 ## Setup

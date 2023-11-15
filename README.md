@@ -33,7 +33,7 @@ Create poetry environment and install the dependencies that are already defined 
 In my thesis, I use the AzureOpenAI model in langchain, which is accessible through the UPTIMIZE GPT API, provided by Merck KGaA, acting as a proxy for the Azure OpenAI API. To configure your environment for using the OpenAI model in langchain instead of AzureOpenAI, copy the .env.template file to your project root directory, rename it as .env, edit the newly created .env file and add your OPENAI_API_KEY as an environment variable.
 
 
-## Inference with Proposed Prompts/Demos
+## Inference with generated Prompts/Demos from the thesis experiments
 
 For a quick start, you can directly run the `inference.py` script on the test dataset using the prompts and demos provided in the thesis.
 

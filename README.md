@@ -1,4 +1,4 @@
-# Few-shot prompting with LLMs
+# Few-shot chain-of-thought prompting with LLMs
 
 ## Python version requirement
 The pyproject.toml file specifies that Python versions from 3.9 to 3.9.6, as well as Python versions from 3.9.7 up to, but not including, 4.0 are allowed.
